@@ -3,9 +3,8 @@ package io.github.thred.climatetray.util;
 public enum TemperatureUnit
 {
 
-    CELSIUS("Degree Celsius", "\u00b0C", 0.5, "%,.1f%s", "0.0 \u00b0C"),
-    FAHRENHEIT("Degree Fahrenheit", "\u00b0F", 1.0, "%,.0f%s", "0 \u00b0F"),
-    KELVIN("Degree Kelvin", "\u00b0K", 0.5, "%,.1f%s", "0.0 \u00b0K");
+    CELSIUS("Degree Celsius", "\u00b0C", 0.5, "%,.1f %s", "0.0 \u00b0C"),
+    FAHRENHEIT("Degree Fahrenheit", "\u00b0F", 1.0, "%,.0f %s", "0 \u00b0F");
 
     private final String label;
     private final String symbol;
@@ -70,9 +69,6 @@ public enum TemperatureUnit
             case FAHRENHEIT:
                 return (degreeCelsius * 1.8) + 32;
 
-            case KELVIN:
-                return degreeCelsius + 273.15;
-
             default:
                 throw new UnsupportedOperationException(this + " not supported");
         }
@@ -87,9 +83,6 @@ public enum TemperatureUnit
 
             case FAHRENHEIT:
                 return ((degrees - 32) * 5) / 9;
-
-            case KELVIN:
-                return degrees - 273.15;
 
             default:
                 throw new UnsupportedOperationException(this + " not supported");

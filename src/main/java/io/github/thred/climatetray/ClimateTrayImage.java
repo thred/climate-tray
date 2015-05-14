@@ -138,4 +138,46 @@ public enum ClimateTrayImage
     {
         return name().toLowerCase().replace('_', '-') + "-" + size + ".png";
     }
+
+    public static ClimateTrayImage getCharImage(char ch)
+    {
+        switch (ch)
+        {
+            case '0':
+                return ClimateTrayImage.CHAR_0;
+
+            case '1':
+                return ClimateTrayImage.CHAR_1;
+
+            case '2':
+                return ClimateTrayImage.CHAR_2;
+
+            case '3':
+                return ClimateTrayImage.CHAR_3;
+
+            case '4':
+                return ClimateTrayImage.CHAR_4;
+
+            case '5':
+                return ClimateTrayImage.CHAR_5;
+
+            case '6':
+                return ClimateTrayImage.CHAR_6;
+
+            case '7':
+                return ClimateTrayImage.CHAR_7;
+
+            case '8':
+                return ClimateTrayImage.CHAR_8;
+
+            case '9':
+                return ClimateTrayImage.CHAR_9;
+
+            case '-':
+                return ClimateTrayImage.CHAR__;
+
+            default:
+                throw new UnsupportedOperationException("Unsupported char: " + ch);
+        }
+    }
 }

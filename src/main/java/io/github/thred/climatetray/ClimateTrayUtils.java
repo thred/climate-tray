@@ -5,6 +5,7 @@ import javax.swing.JOptionPane;
 public class ClimateTrayUtils
 {
 
+    
     public static void infoDialog(String title, String message)
     {
         JOptionPane.showMessageDialog(null, message, title, JOptionPane.INFORMATION_MESSAGE);
