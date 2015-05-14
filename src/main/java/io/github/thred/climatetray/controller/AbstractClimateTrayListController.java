@@ -6,7 +6,11 @@ import io.github.thred.climatetray.util.swing.AdvancedListModel;
 import io.github.thred.climatetray.util.swing.GBC;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -21,6 +25,18 @@ import javax.swing.event.ListSelectionListener;
 public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TYPE>> extends
     AbstractClimateTrayController<List<TYPE>, JPanel> implements ListSelectionListener
 {
+
+    private final MouseListener mouseListener = new MouseAdapter()
+    {
+        @Override
+        public void mouseClicked(MouseEvent e)
+        {
+            if (e.getClickCount() == 2)
+            {
+                edit();
+            }
+        }
+    };
 
     private final AdvancedListModel<TYPE> listModel = new AdvancedListModel<>();
     private final JButton addButton = SwingUtils.createButton("Add...", (e) -> add());
@@ -60,6 +76,7 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
     {
         JList<TYPE> list = new JList<>(listModel);
 
+        list.setPreferredSize(new Dimension(256, 64));
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         return list;
@@ -87,6 +104,7 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
             unmonitor(this.list);
 
             list.removeListSelectionListener(this);
+            list.removeMouseListener(mouseListener);
         }
 
         this.list = list;
@@ -96,6 +114,7 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
             monitor(list);
 
             list.addListSelectionListener(this);
+            list.addMouseListener(mouseListener);
         }
     }
 
