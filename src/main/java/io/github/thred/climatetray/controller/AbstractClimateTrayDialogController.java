@@ -2,7 +2,9 @@ package io.github.thred.climatetray.controller;
 
 import io.github.thred.climatetray.ClimateTrayImage;
 import io.github.thred.climatetray.ClimateTrayImageState;
+import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.MessageList;
+import io.github.thred.climatetray.util.Severity;
 import io.github.thred.climatetray.util.swing.BorderPanel;
 import io.github.thred.climatetray.util.swing.ButtonPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
@@ -16,6 +18,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -32,27 +35,18 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
 
     protected final JButton okButton = SwingUtils.createButton("Ok", (e) -> ok());
     protected final JButton cancelButton = SwingUtils.createButton("Cancel", (e) -> cancel());
+    protected final JDialog view;
 
+    private MODEL_TYPE model;
     private boolean result;
 
     public AbstractClimateTrayDialogController(CONTROLLER_TYPE controller)
     {
         super();
 
-        this.controller = controller;
+        this.controller = monitor(controller);
 
-        monitor(controller.getMonitor());
-    }
-
-    @Override
-    protected final JDialog createView()
-    {
-        String title = getTitle();
-
-        titlePanel.setTitle(title);
-        // titlePanel.setTitleIcon(ClimateTrayImage.ICON.getIcon(ClimateTrayImageState.NONE, 32));
-
-        JDialog view = new JDialog((Window) null, title, ModalityType.APPLICATION_MODAL);
+        view = new JDialog((Window) null, ModalityType.APPLICATION_MODAL);
 
         view.setIconImages(ClimateTrayImage.ICON.getImages(ClimateTrayImageState.NONE, 64, 48, 32, 24, 16));
         view.setLayout(new BorderLayout());
@@ -67,36 +61,57 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
         });
 
         view.add(titlePanel, BorderLayout.NORTH);
-
         view.add(createContentPanel(), BorderLayout.CENTER);
         view.add(createBottomPanel(), BorderLayout.SOUTH);
 
-        return view;
+        monitor.addMonitorListener((e) -> {
+            modified();
+        });
     }
 
-    protected abstract String getTitle();
-
-    @Override
-    protected void localPrepare(MODEL_TYPE model)
+    public void setTitle(String title)
     {
-        controller.prepare(model);
+        view.setTitle(title);
+        titlePanel.setTitle(title);
     }
 
-    @Override
-    public void localApply(MODEL_TYPE model)
+    public void setTitle(Icon icon, String title)
     {
-        controller.apply();
+        view.setTitle(title);
+        titlePanel.setTitle(icon, title);
     }
 
-    @Override
-    protected void localCheck(MessageList messages)
+    public void setDescription(String description)
     {
-        messages.addAll(controller.check());
+        titlePanel.setDescription(description);
+    }
+
+    public void setDescription(Icon icon, String description)
+    {
+        titlePanel.setDescription(icon, description);
+    }
+
+    public void setDescription(Message message)
+    {
+        if (message != null)
+        {
+            setDescription(message.getSeverity().getImage().getIcon(ClimateTrayImageState.NONE, 16),
+                message.getMessage());
+        }
+        else
+        {
+            setDescription(null, null);
+        }
+    }
+
+    public void setDescription(MessageList messages)
+    {
+        setDescription(messages.size() > 0 ? messages.get(0) : null);
     }
 
     protected JComponent createContentPanel()
     {
-        JScrollPane scrollPane = new JScrollPane(new BorderPanel(controller.createView()));
+        JScrollPane scrollPane = new JScrollPane(new BorderPanel(controller.getView()));
 
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
@@ -108,8 +123,47 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
         return new ButtonPanel().right(okButton, cancelButton);
     }
 
+    @Override
+    public JDialog getView()
+    {
+        return view;
+    }
+
+    @Override
+    public void prepare(MODEL_TYPE model)
+    {
+        controller.prepare(model);
+    }
+
+    @Override
+    public void apply(MODEL_TYPE model)
+    {
+        controller.apply(model);
+    }
+
+    public void modified()
+    {
+        MessageList messages = new MessageList();
+
+        modified(messages);
+
+        messages.sortBySeverity();
+
+        okButton.setEnabled(!messages.containsAtLeast(Severity.ERROR));
+
+        setDescription(messages);
+    }
+
+    @Override
+    public void modified(MessageList messages)
+    {
+        controller.modified(messages);
+    }
+
     public boolean consume(Component parent, MODEL_TYPE model)
     {
+        this.model = model;
+
         result = false;
 
         prepare(model);
@@ -123,18 +177,9 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
         return result;
     }
 
-    @Override
-    protected void checked(boolean valid, MessageList messages)
-    {
-        okButton.setEnabled(valid);
-    }
-
     public void ok()
     {
-        MODEL_TYPE model = getModel();
-
-        localApply(model);
-
+        apply(model);
         success(model);
 
         getView().setVisible(false);

@@ -18,66 +18,55 @@ import javax.swing.event.ListDataListener;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 
-public class ComponentMonitor implements DocumentListener, ActionListener, ChangeListener, ListDataListener,
+public class Monitor implements MonitorListener, DocumentListener, ActionListener, ChangeListener, ListDataListener,
     PropertyChangeListener
 {
 
     protected final EventListenerList listenerList = new EventListenerList();
 
-    private String actionCommand = null;
-    private boolean monitoring = true;
+    private int blocks = 0;
 
-    public ComponentMonitor()
+    public Monitor()
     {
         super();
     }
 
-    public void addActionListener(ActionListener listener)
+    public void addMonitorListener(MonitorListener listener)
     {
-        listenerList.add(ActionListener.class, listener);
+        listenerList.add(MonitorListener.class, listener);
     }
 
-    public void removeActionListener(ActionListener listener)
+    public void removeMonitorListener(MonitorListener listener)
     {
-        listenerList.remove(ActionListener.class, listener);
+        listenerList.remove(MonitorListener.class, listener);
     }
 
-    protected void fireActionEvent(ActionEvent e)
+    protected void fireMonitorEvent(MonitorEvent event)
     {
-        for (ActionListener listener : listenerList.getListeners(ActionListener.class))
+        for (MonitorListener listener : listenerList.getListeners(MonitorListener.class))
         {
-            listener.actionPerformed(e);
+            listener.monitored(event);
         }
-    }
-
-    public String getActionCommand()
-    {
-        return actionCommand;
-    }
-
-    public void setActionCommand(String actionCommand)
-    {
-        this.actionCommand = actionCommand;
     }
 
     public boolean isMonitoring()
     {
-        return monitoring;
+        return blocks <= 0;
     }
 
-    public void setMonitoring(boolean monitoring)
+    public void block()
     {
-        this.monitoring = monitoring;
+        blocks += 1;
     }
 
-    public void enableMonitoring()
+    public void unblock()
     {
-        setMonitoring(true);
-    }
+        if (blocks <= 0)
+        {
+            throw new IllegalStateException("Not blocked");
+        }
 
-    public void disableMonitoring()
-    {
-        setMonitoring(false);
+        blocks -= 1;
     }
 
     public <TYPE> TYPE monitor(TYPE object)
@@ -86,6 +75,8 @@ public class ComponentMonitor implements DocumentListener, ActionListener, Chang
         {
             return null;
         }
+
+        monitor(object, "addMonitorListener", MonitorListener.class);
 
         if (object instanceof JTextComponent)
         {
@@ -129,6 +120,8 @@ public class ComponentMonitor implements DocumentListener, ActionListener, Chang
         {
             return null;
         }
+
+        unmonitor(object, "removeMonitorListener", MonitorListener.class);
 
         if (object instanceof JTextComponent)
         {
@@ -202,68 +195,69 @@ public class ComponentMonitor implements DocumentListener, ActionListener, Chang
         }
     }
 
-    public void monitored()
+    @Override
+    public void monitored(MonitorEvent event)
     {
         if (isMonitoring())
         {
-            fireActionEvent(new ActionEvent(this, 0, actionCommand));
+            fireMonitorEvent(event);
         }
     }
 
     @Override
-    public void insertUpdate(DocumentEvent e)
+    public void insertUpdate(DocumentEvent event)
     {
-        monitored();
+        monitored(new MonitorEvent(this, event));
     }
 
     @Override
-    public void removeUpdate(DocumentEvent e)
+    public void removeUpdate(DocumentEvent event)
     {
-        monitored();
+        monitored(new MonitorEvent(this, event));
     }
 
     @Override
-    public void changedUpdate(DocumentEvent e)
+    public void changedUpdate(DocumentEvent event)
     {
-        monitored();
+        monitored(new MonitorEvent(this, event));
     }
 
     @Override
-    public void stateChanged(ChangeEvent e)
+    public void stateChanged(ChangeEvent event)
     {
-        monitored();
+        monitored(new MonitorEvent(this, event));
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(ActionEvent event)
     {
-        monitored();
+        monitored(new MonitorEvent(this, event));
     }
 
     @Override
-    public void intervalAdded(ListDataEvent e)
+    public void intervalAdded(ListDataEvent event)
     {
-        monitored();
+        monitored(new MonitorEvent(this, event));
     }
 
     @Override
-    public void intervalRemoved(ListDataEvent e)
+    public void intervalRemoved(ListDataEvent event)
     {
-        monitored();
+        monitored(new MonitorEvent(this, event));
     }
 
     @Override
-    public void contentsChanged(ListDataEvent e)
+    public void contentsChanged(ListDataEvent event)
     {
-        monitored();
+        monitored(new MonitorEvent(this, event));
     }
 
     @Override
-    public void propertyChange(PropertyChangeEvent e)
+    public void propertyChange(PropertyChangeEvent event)
     {
-        String name = e.getPropertyName();
-        Object oldValue = e.getOldValue();
-        Object newValue = e.getNewValue();
+        String name = event.getPropertyName();
+        Object oldValue = event.getOldValue();
+        Object newValue = event.getNewValue();
 
         if ("model".equals(name))
         {
@@ -276,7 +270,6 @@ public class ComponentMonitor implements DocumentListener, ActionListener, Chang
             unmonitor(oldValue);
             monitor(newValue);
         }
-
     }
 
 }

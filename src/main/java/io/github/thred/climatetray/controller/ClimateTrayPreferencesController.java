@@ -1,10 +1,11 @@
 package io.github.thred.climatetray.controller;
 
+import static io.github.thred.climatetray.util.swing.SwingUtils.*;
+import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.ClimateTrayPreferences;
 import io.github.thred.climatetray.util.MessageList;
 import io.github.thred.climatetray.util.TemperatureUnit;
 import io.github.thred.climatetray.util.swing.GBC;
-import io.github.thred.climatetray.util.swing.SwingUtils;
 
 import java.awt.GridBagLayout;
 
@@ -15,42 +16,42 @@ import javax.swing.JPanel;
 public class ClimateTrayPreferencesController extends AbstractClimateTrayController<ClimateTrayPreferences, JComponent>
 {
 
-    private final ClimateTrayPresetListController presetListController = new ClimateTrayPresetListController();
-    private final ClimateTrayDeviceListController deviceListController = new ClimateTrayDeviceListController();
+    private final ClimateTrayPresetListController presetListController = monitor(new ClimateTrayPresetListController());
+    private final ClimateTrayDeviceListController deviceListController = monitor(new ClimateTrayDeviceListController());
 
-    private final JComboBox<TemperatureUnit> temperatureUnitBox = monitor(SwingUtils.createComboBox(TemperatureUnit
-        .values()));
+    private final JComboBox<TemperatureUnit> temperatureUnitBox = monitor(createComboBox(TemperatureUnit.values()));
+
+    private final JPanel view = new JPanel(new GridBagLayout());
 
     public ClimateTrayPreferencesController()
     {
         super();
 
-        temperatureUnitBox.addActionListener((e) -> temperatureUnitUpdated());
-    }
+        temperatureUnitBox.addActionListener((e) -> refresh());
 
-    @Override
-    protected JComponent createView()
-    {
         JPanel presetListView = presetListController.getView();
         JPanel deviceListView = deviceListController.getView();
 
-        JPanel panel = new JPanel(new GridBagLayout());
         GBC gbc = new GBC(2, 6);
 
-        panel.add(SwingUtils.createLabel("Unit of Temperature:", temperatureUnitBox), gbc);
-        panel.add(temperatureUnitBox, gbc.next());
+        view.add(createLabel("Unit of Temperature:", temperatureUnitBox), gbc);
+        view.add(temperatureUnitBox, gbc.next());
 
-        panel.add(SwingUtils.createLabel("Presets:", presetListView), gbc.next().top().insetTop(8));
-        panel.add(presetListView, gbc.next().weight(1, 1).fill());
+        view.add(createLabel("Presets:", presetListView), gbc.next().top().insetTop(8));
+        view.add(presetListView, gbc.next().weight(1, 1).fill());
 
-        panel.add(SwingUtils.createLabel("Devices:", deviceListView), gbc.next().top().insetTop(8));
-        panel.add(deviceListView, gbc.next().weight(1, 1).fill());
-
-        return panel;
+        view.add(createLabel("Devices:", deviceListView), gbc.next().top().insetTop(8));
+        view.add(deviceListView, gbc.next().weight(1, 1).fill());
     }
 
     @Override
-    protected void localPrepare(ClimateTrayPreferences model)
+    public JComponent getView()
+    {
+        return view;
+    }
+
+    @Override
+    public void prepare(ClimateTrayPreferences model)
     {
         temperatureUnitBox.setSelectedItem(model.getTemperatureUnit());
 
@@ -59,27 +60,27 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
     }
 
     @Override
-    protected void localApply(ClimateTrayPreferences model)
+    public void apply(ClimateTrayPreferences model)
     {
         model.setTemperatureUnit((TemperatureUnit) temperatureUnitBox.getSelectedItem());
 
-        presetListController.localApply(model.getPresets());
-        deviceListController.localApply(model.getDevices());
+        presetListController.apply(model.getPresets());
+        deviceListController.apply(model.getDevices());
     }
 
     @Override
-    protected void localCheck(MessageList messages)
+    public void modified(MessageList messages)
     {
-        messages.addAll(presetListController.check());
-        messages.addAll(deviceListController.check());
+        presetListController.modified(messages);
+        deviceListController.modified(messages);
     }
 
-    public void temperatureUnitUpdated()
+    public void refresh()
     {
-        getModel().setTemperatureUnit((TemperatureUnit) temperatureUnitBox.getSelectedItem());
+        ClimateTray.PREFERENCES.setTemperatureUnit((TemperatureUnit) temperatureUnitBox.getSelectedItem());
 
-        presetListController.refreshView();
-        deviceListController.refreshView();
+        presetListController.refresh();
+        deviceListController.refresh();
     }
 
 }

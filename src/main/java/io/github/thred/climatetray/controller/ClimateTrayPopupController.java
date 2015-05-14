@@ -8,6 +8,8 @@ import io.github.thred.climatetray.ClimateTrayPreferences;
 import io.github.thred.climatetray.util.MessageList;
 
 import java.awt.Frame;
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         "Manage the presets, devices and other settings.");
     private final JMenuItem exitItem = createMenuItem("Exit", null, null);
     private final List<JRadioButtonMenuItem> presetItems = new ArrayList<>();
+    private final JPopupMenu view = new JPopupMenu("Climate Tray");
 
     private JDialog hiddenDialogForFocusManagement;
 
@@ -36,23 +39,21 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
         preferencesItem.addActionListener((e) -> ClimateTray.preferences());
         exitItem.addActionListener((e) -> ClimateTray.exit());
-    }
-
-    @Override
-    protected JPopupMenu createView()
-    {
-        JPopupMenu view = new JPopupMenu("Climate Tray");
 
         view.addPopupMenuListener(this);
 
         view.add(preferencesItem);
         view.add(exitItem);
+    }
 
+    @Override
+    public JPopupMenu getView()
+    {
         return view;
     }
 
     @Override
-    protected void localPrepare(ClimateTrayPreferences model)
+    public void prepare(ClimateTrayPreferences model)
     {
         JPopupMenu view = getView();
         int index = 0;
@@ -60,36 +61,49 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         presetItems.stream().forEach((item) -> view.remove(item));
 
         //        model.getPresets().forEach((preset) -> {
-        //           preset. 
+        //           preset.
         //        });
         // TODO Auto-generated method stub
-
     }
 
     @Override
-    protected void localApply(ClimateTrayPreferences model)
+    public void apply(ClimateTrayPreferences model)
     {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    protected void localCheck(MessageList messages)
+    public void modified(MessageList messages)
     {
         // TODO Auto-generated method stub
 
+    }
+
+    public void consume()
+    {
+        Point location = MouseInfo.getPointerInfo().getLocation();
+
+        consume(location.x, location.y);
     }
 
     public void consume(int x, int y)
     {
-        JPopupMenu view = getView();
-
         if (view.isVisible())
         {
             view.setVisible(false);
         }
 
-        prepare(ClimateTray.PREFERENCES);
+        monitor.block();
+
+        try
+        {
+            prepare(ClimateTray.PREFERENCES);
+        }
+        finally
+        {
+            monitor.unblock();
+        }
 
         hiddenDialogForFocusManagement = new JDialog((Frame) null, "Climate Tray");
 

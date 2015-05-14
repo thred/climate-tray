@@ -10,12 +10,8 @@ public class ClimateTrayPreferencesDialogController extends
     public ClimateTrayPreferencesDialogController()
     {
         super(new ClimateTrayPreferencesController());
-    }
 
-    @Override
-    protected String getTitle()
-    {
-        return "Preferences";
+        setTitle("Preferences");
     }
 
     @Override

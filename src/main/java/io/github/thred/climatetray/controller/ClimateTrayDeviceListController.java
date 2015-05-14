@@ -2,9 +2,7 @@ package io.github.thred.climatetray.controller;
 
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetDeviceCellRenderer;
-import io.github.thred.climatetray.util.swing.AdvancedListModel;
-
-import javax.swing.JList;
+import io.github.thred.climatetray.util.MessageList;
 
 public class ClimateTrayDeviceListController extends AbstractClimateTrayListController<MNetDevice>
 {
@@ -12,28 +10,31 @@ public class ClimateTrayDeviceListController extends AbstractClimateTrayListCont
     public ClimateTrayDeviceListController()
     {
         super();
-    }
-
-    @Override
-    protected JList<MNetDevice> createList(AdvancedListModel<MNetDevice> listModel)
-    {
-        JList<MNetDevice> list = super.createList(listModel);
 
         list.setCellRenderer(new MNetDeviceCellRenderer());
-
-        return list;
     }
 
     @Override
-    protected MNetDevice createInstance()
+    protected MNetDevice createElement()
     {
         return new MNetDevice();
     }
 
     @Override
-    protected boolean edit(MNetDevice device)
+    protected boolean consumeElement(MNetDevice device)
     {
         return new ClimateTrayDeviceDialogController().consume(getView(), device);
+    }
+
+    @Override
+    public void modified(MessageList messages)
+    {
+        super.modified(messages);
+
+        if (listModel.getSize() == 0)
+        {
+            messages.addWarning("Please, add at least one device you want to manage.");
+        }
     }
 
 }

@@ -2,9 +2,7 @@ package io.github.thred.climatetray.controller;
 
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.mnet.MNetPresetCellRenderer;
-import io.github.thred.climatetray.util.swing.AdvancedListModel;
-
-import javax.swing.JList;
+import io.github.thred.climatetray.util.MessageList;
 
 public class ClimateTrayPresetListController extends AbstractClimateTrayListController<MNetPreset>
 {
@@ -12,28 +10,31 @@ public class ClimateTrayPresetListController extends AbstractClimateTrayListCont
     public ClimateTrayPresetListController()
     {
         super();
-    }
-
-    @Override
-    protected JList<MNetPreset> createList(AdvancedListModel<MNetPreset> listModel)
-    {
-        JList<MNetPreset> list = super.createList(listModel);
 
         list.setCellRenderer(new MNetPresetCellRenderer());
-
-        return list;
     }
 
     @Override
-    protected MNetPreset createInstance()
+    protected MNetPreset createElement()
     {
         return new MNetPreset();
     }
 
     @Override
-    protected boolean edit(MNetPreset preset)
+    protected boolean consumeElement(MNetPreset preset)
     {
         return new ClimateTrayPresetDialogController().consume(getView(), preset);
+    }
+
+    @Override
+    public void modified(MessageList messages)
+    {
+        super.modified(messages);
+
+        if (listModel.getSize() == 0)
+        {
+            messages.addWarning("Please, add at least one preset for managing a device.");
+        }
     }
 
 }

@@ -28,6 +28,7 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
     private final JLabel temperatureLabel = createLabel("Temperature:", temperatureSpinner);
     private final JComboBox<MNetFan> fanBox = monitor(createComboBox(MNetFan.values()));
     private final JComboBox<MNetAir> airBox = monitor(createComboBox(MNetAir.values()));
+    private final JPanel view = new JPanel(new GridBagLayout());
 
     private JSpinner.NumberEditor temperatureSpinnerEditor = new JSpinner.NumberEditor(temperatureSpinner, "0.0");
 
@@ -41,12 +42,7 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
 
         fanBox.setRenderer(new MNetFanCellRenderer());
         airBox.setRenderer(new MNetAirCellRenderer());
-    }
 
-    @Override
-    protected JPanel createView()
-    {
-        JPanel view = new JPanel(new GridBagLayout());
         GBC gbc = new GBC(2, 4);
 
         view.add(createLabel("Mode:", modeBox), gbc);
@@ -60,12 +56,16 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
 
         view.add(createLabel("Air:", airBox), gbc.next());
         view.add(airBox, gbc.next().hFill());
+    }
 
+    @Override
+    public JPanel getView()
+    {
         return view;
     }
 
     @Override
-    protected void localPrepare(MNetPreset model)
+    public void prepare(MNetPreset model)
     {
         TemperatureUnit temperatureUnit = ClimateTray.PREFERENCES.getTemperatureUnit();
 
@@ -86,7 +86,7 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
     }
 
     @Override
-    protected void localApply(MNetPreset model)
+    public void apply(MNetPreset model)
     {
         TemperatureUnit temperatureUnit = ClimateTray.PREFERENCES.getTemperatureUnit();
 
@@ -98,7 +98,7 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
     }
 
     @Override
-    protected void localCheck(MessageList messages)
+    public void modified(MessageList messages)
     {
         MNetMode mode = (MNetMode) modeBox.getSelectedItem();
 

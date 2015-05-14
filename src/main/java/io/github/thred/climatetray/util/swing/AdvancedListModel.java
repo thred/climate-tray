@@ -95,22 +95,22 @@ public class AdvancedListModel<TYPE> extends AbstractListModel<TYPE>
         return element;
     }
 
-    public void updateElement(TYPE element)
+    public void refreshElement(TYPE element)
     {
         int index = getIndexOfElement(element);
 
         if (index >= 0)
         {
-            updateElementAt(index);
+            refreshElementAt(index);
         }
     }
 
-    public void updateElementAt(int index)
+    public void refreshElementAt(int index)
     {
         fireContentsChanged(this, index, index);
     }
 
-    public void updateAllElements()
+    public void refreshAllElements()
     {
         fireContentsChanged(this, 0, getSize());
     }

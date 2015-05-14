@@ -10,12 +10,8 @@ public class ClimateTrayPresetDialogController extends
     public ClimateTrayPresetDialogController()
     {
         super(new MNetPresetController());
-    }
 
-    @Override
-    protected String getTitle()
-    {
-        return "Preset";
+        setTitle("Preset");
     }
 
 }
