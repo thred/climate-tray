@@ -97,21 +97,21 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
 
     public String describe()
     {
-        StringBuilder builder = new StringBuilder(mode.getLabel());
+        StringBuilder builder = new StringBuilder(mode.getDescription());
 
         if (mode.isTemperatureEnabled())
         {
-            builder.append(String.format(" %.1f°C", temperature));
+            builder.append(String.format(", %.1f°C", temperature));
         }
 
         if (mode.isFanEnabled())
         {
-            builder.append(" ").append(fan.getLabel());
+            builder.append(", ").append(fan.getDescription());
         }
 
         if (mode.isAirEnabled())
         {
-            builder.append(" ").append(air.getLabel());
+            builder.append(", ").append(air.getDescription());
         }
 
         return builder.toString();

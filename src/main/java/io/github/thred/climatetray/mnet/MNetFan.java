@@ -5,19 +5,21 @@ import io.github.thred.climatetray.ClimateTrayImage;
 public enum MNetFan
 {
 
-    LOW("LOW", "Low", ClimateTrayImage.ICON_FAN1),
-    MEDIUM_1("MEDIUM_1", "Medium 1", ClimateTrayImage.ICON_FAN2),
-    MEDIUM_2("MEDIUM_2", "Medium 2", ClimateTrayImage.ICON_FAN3),
-    HIGH("HIGH", "High", ClimateTrayImage.ICON_FAN4);
+    LOW("LOW", "Very Low", "very low fan speed", ClimateTrayImage.ICON_FAN1),
+    MEDIUM_1("MEDIUM_1", "Low", "low fan speed", ClimateTrayImage.ICON_FAN2),
+    MEDIUM_2("MEDIUM_2", "High", "high fan speed", ClimateTrayImage.ICON_FAN3),
+    HIGH("HIGH", "Very High", "very high fan speed", ClimateTrayImage.ICON_FAN4);
 
     private final String key;
     private final String label;
+    private final String description;
     private final ClimateTrayImage image;
 
-    private MNetFan(String key, String label, ClimateTrayImage image)
+    private MNetFan(String key, String label, String description, ClimateTrayImage image)
     {
         this.key = key;
         this.label = label;
+        this.description = description;
         this.image = image;
     }
 
@@ -29,6 +31,11 @@ public enum MNetFan
     public String getLabel()
     {
         return label;
+    }
+
+    public String getDescription()
+    {
+        return description;
     }
 
     public ClimateTrayImage getImage()
