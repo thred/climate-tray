@@ -34,6 +34,11 @@ public abstract class AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
         return view;
     }
 
+    public void refreshView()
+    {
+        // intentionally left blank
+    }
+
     public MODEL_TYPE getModel()
     {
         return model;

@@ -42,7 +42,7 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
         setList(createList(listModel));
 
         JPanel panel = new JPanel(new GridBagLayout());
-        GBC gbc = new GBC(2, 6);
+        GBC gbc = new GBC(2, 6).defaultOutsets(0, 0, 0, 0);
 
         panel.add(new JScrollPane(list), gbc.span(1, 6).weight(1).fill());
 
@@ -100,6 +100,26 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
     }
 
     @Override
+    public void refreshView()
+    {
+        listModel.updateAllElements();
+
+        updateState();
+    }
+
+    protected void updateState()
+    {
+        int selectedIndex = (list != null) ? list.getSelectedIndex() : -1;
+        boolean anySelected = selectedIndex >= 0;
+
+        addButton.setEnabled(true);
+        editButton.setEnabled(anySelected);
+        removeButton.setEnabled(anySelected);
+        upButton.setEnabled(anySelected);
+        downButton.setEnabled(anySelected);
+    }
+
+    @Override
     protected void localPrepare(List<TYPE> model)
     {
         listModel.setList(Copyable.deepCopy(model));
@@ -117,18 +137,6 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
     protected void localCheck(MessageList messages)
     {
         updateState();
-    }
-
-    protected void updateState()
-    {
-        int selectedIndex = list.getSelectedIndex();
-        boolean anySelected = selectedIndex >= 0;
-
-        addButton.setEnabled(true);
-        editButton.setEnabled(anySelected);
-        removeButton.setEnabled(anySelected);
-        upButton.setEnabled(anySelected);
-        downButton.setEnabled(anySelected);
     }
 
     public void add()
@@ -154,7 +162,7 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
 
         if (edit(element))
         {
-            listModel.updatedElement(element);
+            listModel.updateElement(element);
         }
     }
 

@@ -18,12 +18,14 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class ClimateTray
 {
 
-    public static final SystemPrefs PREFS = SystemPrefs.get(ClimateTray.class);
+    private static final SystemPrefs PREFS = SystemPrefs.get(ClimateTray.class);
+
     public static final ClimateTrayPreferences PREFERENCES = new ClimateTrayPreferences();
 
     private static final Timer TIMER = new Timer();
 
-    private static final TrayIcon TRAY_ICON = new TrayIcon(ClimateTrayImage.ICON.getImage(ClimateTrayImageState.NOT_SELECTED, 16));
+    private static final TrayIcon TRAY_ICON = new TrayIcon(ClimateTrayImage.ICON.getImage(
+        ClimateTrayImageState.NOT_SELECTED, 16));
     private static final ClimateTrayPopupController POPUP_CONTROLLER = new ClimateTrayPopupController();
 
     public static void main(String[] arguments) throws ClassNotFoundException, InstantiationException,

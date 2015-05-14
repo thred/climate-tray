@@ -11,7 +11,6 @@ import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -59,10 +58,10 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         int index = 0;
 
         presetItems.stream().forEach((item) -> view.remove(item));
-        
-//        model.getPresets().forEach((preset) -> {
-//           preset. 
-//        });
+
+        //        model.getPresets().forEach((preset) -> {
+        //           preset. 
+        //        });
         // TODO Auto-generated method stub
 
     }
@@ -95,8 +94,8 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         hiddenDialogForFocusManagement = new JDialog((Frame) null, "Climate Tray");
 
         hiddenDialogForFocusManagement.setUndecorated(true);
-        hiddenDialogForFocusManagement.setIconImages(ClimateTrayImage.ICON.getImages(
-            ClimateTrayImageState.NONE, 64, 48, 32, 24, 16));
+        hiddenDialogForFocusManagement.setIconImages(ClimateTrayImage.ICON.getImages(ClimateTrayImageState.NONE, 64,
+            48, 32, 24, 16));
         hiddenDialogForFocusManagement.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         hiddenDialogForFocusManagement.setVisible(true);
 
