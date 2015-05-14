@@ -4,11 +4,14 @@ import io.github.thred.climatetray.util.Copyable;
 import io.github.thred.climatetray.util.Persistent;
 import io.github.thred.climatetray.util.prefs.Prefs;
 
+import java.util.UUID;
+
 public class MNetDevice implements Copyable<MNetDevice>, Persistent
 {
 
-    private String name;
-    private String host;
+    private UUID id = UUID.randomUUID();
+    private String name = "";
+    private String host = "";
     private Integer address = 0;
 
     private MNetState state = new MNetState();
@@ -19,10 +22,11 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         super();
     }
 
-    public MNetDevice(String name, String host, Integer address, MNetState state, MNetPreset preset)
+    public MNetDevice(UUID id, String name, String host, Integer address, MNetState state, MNetPreset preset)
     {
         super();
 
+        this.id = id;
         this.name = name;
         this.host = host;
         this.address = address;
@@ -33,7 +37,17 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
     @Override
     public MNetDevice deepCopy()
     {
-        return new MNetDevice(name, host, address, Copyable.deepCopy(state), Copyable.deepCopy(preset));
+        return new MNetDevice(id, name, host, address, Copyable.deepCopy(state), Copyable.deepCopy(preset));
+    }
+
+    public UUID getId()
+    {
+        return id;
+    }
+
+    public void setId(UUID id)
+    {
+        this.id = id;
     }
 
     public String getName()
@@ -94,8 +108,9 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
     @Override
     public void read(Prefs prefs)
     {
-        name = prefs.getString("name", null);
-        host = prefs.getString("host", null);
+        id = prefs.getUUID("id", id);
+        name = prefs.getString("name", name);
+        host = prefs.getString("host", host);
         address = prefs.getInteger("address", 0);
 
         if (state == null)
@@ -116,6 +131,7 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
     @Override
     public void write(Prefs prefs)
     {
+        prefs.setUUID("id", id);
         prefs.setString("name", name);
         prefs.setString("host", host);
         prefs.setInteger("address", address);
@@ -123,5 +139,4 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         state.write(prefs.withPrefix("state."));
         preset.write(prefs.withPrefix("preset."));
     }
-
 }

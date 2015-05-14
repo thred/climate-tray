@@ -1,5 +1,7 @@
 package io.github.thred.climatetray.util.prefs;
 
+import java.util.UUID;
+
 public abstract class AbstractPrefs extends AbstractTypedPrefs
 {
 
@@ -13,7 +15,6 @@ public abstract class AbstractPrefs extends AbstractTypedPrefs
         super(prefix);
     }
 
-    
     @Override
     protected Integer getLocalInteger(String key, Integer defaultValue)
     {
@@ -143,6 +144,25 @@ public abstract class AbstractPrefs extends AbstractTypedPrefs
 
     @Override
     protected <TYPE extends Enum<?>> boolean setLocalEnum(String key, TYPE value)
+    {
+        return setLocal(key, String.valueOf(value));
+    }
+
+    @Override
+    protected UUID getLocalUUID(String key, UUID defaultValue)
+    {
+        String result = getLocal(key);
+
+        if (result == null)
+        {
+            return defaultValue;
+        }
+
+        return UUID.fromString(result);
+    }
+
+    @Override
+    protected boolean setLocalUUID(String key, UUID value)
     {
         return setLocal(key, String.valueOf(value));
     }

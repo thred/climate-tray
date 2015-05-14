@@ -60,9 +60,9 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
         presetItems.stream().forEach((item) -> view.remove(item));
         
-        model.getPresets().forEach((preset) -> {
-           preset. 
-        });
+//        model.getPresets().forEach((preset) -> {
+//           preset. 
+//        });
         // TODO Auto-generated method stub
 
     }

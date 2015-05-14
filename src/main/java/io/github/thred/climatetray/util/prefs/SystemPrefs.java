@@ -1,6 +1,7 @@
 package io.github.thred.climatetray.util.prefs;
 
 import java.util.Objects;
+import java.util.UUID;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
@@ -196,13 +197,29 @@ public class SystemPrefs extends AbstractTypedPrefs
     @Override
     protected <TYPE extends Enum<TYPE>> TYPE getLocalEnum(Class<TYPE> type, String key, TYPE defaultValue)
     {
-        return Enum.valueOf(type, getLocalString(key, null));
+        String result = getLocalString(key, (defaultValue != null) ? defaultValue.toString() : null);
+
+        return (result != null) ? Enum.valueOf(type, result) : defaultValue;
     }
 
     @Override
     protected <TYPE extends Enum<?>> boolean setLocalEnum(String key, TYPE value)
     {
         return setLocalString(key, value.name());
+    }
+
+    @Override
+    protected UUID getLocalUUID(String key, UUID defaultValue)
+    {
+        String result = getLocalString(key, (defaultValue != null) ? defaultValue.toString() : null);
+
+        return (result != null) ? UUID.fromString(result) : defaultValue;
+    }
+
+    @Override
+    protected boolean setLocalUUID(String key, UUID value)
+    {
+        return setLocalString(key, value.toString());
     }
 
     @Override

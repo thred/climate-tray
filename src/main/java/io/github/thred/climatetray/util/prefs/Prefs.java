@@ -1,5 +1,7 @@
 package io.github.thred.climatetray.util.prefs;
 
+import java.util.UUID;
+
 public interface Prefs
 {
 
@@ -41,5 +43,10 @@ public interface Prefs
 
     <TYPE extends Enum<TYPE>> boolean setEnum(String key, TYPE value);
 
+    UUID getUUID(String key, UUID defaultValue);
+
+    boolean setUUID(String key, UUID value);
+
     boolean remove(String key);
+
 }
