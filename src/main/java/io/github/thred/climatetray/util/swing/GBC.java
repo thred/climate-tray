@@ -248,7 +248,7 @@ public class GBC extends GridBagConstraints
         return insets(insets.top, insets.left, insets.bottom, right);
     }
 
-    public GBC insets(int top, int right, int bottom, int left)
+    public GBC insets(int top, int left, int bottom, int right)
     {
         insets = new Insets(top, left, bottom, right);
         insetsOverwritten = true;
@@ -256,14 +256,14 @@ public class GBC extends GridBagConstraints
         return this;
     }
 
-    public GBC defaultInsets(int top, int right, int bottom, int left)
+    public GBC defaultInsets(int top, int left, int bottom, int right)
     {
         defaultInsets = new Insets(top, left, bottom, right);
 
         return resetInsets();
     }
 
-    public GBC defaultOutsets(int top, int right, int bottom, int left)
+    public GBC defaultOutsets(int top, int left, int bottom, int right)
     {
         defaultOutsets = new Insets(top, left, bottom, right);
 

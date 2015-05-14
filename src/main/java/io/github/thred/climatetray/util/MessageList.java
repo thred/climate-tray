@@ -55,4 +55,5 @@ public class MessageList extends ArrayList<Message>
     {
         sort((left, right) -> (right.getSeverity().ordinal() - left.getSeverity().ordinal()));
     }
+    
 }

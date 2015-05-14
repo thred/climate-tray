@@ -54,7 +54,10 @@ public enum ClimateTrayImage
     ICON_FAN4,
     ICON_HEAT,
     ICON_OFF,
-    ICON_SWING;
+    ICON_SWING,
+    ICON_ERROR,
+    ICON_WARNING,
+    ICON_INFO;
 
     private ClimateTrayImage()
     {

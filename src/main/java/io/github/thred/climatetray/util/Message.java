@@ -24,4 +24,9 @@ public class Message
         return message;
     }
 
+    @Override
+    public String toString()
+    {
+        return String.format("%s: %s", severity, message);
+    }
 }

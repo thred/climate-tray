@@ -6,6 +6,7 @@ import io.github.thred.climatetray.util.MessageList;
 import io.github.thred.climatetray.util.swing.BorderPanel;
 import io.github.thred.climatetray.util.swing.ButtonPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
+import io.github.thred.climatetray.util.swing.TitlePanel;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -27,6 +28,8 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
 
     private final CONTROLLER_TYPE controller;
 
+    protected final TitlePanel titlePanel = new TitlePanel(null, null);
+
     protected final JButton okButton = SwingUtils.createButton("Ok", (e) -> ok());
     protected final JButton cancelButton = SwingUtils.createButton("Cancel", (e) -> cancel());
 
@@ -44,7 +47,12 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
     @Override
     protected final JDialog createView()
     {
-        JDialog view = new JDialog((Window) null, getTitle(), ModalityType.APPLICATION_MODAL);
+        String title = getTitle();
+
+        titlePanel.setTitle(title);
+        // titlePanel.setTitleIcon(ClimateTrayImage.ICON.getIcon(ClimateTrayImageState.NONE, 32));
+
+        JDialog view = new JDialog((Window) null, title, ModalityType.APPLICATION_MODAL);
 
         view.setIconImages(ClimateTrayImage.ICON.getImages(ClimateTrayImageState.NONE, 64, 48, 32, 24, 16));
         view.setLayout(new BorderLayout());
@@ -57,6 +65,8 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
                 close();
             }
         });
+
+        view.add(titlePanel, BorderLayout.NORTH);
 
         view.add(createContentPanel(), BorderLayout.CENTER);
         view.add(createBottomPanel(), BorderLayout.SOUTH);
@@ -102,7 +112,7 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
     {
         result = false;
 
-        localPrepare(model);
+        prepare(model);
 
         JDialog view = getView();
 

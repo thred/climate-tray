@@ -62,12 +62,12 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
 
         panel.add(new JScrollPane(list), gbc.span(1, 6).weight(1).fill());
 
-        panel.add(addButton, gbc.next().hFill());
-        panel.add(editButton, gbc.next().hFill());
-        panel.add(removeButton, gbc.next().hFill());
-        panel.add(new JLabel(), gbc.next().weight(0, 1));
-        panel.add(upButton, gbc.next().hFill());
-        panel.add(downButton, gbc.next().hFill());
+        panel.add(addButton, gbc.next().hFill().insetRight(0));
+        panel.add(editButton, gbc.next().hFill().insetRight(0));
+        panel.add(removeButton, gbc.next().hFill().insetRight(0));
+        panel.add(new JLabel(), gbc.next().weight(0, 1).insetRight(0));
+        panel.add(upButton, gbc.next().hFill().insetRight(0));
+        panel.add(downButton, gbc.next().hFill().insetRight(0));
 
         return panel;
     }
@@ -76,7 +76,8 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
     {
         JList<TYPE> list = new JList<>(listModel);
 
-        list.setPreferredSize(new Dimension(256, 64));
+        list.setPreferredSize(new Dimension(320, 64));
+        list.setVisibleRowCount(5);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         return list;

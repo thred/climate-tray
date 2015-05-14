@@ -99,11 +99,11 @@ public abstract class AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
         this.messages.addAll(messages);
         this.messages.sortBySeverity();
 
-        boolean valid = isValid(messages);
+        boolean valid = isValid(this.messages);
 
-        checked(valid, messages);
+        checked(valid, this.messages);
 
-        return messages;
+        return this.messages;
     }
 
     protected void checked(boolean valid, MessageList messages)
