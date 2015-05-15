@@ -12,35 +12,20 @@
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package io.github.thred.climatetray.util;
+package io.github.thred.climatetray.controller;
 
-public class Message
+import io.github.thred.climatetray.ClimateTrayPreferences;
+
+public class ClimateTrayAboutDialogController extends
+    AbstractClimateTrayDialogController<ClimateTrayPreferences, ClimateTrayAboutController>
 {
 
-    private final Severity severity;
-    private final String message;
-
-    public Message(Severity severity, String message, Object... args)
+    public ClimateTrayAboutDialogController()
     {
-        super();
+        super(new ClimateTrayAboutController(), BUTTON_CLOSE);
 
-        this.severity = severity;
-        this.message = String.format(message, args);
+        setTitle("Climate Tray");
+        setDescription("Simple control utility for A/Cs.");
     }
 
-    public Severity getSeverity()
-    {
-        return severity;
-    }
-
-    public String getMessage()
-    {
-        return message;
-    }
-
-    @Override
-    public String toString()
-    {
-        return String.format("%s: %s", severity, message);
-    }
 }

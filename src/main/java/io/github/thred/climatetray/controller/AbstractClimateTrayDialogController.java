@@ -1,3 +1,17 @@
+/*
+ * Copyright 2015 Manfred Hantschel
+ * 
+ * This file is part of Climate-Tray.
+ * 
+ * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
+ * 
+ * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
+ * <http://www.gnu.org/licenses/>.
+ */
 package io.github.thred.climatetray.controller;
 
 import io.github.thred.climatetray.ClimateTrayImage;
@@ -29,18 +43,24 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
     extends AbstractClimateTrayController<MODEL_TYPE, JDialog>
 {
 
+    public static final int BUTTON_CLOSE = 1 << 0;
+    public static final int BUTTON_OK = 1 << 1;
+    public static final int BUTTON_CANCEL = 1 << 2;
+    public static final int BUTTON_OK_CANCEL = BUTTON_OK | BUTTON_CANCEL;
+
     private final CONTROLLER_TYPE controller;
 
     protected final TitlePanel titlePanel = new TitlePanel(null, null);
 
     protected final JButton okButton = SwingUtils.createButton("Ok", (e) -> ok());
     protected final JButton cancelButton = SwingUtils.createButton("Cancel", (e) -> cancel());
+    protected final JButton closeButton = SwingUtils.createButton("Close", (e) -> close());
     protected final JDialog view;
 
     private MODEL_TYPE model;
     private boolean result;
 
-    public AbstractClimateTrayDialogController(CONTROLLER_TYPE controller)
+    public AbstractClimateTrayDialogController(CONTROLLER_TYPE controller, int buttons)
     {
         super();
 
@@ -62,7 +82,7 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
 
         view.add(titlePanel, BorderLayout.NORTH);
         view.add(createContentPanel(), BorderLayout.CENTER);
-        view.add(createBottomPanel(), BorderLayout.SOUTH);
+        view.add(createBottomPanel(buttons), BorderLayout.SOUTH);
 
         monitor.addMonitorListener((e) -> {
             modified();
@@ -118,9 +138,26 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
         return scrollPane;
     }
 
-    protected JComponent createBottomPanel()
+    protected JComponent createBottomPanel(int buttons)
     {
-        return new ButtonPanel().right(okButton, cancelButton);
+        ButtonPanel buttonPanel = new ButtonPanel();
+
+        if ((buttons & BUTTON_CLOSE) != 0)
+        {
+            buttonPanel.center(closeButton);
+        }
+
+        if ((buttons & BUTTON_OK) != 0)
+        {
+            buttonPanel.right(closeButton);
+        }
+
+        if ((buttons & BUTTON_CANCEL) != 0)
+        {
+            buttonPanel.right(closeButton);
+        }
+
+        return buttonPanel;
     }
 
     @Override
