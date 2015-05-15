@@ -8,6 +8,8 @@ import io.github.thred.climatetray.util.prefs.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 public class ClimateTrayPreferences implements Persistent
 {
@@ -22,9 +24,19 @@ public class ClimateTrayPreferences implements Persistent
         super();
     }
 
+    public MNetDevice getDevice(UUID id)
+    {
+        return devices.stream().filter((device) -> Objects.equals(id, device.getId())).findFirst().orElse(null);
+    }
+
     public List<MNetDevice> getDevices()
     {
         return devices;
+    }
+
+    public MNetPreset getPreset(UUID id)
+    {
+        return presets.stream().filter((device) -> Objects.equals(id, device.getId())).findFirst().orElse(null);
     }
 
     public List<MNetPreset> getPresets()
@@ -59,4 +71,5 @@ public class ClimateTrayPreferences implements Persistent
 
         prefs.setEnum("temperatureUnit", temperatureUnit);
     }
+
 }

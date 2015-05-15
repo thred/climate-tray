@@ -9,6 +9,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
@@ -16,20 +17,55 @@ import javax.swing.SpinnerModel;
 public class SwingUtils
 {
 
-    public static JMenuItem createMenuItem(String text, Icon icon, String toolTip)
+    public static JMenuItem createMenuItem(String text, Icon icon, String toolTip, ActionListener... listeners)
     {
         JMenuItem result = new JMenuItem(text, icon);
 
-        result.setToolTipText(toolTip);
+        if (toolTip != null)
+        {
+            result.setToolTipText(toolTip);
+        }
+
+        for (ActionListener listener : listeners)
+        {
+            result.addActionListener(listener);
+        }
 
         return result;
     }
 
-    public static JCheckBoxMenuItem createCheckBoxMenuItem(String text, Icon icon, String toolTip)
+    public static JCheckBoxMenuItem createCheckBoxMenuItem(String text, Icon icon, String toolTip,
+        ActionListener... listeners)
     {
         JCheckBoxMenuItem result = new JCheckBoxMenuItem(text, icon);
 
-        result.setToolTipText(toolTip);
+        if (toolTip != null)
+        {
+            result.setToolTipText(toolTip);
+        }
+
+        for (ActionListener listener : listeners)
+        {
+            result.addActionListener(listener);
+        }
+
+        return result;
+    }
+
+    public static JRadioButtonMenuItem createRadioButtonMenuItem(String text, Icon icon, String toolTip,
+        ActionListener... listeners)
+    {
+        JRadioButtonMenuItem result = new JRadioButtonMenuItem(text, icon);
+
+        if (toolTip != null)
+        {
+            result.setToolTipText(toolTip);
+        }
+
+        for (ActionListener listener : listeners)
+        {
+            result.addActionListener(listener);
+        }
 
         return result;
     }

@@ -13,6 +13,7 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
     private String name = "";
     private String host = "";
     private Integer address = 0;
+    private boolean enabled = true;
 
     private MNetState state = new MNetState();
     private MNetPreset preset = new MNetPreset();
@@ -22,7 +23,8 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         super();
     }
 
-    public MNetDevice(UUID id, String name, String host, Integer address, MNetState state, MNetPreset preset)
+    public MNetDevice(UUID id, String name, String host, Integer address, boolean enabled, MNetState state,
+        MNetPreset preset)
     {
         super();
 
@@ -30,6 +32,7 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         this.name = name;
         this.host = host;
         this.address = address;
+        this.enabled = enabled;
         this.state = state;
         this.preset = preset;
     }
@@ -37,7 +40,7 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
     @Override
     public MNetDevice deepCopy()
     {
-        return new MNetDevice(id, name, host, address, Copyable.deepCopy(state), Copyable.deepCopy(preset));
+        return new MNetDevice(id, name, host, address, enabled, Copyable.deepCopy(state), Copyable.deepCopy(preset));
     }
 
     public UUID getId()
@@ -85,6 +88,16 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         this.address = address;
     }
 
+    public boolean isEnabled()
+    {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled)
+    {
+        this.enabled = enabled;
+    }
+
     public MNetState getState()
     {
         return state;
@@ -105,6 +118,23 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         this.preset = preset;
     }
 
+    public String describe(boolean withHost, boolean withState)
+    {
+        StringBuilder builder = new StringBuilder(name);
+
+        if ((withHost) && (host != null))
+        {
+            builder.append(" [").append(host).append(" / ").append(address).append("]");
+        }
+
+        if ((withState) && (state != null))
+        {
+            builder.append(": ").append(state.describe());
+        }
+
+        return builder.toString();
+    }
+
     @Override
     public void read(Prefs prefs)
     {
@@ -112,6 +142,7 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         name = prefs.getString("name", name);
         host = prefs.getString("host", host);
         address = prefs.getInteger("address", 0);
+        enabled = prefs.getBoolean("enabled", enabled);
 
         if (state == null)
         {
@@ -135,8 +166,17 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         prefs.setString("name", name);
         prefs.setString("host", host);
         prefs.setInteger("address", address);
+        prefs.setBoolean("enabled", enabled);
 
         state.write(prefs.withPrefix("state."));
         preset.write(prefs.withPrefix("preset."));
     }
+
+    @Override
+    public String toString()
+    {
+        return "MNetDevice [id=" + id + ", name=" + name + ", host=" + host + ", address=" + address + ", enabled="
+            + enabled + ", state=" + state + ", preset=" + preset + "]";
+    }
+
 }

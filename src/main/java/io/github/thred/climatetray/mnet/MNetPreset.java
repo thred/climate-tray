@@ -18,13 +18,14 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
     private Double temperature = Double.valueOf(22);
     private MNetFan fan = MNetFan.MEDIUM_1;
     private MNetAir air = MNetAir.POSITION_1;
+    private boolean enabled = false;
 
     public MNetPreset()
     {
         super();
     }
 
-    public MNetPreset(UUID id, MNetMode mode, Double temperature, MNetFan fan, MNetAir air)
+    public MNetPreset(UUID id, MNetMode mode, Double temperature, MNetFan fan, MNetAir air, boolean enabled)
     {
         super();
 
@@ -33,12 +34,13 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
         this.temperature = temperature;
         this.fan = fan;
         this.air = air;
+        this.enabled = enabled;
     }
 
     @Override
     public MNetPreset deepCopy()
     {
-        return new MNetPreset(id, mode, temperature, fan, air);
+        return new MNetPreset(id, mode, temperature, fan, air, enabled);
     }
 
     public UUID getId()
@@ -91,6 +93,16 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
         this.air = air;
     }
 
+    public boolean isEnabled()
+    {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled)
+    {
+        this.enabled = enabled;
+    }
+
     public Icon createIcon(ClimateTrayImageState state, int size)
     {
         return MNetUtils.createIcon(state, size, mode, fan, (mode == MNetMode.OFF) ? null : temperature, air);
@@ -126,6 +138,8 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
         temperature = prefs.getDouble("temperature", temperature);
         fan = prefs.getEnum(MNetFan.class, "fan", fan);
         air = prefs.getEnum(MNetAir.class, "air", air);
+
+        enabled = false;
     }
 
     @Override
@@ -136,6 +150,13 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
         prefs.setDouble("temperature", temperature);
         prefs.setEnum("fan", fan);
         prefs.setEnum("air", air);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "MNetPreset [id=" + id + ", mode=" + mode + ", temperature=" + temperature + ", fan=" + fan + ", air="
+            + air + ", enabled=" + enabled + "]";
     }
 
 }

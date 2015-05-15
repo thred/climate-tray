@@ -1,5 +1,6 @@
 package io.github.thred.climatetray.mnet;
 
+import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.util.Copyable;
 import io.github.thred.climatetray.util.Persistent;
@@ -81,6 +82,28 @@ public class MNetState implements Copyable<MNetState>, Persistent
         return MNetUtils.createIcon(state, size, mode, fan, temperature, air);
     }
 
+    public String describe()
+    {
+        StringBuilder builder = new StringBuilder(mode.getDescription());
+
+        if (mode.isTemperatureEnabled())
+        {
+            builder.append(" (").append(ClimateTray.PREFERENCES.getTemperatureUnit().format(temperature)).append(")");
+        }
+
+        if (mode.isFanEnabled())
+        {
+            builder.append(", ").append(fan.getDescription());
+        }
+
+        if (mode.isAirEnabled())
+        {
+            builder.append(" (").append(air.getDescription()).append(")");
+        }
+
+        return builder.toString();
+    }
+
     @Override
     public void read(Prefs prefs)
     {
@@ -97,6 +120,12 @@ public class MNetState implements Copyable<MNetState>, Persistent
         prefs.setDouble("temperature", temperature);
         prefs.setEnum("fan", fan);
         prefs.setEnum("air", air);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "MNetState [mode=" + mode + ", temperature=" + temperature + ", fan=" + fan + ", air=" + air + "]";
     }
 
 }

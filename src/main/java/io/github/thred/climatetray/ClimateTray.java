@@ -2,6 +2,8 @@ package io.github.thred.climatetray;
 
 import io.github.thred.climatetray.controller.ClimateTrayPopupController;
 import io.github.thred.climatetray.controller.ClimateTrayPreferencesDialogController;
+import io.github.thred.climatetray.mnet.MNetDevice;
+import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.util.prefs.SystemPrefs;
 
 import java.awt.AWTException;
@@ -11,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -26,17 +29,29 @@ public class ClimateTray
 
     private static final TrayIcon TRAY_ICON = new TrayIcon(ClimateTrayImage.ICON.getImage(
         ClimateTrayImageState.NOT_SELECTED, 16));
-    private static final ClimateTrayPopupController POPUP_CONTROLLER = new ClimateTrayPopupController();
+    private static final ClimateTrayPopupController POPUP_CONTROLLER;
 
-    public static void main(String[] arguments) throws ClassNotFoundException, InstantiationException,
-        IllegalAccessException, UnsupportedLookAndFeelException
+    static
+    {
+        try
+        {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }
+        catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+            | UnsupportedLookAndFeelException e)
+        {
+            e.printStackTrace(System.err);
+        }
+
+        POPUP_CONTROLLER = new ClimateTrayPopupController();
+    }
+
+    public static void main(String[] arguments)
     {
         if (!SystemTray.isSupported())
         {
             throw new UnsupportedOperationException("SystemTray is not supported");
         }
-
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 
         TRAY_ICON.setImageAutoSize(true);
         TRAY_ICON.addMouseListener(new MouseAdapter()
@@ -125,6 +140,36 @@ public class ClimateTray
         ClimateTrayPreferencesDialogController controller = new ClimateTrayPreferencesDialogController();
 
         controller.consume(null, PREFERENCES);
+    }
+
+    public static void togglePreset(UUID id)
+    {
+        PREFERENCES.getPresets().stream().forEach((preset) -> preset.setEnabled(false));
+        
+        MNetPreset preset = PREFERENCES.getPreset(id);
+
+        if (preset == null)
+        {
+            return;
+        }
+
+        // TODO
+        preset.setEnabled(true);
+
+        System.out.println(preset);
+    }
+
+    public static void toggleDevice(UUID id)
+    {
+        MNetDevice device = PREFERENCES.getDevice(id);
+
+        if (device == null)
+        {
+            return;
+        }
+
+        device.setEnabled(!device.isEnabled());
+        store();
     }
 
     public static void exit()
