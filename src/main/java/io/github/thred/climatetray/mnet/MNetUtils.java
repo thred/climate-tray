@@ -25,20 +25,20 @@ public class MNetUtils
         BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
 
+        boolean temperatureEnabled = mode.isTemperatureEnabled();
+
         if (mode == MNetMode.FAN)
         {
-            g.drawImage(fan.getBackgroundImage().getImage(state, size), 0, 0, null);
-        }
-        else if ((mode == MNetMode.OFF) && (temperature == null))
-        {
-            g.drawImage(mode.getImage().getImage(state, size), 0, 0, null);
+            g.drawImage((temperatureEnabled) ? fan.getBackgroundImage().getImage(state, size) : fan.getImage()
+                .getImage(state, size), 0, 0, null);
         }
         else
         {
-            g.drawImage(mode.getBackgroundImage().getImage(state, size), 0, 0, null);
+            g.drawImage((temperatureEnabled) ? mode.getBackgroundImage().getImage(state, size) : mode.getImage()
+                .getImage(state, size), 0, 0, null);
         }
 
-        if (temperature != null)
+        if ((temperature != null) && temperatureEnabled)
         {
             String value =
                 String

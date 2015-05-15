@@ -105,7 +105,7 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
 
     public Icon createIcon(ClimateTrayImageState state, int size)
     {
-        return MNetUtils.createIcon(state, size, mode, fan, (mode == MNetMode.OFF) ? null : temperature, air);
+        return MNetUtils.createIcon(state, size, mode, fan, temperature, air);
     }
 
     public String describe()

@@ -955,6 +955,96 @@
          x="80"
          y="116.36218" />
     </clipPath>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4735"
+       id="linearGradient5063"
+       gradientUnits="userSpaceOnUse"
+       x1="43.937553"
+       y1="382.80228"
+       x2="59.937553"
+       y2="382.80228"
+       gradientTransform="translate(-304,96)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4735"
+       id="linearGradient5065"
+       gradientUnits="userSpaceOnUse"
+       x1="43.937553"
+       y1="382.80228"
+       x2="59.937553"
+       y2="382.80228"
+       gradientTransform="translate(-304,96)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4735"
+       id="linearGradient5067"
+       gradientUnits="userSpaceOnUse"
+       x1="43.937553"
+       y1="382.80228"
+       x2="59.937553"
+       y2="382.80228"
+       gradientTransform="translate(-304,96)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4735"
+       id="linearGradient5069"
+       gradientUnits="userSpaceOnUse"
+       x1="43.937553"
+       y1="382.80228"
+       x2="59.937553"
+       y2="382.80228"
+       gradientTransform="translate(-304,96)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4735"
+       id="linearGradient5137"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-309.10938,41.662961)"
+       x1="43.937553"
+       y1="382.80228"
+       x2="59.937553"
+       y2="382.80228" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4735"
+       id="linearGradient5217"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-304,96)"
+       x1="43.937553"
+       y1="382.80228"
+       x2="59.937553"
+       y2="382.80228" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4735"
+       id="linearGradient5219"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-304,96)"
+       x1="43.937553"
+       y1="382.80228"
+       x2="59.937553"
+       y2="382.80228" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4735"
+       id="linearGradient5221"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-304,96)"
+       x1="43.937553"
+       y1="382.80228"
+       x2="59.937553"
+       y2="382.80228" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4735"
+       id="linearGradient5223"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-304,96)"
+       x1="43.937553"
+       y1="382.80228"
+       x2="59.937553"
+       y2="382.80228" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -963,9 +1053,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.0000001"
-     inkscape:cx="254.69665"
-     inkscape:cy="464.47824"
+     inkscape:zoom="4.0000002"
+     inkscape:cx="143.14288"
+     inkscape:cy="400.75491"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -2659,120 +2749,6 @@
          style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#916f6f;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
     </g>
     <g
-       id="g5654"
-       transform="translate(-304,63.999998)"
-       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan1-16.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <rect
-         y="572.36218"
-         x="416"
-         height="16"
-         width="16"
-         id="rect5123"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient6373);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;filter-blend-mode:normal;filter-gaussianBlur-deviation:0"
-         rx="2"
-         ry="2" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path5131"
-         d="m 423.5,578.86218 2,1.5 -2,1.5"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-    </g>
-    <g
-       id="g5658"
-       transform="translate(-304,63.999998)"
-       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan2-16.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <rect
-         ry="2"
-         rx="2"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient6373);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;filter-blend-mode:normal;filter-gaussianBlur-deviation:0"
-         id="rect5135"
-         width="16"
-         height="16"
-         x="448"
-         y="572.36218" />
-      <path
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-         d="m 453.5,578.86218 2,1.5 -2,1.5"
-         id="path5143"
-         inkscape:connector-curvature="0" />
-      <path
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-         d="m 456.5,578.86218 2,1.5 -2,1.5"
-         id="path5145"
-         inkscape:connector-curvature="0" />
-    </g>
-    <g
-       id="g5663"
-       transform="translate(-304,63.999998)"
-       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan3-16.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <rect
-         y="572.36218"
-         x="480"
-         height="16"
-         width="16"
-         id="rect5149"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient6373);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;filter-blend-mode:normal;filter-gaussianBlur-deviation:0"
-         rx="2"
-         ry="2" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path5157"
-         d="m 484.5,578.86218 2,1.5 -2,1.5"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path5159"
-         d="m 487.5,578.86218 2,1.5 -2,1.5"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path5162"
-         d="m 490.5,578.86218 2,1.5 -2,1.5"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-    </g>
-    <g
-       id="g5669"
-       transform="translate(-304,63.999998)"
-       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan4-16.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <rect
-         ry="2"
-         rx="2"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient6373);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;filter-blend-mode:normal;filter-gaussianBlur-deviation:0"
-         id="rect5166"
-         width="16"
-         height="16"
-         x="512"
-         y="572.36218" />
-      <path
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-         d="m 517.5,578.86218 2,1.5 -2,1.5"
-         id="path5174"
-         inkscape:connector-curvature="0" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path5176"
-         d="m 514.5,578.86218 2,1.5 -2,1.5"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-      <path
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-         d="m 520.5,578.86218 2,1.5 -2,1.5"
-         id="path5178"
-         inkscape:connector-curvature="0" />
-      <path
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-         d="m 523.5,578.86218 2,1.5 -2,1.5"
-         id="path5180"
-         inkscape:connector-curvature="0" />
-    </g>
-    <g
        id="g5686"
        transform="translate(-272,63.999997)"
        inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-heat-16.png"
@@ -3123,120 +3099,6 @@
          y="579.36218"
          rx="1"
          ry="0.88951457" />
-    </g>
-    <g
-       id="g5709"
-       transform="matrix(1.5,0,0,1.5,-512,-198.18109)"
-       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan1-24.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <rect
-         ry="2"
-         rx="2"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient6373);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.33333333;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;filter-blend-mode:normal;filter-gaussianBlur-deviation:0"
-         id="rect5711"
-         width="16"
-         height="16"
-         x="416"
-         y="572.36218" />
-      <path
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-         d="m 423.5,578.86218 2,1.5 -2,1.5"
-         id="path5713"
-         inkscape:connector-curvature="0" />
-    </g>
-    <g
-       id="g5715"
-       transform="matrix(1.5,0,0,1.5,-528,-198.18109)"
-       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan2-24.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <rect
-         y="572.36218"
-         x="448"
-         height="16"
-         width="16"
-         id="rect5717"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient6373);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.33333333;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;filter-blend-mode:normal;filter-gaussianBlur-deviation:0"
-         rx="2"
-         ry="2" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path5719"
-         d="m 453.5,578.86218 2,1.5 -2,1.5"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path5721"
-         d="m 456.5,578.86218 2,1.5 -2,1.5"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-    </g>
-    <g
-       id="g5723"
-       transform="matrix(1.5,0,0,1.5,-544,-198.18109)"
-       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan3-24.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <rect
-         ry="2"
-         rx="2"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient6373);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.33333333;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;filter-blend-mode:normal;filter-gaussianBlur-deviation:0"
-         id="rect5725"
-         width="16"
-         height="16"
-         x="480"
-         y="572.36218" />
-      <path
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-         d="m 484.5,578.86218 2,1.5 -2,1.5"
-         id="path5727"
-         inkscape:connector-curvature="0" />
-      <path
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-         d="m 487.5,578.86218 2,1.5 -2,1.5"
-         id="path5729"
-         inkscape:connector-curvature="0" />
-      <path
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-         d="m 490.5,578.86218 2,1.5 -2,1.5"
-         id="path5731"
-         inkscape:connector-curvature="0" />
-    </g>
-    <g
-       id="g5733"
-       transform="matrix(1.5,0,0,1.5,-560,-198.18109)"
-       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan4-24.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90">
-      <rect
-         y="572.36218"
-         x="512"
-         height="16"
-         width="16"
-         id="rect5735"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient6373);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.33333333;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;filter-blend-mode:normal;filter-gaussianBlur-deviation:0"
-         rx="2"
-         ry="2" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path5737"
-         d="m 517.5,578.86218 2,1.5 -2,1.5"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-      <path
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-         d="m 514.5,578.86218 2,1.5 -2,1.5"
-         id="path5739"
-         inkscape:connector-curvature="0" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path5741"
-         d="m 520.5,578.86218 2,1.5 -2,1.5"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
-      <path
-         inkscape:connector-curvature="0"
-         id="path5743"
-         d="m 523.5,578.86218 2,1.5 -2,1.5"
-         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
     </g>
     <g
        id="g5745"
@@ -5468,6 +5330,279 @@
            inkscape:transform-center-x="-17.359376"
            inkscape:transform-center-y="-2.2391327" />
       </g>
+    </g>
+    <rect
+       y="614.02515"
+       x="234.89062"
+       height="16"
+       width="16"
+       id="rect5133"
+       style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient5137);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+       rx="2"
+       ry="2" />
+    <g
+       id="g5147"
+       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan1-16.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="636.36218"
+         x="112"
+         height="16"
+         width="16"
+         id="rect4944"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient5063);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         rx="2"
+         ry="2" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path4952"
+         d="m 119.5,647.86219 2,1.5 -2,1.5"
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#aa8800;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         d="m 119.66071,636.86823 c -0.30197,-0.0263 -0.68298,0.0316 -1.16016,0.19825 -2.21883,0.77486 -1.35649,2.08569 -0.24292,3.05605 0.38964,-0.54543 1.02427,-0.90606 1.74233,-0.90606 0.20286,0 0.39586,0.0375 0.58217,0.0907 0.21128,-1.14056 0.18248,-2.34284 -0.92142,-2.43898 z m 3.38554,1.61388 c -0.60653,-0.0389 -1.25978,0.50999 -1.80655,1.13783 0.54453,0.38974 0.90467,1.02357 0.90467,1.74093 0,0.20642 -0.0385,0.40274 -0.0935,0.59194 1.45341,0.26818 3.01894,0.12904 2.24353,-2.09135 -0.33813,-0.96821 -0.77857,-1.34925 -1.24811,-1.37935 z m -3.04629,1.44916 c -0.49948,0 -0.93553,0.25218 -1.19088,0.63662 5.1e-4,3.7e-4 7.2e-4,7.1e-4 0.001,10e-4 a 1.4296046,1.4296046 0 0 0 -0.0293,0.0489 c -0.0239,0.0392 -0.0455,0.0798 -0.0656,0.12146 a 1.4296046,1.4296046 0 0 0 -0.0475,0.11028 c -0.0605,0.15893 -0.0977,0.32996 -0.0977,0.51098 0,0.49903 0.25136,0.93544 0.63522,1.19087 3.8e-4,-5.1e-4 7.2e-4,-7.2e-4 10e-4,-10e-4 a 1.4296046,1.4296046 0 0 0 0.028,0.0167 c 0.0562,0.0355 0.11473,0.0674 0.17591,0.0949 a 1.4296046,1.4296046 0 0 0 0.0447,0.0209 1.4296046,1.4296046 0 0 0 0.003,0.001 c 0.16691,0.0678 0.34945,0.10611 0.54168,0.10611 0.49904,0 0.93544,-0.25136 1.19088,-0.63523 -5.1e-4,-3.8e-4 -7.2e-4,-7.1e-4 -0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.0195,-0.0335 c 0.0294,-0.047 0.0557,-0.0961 0.0796,-0.14659 a 1.4296046,1.4296046 0 0 0 0.0419,-0.0935 c 0.0623,-0.16107 0.0991,-0.33537 0.0991,-0.51935 0,-0.49904 -0.25136,-0.93544 -0.63522,-1.19087 -5.9e-4,7.1e-4 -7.1e-4,0.002 -0.001,0.003 a 1.4296046,1.4296046 0 0 0 -0.0503,-0.0307 c -0.0433,-0.0263 -0.0878,-0.0509 -0.13402,-0.0726 a 1.4296046,1.4296046 0 0 0 -0.0824,-0.0363 c -0.16295,-0.0641 -0.3397,-0.10191 -0.52633,-0.10191 z m -3.21661,0.74272 c -0.96793,0.0585 -1.64141,0.57377 -1.07779,2.18769 0.77489,2.21888 2.08461,1.3554 3.05466,0.24152 -0.54494,-0.3897 -0.90467,-1.02465 -0.90467,-1.74233 0,-0.20595 0.0387,-0.40172 0.0935,-0.59055 -0.39698,-0.0733 -0.80201,-0.1183 -1.16574,-0.0963 z m 4.95894,1.92661 c -0.3897,0.54495 -1.02465,0.90468 -1.74233,0.90468 -0.20642,0 -0.40273,-0.0385 -0.59194,-0.0935 -0.26839,1.45376 -0.12938,3.02046 2.09135,2.24492 2.21883,-0.77486 1.35649,-2.0857 0.24292,-3.05606 z"
+         id="path5135"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g5152"
+       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan2-16.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         ry="2"
+         rx="2"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient5065);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         id="rect4956"
+         width="16"
+         height="16"
+         x="144"
+         y="636.36218" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 149.5,647.86219 2,1.5 -2,1.5"
+         id="path4964"
+         inkscape:connector-curvature="0" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 152.5,647.86219 2,1.5 -2,1.5"
+         id="path4966"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path5141"
+         d="m 151.66071,636.86823 c -0.30197,-0.0263 -0.68298,0.0316 -1.16016,0.19825 -2.21883,0.77486 -1.35649,2.08569 -0.24292,3.05605 0.38964,-0.54543 1.02427,-0.90606 1.74233,-0.90606 0.20286,0 0.39586,0.0375 0.58217,0.0907 0.21128,-1.14056 0.18248,-2.34284 -0.92142,-2.43898 z m 3.38554,1.61388 c -0.60653,-0.0389 -1.25978,0.50999 -1.80655,1.13783 0.54453,0.38974 0.90467,1.02357 0.90467,1.74093 0,0.20642 -0.0385,0.40274 -0.0935,0.59194 1.45341,0.26818 3.01894,0.12904 2.24353,-2.09135 -0.33813,-0.96821 -0.77857,-1.34925 -1.24811,-1.37935 z m -3.04629,1.44916 c -0.49948,0 -0.93553,0.25218 -1.19088,0.63662 5.1e-4,3.7e-4 7.2e-4,7.1e-4 0.001,10e-4 a 1.4296046,1.4296046 0 0 0 -0.0293,0.0489 c -0.0239,0.0392 -0.0455,0.0798 -0.0656,0.12146 a 1.4296046,1.4296046 0 0 0 -0.0475,0.11028 c -0.0605,0.15893 -0.0977,0.32996 -0.0977,0.51098 0,0.49903 0.25136,0.93544 0.63522,1.19087 3.8e-4,-5.1e-4 7.2e-4,-7.2e-4 0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.028,0.0167 c 0.0562,0.0355 0.11473,0.0674 0.17591,0.0949 a 1.4296046,1.4296046 0 0 0 0.0447,0.0209 1.4296046,1.4296046 0 0 0 0.003,0.001 c 0.16691,0.0678 0.34945,0.10611 0.54168,0.10611 0.49904,0 0.93544,-0.25136 1.19088,-0.63523 -5.1e-4,-3.8e-4 -7.2e-4,-7.1e-4 -0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.0195,-0.0335 c 0.0294,-0.047 0.0557,-0.0961 0.0796,-0.14659 a 1.4296046,1.4296046 0 0 0 0.0419,-0.0935 c 0.0623,-0.16107 0.0991,-0.33537 0.0991,-0.51935 0,-0.49904 -0.25136,-0.93544 -0.63522,-1.19087 -5.9e-4,7.1e-4 -7.1e-4,0.002 -0.001,0.003 a 1.4296046,1.4296046 0 0 0 -0.0503,-0.0307 c -0.0433,-0.0263 -0.0878,-0.0509 -0.13402,-0.0726 a 1.4296046,1.4296046 0 0 0 -0.0824,-0.0363 c -0.16295,-0.0641 -0.3397,-0.10191 -0.52633,-0.10191 z m -3.21661,0.74272 c -0.96793,0.0585 -1.64141,0.57377 -1.07779,2.18769 0.77489,2.21888 2.08461,1.3554 3.05466,0.24152 -0.54494,-0.3897 -0.90467,-1.02465 -0.90467,-1.74233 0,-0.20595 0.0387,-0.40172 0.0935,-0.59055 -0.39698,-0.0733 -0.80201,-0.1183 -1.16574,-0.0963 z m 4.95894,1.92661 c -0.3897,0.54495 -1.02465,0.90468 -1.74233,0.90468 -0.20642,0 -0.40273,-0.0385 -0.59194,-0.0935 -0.26839,1.45376 -0.12938,3.02046 2.09135,2.24492 2.21883,-0.77486 1.35649,-2.0857 0.24292,-3.05606 z"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#aa8800;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+    </g>
+    <g
+       id="g5158"
+       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan3-16.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="636.36218"
+         x="176"
+         height="16"
+         width="16"
+         id="rect4970"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient5067);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         rx="2"
+         ry="2" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path4979"
+         d="m 180.5,647.86219 2,1.5 -2,1.5"
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path4981"
+         d="m 183.5,647.86219 2,1.5 -2,1.5"
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path4983"
+         d="m 186.5,647.86219 2,1.5 -2,1.5"
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#aa8800;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         d="m 183.66071,636.86823 c -0.30197,-0.0263 -0.68298,0.0316 -1.16016,0.19825 -2.21883,0.77486 -1.35649,2.08569 -0.24292,3.05605 0.38964,-0.54543 1.02427,-0.90606 1.74233,-0.90606 0.20286,0 0.39586,0.0375 0.58217,0.0907 0.21128,-1.14056 0.18248,-2.34284 -0.92142,-2.43898 z m 3.38554,1.61388 c -0.60653,-0.0389 -1.25978,0.50999 -1.80655,1.13783 0.54453,0.38974 0.90467,1.02357 0.90467,1.74093 0,0.20642 -0.0385,0.40274 -0.0935,0.59194 1.45341,0.26818 3.01894,0.12904 2.24353,-2.09135 -0.33813,-0.96821 -0.77857,-1.34925 -1.24811,-1.37935 z m -3.04629,1.44916 c -0.49948,0 -0.93553,0.25218 -1.19088,0.63662 5.1e-4,3.7e-4 7.2e-4,7.1e-4 0.001,10e-4 a 1.4296046,1.4296046 0 0 0 -0.0293,0.0489 c -0.0239,0.0392 -0.0455,0.0798 -0.0656,0.12146 a 1.4296046,1.4296046 0 0 0 -0.0475,0.11028 c -0.0605,0.15893 -0.0977,0.32996 -0.0977,0.51098 0,0.49903 0.25136,0.93544 0.63522,1.19087 3.8e-4,-5.1e-4 7.2e-4,-7.2e-4 0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.028,0.0167 c 0.0562,0.0355 0.11473,0.0674 0.17591,0.0949 a 1.4296046,1.4296046 0 0 0 0.0447,0.0209 1.4296046,1.4296046 0 0 0 0.003,0.001 c 0.16691,0.0678 0.34945,0.10611 0.54168,0.10611 0.49904,0 0.93544,-0.25136 1.19088,-0.63523 -5.1e-4,-3.8e-4 -7.2e-4,-7.1e-4 -0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.0195,-0.0335 c 0.0294,-0.047 0.0557,-0.0961 0.0796,-0.14659 a 1.4296046,1.4296046 0 0 0 0.0419,-0.0935 c 0.0623,-0.16107 0.0991,-0.33537 0.0991,-0.51935 0,-0.49904 -0.25136,-0.93544 -0.63522,-1.19087 -5.9e-4,7.1e-4 -7.1e-4,0.002 -0.001,0.003 a 1.4296046,1.4296046 0 0 0 -0.0503,-0.0307 c -0.0433,-0.0263 -0.0878,-0.0509 -0.13402,-0.0726 a 1.4296046,1.4296046 0 0 0 -0.0824,-0.0363 c -0.16295,-0.0641 -0.3397,-0.10191 -0.52633,-0.10191 z m -3.21661,0.74272 c -0.96793,0.0585 -1.64141,0.57377 -1.07779,2.18769 0.77489,2.21888 2.08461,1.3554 3.05466,0.24152 -0.54494,-0.3897 -0.90467,-1.02465 -0.90467,-1.74233 0,-0.20595 0.0387,-0.40172 0.0935,-0.59055 -0.39698,-0.0733 -0.80201,-0.1183 -1.16574,-0.0963 z m 4.95894,1.92661 c -0.3897,0.54495 -1.02465,0.90468 -1.74233,0.90468 -0.20642,0 -0.40273,-0.0385 -0.59194,-0.0935 -0.26839,1.45376 -0.12938,3.02046 2.09135,2.24492 2.21883,-0.77486 1.35649,-2.0857 0.24292,-3.05606 z"
+         id="path5143"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g5165"
+       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan4-16.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         ry="2"
+         rx="2"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient5069);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         id="rect4987"
+         width="16"
+         height="16"
+         x="208"
+         y="636.36218" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 213.5,647.86219 2,1.5 -2,1.5"
+         id="path4995"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path4997"
+         d="m 210.5,647.86219 2,1.5 -2,1.5"
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 216.5,647.86219 2,1.5 -2,1.5"
+         id="path4999"
+         inkscape:connector-curvature="0" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 219.5,647.86219 2,1.5 -2,1.5"
+         id="path5001"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path5145"
+         d="m 215.66071,636.86823 c -0.30197,-0.0263 -0.68298,0.0316 -1.16016,0.19825 -2.21883,0.77486 -1.35649,2.08569 -0.24292,3.05605 0.38964,-0.54543 1.02427,-0.90606 1.74233,-0.90606 0.20286,0 0.39586,0.0375 0.58217,0.0907 0.21128,-1.14056 0.18248,-2.34284 -0.92142,-2.43898 z m 3.38554,1.61388 c -0.60653,-0.0389 -1.25978,0.50999 -1.80655,1.13783 0.54453,0.38974 0.90467,1.02357 0.90467,1.74093 0,0.20642 -0.0385,0.40274 -0.0935,0.59194 1.45341,0.26818 3.01894,0.12904 2.24353,-2.09135 -0.33813,-0.96821 -0.77857,-1.34925 -1.24811,-1.37935 z m -3.04629,1.44916 c -0.49948,0 -0.93553,0.25218 -1.19088,0.63662 5.1e-4,3.7e-4 7.2e-4,7.1e-4 0.001,10e-4 a 1.4296046,1.4296046 0 0 0 -0.0293,0.0489 c -0.0239,0.0392 -0.0455,0.0798 -0.0656,0.12146 a 1.4296046,1.4296046 0 0 0 -0.0475,0.11028 c -0.0605,0.15893 -0.0977,0.32996 -0.0977,0.51098 0,0.49903 0.25136,0.93544 0.63522,1.19087 3.8e-4,-5.1e-4 7.2e-4,-7.2e-4 0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.028,0.0167 c 0.0562,0.0355 0.11473,0.0674 0.17591,0.0949 a 1.4296046,1.4296046 0 0 0 0.0447,0.0209 1.4296046,1.4296046 0 0 0 0.003,0.001 c 0.16691,0.0678 0.34945,0.10611 0.54168,0.10611 0.49904,0 0.93544,-0.25136 1.19088,-0.63523 -5.1e-4,-3.8e-4 -7.2e-4,-7.1e-4 -0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.0195,-0.0335 c 0.0294,-0.047 0.0557,-0.0961 0.0796,-0.14659 a 1.4296046,1.4296046 0 0 0 0.0419,-0.0935 c 0.0623,-0.16107 0.0991,-0.33537 0.0991,-0.51935 0,-0.49904 -0.25136,-0.93544 -0.63522,-1.19087 -5.9e-4,7.1e-4 -7.1e-4,0.002 -0.001,0.003 a 1.4296046,1.4296046 0 0 0 -0.0503,-0.0307 c -0.0433,-0.0263 -0.0878,-0.0509 -0.13402,-0.0726 a 1.4296046,1.4296046 0 0 0 -0.0824,-0.0363 c -0.16295,-0.0641 -0.3397,-0.10191 -0.52633,-0.10191 z m -3.21661,0.74272 c -0.96793,0.0585 -1.64141,0.57377 -1.07779,2.18769 0.77489,2.21888 2.08461,1.3554 3.05466,0.24152 -0.54494,-0.3897 -0.90467,-1.02465 -0.90467,-1.74233 0,-0.20595 0.0387,-0.40172 0.0935,-0.59055 -0.39698,-0.0733 -0.80201,-0.1183 -1.16574,-0.0963 z m 4.95894,1.92661 c -0.3897,0.54495 -1.02465,0.90468 -1.74233,0.90468 -0.20642,0 -0.40273,-0.0385 -0.59194,-0.0935 -0.26839,1.45376 -0.12938,3.02046 2.09135,2.24492 2.21883,-0.77486 1.35649,-2.0857 0.24292,-3.05606 z"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#aa8800;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+    </g>
+    <g
+       id="g5173"
+       transform="matrix(1.5,0,0,1.5,-56,-294.18109)"
+       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan1-24.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         ry="2"
+         rx="2"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient5217);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         id="rect5175"
+         width="16"
+         height="16"
+         x="112"
+         y="636.36218" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 119.5,647.86219 2,1.5 -2,1.5"
+         id="path5177"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path5179"
+         d="m 119.66071,636.86823 c -0.30197,-0.0263 -0.68298,0.0316 -1.16016,0.19825 -2.21883,0.77486 -1.35649,2.08569 -0.24292,3.05605 0.38964,-0.54543 1.02427,-0.90606 1.74233,-0.90606 0.20286,0 0.39586,0.0375 0.58217,0.0907 0.21128,-1.14056 0.18248,-2.34284 -0.92142,-2.43898 z m 3.38554,1.61388 c -0.60653,-0.0389 -1.25978,0.50999 -1.80655,1.13783 0.54453,0.38974 0.90467,1.02357 0.90467,1.74093 0,0.20642 -0.0385,0.40274 -0.0935,0.59194 1.45341,0.26818 3.01894,0.12904 2.24353,-2.09135 -0.33813,-0.96821 -0.77857,-1.34925 -1.24811,-1.37935 z m -3.04629,1.44916 c -0.49948,0 -0.93553,0.25218 -1.19088,0.63662 5.1e-4,3.7e-4 7.2e-4,7.1e-4 0.001,10e-4 a 1.4296046,1.4296046 0 0 0 -0.0293,0.0489 c -0.0239,0.0392 -0.0455,0.0798 -0.0656,0.12146 a 1.4296046,1.4296046 0 0 0 -0.0475,0.11028 c -0.0605,0.15893 -0.0977,0.32996 -0.0977,0.51098 0,0.49903 0.25136,0.93544 0.63522,1.19087 3.8e-4,-5.1e-4 7.2e-4,-7.2e-4 10e-4,-10e-4 a 1.4296046,1.4296046 0 0 0 0.028,0.0167 c 0.0562,0.0355 0.11473,0.0674 0.17591,0.0949 a 1.4296046,1.4296046 0 0 0 0.0447,0.0209 1.4296046,1.4296046 0 0 0 0.003,0.001 c 0.16691,0.0678 0.34945,0.10611 0.54168,0.10611 0.49904,0 0.93544,-0.25136 1.19088,-0.63523 -5.1e-4,-3.8e-4 -7.2e-4,-7.1e-4 -0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.0195,-0.0335 c 0.0294,-0.047 0.0557,-0.0961 0.0796,-0.14659 a 1.4296046,1.4296046 0 0 0 0.0419,-0.0935 c 0.0623,-0.16107 0.0991,-0.33537 0.0991,-0.51935 0,-0.49904 -0.25136,-0.93544 -0.63522,-1.19087 -5.9e-4,7.1e-4 -7.1e-4,0.002 -0.001,0.003 a 1.4296046,1.4296046 0 0 0 -0.0503,-0.0307 c -0.0433,-0.0263 -0.0878,-0.0509 -0.13402,-0.0726 a 1.4296046,1.4296046 0 0 0 -0.0824,-0.0363 c -0.16295,-0.0641 -0.3397,-0.10191 -0.52633,-0.10191 z m -3.21661,0.74272 c -0.96793,0.0585 -1.64141,0.57377 -1.07779,2.18769 0.77489,2.21888 2.08461,1.3554 3.05466,0.24152 -0.54494,-0.3897 -0.90467,-1.02465 -0.90467,-1.74233 0,-0.20595 0.0387,-0.40172 0.0935,-0.59055 -0.39698,-0.0733 -0.80201,-0.1183 -1.16574,-0.0963 z m 4.95894,1.92661 c -0.3897,0.54495 -1.02465,0.90468 -1.74233,0.90468 -0.20642,0 -0.40273,-0.0385 -0.59194,-0.0935 -0.26839,1.45376 -0.12938,3.02046 2.09135,2.24492 2.21883,-0.77486 1.35649,-2.0857 0.24292,-3.05606 z"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#aa8800;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+    </g>
+    <g
+       id="g5181"
+       transform="matrix(1.5,0,0,1.5,-72,-294.18109)"
+       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan2-24.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="636.36218"
+         x="144"
+         height="16"
+         width="16"
+         id="rect5183"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient5219);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         rx="2"
+         ry="2" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path5185"
+         d="m 149.5,647.86219 2,1.5 -2,1.5"
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path5187"
+         d="m 152.5,647.86219 2,1.5 -2,1.5"
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#aa8800;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         d="m 151.66071,636.86823 c -0.30197,-0.0263 -0.68298,0.0316 -1.16016,0.19825 -2.21883,0.77486 -1.35649,2.08569 -0.24292,3.05605 0.38964,-0.54543 1.02427,-0.90606 1.74233,-0.90606 0.20286,0 0.39586,0.0375 0.58217,0.0907 0.21128,-1.14056 0.18248,-2.34284 -0.92142,-2.43898 z m 3.38554,1.61388 c -0.60653,-0.0389 -1.25978,0.50999 -1.80655,1.13783 0.54453,0.38974 0.90467,1.02357 0.90467,1.74093 0,0.20642 -0.0385,0.40274 -0.0935,0.59194 1.45341,0.26818 3.01894,0.12904 2.24353,-2.09135 -0.33813,-0.96821 -0.77857,-1.34925 -1.24811,-1.37935 z m -3.04629,1.44916 c -0.49948,0 -0.93553,0.25218 -1.19088,0.63662 5.1e-4,3.7e-4 7.2e-4,7.1e-4 0.001,10e-4 a 1.4296046,1.4296046 0 0 0 -0.0293,0.0489 c -0.0239,0.0392 -0.0455,0.0798 -0.0656,0.12146 a 1.4296046,1.4296046 0 0 0 -0.0475,0.11028 c -0.0605,0.15893 -0.0977,0.32996 -0.0977,0.51098 0,0.49903 0.25136,0.93544 0.63522,1.19087 3.8e-4,-5.1e-4 7.2e-4,-7.2e-4 0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.028,0.0167 c 0.0562,0.0355 0.11473,0.0674 0.17591,0.0949 a 1.4296046,1.4296046 0 0 0 0.0447,0.0209 1.4296046,1.4296046 0 0 0 0.003,0.001 c 0.16691,0.0678 0.34945,0.10611 0.54168,0.10611 0.49904,0 0.93544,-0.25136 1.19088,-0.63523 -5.1e-4,-3.8e-4 -7.2e-4,-7.1e-4 -0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.0195,-0.0335 c 0.0294,-0.047 0.0557,-0.0961 0.0796,-0.14659 a 1.4296046,1.4296046 0 0 0 0.0419,-0.0935 c 0.0623,-0.16107 0.0991,-0.33537 0.0991,-0.51935 0,-0.49904 -0.25136,-0.93544 -0.63522,-1.19087 -5.9e-4,7.1e-4 -7.1e-4,0.002 -0.001,0.003 a 1.4296046,1.4296046 0 0 0 -0.0503,-0.0307 c -0.0433,-0.0263 -0.0878,-0.0509 -0.13402,-0.0726 a 1.4296046,1.4296046 0 0 0 -0.0824,-0.0363 c -0.16295,-0.0641 -0.3397,-0.10191 -0.52633,-0.10191 z m -3.21661,0.74272 c -0.96793,0.0585 -1.64141,0.57377 -1.07779,2.18769 0.77489,2.21888 2.08461,1.3554 3.05466,0.24152 -0.54494,-0.3897 -0.90467,-1.02465 -0.90467,-1.74233 0,-0.20595 0.0387,-0.40172 0.0935,-0.59055 -0.39698,-0.0733 -0.80201,-0.1183 -1.16574,-0.0963 z m 4.95894,1.92661 c -0.3897,0.54495 -1.02465,0.90468 -1.74233,0.90468 -0.20642,0 -0.40273,-0.0385 -0.59194,-0.0935 -0.26839,1.45376 -0.12938,3.02046 2.09135,2.24492 2.21883,-0.77486 1.35649,-2.0857 0.24292,-3.05606 z"
+         id="path5189"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g5191"
+       transform="matrix(1.5,0,0,1.5,-88,-294.18109)"
+       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan3-24.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         ry="2"
+         rx="2"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient5221);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         id="rect5193"
+         width="16"
+         height="16"
+         x="176"
+         y="636.36218" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 180.5,647.86219 2,1.5 -2,1.5"
+         id="path5195"
+         inkscape:connector-curvature="0" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 183.5,647.86219 2,1.5 -2,1.5"
+         id="path5197"
+         inkscape:connector-curvature="0" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 186.5,647.86219 2,1.5 -2,1.5"
+         id="path5199"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path5201"
+         d="m 183.66071,636.86823 c -0.30197,-0.0263 -0.68298,0.0316 -1.16016,0.19825 -2.21883,0.77486 -1.35649,2.08569 -0.24292,3.05605 0.38964,-0.54543 1.02427,-0.90606 1.74233,-0.90606 0.20286,0 0.39586,0.0375 0.58217,0.0907 0.21128,-1.14056 0.18248,-2.34284 -0.92142,-2.43898 z m 3.38554,1.61388 c -0.60653,-0.0389 -1.25978,0.50999 -1.80655,1.13783 0.54453,0.38974 0.90467,1.02357 0.90467,1.74093 0,0.20642 -0.0385,0.40274 -0.0935,0.59194 1.45341,0.26818 3.01894,0.12904 2.24353,-2.09135 -0.33813,-0.96821 -0.77857,-1.34925 -1.24811,-1.37935 z m -3.04629,1.44916 c -0.49948,0 -0.93553,0.25218 -1.19088,0.63662 5.1e-4,3.7e-4 7.2e-4,7.1e-4 0.001,10e-4 a 1.4296046,1.4296046 0 0 0 -0.0293,0.0489 c -0.0239,0.0392 -0.0455,0.0798 -0.0656,0.12146 a 1.4296046,1.4296046 0 0 0 -0.0475,0.11028 c -0.0605,0.15893 -0.0977,0.32996 -0.0977,0.51098 0,0.49903 0.25136,0.93544 0.63522,1.19087 3.8e-4,-5.1e-4 7.2e-4,-7.2e-4 0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.028,0.0167 c 0.0562,0.0355 0.11473,0.0674 0.17591,0.0949 a 1.4296046,1.4296046 0 0 0 0.0447,0.0209 1.4296046,1.4296046 0 0 0 0.003,0.001 c 0.16691,0.0678 0.34945,0.10611 0.54168,0.10611 0.49904,0 0.93544,-0.25136 1.19088,-0.63523 -5.1e-4,-3.8e-4 -7.2e-4,-7.1e-4 -0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.0195,-0.0335 c 0.0294,-0.047 0.0557,-0.0961 0.0796,-0.14659 a 1.4296046,1.4296046 0 0 0 0.0419,-0.0935 c 0.0623,-0.16107 0.0991,-0.33537 0.0991,-0.51935 0,-0.49904 -0.25136,-0.93544 -0.63522,-1.19087 -5.9e-4,7.1e-4 -7.1e-4,0.002 -0.001,0.003 a 1.4296046,1.4296046 0 0 0 -0.0503,-0.0307 c -0.0433,-0.0263 -0.0878,-0.0509 -0.13402,-0.0726 a 1.4296046,1.4296046 0 0 0 -0.0824,-0.0363 c -0.16295,-0.0641 -0.3397,-0.10191 -0.52633,-0.10191 z m -3.21661,0.74272 c -0.96793,0.0585 -1.64141,0.57377 -1.07779,2.18769 0.77489,2.21888 2.08461,1.3554 3.05466,0.24152 -0.54494,-0.3897 -0.90467,-1.02465 -0.90467,-1.74233 0,-0.20595 0.0387,-0.40172 0.0935,-0.59055 -0.39698,-0.0733 -0.80201,-0.1183 -1.16574,-0.0963 z m 4.95894,1.92661 c -0.3897,0.54495 -1.02465,0.90468 -1.74233,0.90468 -0.20642,0 -0.40273,-0.0385 -0.59194,-0.0935 -0.26839,1.45376 -0.12938,3.02046 2.09135,2.24492 2.21883,-0.77486 1.35649,-2.0857 0.24292,-3.05606 z"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#aa8800;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+    </g>
+    <g
+       id="g5203"
+       transform="matrix(1.5,0,0,1.5,-104,-294.18109)"
+       inkscape:export-filename="C:\home\dev\git\private\climate-tray\src\main\resources\io\github\thred\climatetray\icon-fan4-24.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         y="636.36218"
+         x="208"
+         height="16"
+         width="16"
+         id="rect5205"
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:url(#linearGradient5223);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         rx="2"
+         ry="2" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path5207"
+         d="m 213.5,647.86219 2,1.5 -2,1.5"
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1"
+         d="m 210.5,647.86219 2,1.5 -2,1.5"
+         id="path5209"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path5211"
+         d="m 216.5,647.86219 2,1.5 -2,1.5"
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path5213"
+         d="m 219.5,647.86219 2,1.5 -2,1.5"
+         style="fill:none;fill-rule:evenodd;stroke:#aa8800;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#aa8800;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+         d="m 215.66071,636.86823 c -0.30197,-0.0263 -0.68298,0.0316 -1.16016,0.19825 -2.21883,0.77486 -1.35649,2.08569 -0.24292,3.05605 0.38964,-0.54543 1.02427,-0.90606 1.74233,-0.90606 0.20286,0 0.39586,0.0375 0.58217,0.0907 0.21128,-1.14056 0.18248,-2.34284 -0.92142,-2.43898 z m 3.38554,1.61388 c -0.60653,-0.0389 -1.25978,0.50999 -1.80655,1.13783 0.54453,0.38974 0.90467,1.02357 0.90467,1.74093 0,0.20642 -0.0385,0.40274 -0.0935,0.59194 1.45341,0.26818 3.01894,0.12904 2.24353,-2.09135 -0.33813,-0.96821 -0.77857,-1.34925 -1.24811,-1.37935 z m -3.04629,1.44916 c -0.49948,0 -0.93553,0.25218 -1.19088,0.63662 5.1e-4,3.7e-4 7.2e-4,7.1e-4 0.001,10e-4 a 1.4296046,1.4296046 0 0 0 -0.0293,0.0489 c -0.0239,0.0392 -0.0455,0.0798 -0.0656,0.12146 a 1.4296046,1.4296046 0 0 0 -0.0475,0.11028 c -0.0605,0.15893 -0.0977,0.32996 -0.0977,0.51098 0,0.49903 0.25136,0.93544 0.63522,1.19087 3.8e-4,-5.1e-4 7.2e-4,-7.2e-4 0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.028,0.0167 c 0.0562,0.0355 0.11473,0.0674 0.17591,0.0949 a 1.4296046,1.4296046 0 0 0 0.0447,0.0209 1.4296046,1.4296046 0 0 0 0.003,0.001 c 0.16691,0.0678 0.34945,0.10611 0.54168,0.10611 0.49904,0 0.93544,-0.25136 1.19088,-0.63523 -5.1e-4,-3.8e-4 -7.2e-4,-7.1e-4 -0.001,-10e-4 a 1.4296046,1.4296046 0 0 0 0.0195,-0.0335 c 0.0294,-0.047 0.0557,-0.0961 0.0796,-0.14659 a 1.4296046,1.4296046 0 0 0 0.0419,-0.0935 c 0.0623,-0.16107 0.0991,-0.33537 0.0991,-0.51935 0,-0.49904 -0.25136,-0.93544 -0.63522,-1.19087 -5.9e-4,7.1e-4 -7.1e-4,0.002 -0.001,0.003 a 1.4296046,1.4296046 0 0 0 -0.0503,-0.0307 c -0.0433,-0.0263 -0.0878,-0.0509 -0.13402,-0.0726 a 1.4296046,1.4296046 0 0 0 -0.0824,-0.0363 c -0.16295,-0.0641 -0.3397,-0.10191 -0.52633,-0.10191 z m -3.21661,0.74272 c -0.96793,0.0585 -1.64141,0.57377 -1.07779,2.18769 0.77489,2.21888 2.08461,1.3554 3.05466,0.24152 -0.54494,-0.3897 -0.90467,-1.02465 -0.90467,-1.74233 0,-0.20595 0.0387,-0.40172 0.0935,-0.59055 -0.39698,-0.0733 -0.80201,-0.1183 -1.16574,-0.0963 z m 4.95894,1.92661 c -0.3897,0.54495 -1.02465,0.90468 -1.74233,0.90468 -0.20642,0 -0.40273,-0.0385 -0.59194,-0.0935 -0.26839,1.45376 -0.12938,3.02046 2.09135,2.24492 2.21883,-0.77486 1.35649,-2.0857 0.24292,-3.05606 z"
+         id="path5215"
+         inkscape:connector-curvature="0" />
     </g>
   </g>
 </svg>
