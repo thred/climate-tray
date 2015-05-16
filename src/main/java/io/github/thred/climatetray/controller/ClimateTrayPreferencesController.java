@@ -17,7 +17,7 @@ package io.github.thred.climatetray.controller;
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
 import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.ClimateTrayPreferences;
-import io.github.thred.climatetray.util.MessageList;
+import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.TemperatureUnit;
 import io.github.thred.climatetray.util.swing.GBC;
 
@@ -74,6 +74,13 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
     }
 
     @Override
+    public void modified(MessageBuffer messageBuffer)
+    {
+        presetListController.modified(messageBuffer);
+        deviceListController.modified(messageBuffer);
+    }
+
+    @Override
     public void apply(ClimateTrayPreferences model)
     {
         model.setTemperatureUnit((TemperatureUnit) temperatureUnitBox.getSelectedItem());
@@ -82,19 +89,19 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
         deviceListController.apply(model.getDevices());
     }
 
-    @Override
-    public void modified(MessageList messages)
-    {
-        presetListController.modified(messages);
-        deviceListController.modified(messages);
-    }
-
     public void refresh()
     {
         ClimateTray.PREFERENCES.setTemperatureUnit((TemperatureUnit) temperatureUnitBox.getSelectedItem());
 
         presetListController.refresh();
         deviceListController.refresh();
+    }
+
+    @Override
+    public void dismiss(ClimateTrayPreferences model)
+    {
+        presetListController.dismiss(model.getPresets());
+        deviceListController.dismiss(model.getDevices());
     }
 
 }

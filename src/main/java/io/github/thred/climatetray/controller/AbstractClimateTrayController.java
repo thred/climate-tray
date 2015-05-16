@@ -14,7 +14,7 @@
  */
 package io.github.thred.climatetray.controller;
 
-import io.github.thred.climatetray.util.MessageList;
+import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.swing.Monitor;
 import io.github.thred.climatetray.util.swing.MonitorListener;
 
@@ -47,8 +47,10 @@ public abstract class AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
 
     public abstract void prepare(MODEL_TYPE model);
 
+    public abstract void modified(MessageBuffer messageBuffer);
+    
     public abstract void apply(MODEL_TYPE model);
 
-    public abstract void modified(MessageList messages);
+    public abstract void dismiss(MODEL_TYPE model);
 
 }

@@ -12,20 +12,13 @@
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package io.github.thred.climatetray.controller;
+package io.github.thred.climatetray.util;
 
-import io.github.thred.climatetray.mnet.MNetPreset;
-import io.github.thred.climatetray.mnet.MNetPresetController;
+import java.util.EventListener;
 
-public class ClimateTrayPresetDialogController extends
-    AbstractClimateTrayDialogController<MNetPreset, MNetPresetController>
+public interface MessageListener extends EventListener
 {
 
-    public ClimateTrayPresetDialogController()
-    {
-        super(new MNetPresetController(), Button.OK, Button.CANCEL);
-
-        setTitle("Preset");
-    }
+    void messageAdded(Message message);
 
 }

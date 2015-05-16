@@ -21,7 +21,7 @@ import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.ClimateTrayPreferences;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
-import io.github.thred.climatetray.util.MessageList;
+import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
 import java.awt.Component;
@@ -48,6 +48,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
     private final JMenuItem preferencesItem = createMenuItem("Preferences...", null,
         "Manage the presets, devices and other settings.", (e) -> ClimateTray.preferences());
+    private final JMenuItem logItem = createMenuItem("Log...", null, null, (e) -> ClimateTray.log());
     private final JMenuItem aboutItem = createMenuItem("About...", null, null, (e) -> ClimateTray.about());
     private final JMenuItem exitItem = createMenuItem("Exit", null, null, (e) -> ClimateTray.exit());
     private final List<Component> dynamicItems = new ArrayList<>();
@@ -62,6 +63,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         view.addPopupMenuListener(this);
 
         view.add(preferencesItem);
+        view.add(logItem);
         view.add(aboutItem);
         view.addSeparator();
         view.add(exitItem);
@@ -154,17 +156,21 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     }
 
     @Override
-    public void apply(ClimateTrayPreferences model)
+    public void modified(MessageBuffer messageBuffer)
     {
-        // TODO Auto-generated method stub
-
+        // intentionally left blank
     }
 
     @Override
-    public void modified(MessageList messages)
+    public void apply(ClimateTrayPreferences model)
     {
-        // TODO Auto-generated method stub
+        // intentionally left blank
+    }
 
+    @Override
+    public void dismiss(ClimateTrayPreferences model)
+    {
+        // intentionally left blank
     }
 
     public void consume()

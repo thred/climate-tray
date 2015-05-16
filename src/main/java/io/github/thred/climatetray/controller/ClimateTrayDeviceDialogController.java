@@ -25,7 +25,7 @@ public class ClimateTrayDeviceDialogController extends
 
     public ClimateTrayDeviceDialogController()
     {
-        super(new MNetDeviceController(), BUTTON_OK_CANCEL);
+        super(new MNetDeviceController(), Button.OK, Button.CANCEL);
 
         setTitle("Device");
         setDescription(new Message(Severity.INFO, "Look on the device for the necessary informations."));

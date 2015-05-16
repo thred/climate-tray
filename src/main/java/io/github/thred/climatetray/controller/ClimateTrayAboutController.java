@@ -1,27 +1,29 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray.controller;
 
+import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.ClimateTrayPreferences;
-import io.github.thred.climatetray.util.MessageList;
+import io.github.thred.climatetray.util.MessageBuffer;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -51,16 +53,20 @@ public class ClimateTrayAboutController extends AbstractClimateTrayController<Cl
                 {
                     try
                     {
-                        Desktop.getDesktop().browse(event.getURL().toURI());
+                        URL url = event.getURL();
+
+                        ClimateTray.LOG.info("Opening browser with URL: %s", url);
+
+                        Desktop.getDesktop().browse(url.toURI());
                     }
                     catch (IOException | URISyntaxException e)
                     {
-                        e.printStackTrace(System.err);
+                        ClimateTray.LOG.warn("Failed to open hyperlink", e);
                     }
                 }
             }
         });
-        
+
         try
         {
             textPane.setText(new String(Files.readAllBytes(Paths.get(getClass().getResource("about.html").toURI()))));
@@ -86,13 +92,19 @@ public class ClimateTrayAboutController extends AbstractClimateTrayController<Cl
     }
 
     @Override
+    public void modified(MessageBuffer messageBuffer)
+    {
+        // intentionally left blank
+    }
+
+    @Override
     public void apply(ClimateTrayPreferences model)
     {
         // intentionally left blank
     }
 
     @Override
-    public void modified(MessageList messages)
+    public void dismiss(ClimateTrayPreferences model)
     {
         // intentionally left blank
     }

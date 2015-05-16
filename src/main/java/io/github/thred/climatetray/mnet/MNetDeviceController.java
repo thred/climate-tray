@@ -16,7 +16,7 @@ package io.github.thred.climatetray.mnet;
 
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
 import io.github.thred.climatetray.controller.AbstractClimateTrayController;
-import io.github.thred.climatetray.util.MessageList;
+import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.Utils;
 import io.github.thred.climatetray.util.swing.GBC;
 
@@ -66,6 +66,24 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     }
 
     @Override
+    public void modified(MessageBuffer messageBuffer)
+    {
+        String name = nameField.getText().trim();
+        
+        if (name.length() <= 0)
+        {
+            messageBuffer.error("The name is missing.");
+        }
+        
+        String host = hostField.getText().trim();
+        
+        if (host.length() <= 0)
+        {
+            messageBuffer.error("The host is missing.");
+        }
+    }
+    
+    @Override
     public void apply(MNetDevice model)
     {
         model.setName(nameField.getText().trim());
@@ -74,20 +92,9 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     }
 
     @Override
-    public void modified(MessageList messages)
+    public void dismiss(MNetDevice model)
     {
-        String name = nameField.getText().trim();
-
-        if (name.length() <= 0)
-        {
-            messages.addError("The name is missing.");
-        }
-
-        String host = hostField.getText().trim();
-
-        if (host.length() <= 0)
-        {
-            messages.addError("The host is missing.");
-        }
+        // intentionally left blank
     }
+    
 }

@@ -15,7 +15,7 @@
 package io.github.thred.climatetray.controller;
 
 import io.github.thred.climatetray.util.Copyable;
-import io.github.thred.climatetray.util.MessageList;
+import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.swing.AdvancedListModel;
 import io.github.thred.climatetray.util.swing.GBC;
 import io.github.thred.climatetray.util.swing.SwingUtils;
@@ -101,6 +101,12 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
     }
 
     @Override
+    public void modified(MessageBuffer messageBuffer)
+    {
+        update();
+    }
+
+    @Override
     public void apply(List<TYPE> model)
     {
         model.clear();
@@ -109,9 +115,9 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
     }
 
     @Override
-    public void modified(MessageList messages)
+    public void dismiss(List<TYPE> model)
     {
-        update();
+        // intentionally left blank
     }
 
     public void refresh()

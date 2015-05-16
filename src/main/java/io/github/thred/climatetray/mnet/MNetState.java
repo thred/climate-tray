@@ -25,10 +25,10 @@ import javax.swing.Icon;
 public class MNetState implements Copyable<MNetState>, Persistent
 {
 
-    private MNetMode mode;
-    private Double temperature;
-    private MNetFan fan;
-    private MNetAir air;
+    private MNetMode mode = MNetMode.OFF;
+    private Double temperature = Double.valueOf(22);
+    private MNetFan fan = MNetFan.MEDIUM_1;
+    private MNetAir air = MNetAir.POSITION_1;
 
     public MNetState()
     {
@@ -122,9 +122,9 @@ public class MNetState implements Copyable<MNetState>, Persistent
     public void read(Prefs prefs)
     {
         mode = prefs.getEnum(MNetMode.class, "mode", MNetMode.OFF);
-        temperature = prefs.getDouble("temperature", null);
-        fan = prefs.getEnum(MNetFan.class, "fan", null);
-        air = prefs.getEnum(MNetAir.class, "air", null);
+        temperature = prefs.getDouble("temperature", temperature);
+        fan = prefs.getEnum(MNetFan.class, "fan", fan);
+        air = prefs.getEnum(MNetAir.class, "air", air);
     }
 
     @Override

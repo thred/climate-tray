@@ -14,6 +14,7 @@
  */
 package io.github.thred.climatetray.controller;
 
+import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.ClimateTrayPreferences;
 
 public class ClimateTrayAboutDialogController extends
@@ -22,10 +23,18 @@ public class ClimateTrayAboutDialogController extends
 
     public ClimateTrayAboutDialogController()
     {
-        super(new ClimateTrayAboutController(), BUTTON_CLOSE);
+        super(new ClimateTrayAboutController(), Button.CLOSE);
 
         setTitle("Climate Tray");
         setDescription("Simple control utility for A/Cs.");
+    }
+
+    @Override
+    public void dismiss(ClimateTrayPreferences model)
+    {
+        ClimateTray.LOG.debug("Closing about dialog.");
+
+        super.dismiss(model);
     }
 
 }

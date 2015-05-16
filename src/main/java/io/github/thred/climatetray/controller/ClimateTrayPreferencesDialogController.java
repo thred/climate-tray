@@ -23,15 +23,25 @@ public class ClimateTrayPreferencesDialogController extends
 
     public ClimateTrayPreferencesDialogController()
     {
-        super(new ClimateTrayPreferencesController(), BUTTON_OK_CANCEL);
+        super(new ClimateTrayPreferencesController(), Button.OK, Button.CANCEL);
 
         setTitle("Preferences");
     }
 
     @Override
-    protected void success(ClimateTrayPreferences model)
+    public void ok()
     {
+        super.ok();
+
         ClimateTray.store();
+    }
+
+    @Override
+    public void dismiss(ClimateTrayPreferences model)
+    {
+        ClimateTray.LOG.debug("Closing preferences dialog.");
+
+        super.dismiss(model);
     }
 
 }

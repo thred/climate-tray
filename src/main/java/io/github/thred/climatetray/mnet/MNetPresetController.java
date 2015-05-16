@@ -17,7 +17,7 @@ package io.github.thred.climatetray.mnet;
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
 import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.controller.AbstractClimateTrayController;
-import io.github.thred.climatetray.util.MessageList;
+import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.TemperatureUnit;
 import io.github.thred.climatetray.util.swing.GBC;
 
@@ -100,6 +100,16 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
     }
 
     @Override
+    public void modified(MessageBuffer messageBuffer)
+    {
+        MNetMode mode = (MNetMode) modeBox.getSelectedItem();
+
+        temperatureSpinner.setEnabled(mode.isTemperatureEnabled());
+        fanBox.setEnabled(mode.isFanEnabled());
+        airBox.setEnabled(mode.isAirEnabled());
+    }
+
+    @Override
     public void apply(MNetPreset model)
     {
         TemperatureUnit temperatureUnit = ClimateTray.PREFERENCES.getTemperatureUnit();
@@ -112,12 +122,8 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
     }
 
     @Override
-    public void modified(MessageList messages)
+    public void dismiss(MNetPreset model)
     {
-        MNetMode mode = (MNetMode) modeBox.getSelectedItem();
-
-        temperatureSpinner.setEnabled(mode.isTemperatureEnabled());
-        fanBox.setEnabled(mode.isFanEnabled());
-        airBox.setEnabled(mode.isAirEnabled());
+        // intentionally left blank
     }
 }
