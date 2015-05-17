@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -28,8 +28,6 @@ import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.UUID;
 
 import javax.swing.UIManager;
@@ -44,7 +42,7 @@ public class ClimateTray
 
     public static final ClimateTrayPreferences PREFERENCES = new ClimateTrayPreferences();
 
-    private static final Timer TIMER = new Timer();
+    public static final ClimateTrayProcessor PROCESSOR = new ClimateTrayProcessor();
 
     private static final TrayIcon TRAY_ICON = new TrayIcon(ClimateTrayImage.ICON.getImage(
         ClimateTrayImageState.NOT_SELECTED, 16));
@@ -98,8 +96,7 @@ public class ClimateTray
         }
 
         load();
-
-        start();
+        scheduleUpdate();
     }
 
     public static void load()
@@ -120,36 +117,13 @@ public class ClimateTray
     public static void store()
     {
         PREFERENCES.write(PREFS);
-        
+
         LOG.info("Preferences stored.");
     }
 
-    public static void start()
+    public static void scheduleUpdate()
     {
-        LOG.info("Starting scheduled task...");
-
-        TIMER.scheduleAtFixedRate(new TimerTask()
-        {
-            @Override
-            public void run()
-            {
-                try
-                {
-                    update();
-                }
-                catch (Throwable e)
-                {
-                    LOG.error("Failed to perform update", e);
-                }
-            }
-        }, 0, PREFS.getLong("update-schedule-in-minutes", 1l) * 60 * 1000);
-    }
-
-    public static void stop()
-    {
-        TIMER.cancel();
-
-        LOG.info("Stopped scheduled task.");
+        PROCESSOR.scheduleUpdate(PREFERENCES.getUpdatePeriodInMinutes());
     }
 
     public static void popup(int x, int y)
@@ -223,7 +197,7 @@ public class ClimateTray
     {
         LOG.info("Exiting.");
 
-        stop();
+        PROCESSOR.shutdown();
 
         SystemTray tray = SystemTray.getSystemTray();
 

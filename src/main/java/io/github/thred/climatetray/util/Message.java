@@ -17,9 +17,12 @@ package io.github.thred.climatetray.util;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Date;
 
 public class Message
 {
+
+    private final Date timestamp = new Date();
 
     private final Severity severity;
     private final String message;
@@ -37,6 +40,11 @@ public class Message
         this(severity, combine(String.format(message, args), exception));
     }
 
+    public Date getTimestamp()
+    {
+        return timestamp;
+    }
+
     public Severity getSeverity()
     {
         return severity;
@@ -47,39 +55,45 @@ public class Message
         return message;
     }
 
-    public void delegate() {
-        switch (severity) {
+    public void delegate()
+    {
+        switch (severity)
+        {
             case ERROR:
             case WARN:
                 System.err.println(this);
                 break;
-                
+
             default:
                 System.out.println(this);
                 break;
         }
     }
-    
+
     @Override
     public String toString()
     {
-        return String.format("%s: %s", severity, message);
+        return String.format("%1$tH:%1$tM:%1$tS.%1$tL %2$5s: %3$s", timestamp, severity, message);
     }
 
     private static String combine(String message, Throwable exception)
     {
-        if (exception == null) {
+        if (exception == null)
+        {
             return message;
         }
 
-        try (StringWriter stringWriter = new StringWriter()) {
-            try (PrintWriter printWriter = new PrintWriter(stringWriter, true)) {
+        try (StringWriter stringWriter = new StringWriter())
+        {
+            try (PrintWriter printWriter = new PrintWriter(stringWriter, true))
+            {
                 exception.printStackTrace(printWriter);
             }
 
             return message + "\n\t" + stringWriter.toString().replace("\n", "\n\t");
         }
-        catch (IOException e) {
+        catch (IOException e)
+        {
             // i don't think, that this may happen
             return message + " [" + exception + "]";
         }

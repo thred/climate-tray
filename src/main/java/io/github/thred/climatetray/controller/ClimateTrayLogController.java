@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -54,7 +54,7 @@ public class ClimateTrayLogController extends AbstractClimateTrayController<Mess
         Style mainStyle = styleContext.addStyle("main", defaultStyle);
 
         StyleConstants.setFontFamily(mainStyle, Font.MONOSPACED);
-        StyleConstants.setFontSize(mainStyle, 11);
+        StyleConstants.setFontSize(mainStyle, 12);
         StyleConstants.setBold(mainStyle, true);
 
         errorStyle = styleContext.addStyle("error", mainStyle);
@@ -72,6 +72,7 @@ public class ClimateTrayLogController extends AbstractClimateTrayController<Mess
         debugStyle = styleContext.addStyle("debug", mainStyle);
 
         StyleConstants.setForeground(debugStyle, new Color(0xb3b3b3));
+        StyleConstants.setFontSize(debugStyle, 10);
     }
 
     @Override
@@ -132,13 +133,17 @@ public class ClimateTrayLogController extends AbstractClimateTrayController<Mess
                 throw new UnsupportedOperationException("Severity not supported: " + message.getSeverity());
         }
 
-        StyledDocument document = view.getStyledDocument();
+        append(debugStyle, String.format("%1$tH:%1$tM:%1$tS.%1$tL ", message.getTimestamp()));
+        append(style, message.getMessage() + "\n");
+    }
 
-        // view.insertIcon(message.getSeverity().getImage().getIcon(ClimateTrayImageState.NONE, 16));
+    public void append(Style style, String text)
+    {
+        StyledDocument document = view.getStyledDocument();
 
         try
         {
-            document.insertString(document.getLength(), message.getMessage() + "\n", style);
+            document.insertString(document.getLength(), text, style);
         }
         catch (BadLocationException e)
         {
