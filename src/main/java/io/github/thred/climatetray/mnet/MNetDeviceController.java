@@ -21,6 +21,8 @@ import io.github.thred.climatetray.util.Utils;
 import io.github.thred.climatetray.util.swing.GBC;
 
 import java.awt.GridBagLayout;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -32,28 +34,28 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
 
     private final JTextField nameField = monitor(createTextField("", 32));
     private final JTextField hostField = monitor(createTextField("", 32));
-    private final JSpinner addressField = monitor(createSpinner(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1)));
-    private final JPanel view = new JPanel(new GridBagLayout());
+    private final JSpinner addressField = monitor(createSpinner(new SpinnerNumberModel(1, 1, 50, 1)));
 
     public MNetDeviceController()
     {
         super();
+    }
 
+    @Override
+    protected JPanel createView()
+    {
+        JPanel view = new JPanel(new GridBagLayout());
         GBC gbc = new GBC(3, 4);
 
         view.add(createLabel("Name:", nameField), gbc);
         view.add(nameField, gbc.next().span(2).hFill());
 
-        view.add(createLabel("Host:", hostField), gbc.next());
+        view.add(createLabel("Host / URL:", hostField), gbc.next());
         view.add(hostField, gbc.next().span(2).hFill());
 
         view.add(createLabel("Address:", addressField), gbc.next());
         view.add(addressField, gbc.next().hFill());
-    }
 
-    @Override
-    public JPanel getView()
-    {
         return view;
     }
 
@@ -69,20 +71,36 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     public void modified(MessageBuffer messageBuffer)
     {
         String name = nameField.getText().trim();
-        
+
         if (name.length() <= 0)
         {
             messageBuffer.error("The name is missing.");
         }
-        
+
         String host = hostField.getText().trim();
-        
+
         if (host.length() <= 0)
         {
-            messageBuffer.error("The host is missing.");
+            messageBuffer.error("The host / URL is missing.");
+        }
+
+        URL url = null;
+
+        try
+        {
+            url = MNetUtils.toURL(host);
+        }
+        catch (MalformedURLException e)
+        {
+            messageBuffer.error("The host / URL is invalid.");
+        }
+
+        if (url != null)
+        {
+            messageBuffer.info(url.toExternalForm());
         }
     }
-    
+
     @Override
     public void apply(MNetDevice model)
     {
@@ -96,5 +114,5 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     {
         // intentionally left blank
     }
-    
+
 }

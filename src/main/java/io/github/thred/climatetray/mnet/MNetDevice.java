@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -18,6 +18,8 @@ import io.github.thred.climatetray.util.Copyable;
 import io.github.thred.climatetray.util.Persistent;
 import io.github.thred.climatetray.util.prefs.Prefs;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.UUID;
 
 public class MNetDevice implements Copyable<MNetDevice>, Persistent
@@ -32,13 +34,16 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
     private MNetState state = new MNetState();
     private MNetPreset preset = new MNetPreset();
 
+    private Integer group = null;
+    private String model = null;
+
     public MNetDevice()
     {
         super();
     }
 
     public MNetDevice(UUID id, String name, String host, Integer address, boolean enabled, MNetState state,
-        MNetPreset preset)
+        MNetPreset preset, Integer group, String model)
     {
         super();
 
@@ -49,12 +54,15 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         this.enabled = enabled;
         this.state = state;
         this.preset = preset;
+        this.group = group;
+        this.model = model;
     }
 
     @Override
     public MNetDevice deepCopy()
     {
-        return new MNetDevice(id, name, host, address, enabled, Copyable.deepCopy(state), Copyable.deepCopy(preset));
+        return new MNetDevice(id, name, host, address, enabled, Copyable.deepCopy(state), Copyable.deepCopy(preset),
+            group, model);
     }
 
     public UUID getId()
@@ -132,18 +140,54 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         this.preset = preset;
     }
 
-    public String describe(boolean withHost, boolean withState)
+    public Integer getGroup()
+    {
+        return group;
+    }
+
+    public void setGroup(Integer group)
+    {
+        this.group = group;
+    }
+
+    public String getModel()
+    {
+        return model;
+    }
+
+    public void setModel(String model)
+    {
+        this.model = model;
+    }
+
+    public String describe(boolean withHost, MNetStateType stateType)
     {
         StringBuilder builder = new StringBuilder(name);
 
         if ((withHost) && (host != null))
         {
-            builder.append(" [").append(host).append(" / ").append(address).append("]");
+            String target = host;
+
+            try
+            {
+                URL url = MNetUtils.toURL(host);
+
+                if (url != null)
+                {
+                    target = url.toExternalForm();
+                }
+            }
+            catch (MalformedURLException e)
+            {
+                // ignore
+            }
+
+            builder.append(" [").append(target).append(" / ").append(address).append("]");
         }
 
-        if ((withState) && (state != null))
+        if ((stateType != MNetStateType.NONE) && (state != null))
         {
-            builder.append(": ").append(state.describe());
+            builder.append(": ").append(state.describe(stateType));
         }
 
         return builder.toString();

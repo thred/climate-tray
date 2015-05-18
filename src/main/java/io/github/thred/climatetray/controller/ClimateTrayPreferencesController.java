@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -35,15 +35,18 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
     private final ClimateTrayPresetListController presetListController = monitor(new ClimateTrayPresetListController());
     private final ClimateTrayDeviceListController deviceListController = monitor(new ClimateTrayDeviceListController());
 
-    private final JSpinner updatePeriodInMunitesSpinner = monitor(createSpinner(new SpinnerNumberModel(1, 1d / 60, 180,
-        1)));
+    private final JSpinner updatePeriodInMunitesSpinner = monitor(createSpinner(new SpinnerNumberModel(1, 1, 360, 1)));
     private final JComboBox<TemperatureUnit> temperatureUnitBox = monitor(createComboBox(TemperatureUnit.values()));
-
-    private final JPanel view = new JPanel(new GridBagLayout());
 
     public ClimateTrayPreferencesController()
     {
         super();
+    }
+
+    @Override
+    protected JComponent createView()
+    {
+        JPanel view = new JPanel(new GridBagLayout());
 
         updatePeriodInMunitesSpinner.setEditor(new JSpinner.NumberEditor(updatePeriodInMunitesSpinner, "0.0"));
         temperatureUnitBox.addActionListener((e) -> refresh());
@@ -64,11 +67,7 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
 
         view.add(createLabel("Devices:", deviceListView), gbc.next().top().insetTop(8));
         view.add(deviceListView, gbc.next().weight(1, 1).fill());
-    }
 
-    @Override
-    public JComponent getView()
-    {
         return view;
     }
 
@@ -92,7 +91,7 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
     @Override
     public void apply(ClimateTrayPreferences model)
     {
-        model.setUpdatePeriodInMinutes((double) updatePeriodInMunitesSpinner.getValue());
+        model.setUpdatePeriodInMinutes(((Number) updatePeriodInMunitesSpinner.getValue()).doubleValue());
         model.setTemperatureUnit((TemperatureUnit) temperatureUnitBox.getSelectedItem());
 
         presetListController.apply(model.getPresets());

@@ -30,8 +30,8 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
     private UUID id = UUID.randomUUID();
     private MNetMode mode = MNetMode.OFF;
     private Double temperature = Double.valueOf(22);
-    private MNetFan fan = MNetFan.MEDIUM_1;
-    private MNetAir air = MNetAir.POSITION_1;
+    private MNetFan fan = MNetFan.MID1;
+    private MNetAir air = MNetAir.HORIZONTAL;
     private boolean enabled = false;
 
     public MNetPreset()

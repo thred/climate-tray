@@ -44,6 +44,11 @@ public class ClimateTrayProcessor
         }, 0, (long) (updatePeriodInMinutes * 60), TimeUnit.SECONDS);
     }
 
+    public Future<?> submit(Runnable task)
+    {
+        return executor.submit(task);
+    }
+
     public <RESULT_TYPE> Future<RESULT_TYPE> submit(Callable<RESULT_TYPE> task)
     {
         return executor.submit(task);

@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -45,7 +45,6 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
     protected final JButton removeButton = SwingUtils.createButton("Remove", (e) -> remove());
     protected final JButton upButton = SwingUtils.createButton("Up", (e) -> up());
     protected final JButton downButton = SwingUtils.createButton("Down", (e) -> down());
-    protected final JPanel view = new JPanel(new GridBagLayout());
 
     private final MouseListener mouseListener = new MouseAdapter()
     {
@@ -62,6 +61,12 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
     public AbstractClimateTrayListController()
     {
         super();
+    }
+
+    @Override
+    protected JPanel createView()
+    {
+        JPanel view = new JPanel(new GridBagLayout());
 
         list.setPreferredSize(new Dimension(320, 64));
         list.setVisibleRowCount(5);
@@ -84,11 +89,7 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
         view.add(new JLabel(), gbc.next().weight(0, 1).insetRight(0));
         view.add(upButton, gbc.next().hFill().insetRight(0));
         view.add(downButton, gbc.next().hFill().insetRight(0));
-    }
 
-    @Override
-    public JPanel getView()
-    {
         return view;
     }
 

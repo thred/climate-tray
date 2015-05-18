@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -51,11 +51,12 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
     }
 
     protected final CONTROLLER_TYPE controller;
+    protected final Button[] buttons;
+
     protected final TitlePanel titlePanel = new TitlePanel(null, null);
     protected final JButton okButton = SwingUtils.createButton("Ok", (e) -> ok());
     protected final JButton cancelButton = SwingUtils.createButton("Cancel", (e) -> cancel());
     protected final JButton closeButton = SwingUtils.createButton("Close", (e) -> close());
-    protected final VIEW_TYPE view;
 
     private MODEL_TYPE model;
     private Button result;
@@ -65,8 +66,17 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
         super();
 
         this.controller = monitor(controller);
+        this.buttons = buttons;
 
-        view = createWindow();
+        monitor.addMonitorListener((e) -> {
+            modified();
+        });
+    }
+
+    @Override
+    protected VIEW_TYPE createView()
+    {
+        VIEW_TYPE view = createWindow();
 
         view.setIconImages(ClimateTrayImage.ICON.getImages(ClimateTrayImageState.NONE, 64, 48, 32, 24, 16));
         view.setLayout(new BorderLayout());
@@ -83,9 +93,7 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
         view.add(createContentPanel(controller.getView()), BorderLayout.CENTER);
         view.add(createBottomPanel(buttons), BorderLayout.SOUTH);
 
-        monitor.addMonitorListener((e) -> {
-            modified();
-        });
+        return view;
     }
 
     protected abstract VIEW_TYPE createWindow();
@@ -161,12 +169,6 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
     }
 
     @Override
-    public VIEW_TYPE getView()
-    {
-        return view;
-    }
-
-    @Override
     public void prepare(MODEL_TYPE model)
     {
         controller.prepare(model);
@@ -200,20 +202,27 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
     @Override
     public void dismiss(MODEL_TYPE model)
     {
-        view.setVisible(false);
+        getView().setVisible(false);
 
         controller.dismiss(model);
     }
 
     public Button consume(Component parent, MODEL_TYPE model)
     {
+        VIEW_TYPE view = getView();
+
+        if (view.isVisible())
+        {
+            view.toFront();
+
+            return result;
+        }
+
         this.model = model;
 
         result = null;
 
         prepare(model);
-
-        VIEW_TYPE view = getView();
 
         view.pack();
         view.setLocationRelativeTo(parent);

@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -34,7 +34,6 @@ public class ClimateTrayLogController extends AbstractClimateTrayController<Mess
     MessageListener
 {
 
-    private final JTextPane view = new JTextPane();
     private final Style errorStyle;
     private final Style warnStyle;
     private final Style infoStyle;
@@ -43,11 +42,6 @@ public class ClimateTrayLogController extends AbstractClimateTrayController<Mess
     public ClimateTrayLogController()
     {
         super();
-
-        view.setEditable(false);
-        view.setPreferredSize(new Dimension(800, 450));
-        view.setBackground(Color.BLACK);
-        view.setForeground(Color.WHITE);
 
         StyleContext styleContext = new StyleContext();
         Style defaultStyle = styleContext.getStyle(StyleContext.DEFAULT_STYLE);
@@ -76,8 +70,15 @@ public class ClimateTrayLogController extends AbstractClimateTrayController<Mess
     }
 
     @Override
-    public JTextPane getView()
+    protected JTextPane createView()
     {
+        JTextPane view = new JTextPane();
+
+        view.setEditable(false);
+        view.setPreferredSize(new Dimension(800, 450));
+        view.setBackground(Color.BLACK);
+        view.setForeground(Color.WHITE);
+
         return view;
     }
 
@@ -139,6 +140,7 @@ public class ClimateTrayLogController extends AbstractClimateTrayController<Mess
 
     public void append(Style style, String text)
     {
+        JTextPane view = getView();
         StyledDocument document = view.getStyledDocument();
 
         try

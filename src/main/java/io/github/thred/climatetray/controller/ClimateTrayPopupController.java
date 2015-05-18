@@ -21,6 +21,7 @@ import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.ClimateTrayPreferences;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
+import io.github.thred.climatetray.mnet.MNetStateType;
 import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
@@ -52,26 +53,26 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     private final JMenuItem aboutItem = createMenuItem("About...", null, null, (e) -> ClimateTray.about());
     private final JMenuItem exitItem = createMenuItem("Exit", null, null, (e) -> ClimateTray.exit());
     private final List<Component> dynamicItems = new ArrayList<>();
-    private final JPopupMenu view = new JPopupMenu("Climate Tray");
 
     private JDialog hiddenDialogForFocusManagement;
 
     public ClimateTrayPopupController()
     {
         super();
+    }
+
+    @Override
+    protected JPopupMenu createView()
+    {
+        JPopupMenu view = new JPopupMenu("Climate Tray");
 
         view.addPopupMenuListener(this);
-
         view.add(preferencesItem);
         view.add(logItem);
         view.add(aboutItem);
         view.addSeparator();
         view.add(exitItem);
-    }
 
-    @Override
-    public JPopupMenu getView()
-    {
         return view;
     }
 
@@ -124,8 +125,8 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
             {
                 Icon icon = createIcon(device);
                 JCheckBoxMenuItem item =
-                    SwingUtils.createCheckBoxMenuItem(device.describe(false, true), icon, device.describe(true, false),
-                        (e) -> deviceSelect(device));
+                    SwingUtils.createCheckBoxMenuItem(device.describe(false, MNetStateType.STATE), icon,
+                        device.describe(true, MNetStateType.STATE_AND_SETTING), (e) -> deviceSelect(device));
 
                 item.setName(device.getId().toString());
                 item.setSelected(device.isEnabled());
@@ -182,6 +183,8 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
     public void consume(int x, int y)
     {
+        JPopupMenu view = getView();
+
         if (view.isVisible())
         {
             view.setVisible(false);

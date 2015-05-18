@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -22,6 +22,8 @@ public abstract class AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
 {
 
     protected final Monitor monitor = new Monitor();
+
+    private VIEW_TYPE view = null;
 
     public AbstractClimateTrayController()
     {
@@ -43,12 +45,22 @@ public abstract class AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
         return monitor.monitor(object);
     }
 
-    public abstract VIEW_TYPE getView();
+    protected abstract VIEW_TYPE createView();
+
+    public final VIEW_TYPE getView()
+    {
+        if (view == null)
+        {
+            view = createView();
+        }
+
+        return view;
+    }
 
     public abstract void prepare(MODEL_TYPE model);
 
     public abstract void modified(MessageBuffer messageBuffer);
-    
+
     public abstract void apply(MODEL_TYPE model);
 
     public abstract void dismiss(MODEL_TYPE model);

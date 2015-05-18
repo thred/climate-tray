@@ -19,10 +19,10 @@ import io.github.thred.climatetray.ClimateTrayImage;
 public enum MNetAir
 {
 
-    POSITION_1("POSITION_1", "Horizontal", "fins horizontal", ClimateTrayImage.ICON_DIR1),
-    POSITION_2("POSITION_2", "Slightly Inclined", "fins slightly inclined", ClimateTrayImage.ICON_DIR2),
-    POSITION_3("POSITION_3", "Stronly Inclined", "fins stronly inclined", ClimateTrayImage.ICON_DIR3),
-    POSITION_4("POSITION_4", "Vertical", "fins vertical", ClimateTrayImage.ICON_DIR4),
+    HORIZONTAL("HORIZONTAL", "Horizontal", "fins horizontal", ClimateTrayImage.ICON_DIR1),
+    MID1("MID1", "Slightly Inclined", "fins slightly inclined", ClimateTrayImage.ICON_DIR2),
+    MID2("MID2", "Stronly Inclined", "fins stronly inclined", ClimateTrayImage.ICON_DIR3),
+    VERTICAL("VERTICAL", "Vertical", "fins vertical", ClimateTrayImage.ICON_DIR4),
     SWING("SWING", "Swing", "fins swining", ClimateTrayImage.ICON_SWING);
 
     private final String key;

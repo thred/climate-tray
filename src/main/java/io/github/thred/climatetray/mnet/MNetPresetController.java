@@ -42,13 +42,18 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
     private final JLabel temperatureLabel = createLabel("Temperature:", temperatureSpinner);
     private final JComboBox<MNetFan> fanBox = monitor(createComboBox(MNetFan.values()));
     private final JComboBox<MNetAir> airBox = monitor(createComboBox(MNetAir.values()));
-    private final JPanel view = new JPanel(new GridBagLayout());
 
     private JSpinner.NumberEditor temperatureSpinnerEditor = new JSpinner.NumberEditor(temperatureSpinner, "0.0");
 
     public MNetPresetController()
     {
         super();
+    }
+
+    @Override
+    protected JPanel createView()
+    {
+        JPanel view = new JPanel(new GridBagLayout());
 
         modeBox.setRenderer(new MNetModeCellRenderer());
 
@@ -70,11 +75,7 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
 
         view.add(createLabel("Air:", airBox), gbc.next());
         view.add(airBox, gbc.next().hFill());
-    }
 
-    @Override
-    public JPanel getView()
-    {
         return view;
     }
 

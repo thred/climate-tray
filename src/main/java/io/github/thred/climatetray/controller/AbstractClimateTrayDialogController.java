@@ -26,15 +26,24 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
     extends AbstractClimateTrayWindowController<MODEL_TYPE, JDialog, CONTROLLER_TYPE>
 {
 
+    private final Window owner;
+
     public AbstractClimateTrayDialogController(CONTROLLER_TYPE controller, Button... buttons)
     {
+        this(null, controller, buttons);
+    }
+
+    public AbstractClimateTrayDialogController(Window owner, CONTROLLER_TYPE controller, Button... buttons)
+    {
         super(controller, buttons);
+
+        this.owner = owner;
     }
 
     @Override
     protected JDialog createWindow()
     {
-        JDialog window = new JDialog((Window) null, ModalityType.APPLICATION_MODAL);
+        JDialog window = new JDialog(owner, ModalityType.DOCUMENT_MODAL);
 
         window.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
@@ -44,7 +53,7 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
     @Override
     public void setTitle(String title)
     {
-        view.setTitle(title);
+        getView().setTitle(title);
 
         super.setTitle(title);
     }
@@ -52,7 +61,7 @@ public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER
     @Override
     public void setTitle(Icon icon, String title)
     {
-        view.setTitle(title);
+        getView().setTitle(title);
 
         super.setTitle(icon, title);
     }

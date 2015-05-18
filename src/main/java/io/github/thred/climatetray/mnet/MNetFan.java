@@ -20,8 +20,8 @@ public enum MNetFan
 {
 
     LOW("LOW", "Very Low", "very low fan speed", ClimateTrayImage.ICON_FAN1, ClimateTrayImage.BACKGROUND_FAN1),
-    MEDIUM_1("MEDIUM_1", "Low", "low fan speed", ClimateTrayImage.ICON_FAN2, ClimateTrayImage.BACKGROUND_FAN2),
-    MEDIUM_2("MEDIUM_2", "High", "high fan speed", ClimateTrayImage.ICON_FAN3, ClimateTrayImage.BACKGROUND_FAN3),
+    MID1("MID1", "Low", "low fan speed", ClimateTrayImage.ICON_FAN2, ClimateTrayImage.BACKGROUND_FAN2),
+    MID2("MID2", "High", "high fan speed", ClimateTrayImage.ICON_FAN3, ClimateTrayImage.BACKGROUND_FAN3),
     HIGH("HIGH", "Very High", "very high fan speed", ClimateTrayImage.ICON_FAN4, ClimateTrayImage.BACKGROUND_FAN4);
 
     private final String key;
