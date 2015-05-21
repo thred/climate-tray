@@ -14,6 +14,9 @@
  */
 package io.github.thred.climatetray.util;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Array;
 
 public class Utils
@@ -47,6 +50,30 @@ public class Utils
         System.arraycopy(values, 0, result, 1, values.length);
 
         return result;
+    }
+
+    public static byte[] readFully(InputStream in) throws IOException
+    {
+        byte[] buffer = new byte[4096];
+
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream())
+        {
+            try
+            {
+                int length;
+
+                while ((length = in.read(buffer)) >= 0)
+                {
+                    out.write(buffer, 0, length);
+                }
+            }
+            finally
+            {
+                in.close();
+            }
+
+            return out.toByteArray();
+        }
     }
 
 }

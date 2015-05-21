@@ -1,6 +1,8 @@
-package io.github.thred.climatetray.mnet;
+package io.github.thred.climatetray.mnet.request;
 
+import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.util.DomBuilder;
+import io.github.thred.climatetray.util.DomUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,19 +35,24 @@ public class MNetMonitorRequest extends MNetRequest implements Iterable<MNetRequ
     @Override
     protected String getRequestCommand()
     {
-        return "setRequest";
+        return "getRequest";
     }
 
     @Override
     protected void buildRequestContent(DomBuilder builder, MNetDevice device)
     {
+        if (!requestElements.contains(device))
+        {
+            addRequestElement(new MNetRequestElement(device));
+        }
+
         requestElements.stream().forEach((element) -> element.buildMonitorRequest(builder));
     }
 
     @Override
-    protected void parseResponseContent(Node node)
+    protected void parseResponseContent(Node document)
     {
-        responseElements.add(MNetRequestElement.parse(node));
+        DomUtils.findAll(document, "//Mnet").forEach((node) -> responseElements.add(MNetRequestElement.parse(node)));
     }
 
 }

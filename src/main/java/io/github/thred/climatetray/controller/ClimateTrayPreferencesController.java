@@ -72,13 +72,13 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
     }
 
     @Override
-    public void prepare(ClimateTrayPreferences model)
+    public void prepareWith(ClimateTrayPreferences model)
     {
         updatePeriodInMunitesSpinner.setValue(model.getUpdatePeriodInMinutes());
         temperatureUnitBox.setSelectedItem(model.getTemperatureUnit());
 
-        presetListController.prepare(model.getPresets());
-        deviceListController.prepare(model.getDevices());
+        presetListController.prepareWith(model.getPresets());
+        deviceListController.prepareWith(model.getDevices());
     }
 
     @Override
@@ -89,13 +89,13 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
     }
 
     @Override
-    public void apply(ClimateTrayPreferences model)
+    public void applyTo(ClimateTrayPreferences model)
     {
         model.setUpdatePeriodInMinutes(((Number) updatePeriodInMunitesSpinner.getValue()).doubleValue());
         model.setTemperatureUnit((TemperatureUnit) temperatureUnitBox.getSelectedItem());
 
-        presetListController.apply(model.getPresets());
-        deviceListController.apply(model.getDevices());
+        presetListController.applyTo(model.getPresets());
+        deviceListController.applyTo(model.getDevices());
     }
 
     public void refresh()

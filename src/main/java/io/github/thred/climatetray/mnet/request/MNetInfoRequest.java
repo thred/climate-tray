@@ -1,5 +1,6 @@
-package io.github.thred.climatetray.mnet;
+package io.github.thred.climatetray.mnet.request;
 
+import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.util.DomBuilder;
 import io.github.thred.climatetray.util.DomUtils;
 
@@ -36,6 +37,7 @@ public class MNetInfoRequest extends MNetRequest
     protected void buildRequestContent(DomBuilder builder, MNetDevice device)
     {
         builder.begin("Mnet");
+        builder.attribute("Ec", device.getEc().getKey());
         builder.attribute("Address", device.getAddress());
         builder.attribute("Group", "*");
         builder.attribute("Model", "*");
@@ -43,9 +45,11 @@ public class MNetInfoRequest extends MNetRequest
     }
 
     @Override
-    protected void parseResponseContent(Node node)
+    protected void parseResponseContent(Node document)
     {
-        group = DomUtils.getIntegerAttribute(node, "Group", null);
-        model = DomUtils.getAttribute(node, "Model", null);
+        DomUtils.findAll(document, "//Mnet").forEach((node) -> {
+            group = DomUtils.getIntegerAttribute(node, "Group", null);
+            model = DomUtils.getAttribute(node, "Model", null);
+        });
     }
 }

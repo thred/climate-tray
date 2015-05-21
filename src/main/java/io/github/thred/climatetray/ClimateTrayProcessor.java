@@ -1,11 +1,14 @@
 package io.github.thred.climatetray;
 
+import io.github.thred.climatetray.util.ExceptionConsumer;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 public class ClimateTrayProcessor
 {
@@ -18,7 +21,13 @@ public class ClimateTrayProcessor
     {
         super();
 
-        executor = Executors.newSingleThreadScheduledExecutor();
+        executor = Executors.newSingleThreadScheduledExecutor(r -> {
+            Thread thread = new Thread(r, "Climate-Tray Executor Thread");
+
+            thread.setUncaughtExceptionHandler((t, e) -> ClimateTray.LOG.error("Unhandled exception", e));
+
+            return thread;
+        });
     }
 
     public void scheduleUpdate(double updatePeriodInMinutes)
@@ -49,9 +58,66 @@ public class ClimateTrayProcessor
         return executor.submit(task);
     }
 
-    public <RESULT_TYPE> Future<RESULT_TYPE> submit(Callable<RESULT_TYPE> task)
+    public Future<?> submit(Runnable task, Runnable onSuccess)
     {
         return executor.submit(task);
+    }
+
+    public Future<?> submit(Runnable task, Runnable onSuccess, ExceptionConsumer onError)
+    {
+        return executor.submit(() -> {
+            try
+            {
+                task.run();
+                onSuccess.run();
+            }
+            catch (Exception e)
+            {
+                if (onError != null)
+                {
+                    onError.failed(e);
+                }
+
+                throw e;
+            }
+        });
+    }
+
+    public <RESULT_TYPE> Future<RESULT_TYPE> submit(Callable<RESULT_TYPE> task)
+    {
+        return submit(task, null);
+    }
+
+    public <RESULT_TYPE> Future<RESULT_TYPE> submit(Callable<RESULT_TYPE> task, Consumer<RESULT_TYPE> onSuccess)
+    {
+        return submit(task, onSuccess, null);
+    }
+
+    public <RESULT_TYPE> Future<RESULT_TYPE> submit(Callable<RESULT_TYPE> task, Consumer<RESULT_TYPE> onSuccess,
+        ExceptionConsumer onError)
+    {
+        return executor.submit(() -> {
+            try
+            {
+                RESULT_TYPE result = task.call();
+
+                if (onSuccess != null)
+                {
+                    onSuccess.accept(result);
+                }
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                if (onError != null)
+                {
+                    onError.failed(e);
+                }
+
+                throw e;
+            }
+        });
     }
 
     public void shutdown()

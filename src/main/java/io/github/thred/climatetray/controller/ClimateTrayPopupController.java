@@ -77,12 +77,12 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     }
 
     @Override
-    public void prepare(ClimateTrayPreferences model)
+    public void prepareWith(ClimateTrayPreferences model)
     {
         JPopupMenu view = getView();
         int index = 0;
 
-        dynamicItems.stream().forEach((item) -> view.remove(item));
+        dynamicItems.stream().forEach(view::remove);
         dynamicItems.clear();
 
         index = preparePresets(model, view, index);
@@ -129,7 +129,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
                         device.describe(true, MNetStateType.STATE_AND_SETTING), (e) -> deviceSelect(device));
 
                 item.setName(device.getId().toString());
-                item.setSelected(device.isEnabled());
+                item.setSelected(device.isSelected());
 
                 dynamicItems.add(view.add(item, index++));
             }
@@ -151,7 +151,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     protected Icon createIcon(MNetDevice device)
     {
         ClimateTrayImageState imageState =
-            (device.isEnabled()) ? ClimateTrayImageState.SELECTED : ClimateTrayImageState.NOT_SELECTED;
+            (device.isSelected()) ? ClimateTrayImageState.SELECTED : ClimateTrayImageState.NOT_SELECTED;
 
         return device.getState().createIcon(imageState, 16);
     }
@@ -163,7 +163,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     }
 
     @Override
-    public void apply(ClimateTrayPreferences model)
+    public void applyTo(ClimateTrayPreferences model)
     {
         // intentionally left blank
     }
@@ -194,7 +194,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
         try
         {
-            prepare(ClimateTray.PREFERENCES);
+            prepareWith(ClimateTray.PREFERENCES);
         }
         finally
         {

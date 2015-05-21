@@ -12,11 +12,15 @@
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package io.github.thred.climatetray.mnet;
+package io.github.thred.climatetray.mnet.ui;
 
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
 import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.controller.AbstractClimateTrayController;
+import io.github.thred.climatetray.mnet.MNetAir;
+import io.github.thred.climatetray.mnet.MNetFan;
+import io.github.thred.climatetray.mnet.MNetMode;
+import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.TemperatureUnit;
 import io.github.thred.climatetray.util.swing.GBC;
@@ -80,7 +84,7 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
     }
 
     @Override
-    public void prepare(MNetPreset model)
+    public void prepareWith(MNetPreset model)
     {
         TemperatureUnit temperatureUnit = ClimateTray.PREFERENCES.getTemperatureUnit();
 
@@ -111,7 +115,7 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
     }
 
     @Override
-    public void apply(MNetPreset model)
+    public void applyTo(MNetPreset model)
     {
         TemperatureUnit temperatureUnit = ClimateTray.PREFERENCES.getTemperatureUnit();
 

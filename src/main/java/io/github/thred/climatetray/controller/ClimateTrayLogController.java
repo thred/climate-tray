@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -83,11 +83,11 @@ public class ClimateTrayLogController extends AbstractClimateTrayController<Mess
     }
 
     @Override
-    public void prepare(MessageBuffer model)
+    public void prepareWith(MessageBuffer model)
     {
         for (Message message : model)
         {
-            messageAdded(message);
+            messageAdded(model, message);
         }
 
         model.addMessageListener(this);
@@ -100,7 +100,7 @@ public class ClimateTrayLogController extends AbstractClimateTrayController<Mess
     }
 
     @Override
-    public void apply(MessageBuffer model)
+    public void applyTo(MessageBuffer model)
     {
         // intentionally left blank
     }
@@ -112,7 +112,7 @@ public class ClimateTrayLogController extends AbstractClimateTrayController<Mess
     }
 
     @Override
-    public void messageAdded(Message message)
+    public void messageAdded(MessageBuffer messageBuffer, Message message)
     {
         Style style;
 
@@ -136,6 +136,27 @@ public class ClimateTrayLogController extends AbstractClimateTrayController<Mess
 
         append(debugStyle, String.format("%1$tH:%1$tM:%1$tS.%1$tL ", message.getTimestamp()));
         append(style, message.getMessage() + "\n");
+    }
+
+    @Override
+    public void messagesCleared(MessageBuffer messageBuffer)
+    {
+        StyledDocument document = getView().getStyledDocument();
+
+        try
+        {
+            document.remove(0, document.getLength());
+        }
+        catch (BadLocationException e)
+        {
+            ClimateTray.LOG.error("Failed to clear text. It will get funny now...", e);
+        }
+    }
+
+    @Override
+    public void messageRemoved(MessageBuffer messageBuffer, Message message)
+    {
+        // intentionally left blank
     }
 
     public void append(Style style, String text)

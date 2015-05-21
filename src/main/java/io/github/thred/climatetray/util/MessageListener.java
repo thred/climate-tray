@@ -19,6 +19,10 @@ import java.util.EventListener;
 public interface MessageListener extends EventListener
 {
 
-    void messageAdded(Message message);
+    void messageAdded(MessageBuffer messageBuffer, Message message);
 
+    void messagesCleared(MessageBuffer messageBuffer);
+    
+    void messageRemoved(MessageBuffer messageBuffer, Message message);
+    
 }

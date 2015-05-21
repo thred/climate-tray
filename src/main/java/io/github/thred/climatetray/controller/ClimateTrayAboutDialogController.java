@@ -17,13 +17,14 @@ package io.github.thred.climatetray.controller;
 import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.ClimateTrayPreferences;
 
-public class ClimateTrayAboutDialogController extends
-    AbstractClimateTrayDialogController<ClimateTrayPreferences, ClimateTrayAboutController>
+import java.awt.Window;
+
+public class ClimateTrayAboutDialogController extends DefaultClimateTrayDialogController<ClimateTrayPreferences>
 {
 
-    public ClimateTrayAboutDialogController()
+    public ClimateTrayAboutDialogController(Window owner)
     {
-        super(new ClimateTrayAboutController(), Button.CLOSE);
+        super(owner, new ClimateTrayAboutController(), Button.CLOSE);
 
         setTitle("Climate Tray");
         setDescription("Simple control utility for A/Cs.");

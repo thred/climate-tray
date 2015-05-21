@@ -12,9 +12,10 @@
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package io.github.thred.climatetray.mnet;
+package io.github.thred.climatetray.mnet.ui;
 
 import io.github.thred.climatetray.ClimateTrayImageState;
+import io.github.thred.climatetray.mnet.MNetPreset;
 
 import java.awt.Component;
 

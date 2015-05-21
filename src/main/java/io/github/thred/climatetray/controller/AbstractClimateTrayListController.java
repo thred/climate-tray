@@ -94,7 +94,7 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
     }
 
     @Override
-    public void prepare(List<TYPE> model)
+    public void prepareWith(List<TYPE> model)
     {
         listModel.setList(Copyable.deepCopy(model));
 
@@ -108,7 +108,7 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
     }
 
     @Override
-    public void apply(List<TYPE> model)
+    public void applyTo(List<TYPE> model)
     {
         model.clear();
 

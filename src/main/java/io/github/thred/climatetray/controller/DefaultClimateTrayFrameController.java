@@ -1,49 +1,40 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray.controller;
 
-import java.awt.Dialog.ModalityType;
 import java.awt.Window;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-public abstract class AbstractClimateTrayDialogController<MODEL_TYPE, CONTROLLER_TYPE extends AbstractClimateTrayController<MODEL_TYPE, ? extends JComponent>>
-    extends AbstractClimateTrayWindowController<MODEL_TYPE, JDialog, CONTROLLER_TYPE>
+public abstract class DefaultClimateTrayFrameController<MODEL_TYPE> extends
+    AbstractClimateTrayWindowController<MODEL_TYPE, JFrame>
 {
 
-    private final Window owner;
-
-    public AbstractClimateTrayDialogController(CONTROLLER_TYPE controller, Button... buttons)
+    public DefaultClimateTrayFrameController(Window owner,
+        AbstractClimateTrayController<MODEL_TYPE, ? extends JComponent> controller, Button... buttons)
     {
-        this(null, controller, buttons);
-    }
-
-    public AbstractClimateTrayDialogController(Window owner, CONTROLLER_TYPE controller, Button... buttons)
-    {
-        super(controller, buttons);
-
-        this.owner = owner;
+        super(owner, controller, buttons);
     }
 
     @Override
-    protected JDialog createWindow()
+    protected JFrame createWindow()
     {
-        JDialog window = new JDialog(owner, ModalityType.DOCUMENT_MODAL);
+        JFrame window = new JFrame();
 
         window.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 

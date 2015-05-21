@@ -19,35 +19,28 @@ import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.MessageListener;
 import io.github.thred.climatetray.util.Severity;
+import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.SwingUtils;
+
+import java.awt.Window;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
-public class ClimateTrayLogFrameController extends
-    AbstractClimateTrayFrameController<MessageBuffer, ClimateTrayLogController> implements MessageListener
+public class ClimateTrayLogFrameController extends DefaultClimateTrayFrameController<MessageBuffer> implements
+    MessageListener
 {
 
-    public ClimateTrayLogFrameController()
+    protected final JButton clearButton = SwingUtils.createButton("Clear", (e) -> clear());
+
+    public ClimateTrayLogFrameController(Window owner)
     {
-        super(new ClimateTrayLogController(), Button.CLOSE);
+        super(owner, new ClimateTrayLogController(), Button.CLOSE);
 
         setTitle("Log");
     }
-
-    //    @Override
-    //    protected JComponent createBottomPanel(Button... buttons)
-    //    {
-    //        JComponent result = super.createBottomPanel(buttons);
-    //
-    //        ((ButtonPanel) result).left(SwingUtils.createButton("Test", (e) -> {
-    //            Severity severity = Severity.values()[(int) (Math.random() * Severity.values().length)];
-    //
-    //            ClimateTray.LOG.add(severity, "This is some test");
-    //        }));
-    //
-    //        return result;
-    //    }
 
     @Override
     protected JComponent createContentPanel(JComponent view)
@@ -60,31 +53,64 @@ public class ClimateTrayLogFrameController extends
     }
 
     @Override
-    public void prepare(MessageBuffer model)
+    protected JComponent createBottomPanel(Button... buttons)
+    {
+        ButtonPanel panel = (ButtonPanel) super.createBottomPanel(buttons);
+
+        panel.left(clearButton);
+
+        //        panel.left(SwingUtils.createButton("Test", (e) -> {
+        //            Severity severity = Severity.values()[(int) (Math.random() * Severity.values().length)];
+        //
+        //            ClimateTray.LOG.add(severity, "This is some test");
+        //        }));
+
+        return panel;
+    }
+
+    @Override
+    public void prepareWith(MessageBuffer model)
     {
         model.addMessageListener(this);
 
-        super.prepare(model);
+        super.prepareWith(model);
     }
 
     @Override
     public void dismiss(MessageBuffer model)
     {
+
         model.removeMessageListener(this);
 
         ClimateTray.LOG.debug("Closing log frame.");
 
         super.dismiss(model);
+    }
 
+    public void clear()
+    {
+        getModel().clear();
     }
 
     @Override
-    public void messageAdded(Message message)
+    public void messageAdded(MessageBuffer messageBuffer, Message message)
     {
         if (message.getSeverity().ordinal() >= Severity.INFO.ordinal())
         {
             setDescription(message);
         }
+    }
+
+    @Override
+    public void messagesCleared(MessageBuffer messageBuffer)
+    {
+        setDescription((Message) null);
+    }
+
+    @Override
+    public void messageRemoved(MessageBuffer messageBuffer, Message message)
+    {
+        // intentionally left blank
     }
 
 }

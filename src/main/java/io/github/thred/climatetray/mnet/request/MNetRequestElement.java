@@ -1,6 +1,11 @@
-package io.github.thred.climatetray.mnet;
+package io.github.thred.climatetray.mnet.request;
 
 import io.github.thred.climatetray.ClimateTray;
+import io.github.thred.climatetray.mnet.MNetAir;
+import io.github.thred.climatetray.mnet.MNetDevice;
+import io.github.thred.climatetray.mnet.MNetEc;
+import io.github.thred.climatetray.mnet.MNetFan;
+import io.github.thred.climatetray.mnet.MNetMode;
 import io.github.thred.climatetray.util.DomBuilder;
 import io.github.thred.climatetray.util.DomUtils;
 
@@ -45,12 +50,13 @@ public class MNetRequestElement
             }
         }
 
-        MNetRequestElement result = new MNetRequestElement(group, mode);
+        MNetRequestElement result = new MNetRequestElement(null, group, mode);
 
-        if (ec != null)
-        {
-            result.setEc(ec);
-        }
+        // TODO fix ec
+        //        if (ec != null)
+        //        {
+        //            result.setEc(ec);
+        //        }
 
         if (temperature != null)
         {
@@ -92,16 +98,27 @@ public class MNetRequestElement
     private final Integer group;
     private final MNetMode mode;
 
-    private Integer ec;
+    private MNetEc ec;
     private Double temperature;
     private Double thermometer;
     private MNetAir air;
     private MNetFan fan;
 
-    public MNetRequestElement(Integer group, MNetMode mode)
+    public MNetRequestElement(MNetDevice device)
+    {
+        this(device, null);
+    }
+
+    public MNetRequestElement(MNetDevice device, MNetMode mode)
+    {
+        this(device.getEc(), device.getGroup(), mode);
+    }
+
+    public MNetRequestElement(MNetEc ec, Integer group, MNetMode mode)
     {
         super();
 
+        this.ec = ec;
         this.group = group;
         this.mode = mode;
     }
@@ -116,12 +133,12 @@ public class MNetRequestElement
         return mode;
     }
 
-    public Integer getEc()
+    public MNetEc getEc()
     {
         return ec;
     }
 
-    public void setEc(Integer ec)
+    public void setEc(MNetEc ec)
     {
         this.ec = ec;
     }
@@ -172,7 +189,7 @@ public class MNetRequestElement
 
         if (ec != null)
         {
-            builder.attribute("Ec", ec);
+            builder.attribute("Ec", ec.getKey());
         }
 
         builder.attribute("Group", group);
@@ -203,7 +220,7 @@ public class MNetRequestElement
 
         if (ec != null)
         {
-            builder.attribute("Ec", ec);
+            builder.attribute("Ec", ec.getKey());
         }
 
         builder.attribute("Group", group);

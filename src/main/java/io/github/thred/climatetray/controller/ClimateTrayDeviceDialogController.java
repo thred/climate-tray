@@ -14,9 +14,10 @@
  */
 package io.github.thred.climatetray.controller;
 
-import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.mnet.MNetDevice;
-import io.github.thred.climatetray.mnet.MNetDeviceController;
+import io.github.thred.climatetray.mnet.ui.MNetDeviceController;
+import io.github.thred.climatetray.mnet.ui.MNetTest;
+import io.github.thred.climatetray.mnet.ui.MNetTestDialogController;
 import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.Severity;
@@ -28,8 +29,7 @@ import java.awt.Window;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
-public class ClimateTrayDeviceDialogController extends
-    AbstractClimateTrayDialogController<MNetDevice, MNetDeviceController>
+public class ClimateTrayDeviceDialogController extends DefaultClimateTrayDialogController<MNetDevice>
 {
 
     protected JButton testButton;
@@ -65,12 +65,10 @@ public class ClimateTrayDeviceDialogController extends
 
     public void test()
     {
-        ClimateTray.log();
-
         MNetDevice device = new MNetDevice();
 
-        apply(device);
+        applyTo(device);
 
-        ClimateTray.test(device);
+        new MNetTestDialogController(getView()).consume(new MNetTest(device));
     }
 }

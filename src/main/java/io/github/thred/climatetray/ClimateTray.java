@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -19,9 +19,10 @@ import io.github.thred.climatetray.controller.ClimateTrayLogFrameController;
 import io.github.thred.climatetray.controller.ClimateTrayPopupController;
 import io.github.thred.climatetray.controller.ClimateTrayPreferencesDialogController;
 import io.github.thred.climatetray.mnet.MNetDevice;
-import io.github.thred.climatetray.mnet.MNetInfoRequest;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.mnet.MNetStateType;
+import io.github.thred.climatetray.mnet.request.MNetInfoRequest;
+import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.prefs.SystemPrefs;
 
@@ -69,9 +70,9 @@ public class ClimateTray
 
         POPUP_CONTROLLER = new ClimateTrayPopupController();
 
-        ABOUT_CONTROLLER = new ClimateTrayAboutDialogController();
-        LOG_CONTROLLER = new ClimateTrayLogFrameController();
-        PREFERENCES_CONTROLLER = new ClimateTrayPreferencesDialogController();
+        ABOUT_CONTROLLER = new ClimateTrayAboutDialogController(null);
+        LOG_CONTROLLER = new ClimateTrayLogFrameController(null);
+        PREFERENCES_CONTROLLER = new ClimateTrayPreferencesDialogController(null);
     }
 
     public static void main(String[] arguments)
@@ -120,7 +121,7 @@ public class ClimateTray
         catch (Exception e)
         {
             LOG.error("Failed to load preferences", e);
-            ClimateTrayUtils.errorDialog("Preferences", "Failed to load preferences.");
+            ClimateTrayUtils.okDialog(null, "Preferences", Message.error("Failed to load existing preferences."));
         }
     }
 
@@ -152,7 +153,7 @@ public class ClimateTray
     {
         LOG.debug("Opening preferences dialog.");
 
-        PREFERENCES_CONTROLLER.consume(null, PREFERENCES);
+        PREFERENCES_CONTROLLER.consume(PREFERENCES);
     }
 
     public static void togglePreset(UUID id)
@@ -185,48 +186,22 @@ public class ClimateTray
             return;
         }
 
-        device.setEnabled(!device.isEnabled());
+        device.setSelected(!device.isSelected());
         store();
-    }
-
-    public static void test(MNetDevice device)
-    {
-        PROCESSOR.submit(() -> {
-            MNetInfoRequest request = new MNetInfoRequest();
-
-            LOG.info("Testing %s...", device.describe(true, MNetStateType.NONE));
-
-            try
-            {
-                if (request.execute(device))
-                {
-                    LOG.info("Successfully tested %s. The model is called %s and is part of group %d.",
-                        device.describe(true, MNetStateType.NONE), request.getModel(), request.getGroup());
-                }
-                else
-                {
-                    LOG.error("Calling %s failed.", device.describe(true, MNetStateType.NONE));
-                }
-            }
-            catch (Exception e)
-            {
-                LOG.error("Calling %s failed: %s", device.describe(true, MNetStateType.NONE), e.getMessage());
-            }
-        });
     }
 
     public static void log()
     {
         LOG.debug("Opening log frame.");
 
-        LOG_CONTROLLER.consume(null, LOG);
+        LOG_CONTROLLER.consume(LOG);
     }
 
     public static void about()
     {
         LOG.debug("Opening about dialog.");
 
-        ABOUT_CONTROLLER.consume(null, PREFERENCES);
+        ABOUT_CONTROLLER.consume(PREFERENCES);
     }
 
     public static void exit()

@@ -12,21 +12,22 @@
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package io.github.thred.climatetray.mnet;
+package io.github.thred.climatetray.mnet.ui;
 
 import io.github.thred.climatetray.ClimateTrayImageState;
+import io.github.thred.climatetray.mnet.MNetMode;
 
 import java.awt.Component;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-public class MNetFanCellRenderer extends DefaultListCellRenderer
+public class MNetModeCellRenderer extends DefaultListCellRenderer
 {
 
     private static final long serialVersionUID = -1286708018290981191L;
 
-    public MNetFanCellRenderer()
+    public MNetModeCellRenderer()
     {
         super();
     }
@@ -44,10 +45,10 @@ public class MNetFanCellRenderer extends DefaultListCellRenderer
             return this;
         }
 
-        MNetFan fan = (MNetFan) value;
+        MNetMode mode = (MNetMode) value;
 
-        setIcon(fan.getImage().getIcon((isSelected) ? ClimateTrayImageState.SELECTED : ClimateTrayImageState.NOT_SELECTED, 16));
-        setText(fan.getLabel());
+        setIcon(mode.getImage().getIcon((isSelected) ? ClimateTrayImageState.SELECTED : ClimateTrayImageState.NOT_SELECTED, 16));
+        setText(mode.getLabel());
 
         return this;
     }

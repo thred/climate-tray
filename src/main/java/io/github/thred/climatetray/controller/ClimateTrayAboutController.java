@@ -87,7 +87,7 @@ public class ClimateTrayAboutController extends AbstractClimateTrayController<Cl
     }
 
     @Override
-    public void prepare(ClimateTrayPreferences model)
+    public void prepareWith(ClimateTrayPreferences model)
     {
         // intentionally left blank
     }
@@ -99,7 +99,7 @@ public class ClimateTrayAboutController extends AbstractClimateTrayController<Cl
     }
 
     @Override
-    public void apply(ClimateTrayPreferences model)
+    public void applyTo(ClimateTrayPreferences model)
     {
         // intentionally left blank
     }

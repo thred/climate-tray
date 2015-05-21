@@ -82,8 +82,8 @@ public class ClimateTrayPreferences implements Persistent
     @Override
     public void read(Prefs prefs)
     {
-        Persistent.readList(prefs, "device", devices, () -> new MNetDevice());
-        Persistent.readList(prefs, "preset", presets, () -> new MNetPreset());
+        Persistent.readList(prefs, "device", devices, MNetDevice::new);
+        Persistent.readList(prefs, "preset", presets, MNetPreset::new);
 
         temperatureUnit = prefs.getEnum(TemperatureUnit.class, "temperatureUnit", temperatureUnit);
         updatePeriodInMinutes = prefs.getDouble("updatePeriodInMinutes", updatePeriodInMinutes);

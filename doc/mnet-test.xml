@@ -1,0 +1,298 @@
+Info Request
+------------
+
+Request
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Packet>
+<Command>getRequest</Command>
+<DatabaseManager>
+<Mnet Ec="1" Address="17" Group="*" Model="*"/>
+</DatabaseManager>
+</Packet>
+
+Response
+
+<Packet>
+<Command>getResponse</Command>
+<DatabaseManager>
+<Mnet Ec="1" Address="17" Group="1" Model="IC" />
+</DatabaseManager>
+</Packet>
+
+Request
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Packet>
+<Command>getRequest</Command>
+<DatabaseManager>
+<Mnet Ec="1" Address="22" Group="*" Model="*"/>
+</DatabaseManager>
+</Packet>
+
+Response
+
+<Packet>
+<Command>getResponse</Command>
+<DatabaseManager>
+<Mnet Ec="1" Address="22" Group="27" Model="IC" />
+</DatabaseManager>
+</Packet>
+
+Request
+
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Packet>
+<Command>getRequest</Command>
+<DatabaseManager>
+<Mnet Ec="1" Address="23" Group="*" Model="*"/>
+</DatabaseManager>
+</Packet>
+
+Response
+
+<Packet>
+<Command>getResponse</CommandCommand>
+<DatabaseManager>
+<Mnet Ec="1" Address="23" Group="28" Model="IC" />
+</DatabaseManager>
+</Packet>
+
+Failed Info Request
+-------------------
+
+Request
+
+<Packet>
+<Command>getResponse</Command>
+<DatabaseManager>
+<Mnet Ec="1" Address="50" Group="99" Model="NONE" />
+</DatabaseManager>
+</Packet>
+
+Reponse
+
+<Packet>
+<Command>getResponse</Command>
+<DatabaseManager>
+<Mnet Ec="1" Address="50" Group="99" Model="NONE" />
+</DatabaseManager>
+</Packet>
+
+Group List
+----------
+
+Request
+
+<Packet>
+ <Command>getRequest</Command>
+ <DatabaseManager>
+  <ControlGroup>
+   <MnetGroupList/>
+  </ControlGroup>
+ </DatabaseManager>
+</Packet>
+
+Response
+
+<Packet>
+<Command>getResponse</Command>
+<DatabaseManager>
+<ControlGroup>
+<MnetGroupList></MnetGroupList>
+</ControlGroup>
+</DatabaseManager>
+</Packet>
+
+Request
+
+<Packet>
+ <Command>getRequest</Command>
+ <DatabaseManager>
+  <ControlGroup>
+   <MnetGroupList Ec="0"/>
+  </ControlGroup>
+ </DatabaseManager>
+</Packet>
+
+Response
+
+<Packet>
+<Command>getErrorResponse</Command>
+<DatabaseManager>
+<ControlGroup>
+<MnetGroupList Ec="0"></MnetGroupList>
+<ERROR Point="Ec[0]" Code="0201" Message="Invalid Value" />
+</ControlGroup>
+</DatabaseManager>
+</Packet>
+
+Request
+
+<Packet>
+ <Command>getRequest</Command>
+ <DatabaseManager>
+  <ControlGroup>
+   <MnetGroupList Ec="1" />
+  </ControlGroup>
+ </DatabaseManager>
+</Packet>
+
+Response
+
+<Packet>
+<Command>getResponse</Command>
+<DatabaseManager>
+<ControlGroup>
+<MnetGroupList Ec="1">
+<MnetGroupRecord Group="1" Model="IC" SubModel="" Address="17" />
+<MnetGroupRecord Group="2" Model="IC" SubModel="" Address="18" />
+<MnetGroupRecord Group="3" Model="IC" SubModel="" Address="19" />
+<MnetGroupRecord Group="4" Model="IC" SubModel="" Address="20" />
+<MnetGroupRecord Group="5" Model="IC" SubModel="" Address="21" />
+<MnetGroupRecord Group="6" Model="IC" SubModel="" Address="22" />
+<MnetGroupRecord Group="7" Model="IC" SubModel="" Address="23" />
+<MnetGroupRecord Group="8" Model="IC" SubModel="" Address="24" />
+<MnetGroupRecord Group="9" Model="IC" SubModel="" Address="25" />
+<MnetGroupRecord Group="10" Model="IC" SubModel="" Address="26" />
+<MnetGroupRecord Group="11" Model="IC" SubModel="" Address="27" />
+<MnetGroupRecord Group="12" Model="IC" SubModel="" Address="28" />
+<MnetGroupRecord Group="13" Model="IC" SubModel="" Address="29" />
+<MnetGroupRecord Group="14" Model="IC" SubModel="" Address="30" />
+<MnetGroupRecord Group="15" Model="IC" SubModel="" Address="31" />
+<MnetGroupRecord Group="16" Model="IC" SubModel="" Address="2" />
+<MnetGroupRecord Group="17" Model="IC" SubModel="" Address="4" />
+<MnetGroupRecord Group="18" Model="IC" SubModel="" Address="5" />
+<MnetGroupRecord Group="19" Model="IC" SubModel="" Address="7" />
+<MnetGroupRecord Group="20" Model="IC" SubModel="" Address="9" />
+<MnetGroupRecord Group="21" Model="IC" SubModel="" Address="10" />
+<MnetGroupRecord Group="22" Model="IC" SubModel="" Address="11" />
+<MnetGroupRecord Group="23" Model="IC" SubModel="" Address="12" />
+<MnetGroupRecord Group="24" Model="IC" SubModel="" Address="13" />
+<MnetGroupRecord Group="25" Model="IC" SubModel="" Address="33" />
+<MnetGroupRecord Group="26" Model="IC" SubModel="" Address="34" />
+<MnetGroupRecord Group="27" Model="IC" SubModel="" Address="35" />
+<MnetGroupRecord Group="28" Model="IC" SubModel="" Address="36" />
+<MnetGroupRecord Group="29" Model="IC" SubModel="" Address="37" />
+<MnetGroupRecord Group="30" Model="IC" SubModel="" Address="38" />
+<MnetGroupRecord Group="31" Model="IC" SubModel="" Address="39" />
+<MnetGroupRecord Group="32" Model="IC" SubModel="" Address="40" />
+<MnetGroupRecord Group="33" Model="IC" SubModel="" Address="41" />
+<MnetGroupRecord Group="34" Model="IC" SubModel="" Address="42" />
+<MnetGroupRecord Group="35" Model="IC" SubModel="" Address="43" />
+<MnetGroupRecord Group="36" Model="IC" SubModel="" Address="44" />
+<MnetGroupRecord Group="37" Model="IC" SubModel="" Address="45" />
+<MnetGroupRecord Group="38" Model="IC" SubModel="" Address="46" />
+<MnetGroupRecord Group="39" Model="IC" SubModel="" Address="47" />
+</MnetGroupList>
+</ControlGroup>
+</DatabaseManager>
+</Packet>
+
+Status Failure
+--------------
+
+Request
+
+<Packet>
+ <Command>getRequest</Command>
+ <DatabaseManager>
+   <Mnet Ec="1" Address="17" Group="*" Drive="*" Mode="*" SetTemp="*" AirDirection="*" FanSpeed="*" />
+ </DatabaseManager>
+</Packet>
+
+Response
+
+<Packet>
+<Command>getErrorResponse</Command>
+<DatabaseManager>
+<Mnet Ec="1" Address="17" Group="22" Drive="*" Mode="*" SetTemp="*" AirDirection="*" FanSpeed="*" />
+<ERROR Point="Drive" Code="0101" Message="Unknown Attribute" />
+<ERROR Point="Mode" Code="0101" Message="Unknown Attribute" />
+<ERROR Point="SetTemp" Code="0101" Message="Unknown Attribute" />
+<ERROR Point="AirDirection" Code="0101" Message="Unknown Attribute" />
+<ERROR Point="FanSpeed" Code="0101" Message="Unknown Attribute" />
+</DatabaseManager>
+</Packet>
+
+Error
+-----
+
+Request
+
+<Packet>
+ <Command>getResponse</Command>
+ <DatabaseManager>
+   <Mnet Ec="1" Group="22" Mode/>
+ </DatabaseManager>
+</Packet>
+
+Response
+
+<Packet>
+<Command />
+<DatabaseManager></DatabaseManager>
+<ERROR Point="" Code="0999" Message="XML Syntax Error" />
+</Packet>
+
+Status
+------
+
+Request
+
+<Packet>
+ <Command>getRequest</Command>
+ <DatabaseManager>
+   <Mnet Ec="1" Group="22" Drive="*" Mode="*" SetTemp="*" InletTemp="*" AirDirection="*" FanSpeed="*" />
+ </DatabaseManager>
+</Packet>
+
+Response
+
+<Packet>
+<Command>getResponse</Command>
+<DatabaseManager>
+<Mnet Ec="1" Group="22" Drive="OFF" Mode="COOL" SetTemp="25" InletTemp="23.6" AirDirection="HORIZONTAL" FanSpeed="HIGH" />
+</DatabaseManager>
+</Packet>
+
+Update
+-------
+
+Request
+
+<Packet>
+ <Command>setRequest</Command>
+ <DatabaseManager>
+   <Mnet Ec="1" Group="22" Drive="ON" Mode="HEAT" SetTemp="23" AirDirection="HORIZONTAL" FanSpeed="LOW" />
+ </DatabaseManager>
+</Packet>
+
+Response
+
+<Packet>
+<Command>setResponse</Command>
+<DatabaseManager>
+<Mnet Ec="1" Group="22" Drive="ON" Mode="HEAT" SetTemp="23" AirDirection="HORIZONTAL" FanSpeed="LOW" />
+</DatabaseManager>
+</Packet>
+
+Request
+
+<Packet>
+ <Command>setRequest</Command>
+ <DatabaseManager>
+   <Mnet Ec="1" Group="22" Drive="ON" Mode="FAN" SetTemp="23" AirDirection="VERTICAL" FanSpeed="MID2" />
+ </DatabaseManager>
+</Packet>
+
+Response
+
+<Packet>
+<Command>setResponse</Command>
+<DatabaseManager>
+<Mnet Ec="1" Group="22" Drive="ON" Mode="FAN" SetTemp="23" AirDirection="VERTICAL" FanSpeed="MID2" />
+</DatabaseManager>
+</Packet>
+
+

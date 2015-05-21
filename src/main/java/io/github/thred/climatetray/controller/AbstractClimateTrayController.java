@@ -57,11 +57,11 @@ public abstract class AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
         return view;
     }
 
-    public abstract void prepare(MODEL_TYPE model);
+    public abstract void prepareWith(MODEL_TYPE model);
 
     public abstract void modified(MessageBuffer messageBuffer);
 
-    public abstract void apply(MODEL_TYPE model);
+    public abstract void applyTo(MODEL_TYPE model);
 
     public abstract void dismiss(MODEL_TYPE model);
 

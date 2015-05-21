@@ -25,7 +25,6 @@ import io.github.thred.climatetray.util.swing.SwingUtils;
 import io.github.thred.climatetray.util.swing.TitlePanel;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -39,8 +38,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
-public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE extends Window, CONTROLLER_TYPE extends AbstractClimateTrayController<MODEL_TYPE, ? extends JComponent>>
-    extends AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
+public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE extends Window> extends
+    AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
 {
 
     public enum Button
@@ -50,7 +49,8 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
         CANCEL
     }
 
-    protected final CONTROLLER_TYPE controller;
+    protected final Window owner;
+    protected final AbstractClimateTrayController<MODEL_TYPE, ? extends JComponent> controller;
     protected final Button[] buttons;
 
     protected final TitlePanel titlePanel = new TitlePanel(null, null);
@@ -61,10 +61,12 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
     private MODEL_TYPE model;
     private Button result;
 
-    public AbstractClimateTrayWindowController(CONTROLLER_TYPE controller, Button... buttons)
+    public AbstractClimateTrayWindowController(Window owner,
+        AbstractClimateTrayController<MODEL_TYPE, ? extends JComponent> controller, Button... buttons)
     {
         super();
 
+        this.owner = owner;
         this.controller = monitor(controller);
         this.buttons = buttons;
 
@@ -150,11 +152,6 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
         Set<Button> set = new HashSet<>(Arrays.asList(buttons));
         ButtonPanel buttonPanel = new ButtonPanel();
 
-        if (set.contains(Button.CLOSE))
-        {
-            buttonPanel.center(closeButton);
-        }
-
         if (set.contains(Button.OK))
         {
             buttonPanel.right(okButton);
@@ -165,19 +162,24 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
             buttonPanel.right(cancelButton);
         }
 
+        if (set.contains(Button.CLOSE))
+        {
+            buttonPanel.right(closeButton);
+        }
+
         return buttonPanel;
     }
 
     @Override
-    public void prepare(MODEL_TYPE model)
+    public void prepareWith(MODEL_TYPE model)
     {
-        controller.prepare(model);
+        controller.prepareWith(model);
     }
 
     @Override
-    public void apply(MODEL_TYPE model)
+    public void applyTo(MODEL_TYPE model)
     {
-        controller.apply(model);
+        controller.applyTo(model);
     }
 
     public void modified()
@@ -205,9 +207,11 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
         getView().setVisible(false);
 
         controller.dismiss(model);
+
+        this.model = null;
     }
 
-    public Button consume(Component parent, MODEL_TYPE model)
+    public Button consume(MODEL_TYPE model)
     {
         VIEW_TYPE view = getView();
 
@@ -222,18 +226,24 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
 
         result = null;
 
-        prepare(model);
+        prepareWith(model);
 
         view.pack();
-        view.setLocationRelativeTo(parent);
+        view.setLocationRelativeTo(owner);
+        view.revalidate();
         view.setVisible(true);
 
         return result;
     }
 
+    public MODEL_TYPE getModel()
+    {
+        return model;
+    }
+
     public void ok()
     {
-        apply(model);
+        applyTo(model);
 
         result = Button.OK;
 

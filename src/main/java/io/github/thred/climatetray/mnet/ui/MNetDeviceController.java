@@ -1,21 +1,24 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package io.github.thred.climatetray.mnet;
+package io.github.thred.climatetray.mnet.ui;
 
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
 import io.github.thred.climatetray.controller.AbstractClimateTrayController;
+import io.github.thred.climatetray.mnet.MNetDevice;
+import io.github.thred.climatetray.mnet.MNetEc;
+import io.github.thred.climatetray.mnet.MNetUtils;
 import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.Utils;
 import io.github.thred.climatetray.util.swing.GBC;
@@ -24,6 +27,7 @@ import java.awt.GridBagLayout;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -34,7 +38,8 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
 
     private final JTextField nameField = monitor(createTextField("", 32));
     private final JTextField hostField = monitor(createTextField("", 32));
-    private final JSpinner addressField = monitor(createSpinner(new SpinnerNumberModel(1, 1, 50, 1)));
+    private final JComboBox<MNetEc> ecField = monitor(createComboBox(MNetEc.values()));
+    private final JSpinner addressField = monitor(createSpinner(new SpinnerNumberModel(0, 0, 250, 1)));
 
     public MNetDeviceController()
     {
@@ -53,6 +58,9 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
         view.add(createLabel("Host / URL:", hostField), gbc.next());
         view.add(hostField, gbc.next().span(2).hFill());
 
+        view.add(createLabel("EC:", ecField), gbc.next());
+        view.add(ecField, gbc.next().span(2));
+
         view.add(createLabel("Address:", addressField), gbc.next());
         view.add(addressField, gbc.next().hFill());
 
@@ -60,10 +68,11 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     }
 
     @Override
-    public void prepare(MNetDevice model)
+    public void prepareWith(MNetDevice model)
     {
         nameField.setText(Utils.ensure(model.getName(), ""));
         hostField.setText(Utils.ensure(model.getHost(), ""));
+        ecField.setSelectedItem(Utils.ensure(model.getEc(), MNetEc.NONE));
         addressField.setValue(Utils.ensure(model.getAddress(), 0));
     }
 
@@ -102,10 +111,11 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     }
 
     @Override
-    public void apply(MNetDevice model)
+    public void applyTo(MNetDevice model)
     {
         model.setName(nameField.getText().trim());
         model.setHost(hostField.getText().trim());
+        model.setEc((MNetEc) ecField.getSelectedItem());
         model.setAddress((Integer) addressField.getValue());
     }
 
