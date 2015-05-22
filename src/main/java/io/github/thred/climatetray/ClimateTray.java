@@ -14,14 +14,14 @@
  */
 package io.github.thred.climatetray;
 
-import io.github.thred.climatetray.controller.ClimateTrayAboutDialogController;
-import io.github.thred.climatetray.controller.ClimateTrayLogFrameController;
-import io.github.thred.climatetray.controller.ClimateTrayPopupController;
-import io.github.thred.climatetray.controller.ClimateTrayPreferencesDialogController;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.mnet.MNetStateType;
 import io.github.thred.climatetray.mnet.request.MNetInfoRequest;
+import io.github.thred.climatetray.ui.ClimateTrayAboutDialogController;
+import io.github.thred.climatetray.ui.ClimateTrayLogFrameController;
+import io.github.thred.climatetray.ui.ClimateTrayPopupController;
+import io.github.thred.climatetray.ui.ClimateTrayPreferencesDialogController;
 import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.prefs.SystemPrefs;

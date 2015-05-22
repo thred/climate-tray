@@ -1,7 +1,7 @@
 package io.github.thred.climatetray.mnet.ui;
 
-import io.github.thred.climatetray.controller.AbstractClimateTrayController;
 import io.github.thred.climatetray.mnet.ui.MNetTest.Step;
+import io.github.thred.climatetray.ui.AbstractClimateTrayController;
 import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.MessageListener;

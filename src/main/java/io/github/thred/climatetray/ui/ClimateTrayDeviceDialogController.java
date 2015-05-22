@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package io.github.thred.climatetray.controller;
+package io.github.thred.climatetray.ui;
 
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.ui.MNetDeviceController;

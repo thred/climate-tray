@@ -15,10 +15,10 @@
 package io.github.thred.climatetray.mnet.ui;
 
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
-import io.github.thred.climatetray.controller.AbstractClimateTrayController;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetEc;
 import io.github.thred.climatetray.mnet.MNetUtils;
+import io.github.thred.climatetray.ui.AbstractClimateTrayController;
 import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.Utils;
 import io.github.thred.climatetray.util.swing.GBC;

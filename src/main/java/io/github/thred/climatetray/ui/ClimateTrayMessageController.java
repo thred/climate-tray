@@ -1,4 +1,4 @@
-package io.github.thred.climatetray.controller;
+package io.github.thred.climatetray.ui;
 
 import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.MessageBuffer;

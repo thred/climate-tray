@@ -14,8 +14,8 @@
  */
 package io.github.thred.climatetray;
 
-import io.github.thred.climatetray.controller.AbstractClimateTrayWindowController.Button;
-import io.github.thred.climatetray.controller.ClimateTrayMessageDialogController;
+import io.github.thred.climatetray.ui.ClimateTrayMessageDialogController;
+import io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button;
 import io.github.thred.climatetray.util.Message;
 
 import java.awt.Window;

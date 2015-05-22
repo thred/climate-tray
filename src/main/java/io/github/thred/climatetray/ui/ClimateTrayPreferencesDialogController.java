@@ -12,28 +12,36 @@
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package io.github.thred.climatetray.controller;
+package io.github.thred.climatetray.ui;
 
 import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.ClimateTrayPreferences;
 
 import java.awt.Window;
 
-public class ClimateTrayAboutDialogController extends DefaultClimateTrayDialogController<ClimateTrayPreferences>
+public class ClimateTrayPreferencesDialogController extends DefaultClimateTrayDialogController<ClimateTrayPreferences>
 {
 
-    public ClimateTrayAboutDialogController(Window owner)
+    public ClimateTrayPreferencesDialogController(Window owner)
     {
-        super(owner, new ClimateTrayAboutController(), Button.CLOSE);
+        super(owner, new ClimateTrayPreferencesController(), Button.OK, Button.CANCEL);
 
-        setTitle("Climate Tray");
-        setDescription("Simple control utility for A/Cs.");
+        setTitle("Preferences");
+    }
+
+    @Override
+    public void ok()
+    {
+        super.ok();
+
+        ClimateTray.store();
+        ClimateTray.scheduleUpdate();
     }
 
     @Override
     public void dismiss(ClimateTrayPreferences model)
     {
-        ClimateTray.LOG.debug("Closing about dialog.");
+        ClimateTray.LOG.debug("Closing preferences dialog.");
 
         super.dismiss(model);
     }

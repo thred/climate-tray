@@ -16,11 +16,11 @@ package io.github.thred.climatetray.mnet.ui;
 
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
 import io.github.thred.climatetray.ClimateTray;
-import io.github.thred.climatetray.controller.AbstractClimateTrayController;
 import io.github.thred.climatetray.mnet.MNetAir;
 import io.github.thred.climatetray.mnet.MNetFan;
 import io.github.thred.climatetray.mnet.MNetMode;
 import io.github.thred.climatetray.mnet.MNetPreset;
+import io.github.thred.climatetray.ui.AbstractClimateTrayController;
 import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.TemperatureUnit;
 import io.github.thred.climatetray.util.swing.GBC;

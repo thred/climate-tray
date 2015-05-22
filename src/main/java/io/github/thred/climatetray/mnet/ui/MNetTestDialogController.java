@@ -1,7 +1,7 @@
 package io.github.thred.climatetray.mnet.ui;
 
-import io.github.thred.climatetray.controller.DefaultClimateTrayDialogController;
 import io.github.thred.climatetray.mnet.ui.MNetTest.Step;
+import io.github.thred.climatetray.ui.DefaultClimateTrayDialogController;
 
 import java.awt.Window;
 
