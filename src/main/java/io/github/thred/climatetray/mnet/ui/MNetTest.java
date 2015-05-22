@@ -29,15 +29,21 @@ public class MNetTest implements ExceptionConsumer
         FINISHED;
     }
 
+    public enum State
+    {
+        RUNNING,
+        CANCELED,
+        FAILED,
+        SUCCEEDED
+    }
+
     private final EventListenerList listenerList = new EventListenerList();
     private final MessageBuffer messages = new MessageBuffer();
 
     private final MNetDevice device;
 
     private Step step;
-    private boolean canceled = false;
-    private boolean failed = false;
-    private boolean success = false;
+    private State state;
     private boolean fixedEc = false;
 
     public MNetTest(MNetDevice device)
@@ -61,7 +67,7 @@ public class MNetTest implements ExceptionConsumer
     {
         for (MNetTestStepListener listener : listenerList.getListeners(MNetTestStepListener.class))
         {
-            listener.testStep(this, step);
+            listener.testStep(this, step, state);
         }
     }
 
@@ -86,19 +92,9 @@ public class MNetTest implements ExceptionConsumer
         fireTestStep();
     }
 
-    public boolean isCanceled()
+    public State getState()
     {
-        return canceled;
-    }
-
-    public boolean isFailed()
-    {
-        return failed;
-    }
-
-    public boolean isSuccess()
-    {
-        return success;
+        return state;
     }
 
     public boolean isFixedEc()
@@ -108,14 +104,14 @@ public class MNetTest implements ExceptionConsumer
 
     public void cancel()
     {
-        canceled = true;
+        state = State.CANCELED;
 
         fireTestStep();
     }
 
     protected void checkCanceled()
     {
-        if (canceled)
+        if (state == State.CANCELED)
         {
             throw new MNetTestException("Test canceled.");
         }
@@ -124,8 +120,7 @@ public class MNetTest implements ExceptionConsumer
     @Override
     public void failed(Exception exception)
     {
-        failed = true;
-        success = false;
+        state = State.FAILED;
 
         if (exception instanceof MNetTestException)
         {
@@ -143,10 +138,8 @@ public class MNetTest implements ExceptionConsumer
     public void start()
     {
         messages.clear();
-
-        canceled = false;
-        failed = false;
-        success = false;
+        
+        state = State.RUNNING;
         fixedEc = false;
 
         ClimateTray.PROCESSOR.submit(() -> {
@@ -254,8 +247,8 @@ public class MNetTest implements ExceptionConsumer
 
     public void success()
     {
-        success = true;
-
+        state = State.SUCCEEDED;
+        
         step(Step.FINISHED, "The test succeeded.");
     }
 

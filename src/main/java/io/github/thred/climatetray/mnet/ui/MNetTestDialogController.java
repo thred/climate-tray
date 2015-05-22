@@ -1,5 +1,6 @@
 package io.github.thred.climatetray.mnet.ui;
 
+import io.github.thred.climatetray.mnet.ui.MNetTest.State;
 import io.github.thred.climatetray.mnet.ui.MNetTest.Step;
 import io.github.thred.climatetray.ui.DefaultClimateTrayDialogController;
 
@@ -30,9 +31,9 @@ public class MNetTestDialogController extends DefaultClimateTrayDialogController
     }
 
     @Override
-    public void testStep(MNetTest test, Step step)
+    public void testStep(MNetTest test, Step step, State state)
     {
-        boolean finished = (test.isCanceled()) || (test.isFailed()) || (test.isSuccess());
+        boolean finished = (state != State.RUNNING);
 
         closeButton.setVisible(finished);
         cancelButton.setVisible(!finished);

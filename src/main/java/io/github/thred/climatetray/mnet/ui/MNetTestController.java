@@ -1,5 +1,6 @@
 package io.github.thred.climatetray.mnet.ui;
 
+import io.github.thred.climatetray.mnet.ui.MNetTest.State;
 import io.github.thred.climatetray.mnet.ui.MNetTest.Step;
 import io.github.thred.climatetray.ui.AbstractClimateTrayController;
 import io.github.thred.climatetray.util.Message;
@@ -65,9 +66,12 @@ public class MNetTestController extends AbstractClimateTrayController<MNetTest, 
     }
 
     @Override
-    public void testStep(MNetTest test, Step step)
+    public void testStep(MNetTest test, Step step, State state)
     {
+        boolean finished = (state != State.RUNNING);
+
         progressBar.setValue(step.ordinal() + 1);
+        progressBar.setVisible(!finished);
     }
 
     @Override
