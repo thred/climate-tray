@@ -191,11 +191,11 @@ public abstract class MNetRequest
 
                 if (Utils.isBlank(point))
                 {
-                    messages.add(Severity.ERROR, "Device returned error %s (%s).", message, code);
+                    messages.error("Device returned error %s (%s).", message, code);
                 }
                 else
                 {
-                    messages.add(Severity.ERROR, "Device returned error %s (%s) at %s.", message, code, point);
+                    messages.error("Device returned error %s (%s) at %s.", message, code, point);
                 }
             });
         }

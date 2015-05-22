@@ -39,7 +39,7 @@ public class ClimateTrayDeviceDialogController extends DefaultClimateTrayDialogC
         super(owner, new MNetDeviceController(), Button.OK, Button.CANCEL);
 
         setTitle("Device");
-        setDescription(new Message(Severity.INFO, "Look on the device for the necessary informations."));
+        setDescription(Message.info("Look on the device for the necessary informations."));
 
         okButton.setEnabled(false);
         testButton.setEnabled(false);

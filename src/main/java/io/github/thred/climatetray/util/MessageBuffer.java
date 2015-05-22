@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -77,54 +77,29 @@ public class MessageBuffer implements Iterable<Message>
         }
     }
 
-    public void debug(String text, Object... args)
+    public void error(String text, Object... args)
     {
-        if (!isDebugEnabled())
+        if (!isErrorEnabled())
         {
             return;
         }
 
-        add(Severity.DEBUG, text, args);
+        add(Severity.ERROR, text, args);
     }
 
-    public void debug(String text, Throwable exception, Object... args)
+    public void error(String text, Throwable exception, Object... args)
     {
-        if (!isDebugEnabled())
+        if (!isErrorEnabled())
         {
             return;
         }
 
-        add(Severity.DEBUG, text, exception, args);
+        add(Severity.ERROR, text, exception, args);
     }
 
-    public boolean isDebugEnabled()
+    public boolean isErrorEnabled()
     {
-        return threshold.ordinal() <= Severity.DEBUG.ordinal();
-    }
-
-    public void info(String text, Object... args)
-    {
-        if (!isInfoEnabled())
-        {
-            return;
-        }
-
-        add(Severity.INFO, text, args);
-    }
-
-    public void info(String text, Throwable exception, Object... args)
-    {
-        if (!isInfoEnabled())
-        {
-            return;
-        }
-
-        add(Severity.INFO, text, exception, args);
-    }
-
-    public boolean isInfoEnabled()
-    {
-        return threshold.ordinal() <= Severity.INFO.ordinal();
+        return isEnabled(Severity.ERROR);
     }
 
     public void warn(String text, Object... args)
@@ -149,32 +124,57 @@ public class MessageBuffer implements Iterable<Message>
 
     public boolean isWarnEnabled()
     {
-        return threshold.ordinal() <= Severity.WARN.ordinal();
+        return isEnabled(Severity.WARN);
     }
 
-    public void error(String text, Object... args)
+    public void info(String text, Object... args)
     {
-        if (!isErrorEnabled())
+        if (!isInfoEnabled())
         {
             return;
         }
 
-        add(Severity.ERROR, text, args);
+        add(Severity.INFO, text, args);
     }
 
-    public void error(String text, Throwable exception, Object... args)
+    public void info(String text, Throwable exception, Object... args)
     {
-        if (!isErrorEnabled())
+        if (!isInfoEnabled())
         {
             return;
         }
 
-        add(Severity.ERROR, text, exception, args);
+        add(Severity.INFO, text, exception, args);
     }
 
-    public boolean isErrorEnabled()
+    public boolean isInfoEnabled()
     {
-        return threshold.ordinal() <= Severity.ERROR.ordinal();
+        return isEnabled(Severity.INFO);
+    }
+
+    public void debug(String text, Object... args)
+    {
+        if (!isDebugEnabled())
+        {
+            return;
+        }
+
+        add(Severity.DEBUG, text, args);
+    }
+
+    public void debug(String text, Throwable exception, Object... args)
+    {
+        if (!isDebugEnabled())
+        {
+            return;
+        }
+
+        add(Severity.DEBUG, text, exception, args);
+    }
+
+    public boolean isDebugEnabled()
+    {
+        return isEnabled(Severity.DEBUG);
     }
 
     public void add(Severity severity, String text, Object... args)
@@ -199,7 +199,7 @@ public class MessageBuffer implements Iterable<Message>
 
     public boolean isEnabled(Severity severity)
     {
-        return threshold.ordinal() <= severity.ordinal();
+        return severity.isCoveredBy(threshold);
     }
 
     public Message add(Message message)
@@ -208,7 +208,7 @@ public class MessageBuffer implements Iterable<Message>
         {
             if (delegate)
             {
-                message.delegate();
+                message.delegateToSystemStreams();
             }
 
             messages.add(message);
@@ -227,7 +227,7 @@ public class MessageBuffer implements Iterable<Message>
     public void clear()
     {
         messages.clear();
-        
+
         fireMessagesCleared();
     }
 
@@ -235,7 +235,7 @@ public class MessageBuffer implements Iterable<Message>
     {
         for (Message message : this)
         {
-            if (message.getSeverity().ordinal() >= severity.ordinal())
+            if (message.getSeverity().isCoveredBy(severity))
             {
                 return true;
             }
@@ -247,6 +247,11 @@ public class MessageBuffer implements Iterable<Message>
     public Message first()
     {
         return (messages.isEmpty()) ? null : messages.get(0);
+    }
+
+    public Message mostSevere()
+    {
+        return messages.stream().sorted().findFirst().orElse(null);
     }
 
     public Message first(Severity severity)

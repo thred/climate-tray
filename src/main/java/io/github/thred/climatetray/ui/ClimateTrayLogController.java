@@ -135,7 +135,7 @@ public class ClimateTrayLogController extends AbstractClimateTrayController<Mess
         }
 
         append(debugStyle, String.format("%1$tH:%1$tM:%1$tS.%1$tL ", message.getTimestamp()));
-        append(style, message.getMessage() + "\n");
+        append(style, message.getCombinedMessage() + "\n");
     }
 
     @Override

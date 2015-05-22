@@ -19,13 +19,13 @@ import io.github.thred.climatetray.ClimateTrayImage;
 public enum Severity
 {
 
-    DEBUG(ClimateTrayImage.ICON_DEBUG),
-
-    INFO(ClimateTrayImage.ICON_INFO),
+    ERROR(ClimateTrayImage.ICON_ERROR),
 
     WARN(ClimateTrayImage.ICON_WARNING),
 
-    ERROR(ClimateTrayImage.ICON_ERROR);
+    INFO(ClimateTrayImage.ICON_INFO),
+
+    DEBUG(ClimateTrayImage.ICON_DEBUG);
 
     private final ClimateTrayImage image;
 
@@ -37,6 +37,11 @@ public enum Severity
     public ClimateTrayImage getImage()
     {
         return image;
+    }
+
+    public boolean isCoveredBy(Severity threshold)
+    {
+        return compareTo(threshold) <= 0;
     }
 
 }

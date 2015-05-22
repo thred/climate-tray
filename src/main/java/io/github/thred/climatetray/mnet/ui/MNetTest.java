@@ -130,7 +130,7 @@ public class MNetTest implements ExceptionConsumer
             }
         }
 
-        ClimateTray.LOG.error("Test failed", exception);
+        ClimateTray.LOG.error("Test failed.", exception);
 
         fireTestStep();
     }
@@ -138,7 +138,7 @@ public class MNetTest implements ExceptionConsumer
     public void start()
     {
         messages.clear();
-        
+
         state = State.RUNNING;
         fixedEc = false;
 
@@ -203,6 +203,8 @@ public class MNetTest implements ExceptionConsumer
                     continue;
                 }
 
+                ClimateTray.LOG.info("Correcting EC to: %s", ec);
+                
                 device.setEc(ec);
 
                 if (!request.execute(device, messages))
@@ -248,8 +250,15 @@ public class MNetTest implements ExceptionConsumer
     public void success()
     {
         state = State.SUCCEEDED;
-        
-        step(Step.FINISHED, "The test succeeded.");
+
+        if (fixedEc)
+        {
+            step(Step.FINISHED, "The test succeeded. The EC value was corrected automatically to %s.", device.getEc());
+        }
+        else
+        {
+            step(Step.FINISHED, "The test succeeded.");
+        }
     }
 
     //    protected void consumeCheck(ClimateTrayTest model)
