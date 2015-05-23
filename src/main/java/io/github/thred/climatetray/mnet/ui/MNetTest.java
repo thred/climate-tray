@@ -5,7 +5,6 @@ import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetDrive;
 import io.github.thred.climatetray.mnet.MNetEc;
-import io.github.thred.climatetray.mnet.MNetMode;
 import io.github.thred.climatetray.mnet.MNetUtils;
 import io.github.thred.climatetray.mnet.request.AbstractMNetDeviceRequest;
 import io.github.thred.climatetray.mnet.request.MNetDeviceRequestItem;
@@ -117,7 +116,7 @@ public class MNetTest implements ExceptionConsumer
             // undo the toggle operation
             ClimateTrayService.submitTask(() -> {
                 MNetOperateRequest request = new MNetOperateRequest();
-                boolean turnOn = (device.getState().getMode() == MNetMode.OFF);
+                boolean turnOn = (device.getState().getDrive() == MNetDrive.OFF);
 
                 if (turnOn)
                 {
@@ -347,7 +346,7 @@ public class MNetTest implements ExceptionConsumer
                     ensureNotCanceled();
 
                     MNetOperateRequest request = new MNetOperateRequest();
-                    boolean turnOn = (device.getState().getMode() == MNetMode.OFF);
+                    boolean turnOn = (device.getState().getDrive() == MNetDrive.OFF);
 
                     if (turnOn)
                     {
@@ -390,20 +389,6 @@ public class MNetTest implements ExceptionConsumer
             step(Step.FINISHED, "The test succeeded.");
         }
     }
-
-    //    protected void consumeCheck(ClimateTrayTest model)
-    //    {
-    //        MNetDevice device = model.getDevice();
-    //
-    //        model.setStep(Step.CHECK);
-    //        messageComponent.setMessage(Message.info("Calling %s...", device.describe(true, MNetStateType.NONE)));
-    //
-    //    }
-    //
-    //    protected void consumeFixEc(MNetDevice device)
-    //    {
-    //
-    //    }
 
     protected MNetDeviceRequestItem updateDevice(AbstractMNetDeviceRequest request, MNetDevice device)
         throws MNetTestException

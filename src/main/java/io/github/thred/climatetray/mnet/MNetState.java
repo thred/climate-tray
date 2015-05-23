@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -22,12 +22,13 @@ import io.github.thred.climatetray.util.Utils;
 import java.awt.Image;
 
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 public class MNetState implements Copyable<MNetState>
 {
 
-    private MNetDrive drive = null;
-    private MNetMode mode = null;
+    private MNetDrive drive = MNetDrive.OFF;
+    private MNetMode mode = MNetMode.AUTO;
     private Double temperature = null;
     private Double thermometer = null;
     private MNetFan fan = null;
@@ -118,26 +119,24 @@ public class MNetState implements Copyable<MNetState>
 
     public Icon createIcon(ClimateTrayImageState state, int size)
     {
-        if (drive == MNetDrive.ON)
-        {
-            return MNetUtils.createIcon(state, size, mode, fan, thermometer, air);
-        }
-        else
-        {
-            return MNetUtils.createIcon(state, size, null, null, thermometer, null);
-        }
+        return new ImageIcon(createImage(state, size));
     }
 
     public Image createImage(ClimateTrayImageState state, int size)
     {
-        if (drive == MNetDrive.ON)
+        MNetMode mode = getMode();
+        Double thermometer = getThermometer();
+        MNetFan fan = getFan();
+        MNetAir air = getAir();
+
+        if (drive == MNetDrive.OFF)
         {
-            return MNetUtils.createImage(state, size, mode, fan, thermometer, air);
+            mode = null;
+            fan = null;
+            air = null;
         }
-        else
-        {
-            return MNetUtils.createImage(state, size, null, null, thermometer, null);
-        }
+
+        return MNetUtils.createImage(state, size, drive, mode, thermometer, fan, air);
     }
 
     public String describe()

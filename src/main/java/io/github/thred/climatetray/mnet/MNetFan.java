@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -20,6 +20,7 @@ import io.github.thred.climatetray.ClimateTrayImage;
 public enum MNetFan
 {
 
+    NO_CHANGE(null, "Do not change", null, ClimateTrayImage.ICON_JOKER, null),
     LOW("LOW", "Very Low", "very low fan speed", ClimateTrayImage.ICON_FAN1, ClimateTrayImage.BACKGROUND_FAN1),
     MID1("MID1", "Low", "low fan speed", ClimateTrayImage.ICON_FAN2, ClimateTrayImage.BACKGROUND_FAN2),
     MID2("MID2", "High", "high fan speed", ClimateTrayImage.ICON_FAN3, ClimateTrayImage.BACKGROUND_FAN3),

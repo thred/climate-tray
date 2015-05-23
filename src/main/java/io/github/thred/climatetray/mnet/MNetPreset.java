@@ -18,6 +18,7 @@ import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.util.Copyable;
 import io.github.thred.climatetray.util.Persistent;
+import io.github.thred.climatetray.util.Utils;
 import io.github.thred.climatetray.util.prefs.Prefs;
 
 import java.util.UUID;
@@ -28,10 +29,11 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
 {
 
     private UUID id = UUID.randomUUID();
-    private MNetMode mode = MNetMode.OFF;
-    private Double temperature = Double.valueOf(22);
-    private MNetFan fan = MNetFan.MID1;
-    private MNetAir air = MNetAir.HORIZONTAL;
+    private MNetDrive drive = MNetDrive.NO_CHANGE;
+    private MNetMode mode = MNetMode.NO_CHANGE;
+    private Double temperature = null;
+    private MNetFan fan = MNetFan.NO_CHANGE;
+    private MNetAir air = MNetAir.NO_CHANGE;
     private boolean selected = false;
 
     public MNetPreset()
@@ -39,11 +41,13 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
         super();
     }
 
-    public MNetPreset(UUID id, MNetMode mode, Double temperature, MNetFan fan, MNetAir air, boolean selected)
+    public MNetPreset(UUID id, MNetDrive drive, MNetMode mode, Double temperature, MNetFan fan, MNetAir air,
+        boolean selected)
     {
         super();
 
         this.id = id;
+        this.drive = drive;
         this.mode = mode;
         this.temperature = temperature;
         this.fan = fan;
@@ -54,7 +58,7 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
     @Override
     public MNetPreset deepCopy()
     {
-        return new MNetPreset(id, mode, temperature, fan, air, selected);
+        return new MNetPreset(id, drive, mode, temperature, fan, air, selected);
     }
 
     public UUID getId()
@@ -65,6 +69,16 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
     public void setId(UUID id)
     {
         this.id = id;
+    }
+
+    public MNetDrive getDrive()
+    {
+        return drive;
+    }
+
+    public void setDrive(MNetDrive drive)
+    {
+        this.drive = drive;
     }
 
     public MNetMode getMode()
@@ -119,36 +133,70 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
 
     public Icon createIcon(ClimateTrayImageState state, int size)
     {
-        return MNetUtils.createIcon(state, size, mode, fan, temperature, air);
+        MNetDrive drive = getDrive();
+        MNetMode mode = getMode();
+        Double temperature = getTemperature();
+        MNetFan fan = getFan();
+        MNetAir air = getAir();
+
+        if (drive == MNetDrive.NO_CHANGE)
+        {
+            drive = null;
+        }
+        else if (drive == MNetDrive.OFF)
+        {
+            mode = null;
+            temperature = null;
+            fan = null;
+            air = null;
+        }
+
+        if (mode == MNetMode.NO_CHANGE)
+        {
+            mode = null;
+        }
+
+        if ((mode != null) && (!mode.isTemperatureEnabled()))
+        {
+            temperature = null;
+        }
+
+        if ((mode != null) && (!mode.isFanEnabled()))
+        {
+            fan = null;
+        }
+
+        if ((mode != null) && (!mode.isAirEnabled()))
+        {
+            air = null;
+        }
+
+        if (fan == MNetFan.NO_CHANGE)
+        {
+            fan = null;
+        }
+
+        if (air == MNetAir.NO_CHANGE)
+        {
+            air = null;
+        }
+
+        return MNetUtils.createIcon(state, size, drive, mode, temperature, fan, air);
     }
 
     public String describe()
     {
-        StringBuilder builder = new StringBuilder(mode.getDescription());
-
-        if (mode.isTemperatureEnabled())
-        {
-            builder.append(" (").append(PREFERENCES.getTemperatureUnit().format(temperature)).append(")");
-        }
-
-        if (mode.isFanEnabled())
-        {
-            builder.append(", ").append(fan.getDescription());
-        }
-
-        if (mode.isAirEnabled())
-        {
-            builder.append(" (").append(air.getDescription()).append(")");
-        }
-
-        return builder.toString();
+        return Utils.sentence(Utils.combine(", ", MNetDrive.descriptionOf(drive), MNetMode.descriptionOf(mode),
+            PREFERENCES.getTemperatureUnit().format(temperature), MNetFan.descriptionOf(fan),
+            MNetAir.descriptionOf(air)));
     }
 
     @Override
     public void read(Prefs prefs)
     {
         id = prefs.getUUID("id", id);
-        mode = prefs.getEnum(MNetMode.class, "mode", MNetMode.OFF);
+        drive = prefs.getEnum(MNetDrive.class, "drive", drive);
+        mode = prefs.getEnum(MNetMode.class, "mode", mode);
         temperature = prefs.getDouble("temperature", temperature);
         fan = prefs.getEnum(MNetFan.class, "fan", fan);
         air = prefs.getEnum(MNetAir.class, "air", air);
@@ -160,6 +208,7 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
     public void write(Prefs prefs)
     {
         prefs.setUUID("id", id);
+        prefs.setEnum("drive", drive);
         prefs.setEnum("mode", mode);
         prefs.setDouble("temperature", temperature);
         prefs.setEnum("fan", fan);
@@ -169,8 +218,8 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
     @Override
     public String toString()
     {
-        return "MNetPreset [id=" + id + ", mode=" + mode + ", temperature=" + temperature + ", fan=" + fan + ", air="
-            + air + ", selected=" + selected + "]";
+        return "MNetPreset [id=" + id + ", drive=" + drive + ", mode=" + mode + ", temperature=" + temperature
+            + ", fan=" + fan + ", air=" + air + ", selected=" + selected + "]";
     }
 
 }

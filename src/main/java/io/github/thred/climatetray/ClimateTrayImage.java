@@ -39,6 +39,7 @@ public enum ClimateTrayImage
     BACKGROUND_FAN4,
     BACKGROUND_HEAT,
     BACKGROUND_OFF,
+    BACKGROUND_TEMPERATURE,
     CHAR__,
     CHAR_0,
     CHAR_1,
@@ -65,8 +66,12 @@ public enum ClimateTrayImage
     ICON_FAN3,
     ICON_FAN4,
     ICON_HEAT,
+    ICON_HORIZONTAL,
+    ICON_JOKER,
+    ICON_ON,
     ICON_OFF,
     ICON_SWING,
+    ICON_VERTICAL,
     ICON_ERROR,
     ICON_WARNING,
     ICON_INFO,
@@ -104,6 +109,9 @@ public enum ClimateTrayImage
             case NOT_SELECTED:
                 backgroundImage = BACKGROUND.getImage(ClimateTrayImageState.NONE, size);
                 break;
+
+            default:
+                throw new UnsupportedOperationException("State not supported: " + state);
         }
 
         BufferedImage combinedImage = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);

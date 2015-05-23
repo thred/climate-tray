@@ -63,38 +63,43 @@ public class MNetUtils
         return url;
     }
 
-    public static Icon createIcon(ClimateTrayImageState state, int size, MNetMode mode, MNetFan fan,
-        Double temperature, MNetAir air)
+    public static Icon createIcon(ClimateTrayImageState state, int size, MNetDrive drive, MNetMode mode,
+        Double temperature, MNetFan fan, MNetAir air)
     {
-        return new ImageIcon(createImage(state, size, mode, fan, temperature, air));
+        return new ImageIcon(createImage(state, size, drive, mode, temperature, fan, air));
     }
 
-    public static Image createImage(ClimateTrayImageState state, int size, MNetMode mode, MNetFan fan,
-        Double temperature, MNetAir air)
+    public static Image createImage(ClimateTrayImageState state, int size, MNetDrive drive, MNetMode mode,
+        Double temperature, MNetFan fan, MNetAir air)
     {
-        if (mode == null)
-        {
-            mode = MNetMode.OFF;
-        }
-
         BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
 
-        boolean temperatureEnabled = temperature != null;//mode.isTemperatureEnabled();
+        boolean temperatureEnabled = temperature != null;
+        boolean mainFilled = false;
+        boolean subFilled = false;
 
-        if (mode == MNetMode.FAN)
+        switch (state)
         {
-            g.drawImage((temperatureEnabled) ? fan.getBackgroundImage().getImage(state, size) : fan.getImage()
-                .getImage(state, size), 0, 0, null);
-        }
-        else
-        {
-            g.drawImage((temperatureEnabled) ? mode.getBackgroundImage().getImage(state, size) : mode.getImage()
-                .getImage(state, size), 0, 0, null);
+            case NONE:
+                break;
+
+            case SELECTED:
+                g.drawImage(ClimateTrayImage.BACKGROUND_SELECTED.getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
+                break;
+
+            case NOT_SELECTED:
+                g.drawImage(ClimateTrayImage.BACKGROUND.getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
+                break;
+
+            default:
+                break;
         }
 
-        if ((temperature != null) && temperatureEnabled)
+        if (temperatureEnabled)
         {
+            g.drawImage(ClimateTrayImage.BACKGROUND_TEMPERATURE.getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
+
             String value = String.valueOf(Math.round(PREFERENCES.getTemperatureUnit().convertFromCelsius(temperature)));
             int x = (int) (size * 0.45);
 
@@ -107,9 +112,78 @@ public class MNetUtils
 
                 x -= charImage.getWidth(null) * 0.8;
             }
+
+            mainFilled = true;
+        }
+
+        if ((mode == MNetMode.FAN) && (fan != null))
+        {
+            if (mainFilled)
+            {
+                g.drawImage(fan.getBackgroundImage().getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
+
+                subFilled = true;
+            }
+            else
+            {
+                g.drawImage(fan.getImage().getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
+
+                mainFilled = true;
+            }
+        }
+
+        if (mode != null)
+        {
+            if ((mainFilled) && (!subFilled))
+            {
+                g.drawImage(mode.getBackgroundImage().getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
+
+                subFilled = true;
+            }
+            else if (!mainFilled)
+            {
+                g.drawImage(mode.getImage().getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
+
+                mainFilled = true;
+                subFilled = true;
+            }
+        }
+
+        if ((fan != null) && (!mainFilled))
+        {
+            g.drawImage(fan.getImage().getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
+
+            mainFilled = true;
+            subFilled = true;
+        }
+
+        if ((air != null) && (!mainFilled))
+        {
+            g.drawImage(air.getImage().getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
+
+            mainFilled = true;
+            subFilled = true;
+        }
+
+        if (drive != null)
+        {
+            if (!mainFilled)
+            {
+                g.drawImage(drive.getImage().getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
+
+                mainFilled = true;
+            }
+            else if (!subFilled)
+            {
+                if (drive.getBackgroundImage() != null)
+                {
+                    g.drawImage(drive.getBackgroundImage().getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
+
+                    subFilled = true;
+                }
+            }
         }
 
         return image;
     }
-
 }

@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -76,6 +76,32 @@ public class Utils
 
             return out.toByteArray();
         }
+    }
+
+    public static String sentence(Object value)
+    {
+        if (value == null)
+        {
+            return EMPTY;
+        }
+
+        String s = String.valueOf(value).trim();
+
+        if (s.length() <= 0)
+        {
+            return EMPTY;
+        }
+
+        s = Character.toUpperCase(s.charAt(0)) + s.substring(1);
+
+        char last = s.charAt(s.length() - 1);
+
+        if ((!Character.isLetter(last)) && (!Character.isDigit(last)))
+        {
+            s += ".";
+        }
+
+        return s;
     }
 
     public static String combine(final String delimiter, final Object... values)

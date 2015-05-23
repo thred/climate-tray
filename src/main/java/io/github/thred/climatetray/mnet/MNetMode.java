@@ -22,21 +22,20 @@ import java.util.Arrays;
 public enum MNetMode
 {
 
-    OFF(null, MNetDrive.OFF, "Off", "Off", ClimateTrayImage.ICON_OFF, ClimateTrayImage.BACKGROUND_OFF, true, false,
-        false),
-    FAN("FAN", MNetDrive.ON, "Fan", "Blowing", ClimateTrayImage.ICON_FAN, ClimateTrayImage.BACKGROUND_FAN1, true, true,
+    NO_CHANGE(null, null, "Do not change", null, ClimateTrayImage.ICON_JOKER, null, true, 17, 30, true, true),
+    FAN("FAN", MNetDrive.ON, "Fan", "blowing", ClimateTrayImage.ICON_FAN, ClimateTrayImage.BACKGROUND_FAN1, true, true,
         true),
-    COOL("COOL", MNetDrive.ON, "Cool", "Cooling", ClimateTrayImage.ICON_COOL, ClimateTrayImage.BACKGROUND_COOL, true,
+    COOL("COOL", MNetDrive.ON, "Cool", "cool down", ClimateTrayImage.ICON_COOL, ClimateTrayImage.BACKGROUND_COOL, true,
         19, 30, true, true),
-    HEAT("HEAT", MNetDrive.ON, "Heat", "Heating", ClimateTrayImage.ICON_HEAT, ClimateTrayImage.BACKGROUND_HEAT, true,
+    HEAT("HEAT", MNetDrive.ON, "Heat", "heat up", ClimateTrayImage.ICON_HEAT, ClimateTrayImage.BACKGROUND_HEAT, true,
         17, 28, true, true),
-    AUTO("AUTO", MNetDrive.ON, "Automatic", "Auto", ClimateTrayImage.ICON_AUTO, ClimateTrayImage.BACKGROUND_AUTO, true,
+    AUTO("AUTO", MNetDrive.ON, "Automatic", "auto", ClimateTrayImage.ICON_AUTO, ClimateTrayImage.BACKGROUND_AUTO, true,
         19, 28, true, true),
-    AUTO_COOL("AUTO", MNetDrive.ON, "Automatic (cooling)", "Auto\u25bc", null, ClimateTrayImage.BACKGROUND_AUTO_COOL,
+    AUTO_COOL("AUTOCOOL", MNetDrive.ON, "Automatic (cooling)", "auto (\u25bc)", null, ClimateTrayImage.BACKGROUND_AUTO_COOL,
         false, 19, 28, true, true),
-    AUTO_HEAT("AUTOHEAT", MNetDrive.ON, "Automatic (heating)", "Auto\u25b2", null,
+    AUTO_HEAT("AUTOHEAT", MNetDrive.ON, "Automatic (heating)", "auto (\u25b2)", null,
         ClimateTrayImage.BACKGROUND_AUTO_HEAT, false, 19, 28, true, true),
-    DRY("DRY", MNetDrive.ON, "Dry", "Drying", ClimateTrayImage.ICON_DRY, ClimateTrayImage.BACKGROUND_DRY, true, true,
+    DRY("DRY", MNetDrive.ON, "Dry", "drying", ClimateTrayImage.ICON_DRY, ClimateTrayImage.BACKGROUND_DRY, true, true,
         true);
 
     public static MNetMode valueOfKey(String key)
@@ -44,12 +43,6 @@ public enum MNetMode
         if ((key == null) || ("*".equals(key)))
         {
             return null;
-        }
-
-        if ("OFF".equals(key))
-        {
-            // special handling, because Drive and Mode are used together
-            return MNetMode.OFF;
         }
 
         for (MNetMode mode : values())

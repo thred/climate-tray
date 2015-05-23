@@ -91,17 +91,4 @@ public class MNetTestController extends AbstractClimateTrayController<MNetTest, 
     {
         // intentionally left blank
     }
-
-    //
-    //    protected void step(int index, Message message)
-    //    {
-    //        progressBar.setValue(index);
-    //        messageComponent.setMessage(message);
-    //    }
-    //
-    //    protected void result(Message message)
-    //    {
-    //        progressBar.setVisible(false);
-    //        messageComponent.setMessage(message);
-    //    }
 }

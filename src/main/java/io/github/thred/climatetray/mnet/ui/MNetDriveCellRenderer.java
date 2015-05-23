@@ -1,35 +1,33 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray.mnet.ui;
 
 import io.github.thred.climatetray.ClimateTrayImageState;
-import io.github.thred.climatetray.mnet.MNetPreset;
+import io.github.thred.climatetray.mnet.MNetDrive;
 
 import java.awt.Component;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-public class MNetPresetCellRenderer extends DefaultListCellRenderer
+public class MNetDriveCellRenderer extends DefaultListCellRenderer
 {
 
-    private static final long serialVersionUID = 8417832942032540610L;
+    private static final long serialVersionUID = -1286708018290981191L;
 
-    private static final int ICON_SIZE = 24;
-
-    public MNetPresetCellRenderer()
+    public MNetDriveCellRenderer()
     {
         super();
     }
@@ -47,13 +45,11 @@ public class MNetPresetCellRenderer extends DefaultListCellRenderer
             return this;
         }
 
-        MNetPreset preset = (MNetPreset) value;
-        ClimateTrayImageState imageState = ClimateTrayImageState.NOT_SELECTED;
+        MNetDrive drive = (MNetDrive) value;
 
-        setIcon(preset.createIcon(imageState, ICON_SIZE));
-        setText(preset.describe());
+        setIcon(drive.getImage().getIcon(ClimateTrayImageState.NOT_SELECTED, 16));
+        setText(drive.getLabel());
 
         return this;
     }
-
 }
