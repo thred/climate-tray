@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -32,14 +32,14 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
     private Double temperature = Double.valueOf(22);
     private MNetFan fan = MNetFan.MID1;
     private MNetAir air = MNetAir.HORIZONTAL;
-    private boolean enabled = false;
+    private boolean selected = false;
 
     public MNetPreset()
     {
         super();
     }
 
-    public MNetPreset(UUID id, MNetMode mode, Double temperature, MNetFan fan, MNetAir air, boolean enabled)
+    public MNetPreset(UUID id, MNetMode mode, Double temperature, MNetFan fan, MNetAir air, boolean selected)
     {
         super();
 
@@ -48,13 +48,13 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
         this.temperature = temperature;
         this.fan = fan;
         this.air = air;
-        this.enabled = enabled;
+        this.selected = selected;
     }
 
     @Override
     public MNetPreset deepCopy()
     {
-        return new MNetPreset(id, mode, temperature, fan, air, enabled);
+        return new MNetPreset(id, mode, temperature, fan, air, selected);
     }
 
     public UUID getId()
@@ -107,14 +107,14 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
         this.air = air;
     }
 
-    public boolean isEnabled()
+    public boolean isSelected()
     {
-        return enabled;
+        return selected;
     }
 
-    public void setEnabled(boolean enabled)
+    public void setSelected(boolean selected)
     {
-        this.enabled = enabled;
+        this.selected = selected;
     }
 
     public Icon createIcon(ClimateTrayImageState state, int size)
@@ -153,7 +153,7 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
         fan = prefs.getEnum(MNetFan.class, "fan", fan);
         air = prefs.getEnum(MNetAir.class, "air", air);
 
-        enabled = false;
+        selected = false;
     }
 
     @Override
@@ -170,7 +170,7 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
     public String toString()
     {
         return "MNetPreset [id=" + id + ", mode=" + mode + ", temperature=" + temperature + ", fan=" + fan + ", air="
-            + air + ", enabled=" + enabled + "]";
+            + air + ", selected=" + selected + "]";
     }
 
 }

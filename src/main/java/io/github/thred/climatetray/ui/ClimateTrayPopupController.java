@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -84,12 +84,12 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         dynamicItems.stream().forEach(view::remove);
         dynamicItems.clear();
 
-        index = preparePresets(model, view, index);
+        index = preparePresets(model, view, index, model.isAnyDeviceSelected());
         prepareDevices(model, view, index);
 
     }
 
-    protected int preparePresets(ClimateTrayPreferences model, JPopupMenu view, int index)
+    protected int preparePresets(ClimateTrayPreferences model, JPopupMenu view, int index, boolean enabled)
     {
         ButtonGroup group = new ButtonGroup();
         List<MNetPreset> presets = model.getPresets();
@@ -103,6 +103,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
                     SwingUtils.createRadioButtonMenuItem(preset.describe(), icon, null, (e) -> presetSelect(preset));
 
                 item.setName(preset.getId().toString());
+                item.setEnabled(enabled);
 
                 view.add(item, index++);
                 group.add(item);
@@ -142,7 +143,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     protected Icon createIcon(MNetPreset preset)
     {
         ClimateTrayImageState imageState =
-            (preset.isEnabled()) ? ClimateTrayImageState.SELECTED : ClimateTrayImageState.NOT_SELECTED;
+            (preset.isSelected()) ? ClimateTrayImageState.SELECTED : ClimateTrayImageState.NOT_SELECTED;
 
         return preset.createIcon(imageState, 16);
     }

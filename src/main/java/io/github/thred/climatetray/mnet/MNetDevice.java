@@ -236,7 +236,7 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         prefs.setString("host", host);
         prefs.setEnum("ec", ec);
         prefs.setInteger("address", address);
-        prefs.setBoolean("enabled", selected);
+        prefs.setBoolean("selected", selected);
 
         preset.write(prefs.withPrefix("preset."));
     }
