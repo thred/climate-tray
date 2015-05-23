@@ -1,9 +1,11 @@
 package io.github.thred.climatetray;
 
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetDeviceService;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.ui.ClimateTrayAboutDialogController;
+import io.github.thred.climatetray.ui.ClimateTrayIconController;
 import io.github.thred.climatetray.ui.ClimateTrayLogFrameController;
 import io.github.thred.climatetray.ui.ClimateTrayPreferencesDialogController;
 import io.github.thred.climatetray.util.ExceptionConsumer;
@@ -11,8 +13,6 @@ import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.VoidCallable;
 import io.github.thred.climatetray.util.prefs.SystemPrefs;
 
-import java.awt.Image;
-import java.awt.SystemTray;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -28,6 +28,7 @@ public class ClimateTrayService
 
     private static final SystemPrefs PREFS = SystemPrefs.get(ClimateTray.class);
     private static final ScheduledExecutorService EXECUTOR;
+    private static final ClimateTrayIconController ICON_CONTROLLER;
     private static final ClimateTrayAboutDialogController ABOUT_CONTROLLER;
     private static final ClimateTrayLogFrameController LOG_CONTROLLER;
     private static final ClimateTrayPreferencesDialogController PREFERENCES_CONTROLLER;
@@ -37,11 +38,12 @@ public class ClimateTrayService
         EXECUTOR = Executors.newSingleThreadScheduledExecutor(r -> {
             Thread thread = new Thread(r, "Climate-Tray Executor Thread");
 
-            thread.setUncaughtExceptionHandler((t, e) -> ClimateTray.LOG.error("Unhandled exception", e));
+            thread.setUncaughtExceptionHandler((t, e) -> LOG.error("Unhandled exception", e));
 
             return thread;
         });
 
+        ICON_CONTROLLER = new ClimateTrayIconController();
         ABOUT_CONTROLLER = new ClimateTrayAboutDialogController(null);
         LOG_CONTROLLER = new ClimateTrayLogFrameController(null);
         PREFERENCES_CONTROLLER = new ClimateTrayPreferencesDialogController(null);
@@ -51,38 +53,40 @@ public class ClimateTrayService
 
     public static void load()
     {
-        ClimateTray.LOG.info("Loading preferences.");
+        LOG.info("Loading preferences.");
 
         try
         {
-            ClimateTray.PREFERENCES.read(PREFS);
+            PREFERENCES.read(PREFS);
         }
         catch (Exception e)
         {
-            ClimateTray.LOG.error("Failed to load preferences", e);
+            LOG.error("Failed to load preferences", e);
             ClimateTrayUtils.okDialog(null, "Preferences", Message.error("Failed to load existing preferences."));
         }
+
+        ICON_CONTROLLER.prepareWith(PREFERENCES);
     }
 
     public static void store()
     {
-        ClimateTray.PREFERENCES.write(PREFS);
+        PREFERENCES.write(PREFS);
 
-        ClimateTray.LOG.info("Preferences stored.");
+        LOG.info("Preferences stored.");
     }
 
     public static void scheduleUpdate()
     {
-        double updatePeriodInMinutes = ClimateTray.PREFERENCES.getUpdatePeriodInMinutes();
+        double updatePeriodInMinutes = PREFERENCES.getUpdatePeriodInMinutes();
 
         if (updateFuture != null)
         {
-            ClimateTray.LOG.debug("Canceling existing update process.");
+            LOG.debug("Canceling existing update process.");
 
             updateFuture.cancel(false);
         }
 
-        ClimateTray.LOG.info("Scheduling update every %.1f minutes.", updatePeriodInMinutes);
+        LOG.info("Scheduling update every %.1f minutes.", updatePeriodInMinutes);
 
         updateFuture = EXECUTOR.scheduleWithFixedDelay(() -> {
             try
@@ -91,34 +95,20 @@ public class ClimateTrayService
             }
             catch (Exception e)
             {
-                ClimateTray.LOG.error("Unhandled error while update", e);
+                LOG.error("Unhandled error while update", e);
             }
         }, 0, (long) (updatePeriodInMinutes * 60), TimeUnit.SECONDS);
     }
 
     public static void update()
     {
-        ClimateTray.LOG.debug("Updating.");
+        LOG.debug("Updating.");
 
-        List<MNetDevice> devices = ClimateTray.PREFERENCES.getDevices();
+        List<MNetDevice> devices = PREFERENCES.getDevices();
 
         devices.stream().forEach(device -> MNetDeviceService.update(device));
 
-        MNetDevice activeDevice =
-            devices.stream().filter(device -> (device.isEnabled()) && (device.isSelected())).findFirst().orElse(null);
-
-        if (activeDevice != null)
-        {
-            Image image =
-                activeDevice.getState().createImage(ClimateTrayImageState.NOT_SELECTED, ClimateTray.TRAY_ICON_SIZE);
-            String toolTip = activeDevice.describeState();
-
-            ClimateTray.updateTrayIcon(image, toolTip);
-        }
-        else
-        {
-            ClimateTray.updateTrayIcon(null, null);
-        }
+        ICON_CONTROLLER.prepareWith(PREFERENCES);
     }
 
     public static Future<?> submitTask(VoidCallable task)
@@ -197,7 +187,7 @@ public class ClimateTrayService
 
     public static void shutdown()
     {
-        ClimateTray.LOG.info("Shutting down processor.");
+        LOG.info("Shutting down processor.");
 
         EXECUTOR.shutdown();
 
@@ -207,17 +197,17 @@ public class ClimateTrayService
         }
         catch (InterruptedException e)
         {
-            ClimateTray.LOG.warn("Shutdown of processor got interrupted");
+            LOG.warn("Shutdown of processor got interrupted");
         }
     }
 
     public static void togglePreset(UUID id)
     {
-        ClimateTray.LOG.debug("Toggling preset with id %s.", id);
+        LOG.debug("Toggling preset with id %s.", id);
 
-        ClimateTray.PREFERENCES.getPresets().stream().forEach((preset) -> preset.setSelected(false));
+        PREFERENCES.getPresets().stream().forEach((preset) -> preset.setSelected(false));
 
-        MNetPreset preset = ClimateTray.PREFERENCES.getPreset(id);
+        MNetPreset preset = PREFERENCES.getPreset(id);
 
         if (preset == null)
         {
@@ -227,14 +217,14 @@ public class ClimateTrayService
         // TODO
         preset.setSelected(true);
 
-        ClimateTray.LOG.debug(preset.toString());
+        LOG.debug(preset.toString());
     }
 
     public static void toggleDevice(UUID id)
     {
-        ClimateTray.LOG.debug("Toggling air conditioner with id %s.", id);
+        LOG.debug("Toggling air conditioner with id %s.", id);
 
-        MNetDevice device = ClimateTray.PREFERENCES.getDevice(id);
+        MNetDevice device = PREFERENCES.getDevice(id);
 
         if (device == null)
         {
@@ -249,32 +239,33 @@ public class ClimateTrayService
 
     public static void preferences()
     {
-        ClimateTray.LOG.debug("Opening preferences dialog.");
+        LOG.debug("Opening preferences dialog.");
 
-        PREFERENCES_CONTROLLER.consume(ClimateTray.PREFERENCES);
+        PREFERENCES_CONTROLLER.consume(PREFERENCES);
     }
 
     public static void log()
     {
-        ClimateTray.LOG.debug("Opening log frame.");
+        LOG.debug("Opening log frame.");
 
-        LOG_CONTROLLER.consume(ClimateTray.LOG);
+        LOG_CONTROLLER.consume(LOG);
     }
 
     public static void about()
     {
-        ClimateTray.LOG.debug("Opening about dialog.");
+        LOG.debug("Opening about dialog.");
 
-        ABOUT_CONTROLLER.consume(ClimateTray.PREFERENCES);
+        ABOUT_CONTROLLER.consume(PREFERENCES);
     }
 
     public static void exit()
     {
-        ClimateTray.LOG.info("Exiting.");
+        LOG.info("Exiting.");
 
-        SystemTray tray = SystemTray.getSystemTray();
-
-        tray.remove(ClimateTray.TRAY_ICON);
+        ICON_CONTROLLER.dismiss(PREFERENCES);
+        ABOUT_CONTROLLER.dismiss(PREFERENCES);
+        LOG_CONTROLLER.dismiss(LOG);
+        PREFERENCES_CONTROLLER.dismiss(PREFERENCES);
 
         ClimateTrayService.shutdown();
 

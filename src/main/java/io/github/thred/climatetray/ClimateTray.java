@@ -14,15 +14,7 @@
  */
 package io.github.thred.climatetray;
 
-import io.github.thred.climatetray.ui.ClimateTrayPopupController;
 import io.github.thred.climatetray.util.MessageBuffer;
-
-import java.awt.AWTException;
-import java.awt.Image;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -31,15 +23,7 @@ public class ClimateTray
 {
 
     public static final MessageBuffer LOG = new MessageBuffer(true, 1024);
-
-    public static final int TRAY_ICON_SIZE = 16;
-
-    public static final TrayIcon TRAY_ICON = new TrayIcon(ClimateTrayImage.ICON.getImage(
-        ClimateTrayImageState.NOT_SELECTED, TRAY_ICON_SIZE));
-
     public static final ClimateTrayPreferences PREFERENCES = new ClimateTrayPreferences();
-
-    private static final ClimateTrayPopupController POPUP_CONTROLLER;
 
     static
     {
@@ -52,57 +36,12 @@ public class ClimateTray
         {
             LOG.error("Failed to set LookAndFeel", e);
         }
-
-        POPUP_CONTROLLER = new ClimateTrayPopupController();
     }
 
     public static void main(String[] arguments)
     {
-        if (!SystemTray.isSupported())
-        {
-            throw new UnsupportedOperationException("SystemTray is not supported");
-        }
-
-        TRAY_ICON.setImageAutoSize(true);
-        TRAY_ICON.addMouseListener(new MouseAdapter()
-        {
-            @Override
-            public void mouseReleased(MouseEvent e)
-            {
-                if (e.isPopupTrigger())
-                {
-                    popup(e.getX(), e.getY());
-                }
-            }
-        });
-
-        SystemTray tray = SystemTray.getSystemTray();
-
-        try
-        {
-            tray.add(TRAY_ICON);
-        }
-        catch (AWTException e)
-        {
-            throw new ClimateTrayException("TrayIcon could not be added.", e);
-        }
-
         ClimateTrayService.load();
         ClimateTrayService.scheduleUpdate();
-    }
-
-    public static void updateTrayIcon(Image image, String toolTip)
-    {
-        TRAY_ICON.setImage((image != null) ? image : ClimateTrayImage.ICON.getImage(ClimateTrayImageState.NOT_SELECTED,
-            TRAY_ICON_SIZE));
-        TRAY_ICON.setToolTip((toolTip != null) ? toolTip : "Climate-Tray");
-    }
-
-    public static void popup(int x, int y)
-    {
-        LOG.debug("Opening popup.");
-
-        POPUP_CONTROLLER.consume(x, y);
     }
 
 }

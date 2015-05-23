@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -33,6 +33,7 @@ public class ClimateTrayPreferences implements Persistent
 
     private TemperatureUnit temperatureUnit = TemperatureUnit.CELSIUS;
     private double updatePeriodInMinutes = 1;
+    private boolean trayIconEnabled = true;
 
     public ClimateTrayPreferences()
     {
@@ -84,6 +85,16 @@ public class ClimateTrayPreferences implements Persistent
         this.updatePeriodInMinutes = updatePeriodInMinutes;
     }
 
+    public boolean isTrayIconEnabled()
+    {
+        return trayIconEnabled;
+    }
+
+    public void setTrayIconEnabled(boolean trayIconEnabled)
+    {
+        this.trayIconEnabled = trayIconEnabled;
+    }
+
     @Override
     public void read(Prefs prefs)
     {
@@ -92,6 +103,7 @@ public class ClimateTrayPreferences implements Persistent
 
         temperatureUnit = prefs.getEnum(TemperatureUnit.class, "temperatureUnit", temperatureUnit);
         updatePeriodInMinutes = prefs.getDouble("updatePeriodInMinutes", updatePeriodInMinutes);
+        trayIconEnabled = prefs.getBoolean("trayIconEnabled", trayIconEnabled);
     }
 
     @Override
@@ -102,5 +114,15 @@ public class ClimateTrayPreferences implements Persistent
 
         prefs.setEnum("temperatureUnit", temperatureUnit);
         prefs.setDouble("updatePeriodInMinutes", updatePeriodInMinutes);
+        prefs.setBoolean("trayIconEnabled", trayIconEnabled);
     }
+
+    @Override
+    public String toString()
+    {
+        return "ClimateTrayPreferences [devices=" + devices + ", presets=" + presets + ", temperatureUnit="
+            + temperatureUnit + ", updatePeriodInMinutes=" + updatePeriodInMinutes + ", trayIconEnabled="
+            + trayIconEnabled + "]";
+    }
+
 }
