@@ -194,7 +194,7 @@ public class ClimateTrayServerSimController
 
         state.setDrive(DomUtils.getAttribute(requestNode, "Drive", state.getDrive()));
         state.setMode(DomUtils.getAttribute(requestNode, "Mode", state.getMode()));
-        state.setTemperature(DomUtils.getDoubleAttribute(requestNode, "temperature", state.getTemperature()));
+        state.setTemperature(DomUtils.getDoubleAttribute(requestNode, "SetTemp", state.getTemperature()));
         state.setAir(DomUtils.getAttribute(requestNode, "AirDirection", state.getAir()));
         state.setFan(DomUtils.getAttribute(requestNode, "FanSpeed", state.getFan()));
 

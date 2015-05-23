@@ -2,8 +2,9 @@ package io.github.thred.climatetray;
 
 import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.mnet.MNetDevice;
-import io.github.thred.climatetray.mnet.MNetDeviceService;
 import io.github.thred.climatetray.mnet.MNetPreset;
+import io.github.thred.climatetray.mnet.MNetService;
+import io.github.thred.climatetray.mnet.MNetState;
 import io.github.thred.climatetray.ui.ClimateTrayAboutDialogController;
 import io.github.thred.climatetray.ui.ClimateTrayIconController;
 import io.github.thred.climatetray.ui.ClimateTrayLogFrameController;
@@ -22,6 +23,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 public class ClimateTrayService
 {
@@ -104,11 +106,30 @@ public class ClimateTrayService
     {
         LOG.debug("Updating.");
 
-        List<MNetDevice> devices = PREFERENCES.getDevices();
-
-        devices.stream().forEach(device -> MNetDeviceService.update(device));
+        updateDevices();
 
         ICON_CONTROLLER.prepareWith(PREFERENCES);
+
+        updatePresets();
+    }
+
+    public static void updateDevices()
+    {
+        List<MNetDevice> devices = PREFERENCES.getDevices();
+
+        devices.stream().forEach(MNetService::updateDevice);
+    }
+
+    public static void updatePresets()
+    {
+        List<MNetDevice> devices = PREFERENCES.getDevices();
+        List<MNetPreset> presets = PREFERENCES.getPresets();
+
+        List<MNetState> states =
+            devices.stream().filter(device -> device.isEnabled() && device.isSelected())
+                .map(device -> device.getState()).collect(Collectors.toList());
+
+        presets.stream().forEach(preset -> preset.setSelected(MNetService.isMatching(preset, states)));
     }
 
     public static Future<?> submitTask(VoidCallable task)
@@ -214,10 +235,8 @@ public class ClimateTrayService
             return;
         }
 
-        // TODO
-        preset.setSelected(true);
-
-        LOG.debug(preset.toString());
+        submitTask(() -> PREFERENCES.getDevices().stream().filter(device -> device.isEnabled() && device.isSelected())
+            .forEach(device -> MNetService.adjustDevice(device, preset)), ClimateTrayService::updatePresets);
     }
 
     public static void toggleDevice(UUID id)

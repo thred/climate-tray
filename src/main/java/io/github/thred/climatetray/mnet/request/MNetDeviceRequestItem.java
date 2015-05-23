@@ -53,24 +53,39 @@ public class MNetDeviceRequestItem
     {
         this(device);
 
+        MNetDrive drive = preset.getDrive();
+
+        if (drive != MNetDrive.NO_CHANGE)
+        {
+            setDrive(drive);
+        }
+
         MNetMode mode = preset.getMode();
 
-        setDrive(mode.getDrive());
-        setMode(mode);
-
-        if (mode.isTemperatureEnabled())
+        if (mode != MNetMode.NO_CHANGE)
         {
-            setTemperature(preset.getTemperature());
+            setMode(mode);
         }
 
-        if (mode.isAirEnabled())
+        Double temperature = preset.getTemperature();
+
+        if (temperature != null)
         {
-            setAir(preset.getAir());
+            setTemperature(temperature);
         }
 
-        if (mode.isFanEnabled())
+        MNetFan fan = preset.getFan();
+
+        if (fan != MNetFan.NO_CHANGE)
         {
-            setFan(preset.getFan());
+            setFan(fan);
+        }
+        
+        MNetAir air = preset.getAir();
+
+        if (air != MNetAir.NO_CHANGE)
+        {
+            setAir(air);
         }
     }
 

@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -22,21 +22,19 @@ import java.util.Arrays;
 public enum MNetMode
 {
 
-    NO_CHANGE(null, null, "Do not change", null, ClimateTrayImage.ICON_JOKER, null, true, 17, 30, true, true),
-    FAN("FAN", MNetDrive.ON, "Fan", "blowing", ClimateTrayImage.ICON_FAN, ClimateTrayImage.BACKGROUND_FAN1, true, true,
+    NO_CHANGE(null, "Do not change", null, ClimateTrayImage.ICON_JOKER, null, true, 17, 30, true, true),
+    FAN("FAN", "Fan", "blowing", ClimateTrayImage.ICON_FAN, ClimateTrayImage.BACKGROUND_FAN1, true, true, true),
+    COOL("COOL", "Cool", "cool down", ClimateTrayImage.ICON_COOL, ClimateTrayImage.BACKGROUND_COOL, true, 19, 30, true,
         true),
-    COOL("COOL", MNetDrive.ON, "Cool", "cool down", ClimateTrayImage.ICON_COOL, ClimateTrayImage.BACKGROUND_COOL, true,
-        19, 30, true, true),
-    HEAT("HEAT", MNetDrive.ON, "Heat", "heat up", ClimateTrayImage.ICON_HEAT, ClimateTrayImage.BACKGROUND_HEAT, true,
-        17, 28, true, true),
-    AUTO("AUTO", MNetDrive.ON, "Automatic", "auto", ClimateTrayImage.ICON_AUTO, ClimateTrayImage.BACKGROUND_AUTO, true,
+    HEAT("HEAT", "Heat", "heat up", ClimateTrayImage.ICON_HEAT, ClimateTrayImage.BACKGROUND_HEAT, true, 17, 28, true,
+        true),
+    AUTO("AUTO", "Automatic", "auto", ClimateTrayImage.ICON_AUTO, ClimateTrayImage.BACKGROUND_AUTO, true, 19, 28, true,
+        true),
+    AUTO_COOL("AUTOCOOL", "Automatic (cooling)", "auto (\u25bc)", null, ClimateTrayImage.BACKGROUND_AUTO_COOL, false,
         19, 28, true, true),
-    AUTO_COOL("AUTOCOOL", MNetDrive.ON, "Automatic (cooling)", "auto (\u25bc)", null, ClimateTrayImage.BACKGROUND_AUTO_COOL,
-        false, 19, 28, true, true),
-    AUTO_HEAT("AUTOHEAT", MNetDrive.ON, "Automatic (heating)", "auto (\u25b2)", null,
-        ClimateTrayImage.BACKGROUND_AUTO_HEAT, false, 19, 28, true, true),
-    DRY("DRY", MNetDrive.ON, "Dry", "drying", ClimateTrayImage.ICON_DRY, ClimateTrayImage.BACKGROUND_DRY, true, true,
-        true);
+    AUTO_HEAT("AUTOHEAT", "Automatic (heating)", "auto (\u25b2)", null, ClimateTrayImage.BACKGROUND_AUTO_HEAT, false,
+        19, 28, true, true),
+    DRY("DRY", "Dry", "drying", ClimateTrayImage.ICON_DRY, ClimateTrayImage.BACKGROUND_DRY, true, true, true);
 
     public static MNetMode valueOfKey(String key)
     {
@@ -61,7 +59,6 @@ public enum MNetMode
     private static MNetMode[] selectableValues;
 
     private final String key;
-    private final MNetDrive drive;
     private final String label;
     private final String description;
     private final ClimateTrayImage image;
@@ -73,26 +70,25 @@ public enum MNetMode
     private final boolean fanEnabled;
     private final boolean airEnabled;
 
-    private MNetMode(String key, MNetDrive drive, String label, String description, ClimateTrayImage image,
+    private MNetMode(String key, String label, String description, ClimateTrayImage image,
         ClimateTrayImage backgroundImage, boolean selectable, boolean fanEnabled, boolean airEnabled)
     {
-        this(key, drive, label, description, image, backgroundImage, selectable, false, 0, 0, fanEnabled, airEnabled);
+        this(key, label, description, image, backgroundImage, selectable, false, 0, 0, fanEnabled, airEnabled);
     }
 
-    private MNetMode(String key, MNetDrive drive, String label, String description, ClimateTrayImage image,
+    private MNetMode(String key, String label, String description, ClimateTrayImage image,
         ClimateTrayImage backgroundImage, boolean selectable, int minTemperature, int maxTemperature,
         boolean fanEnabled, boolean airEnabled)
     {
-        this(key, drive, label, description, image, backgroundImage, selectable, true, minTemperature, maxTemperature,
+        this(key, label, description, image, backgroundImage, selectable, true, minTemperature, maxTemperature,
             fanEnabled, airEnabled);
     }
 
-    private MNetMode(String key, MNetDrive drive, String label, String description, ClimateTrayImage image,
+    private MNetMode(String key, String label, String description, ClimateTrayImage image,
         ClimateTrayImage backgroundImage, boolean selectable, boolean temperatureEnabled, int minimumTemperature,
         int maximumTemperature, boolean fanEnabled, boolean airEnabled)
     {
         this.key = key;
-        this.drive = drive;
         this.label = label;
         this.description = description;
         this.image = image;
@@ -108,11 +104,6 @@ public enum MNetMode
     public String getKey()
     {
         return key;
-    }
-
-    public MNetDrive getDrive()
-    {
-        return drive;
     }
 
     public String getLabel()
