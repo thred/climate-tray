@@ -15,7 +15,7 @@
 package io.github.thred.climatetray.ui;
 
 import io.github.thred.climatetray.util.Copyable;
-import io.github.thred.climatetray.util.MessageBuffer;
+import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.AdvancedListModel;
 import io.github.thred.climatetray.util.swing.GBC;
 import io.github.thred.climatetray.util.swing.SwingUtils;

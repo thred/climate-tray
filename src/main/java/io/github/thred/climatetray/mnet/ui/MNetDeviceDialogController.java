@@ -17,9 +17,9 @@ package io.github.thred.climatetray.mnet.ui;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.ui.MNetTest.State;
 import io.github.thred.climatetray.ui.DefaultClimateTrayDialogController;
-import io.github.thred.climatetray.util.Message;
-import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.Severity;
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.ButtonPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 

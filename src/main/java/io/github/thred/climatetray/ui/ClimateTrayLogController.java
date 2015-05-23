@@ -15,9 +15,9 @@
 package io.github.thred.climatetray.ui;
 
 import static io.github.thred.climatetray.ClimateTray.*;
-import io.github.thred.climatetray.util.Message;
-import io.github.thred.climatetray.util.MessageBuffer;
-import io.github.thred.climatetray.util.MessageListener;
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.message.MessageBuffer;
+import io.github.thred.climatetray.util.message.MessageListener;
 
 import java.awt.Color;
 import java.awt.Dimension;

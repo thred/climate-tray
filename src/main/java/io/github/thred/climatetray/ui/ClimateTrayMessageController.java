@@ -1,8 +1,8 @@
 package io.github.thred.climatetray.ui;
 
-import io.github.thred.climatetray.util.Message;
-import io.github.thred.climatetray.util.MessageBuffer;
-import io.github.thred.climatetray.util.swing.MessageComponent;
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.message.MessageBuffer;
+import io.github.thred.climatetray.util.message.MessageComponent;
 
 import java.awt.BorderLayout;
 

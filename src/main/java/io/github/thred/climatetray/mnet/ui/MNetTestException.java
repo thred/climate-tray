@@ -1,7 +1,7 @@
 package io.github.thred.climatetray.mnet.ui;
 
-import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.Severity;
+import io.github.thred.climatetray.util.message.Message;
 
 public class MNetTestException extends Exception
 {

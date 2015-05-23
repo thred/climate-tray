@@ -1,7 +1,7 @@
-package io.github.thred.climatetray.util.swing;
+package io.github.thred.climatetray.util.message;
 
 import io.github.thred.climatetray.ClimateTrayImageState;
-import io.github.thred.climatetray.util.Message;
+import io.github.thred.climatetray.util.swing.GBC;
 
 import java.awt.GridBagLayout;
 import java.awt.Window;

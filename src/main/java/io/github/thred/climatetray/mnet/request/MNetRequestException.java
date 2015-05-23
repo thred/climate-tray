@@ -1,6 +1,6 @@
 package io.github.thred.climatetray.mnet.request;
 
-import io.github.thred.climatetray.util.Message;
+import io.github.thred.climatetray.util.message.Message;
 
 public class MNetRequestException extends Exception
 {

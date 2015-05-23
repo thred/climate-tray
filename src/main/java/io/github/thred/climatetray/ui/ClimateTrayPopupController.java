@@ -22,7 +22,7 @@ import io.github.thred.climatetray.ClimateTrayPreferences;
 import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
-import io.github.thred.climatetray.util.MessageBuffer;
+import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
 import java.awt.Component;

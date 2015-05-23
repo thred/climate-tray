@@ -17,8 +17,8 @@ package io.github.thred.climatetray.ui;
 import static io.github.thred.climatetray.ClimateTray.*;
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
 import io.github.thred.climatetray.ClimateTrayPreferences;
-import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.TemperatureUnit;
+import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.GBC;
 
 import java.awt.GridBagLayout;

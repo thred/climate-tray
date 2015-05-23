@@ -6,7 +6,7 @@ import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.ClimateTrayPreferences;
 import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.mnet.MNetDevice;
-import io.github.thred.climatetray.util.MessageBuffer;
+import io.github.thred.climatetray.util.message.MessageBuffer;
 
 import java.awt.AWTException;
 import java.awt.Image;

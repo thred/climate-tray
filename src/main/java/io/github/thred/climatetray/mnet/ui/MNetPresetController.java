@@ -21,8 +21,8 @@ import io.github.thred.climatetray.mnet.MNetFan;
 import io.github.thred.climatetray.mnet.MNetMode;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.ui.AbstractClimateTrayController;
-import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.TemperatureUnit;
+import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.GBC;
 
 import java.awt.GridBagLayout;

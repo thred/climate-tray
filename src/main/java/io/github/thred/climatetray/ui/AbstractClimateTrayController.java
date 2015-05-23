@@ -14,7 +14,7 @@
  */
 package io.github.thred.climatetray.ui;
 
-import io.github.thred.climatetray.util.MessageBuffer;
+import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.Monitor;
 import io.github.thred.climatetray.util.swing.MonitorListener;
 

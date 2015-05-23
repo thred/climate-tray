@@ -3,10 +3,10 @@ package io.github.thred.climatetray.mnet.ui;
 import io.github.thred.climatetray.mnet.ui.MNetTest.State;
 import io.github.thred.climatetray.mnet.ui.MNetTest.Step;
 import io.github.thred.climatetray.ui.AbstractClimateTrayController;
-import io.github.thred.climatetray.util.Message;
-import io.github.thred.climatetray.util.MessageBuffer;
-import io.github.thred.climatetray.util.MessageListener;
-import io.github.thred.climatetray.util.swing.MessageComponent;
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.message.MessageBuffer;
+import io.github.thred.climatetray.util.message.MessageComponent;
+import io.github.thred.climatetray.util.message.MessageListener;
 
 import java.awt.BorderLayout;
 

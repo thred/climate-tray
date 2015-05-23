@@ -14,9 +14,9 @@ import io.github.thred.climatetray.mnet.request.MNetMonitorRequest;
 import io.github.thred.climatetray.mnet.request.MNetOperateRequest;
 import io.github.thred.climatetray.mnet.request.MNetRequestException;
 import io.github.thred.climatetray.util.ExceptionConsumer;
-import io.github.thred.climatetray.util.Message;
-import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.Severity;
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.message.MessageBuffer;
 
 import java.net.MalformedURLException;
 import java.util.stream.StreamSupport;

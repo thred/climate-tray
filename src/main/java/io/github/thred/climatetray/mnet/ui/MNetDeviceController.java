@@ -19,8 +19,8 @@ import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetEc;
 import io.github.thred.climatetray.mnet.MNetUtils;
 import io.github.thred.climatetray.ui.AbstractClimateTrayController;
-import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.Utils;
+import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.GBC;
 
 import java.awt.GridBagLayout;

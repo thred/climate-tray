@@ -14,7 +14,7 @@
  */
 package io.github.thred.climatetray;
 
-import io.github.thred.climatetray.util.MessageBuffer;
+import io.github.thred.climatetray.util.message.MessageBuffer;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;

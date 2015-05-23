@@ -4,8 +4,8 @@ import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.util.DomBuilder;
 import io.github.thred.climatetray.util.DomUtils;
-import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.Utils;
+import io.github.thred.climatetray.util.message.Message;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

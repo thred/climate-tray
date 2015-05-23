@@ -9,8 +9,8 @@ import io.github.thred.climatetray.ui.ClimateTrayIconController;
 import io.github.thred.climatetray.ui.ClimateTrayLogFrameController;
 import io.github.thred.climatetray.ui.ClimateTrayPreferencesDialogController;
 import io.github.thred.climatetray.util.ExceptionConsumer;
-import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.VoidCallable;
+import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.prefs.SystemPrefs;
 
 import java.util.List;

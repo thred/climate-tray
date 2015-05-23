@@ -18,7 +18,7 @@ import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.mnet.ui.MNetPresetCellRenderer;
 import io.github.thred.climatetray.mnet.ui.MNetPresetDialogController;
 import io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button;
-import io.github.thred.climatetray.util.MessageBuffer;
+import io.github.thred.climatetray.util.message.MessageBuffer;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
