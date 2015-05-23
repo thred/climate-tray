@@ -180,12 +180,12 @@ public class MNetDeviceRequestItem
             device.setAddress(address);
         }
 
-        if (group != null)
+        if ((group != null) && (!Integer.valueOf(99).equals(group)))
         {
             device.setGroup(group);
         }
 
-        if (model != null)
+        if ((model != null) && (!"*".equals(model)))
         {
             device.setModel(model);
         }

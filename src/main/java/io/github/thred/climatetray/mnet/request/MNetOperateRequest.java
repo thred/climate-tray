@@ -6,6 +6,7 @@ import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.util.DomBuilder;
 
 import java.util.Locale;
+import java.util.Objects;
 
 public class MNetOperateRequest extends AbstractMNetDeviceRequest
 {
@@ -64,6 +65,12 @@ public class MNetOperateRequest extends AbstractMNetDeviceRequest
         addRequestItem(item);
 
         return this;
+    }
+
+    public MNetDeviceRequestItem getItemByDeviceGroup(MNetDevice device)
+    {
+        return responseItems.stream().filter(item -> Objects.equals(device.getGroup(), item.getGroup())).findFirst()
+            .orElse(null);
     }
 
     @Override

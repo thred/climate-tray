@@ -27,6 +27,7 @@ import java.awt.GridBagLayout;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -37,6 +38,7 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
 {
 
     private final JTextField nameField = monitor(createTextField("", 32));
+    private final JCheckBox enabledBox = monitor(createCheckBox("Enabled"));
     private final JTextField hostField = monitor(createTextField("", 32));
     private final JComboBox<MNetEc> ecField = monitor(createComboBox(MNetEc.values()));
     private final JSpinner addressField = monitor(createSpinner(new SpinnerNumberModel(0, 0, 250, 1)));
@@ -50,10 +52,12 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     protected JPanel createView()
     {
         JPanel view = new JPanel(new GridBagLayout());
-        GBC gbc = new GBC(3, 5);
+        GBC gbc = new GBC(3, 6);
 
         view.add(createLabel("Custom Name:", nameField), gbc);
         view.add(nameField, gbc.next().span(2).hFill());
+
+        view.add(enabledBox, gbc.next().next().span(2));
 
         view.add(createHint("Check the case of the air conditioner for the following fields."), gbc.next().center()
             .span(3));
@@ -74,6 +78,7 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     public void prepareWith(MNetDevice model)
     {
         nameField.setText(Utils.ensure(model.getName(), ""));
+        enabledBox.setSelected(model.isEnabled());
         hostField.setText(Utils.ensure(model.getHost(), ""));
         ecField.setSelectedItem(Utils.ensure(model.getEc(), MNetEc.NONE));
         addressField.setValue(Utils.ensure(model.getAddress(), 0));
@@ -111,12 +116,18 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
         {
             messageBuffer.info(url.toExternalForm());
         }
+
+        if (!enabledBox.isSelected())
+        {
+            messageBuffer.warn("The air conditioner is not enabled!");
+        }
     }
 
     @Override
     public void applyTo(MNetDevice model)
     {
         model.setName(nameField.getText().trim());
+        model.setEnabled(enabledBox.isSelected());
         model.setHost(hostField.getText().trim());
         model.setEc((MNetEc) ecField.getSelectedItem());
         model.setAddress((Integer) addressField.getValue());

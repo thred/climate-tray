@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -20,6 +20,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -133,6 +134,18 @@ public class SwingUtils
     public static JTextField createTextField(String text, int columns, ActionListener... listeners)
     {
         JTextField result = new JTextField(text, columns);
+
+        for (ActionListener listener : listeners)
+        {
+            result.addActionListener(listener);
+        }
+
+        return result;
+    }
+
+    public static JCheckBox createCheckBox(String text, ActionListener... listeners)
+    {
+        JCheckBox result = new JCheckBox(text);
 
         for (ActionListener listener : listeners)
         {

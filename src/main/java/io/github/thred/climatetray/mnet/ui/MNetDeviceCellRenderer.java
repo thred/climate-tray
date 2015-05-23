@@ -57,7 +57,8 @@ public class MNetDeviceCellRenderer extends DefaultListCellRenderer
         setIcon((state != null) ? state.createIcon(imageState, ICON_SIZE) : ClimateTrayImage.ICON.getIcon(imageState,
             ICON_SIZE));
         setText(device.describeSettings());
-
+        setEnabled(device.isEnabled());
+        
         return this;
     }
 }

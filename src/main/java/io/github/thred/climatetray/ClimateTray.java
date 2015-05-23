@@ -14,22 +14,15 @@
  */
 package io.github.thred.climatetray;
 
-import io.github.thred.climatetray.mnet.MNetDevice;
-import io.github.thred.climatetray.mnet.MNetPreset;
-import io.github.thred.climatetray.ui.ClimateTrayAboutDialogController;
-import io.github.thred.climatetray.ui.ClimateTrayLogFrameController;
 import io.github.thred.climatetray.ui.ClimateTrayPopupController;
-import io.github.thred.climatetray.ui.ClimateTrayPreferencesDialogController;
-import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.MessageBuffer;
-import io.github.thred.climatetray.util.prefs.SystemPrefs;
 
 import java.awt.AWTException;
+import java.awt.Image;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.UUID;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -39,20 +32,14 @@ public class ClimateTray
 
     public static final MessageBuffer LOG = new MessageBuffer(true, 1024);
 
-    private static final SystemPrefs PREFS = SystemPrefs.get(ClimateTray.class);
+    public static final int TRAY_ICON_SIZE = 16;
+
+    public static final TrayIcon TRAY_ICON = new TrayIcon(ClimateTrayImage.ICON.getImage(
+        ClimateTrayImageState.NOT_SELECTED, TRAY_ICON_SIZE));
 
     public static final ClimateTrayPreferences PREFERENCES = new ClimateTrayPreferences();
 
-    public static final ClimateTrayProcessor PROCESSOR = new ClimateTrayProcessor();
-
-    private static final TrayIcon TRAY_ICON = new TrayIcon(ClimateTrayImage.ICON.getImage(
-        ClimateTrayImageState.NOT_SELECTED, 16));
-
     private static final ClimateTrayPopupController POPUP_CONTROLLER;
-
-    private static final ClimateTrayAboutDialogController ABOUT_CONTROLLER;
-    private static final ClimateTrayLogFrameController LOG_CONTROLLER;
-    private static final ClimateTrayPreferencesDialogController PREFERENCES_CONTROLLER;
 
     static
     {
@@ -67,10 +54,6 @@ public class ClimateTray
         }
 
         POPUP_CONTROLLER = new ClimateTrayPopupController();
-
-        ABOUT_CONTROLLER = new ClimateTrayAboutDialogController(null);
-        LOG_CONTROLLER = new ClimateTrayLogFrameController(null);
-        PREFERENCES_CONTROLLER = new ClimateTrayPreferencesDialogController(null);
     }
 
     public static void main(String[] arguments)
@@ -104,35 +87,15 @@ public class ClimateTray
             throw new ClimateTrayException("TrayIcon could not be added.", e);
         }
 
-        load();
-        scheduleUpdate();
+        ClimateTrayService.load();
+        ClimateTrayService.scheduleUpdate();
     }
 
-    public static void load()
+    public static void updateTrayIcon(Image image, String toolTip)
     {
-        LOG.info("Loading preferences.");
-
-        try
-        {
-            PREFERENCES.read(PREFS);
-        }
-        catch (Exception e)
-        {
-            LOG.error("Failed to load preferences", e);
-            ClimateTrayUtils.okDialog(null, "Preferences", Message.error("Failed to load existing preferences."));
-        }
-    }
-
-    public static void store()
-    {
-        PREFERENCES.write(PREFS);
-
-        LOG.info("Preferences stored.");
-    }
-
-    public static void scheduleUpdate()
-    {
-        PROCESSOR.scheduleUpdate(PREFERENCES.getUpdatePeriodInMinutes());
+        TRAY_ICON.setImage((image != null) ? image : ClimateTrayImage.ICON.getImage(ClimateTrayImageState.NOT_SELECTED,
+            TRAY_ICON_SIZE));
+        TRAY_ICON.setToolTip((toolTip != null) ? toolTip : "Climate-Tray");
     }
 
     public static void popup(int x, int y)
@@ -140,79 +103,6 @@ public class ClimateTray
         LOG.debug("Opening popup.");
 
         POPUP_CONTROLLER.consume(x, y);
-    }
-
-    public static void update()
-    {
-        LOG.warn("Implement update!");
-    }
-
-    public static void preferences()
-    {
-        LOG.debug("Opening preferences dialog.");
-
-        PREFERENCES_CONTROLLER.consume(PREFERENCES);
-    }
-
-    public static void togglePreset(UUID id)
-    {
-        LOG.debug("Toggling preset with id %s.", id);
-
-        PREFERENCES.getPresets().stream().forEach((preset) -> preset.setSelected(false));
-
-        MNetPreset preset = PREFERENCES.getPreset(id);
-
-        if (preset == null)
-        {
-            return;
-        }
-
-        // TODO
-        preset.setSelected(true);
-
-        LOG.debug(preset.toString());
-    }
-
-    public static void toggleDevice(UUID id)
-    {
-        LOG.debug("Toggling air conditioner with id %s.", id);
-
-        MNetDevice device = PREFERENCES.getDevice(id);
-
-        if (device == null)
-        {
-            return;
-        }
-
-        device.setSelected(!device.isSelected());
-        store();
-    }
-
-    public static void log()
-    {
-        LOG.debug("Opening log frame.");
-
-        LOG_CONTROLLER.consume(LOG);
-    }
-
-    public static void about()
-    {
-        LOG.debug("Opening about dialog.");
-
-        ABOUT_CONTROLLER.consume(PREFERENCES);
-    }
-
-    public static void exit()
-    {
-        LOG.info("Exiting.");
-
-        PROCESSOR.shutdown();
-
-        SystemTray tray = SystemTray.getSystemTray();
-
-        tray.remove(TRAY_ICON);
-
-        System.exit(0);
     }
 
 }

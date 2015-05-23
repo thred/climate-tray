@@ -19,6 +19,7 @@ import javax.swing.SwingUtilities;
 
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.ui.MNetDeviceCellRenderer;
+import io.github.thred.climatetray.mnet.ui.MNetDeviceDialogController;
 import io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button;
 import io.github.thred.climatetray.util.MessageBuffer;
 
@@ -43,7 +44,7 @@ public class ClimateTrayDeviceListController extends AbstractClimateTrayListCont
     {
         JPanel view = getView();
         
-        return new ClimateTrayDeviceDialogController(SwingUtilities.windowForComponent(view)).consume(device) == Button.OK;
+        return new MNetDeviceDialogController(SwingUtilities.windowForComponent(view)).consume(device) == Button.OK;
     }
 
     @Override

@@ -19,6 +19,7 @@ import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.ClimateTrayImage;
 import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.ClimateTrayPreferences;
+import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.util.MessageBuffer;
@@ -47,10 +48,10 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 {
 
     private final JMenuItem preferencesItem = createMenuItem("Preferences...", null,
-        "Manage the presets, air conditioners and other settings.", (e) -> ClimateTray.preferences());
-    private final JMenuItem logItem = createMenuItem("Log...", null, null, (e) -> ClimateTray.log());
-    private final JMenuItem aboutItem = createMenuItem("About...", null, null, (e) -> ClimateTray.about());
-    private final JMenuItem exitItem = createMenuItem("Exit", null, null, (e) -> ClimateTray.exit());
+        "Manage the presets, air conditioners and other settings.", (e) -> ClimateTrayService.preferences());
+    private final JMenuItem logItem = createMenuItem("Log...", null, null, (e) -> ClimateTrayService.log());
+    private final JMenuItem aboutItem = createMenuItem("About...", null, null, (e) -> ClimateTrayService.about());
+    private final JMenuItem exitItem = createMenuItem("Exit", null, null, (e) -> ClimateTrayService.exit());
     private final List<Component> dynamicItems = new ArrayList<>();
 
     private JDialog hiddenDialogForFocusManagement;
@@ -130,6 +131,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
                 item.setName(device.getId().toString());
                 item.setSelected(device.isSelected());
+                item.setEnabled(device.isEnabled());
 
                 dynamicItems.add(view.add(item, index++));
             }
@@ -215,12 +217,12 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
     public void presetSelect(MNetPreset preset)
     {
-        ClimateTray.togglePreset(preset.getId());
+        ClimateTrayService.togglePreset(preset.getId());
     }
 
     public void deviceSelect(MNetDevice device)
     {
-        ClimateTray.toggleDevice(device.getId());
+        ClimateTrayService.toggleDevice(device.getId());
     }
 
     @Override

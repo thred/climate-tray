@@ -12,12 +12,11 @@
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
-package io.github.thred.climatetray.ui;
+package io.github.thred.climatetray.mnet.ui;
 
 import io.github.thred.climatetray.mnet.MNetDevice;
-import io.github.thred.climatetray.mnet.ui.MNetDeviceController;
-import io.github.thred.climatetray.mnet.ui.MNetTest;
-import io.github.thred.climatetray.mnet.ui.MNetTestDialogController;
+import io.github.thred.climatetray.mnet.ui.MNetTest.State;
+import io.github.thred.climatetray.ui.DefaultClimateTrayDialogController;
 import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.Severity;
@@ -29,12 +28,12 @@ import java.awt.Window;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
-public class ClimateTrayDeviceDialogController extends DefaultClimateTrayDialogController<MNetDevice>
+public class MNetDeviceDialogController extends DefaultClimateTrayDialogController<MNetDevice>
 {
 
     protected JButton testButton;
 
-    public ClimateTrayDeviceDialogController(Window owner)
+    public MNetDeviceDialogController(Window owner)
     {
         super(owner, new MNetDeviceController(), Button.OK, Button.CANCEL);
 
@@ -69,6 +68,21 @@ public class ClimateTrayDeviceDialogController extends DefaultClimateTrayDialogC
 
         applyTo(device);
 
-        new MNetTestDialogController(getView()).consume(new MNetTest(device));
+        MNetTest test = new MNetTest(device);
+
+        new MNetTestDialogController(getView()).consume(test);
+
+        if (test.getState() == State.SUCCEEDED)
+        {
+            MNetDevice model = getModel();
+
+            model.setEnabled(true);
+
+            if (test.isFixedEc())
+            {
+                model.setEc(device.getEc());
+                prepareWith(model);
+            }
+        }
     }
 }

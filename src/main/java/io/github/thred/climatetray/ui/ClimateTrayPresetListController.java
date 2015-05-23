@@ -16,6 +16,7 @@ package io.github.thred.climatetray.ui;
 
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.mnet.ui.MNetPresetCellRenderer;
+import io.github.thred.climatetray.mnet.ui.MNetPresetDialogController;
 import io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button;
 import io.github.thred.climatetray.util.MessageBuffer;
 
@@ -43,7 +44,7 @@ public class ClimateTrayPresetListController extends AbstractClimateTrayListCont
     {
         JPanel view = getView();
 
-        return new ClimateTrayPresetDialogController(SwingUtilities.windowForComponent(view)).consume(preset) == Button.OK;
+        return new MNetPresetDialogController(SwingUtilities.windowForComponent(view)).consume(preset) == Button.OK;
     }
 
     @Override

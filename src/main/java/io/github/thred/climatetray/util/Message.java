@@ -19,7 +19,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
 
-public class Message
+public class Message implements Comparable<Message>
 {
 
     public static Message error(String message, Object... args)
@@ -142,6 +142,12 @@ public class Message
                 }
                 break;
         }
+    }
+
+    @Override
+    public int compareTo(Message o)
+    {
+        return severity.compareTo(o.severity);
     }
 
     @Override

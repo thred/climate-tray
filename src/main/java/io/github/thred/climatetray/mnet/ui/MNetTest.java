@@ -1,6 +1,7 @@
 package io.github.thred.climatetray.mnet.ui;
 
 import io.github.thred.climatetray.ClimateTray;
+import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetDrive;
 import io.github.thred.climatetray.mnet.MNetEc;
@@ -114,7 +115,7 @@ public class MNetTest implements ExceptionConsumer
         if (step == Step.TOGGLING)
         {
             // undo the toggle operation
-            ClimateTray.PROCESSOR.submit(() -> {
+            ClimateTrayService.submitTask(() -> {
                 MNetOperateRequest request = new MNetOperateRequest();
                 boolean turnOn = (device.getState().getMode() == MNetMode.OFF);
 
@@ -181,7 +182,7 @@ public class MNetTest implements ExceptionConsumer
         state = State.RUNNING;
         fixedEc = false;
 
-        ClimateTray.PROCESSOR.submit(() -> {
+        ClimateTrayService.submitTask(() -> {
             step(Step.VALIDATE, "Validating the settings...");
 
             String host = device.getHost();
@@ -204,7 +205,7 @@ public class MNetTest implements ExceptionConsumer
 
     public void check()
     {
-        ClimateTray.PROCESSOR.submit(() -> {
+        ClimateTrayService.submitTask(() -> {
             ensureNotCanceled();
             step(Step.CHECK, "Calling %s...", device.describeSettings());
 
@@ -217,8 +218,8 @@ public class MNetTest implements ExceptionConsumer
 
     public void fixEc()
     {
-        ClimateTray.PROCESSOR
-            .submit(
+        ClimateTrayService
+            .submitTask(
                 () -> {
                     ensureNotCanceled();
 
@@ -266,8 +267,8 @@ public class MNetTest implements ExceptionConsumer
 
     public void info()
     {
-        ClimateTray.PROCESSOR
-            .submit(
+        ClimateTrayService
+            .submitTask(
                 () -> {
                     ensureNotCanceled();
                     step(Step.INFO, "Requesting current state...");
@@ -290,8 +291,8 @@ public class MNetTest implements ExceptionConsumer
 
     public void toggling()
     {
-        ClimateTray.PROCESSOR
-            .submit(
+        ClimateTrayService
+            .submitTask(
                 () -> {
                     ensureNotCanceled();
 
@@ -340,8 +341,8 @@ public class MNetTest implements ExceptionConsumer
 
     public void restoring(boolean successful)
     {
-        ClimateTray.PROCESSOR
-            .submit(
+        ClimateTrayService
+            .submitTask(
                 () -> {
                     ensureNotCanceled();
 

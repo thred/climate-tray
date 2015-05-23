@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -66,6 +66,12 @@ public class MNetUtils
     public static Icon createIcon(ClimateTrayImageState state, int size, MNetMode mode, MNetFan fan,
         Double temperature, MNetAir air)
     {
+        return new ImageIcon(createImage(state, size, mode, fan, temperature, air));
+    }
+
+    public static Image createImage(ClimateTrayImageState state, int size, MNetMode mode, MNetFan fan,
+        Double temperature, MNetAir air)
+    {
         if (mode == null)
         {
             mode = MNetMode.OFF;
@@ -74,7 +80,7 @@ public class MNetUtils
         BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
 
-        boolean temperatureEnabled = mode.isTemperatureEnabled();
+        boolean temperatureEnabled = temperature != null;//mode.isTemperatureEnabled();
 
         if (mode == MNetMode.FAN)
         {
@@ -105,6 +111,7 @@ public class MNetUtils
             }
         }
 
-        return new ImageIcon(image);
+        return image;
     }
+
 }

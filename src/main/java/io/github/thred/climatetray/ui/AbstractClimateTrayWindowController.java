@@ -139,7 +139,7 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
 
     public void setDescription(MessageBuffer messageBuffer)
     {
-        setDescription(messageBuffer.first());
+        setDescription(messageBuffer.worst());
     }
 
     protected JComponent createContentPanel(JComponent contentView)

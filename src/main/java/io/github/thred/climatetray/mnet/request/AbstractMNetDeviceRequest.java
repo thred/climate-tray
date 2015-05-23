@@ -12,8 +12,8 @@ import org.w3c.dom.Node;
 public abstract class AbstractMNetDeviceRequest extends AbstractMNetRequest implements Iterable<MNetDeviceRequestItem>
 {
 
-    private final List<MNetDeviceRequestItem> requestItems = new ArrayList<MNetDeviceRequestItem>();
-    private final List<MNetDeviceRequestItem> responseItems = new ArrayList<MNetDeviceRequestItem>();
+    protected final List<MNetDeviceRequestItem> requestItems = new ArrayList<MNetDeviceRequestItem>();
+    protected final List<MNetDeviceRequestItem> responseItems = new ArrayList<MNetDeviceRequestItem>();
 
     public AbstractMNetDeviceRequest()
     {
