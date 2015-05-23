@@ -213,6 +213,7 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
 
         listModel.moveElementAt(selectedIndex, selectedIndex - 1);
         list.setSelectedIndex(selectedIndex - 1);
+        list.ensureIndexIsVisible(selectedIndex - 1);
     }
 
     public void down()
@@ -226,6 +227,7 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
 
         listModel.moveElementAt(selectedIndex, selectedIndex + 1);
         list.setSelectedIndex(selectedIndex + 1);
+        list.ensureIndexIsVisible(selectedIndex + 1);
     }
 
 }
