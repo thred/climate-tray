@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -38,7 +38,6 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.WindowConstants;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
@@ -100,8 +99,8 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
             for (MNetPreset preset : presets)
             {
                 Icon icon = createIcon(preset);
-                JRadioButtonMenuItem item =
-                    SwingUtils.createRadioButtonMenuItem(preset.describe(), icon, null, (e) -> presetSelect(preset));
+                JCheckBoxMenuItem item =
+                    SwingUtils.createCheckBoxMenuItem(preset.describe(), icon, null, (e) -> presetSelect(preset));
 
                 item.setName(preset.getId().toString());
                 item.setEnabled(enabled);

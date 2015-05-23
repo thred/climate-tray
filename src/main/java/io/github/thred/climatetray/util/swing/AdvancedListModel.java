@@ -65,6 +65,11 @@ public class AdvancedListModel<TYPE> extends AbstractListModel<TYPE>
 
     public TYPE addElementAt(int index, TYPE element)
     {
+        if ((index < 0) || (index > list.size()))
+        {
+            index = list.size();
+        }
+
         list.add(index, element);
 
         fireIntervalAdded(this, index, index);

@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -68,7 +68,6 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
     {
         JPanel view = new JPanel(new GridBagLayout());
 
-        list.setPreferredSize(new Dimension(320, 64));
         list.setVisibleRowCount(5);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.addListSelectionListener((e) -> {
@@ -81,7 +80,11 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
 
         GBC gbc = new GBC(2, 6).defaultOutsets(0, 0, 0, 0);
 
-        view.add(new JScrollPane(list), gbc.span(1, 6).weight(1).fill());
+        JScrollPane scrollPane = new JScrollPane(list);
+
+        scrollPane.setPreferredSize(new Dimension(480, 64));
+
+        view.add(scrollPane, gbc.span(1, 6).weight(1, 1).fill());
 
         view.add(addButton, gbc.next().hFill().insetRight(0));
         view.add(editButton, gbc.next().hFill().insetRight(0));
@@ -142,11 +145,19 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
 
     public void add()
     {
+        int selectedIndex = (list != null) ? list.getSelectedIndex() : -1;
         TYPE element = createElement();
 
         if (consumeElement(element))
         {
-            listModel.addElement(element);
+            if (selectedIndex >= 0)
+            {
+                selectedIndex += 1;
+            }
+
+            listModel.addElementAt(selectedIndex, element);
+
+            list.setSelectedValue(element, true);
         }
     }
 
