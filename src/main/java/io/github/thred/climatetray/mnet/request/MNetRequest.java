@@ -6,5 +6,5 @@ public interface MNetRequest
 {
 
     void execute(URL url) throws MNetRequestException;
-    
+
 }

@@ -14,7 +14,7 @@
  */
 package io.github.thred.climatetray.mnet;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.ClimateTrayImage;
 
 import java.util.Arrays;
@@ -60,7 +60,7 @@ public enum MNetMode
             }
         }
 
-        ClimateTray.LOG.error("Failed to parse mode key \"%s\"", key);
+        LOG.error("Failed to parse mode key \"%s\"", key);
 
         return null;
     }

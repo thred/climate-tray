@@ -1,6 +1,6 @@
 package io.github.thred.climatetray.mnet;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.mnet.request.MNetDeviceRequestItem;
 import io.github.thred.climatetray.mnet.request.MNetInfoRequest;
@@ -19,7 +19,7 @@ public class MNetDeviceService
             return;
         }
 
-        ClimateTray.LOG.info("Disabling air conditioner \"%s\".", device.getName());
+        LOG.info("Disabling air conditioner \"%s\".", device.getName());
 
         device.setEnabled(false);
         device.setSelected(false);
@@ -36,8 +36,7 @@ public class MNetDeviceService
 
         if (!ensureGroup(device))
         {
-            ClimateTray.LOG.error("Cannot update state of air conditioner \"%s\" without group value.",
-                device.getName());
+            LOG.error("Cannot update state of air conditioner \"%s\" without group value.", device.getName());
 
             disable(device);
         }
@@ -52,8 +51,7 @@ public class MNetDeviceService
 
             if (item == null)
             {
-                ClimateTray.LOG
-                    .error("The centralized controller did not return a state for the air conditioner \"%s\".");
+                LOG.error("The centralized controller did not return a state for the air conditioner \"%s\".");
 
                 disable(device);
             }
@@ -64,13 +62,13 @@ public class MNetDeviceService
         }
         catch (MalformedURLException e)
         {
-            ClimateTray.LOG.error("Invalid url for air conditioner \"%s\".", e, device.getName());
+            LOG.error("Invalid url for air conditioner \"%s\".", e, device.getName());
 
             disable(device);
         }
         catch (MNetRequestException e)
         {
-            ClimateTray.LOG.error("Failed to request info of air conditioner \"%s\".", e, device.getName());
+            LOG.error("Failed to request info of air conditioner \"%s\".", e, device.getName());
 
             disable(device);
         }
@@ -98,11 +96,11 @@ public class MNetDeviceService
         }
         catch (MalformedURLException e)
         {
-            ClimateTray.LOG.error("Invalid url for air conditioner %s.", e, device.getName());
+            LOG.error("Invalid url for air conditioner %s.", e, device.getName());
         }
         catch (MNetRequestException e)
         {
-            ClimateTray.LOG.error("Failed to request info of air conditioner %s.", e, device.getName());
+            LOG.error("Failed to request info of air conditioner %s.", e, device.getName());
         }
 
         return device.getGroup() != null;

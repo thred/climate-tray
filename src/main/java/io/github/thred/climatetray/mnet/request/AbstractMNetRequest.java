@@ -1,6 +1,6 @@
 package io.github.thred.climatetray.mnet.request;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.util.DomBuilder;
 import io.github.thred.climatetray.util.DomUtils;
@@ -42,7 +42,7 @@ public abstract class AbstractMNetRequest implements MNetRequest
             post.setHeader("content-type", "text/xml");
             post.setEntity(body);
 
-            ClimateTray.LOG.debug("Sending request to \"%s\". The request is:\n%s", url.toExternalForm(), content);
+            LOG.debug("Sending request to \"%s\". The request is:\n%s", url.toExternalForm(), content);
 
             CloseableHttpResponse response;
 
@@ -76,11 +76,11 @@ public abstract class AbstractMNetRequest implements MNetRequest
 
                             try
                             {
-                                if (ClimateTray.LOG.isDebugEnabled())
+                                if (LOG.isDebugEnabled())
                                 {
                                     byte[] bytes = Utils.readFully(in);
 
-                                    ClimateTray.LOG.debug("Reading response from \"%s\". The response is:\n%s",
+                                    LOG.debug("Reading response from \"%s\". The response is:\n%s",
                                         url.toExternalForm(), new String(bytes, "UTF-8"));
 
                                     in = new ByteArrayInputStream(bytes);
@@ -208,7 +208,7 @@ public abstract class AbstractMNetRequest implements MNetRequest
         }
         catch (MNetRequestException e)
         {
-            ClimateTray.LOG.error("Failed to describe request.", e);
+            LOG.error("Failed to describe request.", e);
 
             return String.format("Failed to describe request: %s", e.toString());
         }

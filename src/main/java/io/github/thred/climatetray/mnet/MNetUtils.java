@@ -14,7 +14,7 @@
  */
 package io.github.thred.climatetray.mnet;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.ClimateTrayImage;
 import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.util.Utils;
@@ -95,9 +95,7 @@ public class MNetUtils
 
         if ((temperature != null) && temperatureEnabled)
         {
-            String value =
-                String
-                    .valueOf(Math.round(ClimateTray.PREFERENCES.getTemperatureUnit().convertFromCelsius(temperature)));
+            String value = String.valueOf(Math.round(PREFERENCES.getTemperatureUnit().convertFromCelsius(temperature)));
             int x = (int) (size * 0.45);
 
             for (int i = value.length() - 1; i >= 0; i -= 1)

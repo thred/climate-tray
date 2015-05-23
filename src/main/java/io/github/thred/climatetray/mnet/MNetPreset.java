@@ -14,7 +14,7 @@
  */
 package io.github.thred.climatetray.mnet;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.util.Copyable;
 import io.github.thred.climatetray.util.Persistent;
@@ -128,7 +128,7 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
 
         if (mode.isTemperatureEnabled())
         {
-            builder.append(" (").append(ClimateTray.PREFERENCES.getTemperatureUnit().format(temperature)).append(")");
+            builder.append(" (").append(PREFERENCES.getTemperatureUnit().format(temperature)).append(")");
         }
 
         if (mode.isFanEnabled())

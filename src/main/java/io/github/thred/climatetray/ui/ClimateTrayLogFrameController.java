@@ -14,7 +14,7 @@
  */
 package io.github.thred.climatetray.ui;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.util.Message;
 import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.MessageListener;
@@ -62,7 +62,7 @@ public class ClimateTrayLogFrameController extends DefaultClimateTrayFrameContro
         //        panel.left(SwingUtils.createButton("Test", (e) -> {
         //            Severity severity = Severity.values()[(int) (Math.random() * Severity.values().length)];
         //
-        //            ClimateTray.LOG.add(severity, "This is some test");
+        //            LOG.add(severity, "This is some test");
         //        }));
 
         return panel;
@@ -82,7 +82,7 @@ public class ClimateTrayLogFrameController extends DefaultClimateTrayFrameContro
 
         model.removeMessageListener(this);
 
-        ClimateTray.LOG.debug("Closing log frame.");
+        LOG.debug("Closing log frame.");
 
         super.dismiss(model);
     }

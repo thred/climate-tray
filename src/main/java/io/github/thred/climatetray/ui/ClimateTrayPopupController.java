@@ -14,8 +14,8 @@
  */
 package io.github.thred.climatetray.ui;
 
+import static io.github.thred.climatetray.ClimateTray.*;
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
-import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.ClimateTrayImage;
 import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.ClimateTrayPreferences;
@@ -196,7 +196,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
         try
         {
-            prepareWith(ClimateTray.PREFERENCES);
+            prepareWith(PREFERENCES);
         }
         finally
         {

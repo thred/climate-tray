@@ -1,6 +1,6 @@
 package io.github.thred.climatetray.mnet.ui;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetDrive;
@@ -170,7 +170,7 @@ public class MNetTest implements ExceptionConsumer
             messages.add(((MNetTestException) exception).toMessage());
         }
 
-        ClimateTray.LOG.error("Test failed.", exception);
+        LOG.error("Test failed.", exception);
 
         fireTestStep();
     }
@@ -241,7 +241,7 @@ public class MNetTest implements ExceptionConsumer
 
                         ensureNotCanceled();
 
-                        ClimateTray.LOG.info("Correcting EC to: %s", ec);
+                        LOG.info("Correcting EC to: %s", ec);
 
                         device.setEc(ec);
 

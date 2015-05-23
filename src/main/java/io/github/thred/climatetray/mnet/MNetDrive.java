@@ -1,6 +1,6 @@
 package io.github.thred.climatetray.mnet;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 
 public enum MNetDrive
 {
@@ -23,7 +23,7 @@ public enum MNetDrive
             }
         }
 
-        ClimateTray.LOG.error("Failed to parse drive key \"%s\"", key);
+        LOG.error("Failed to parse drive key \"%s\"", key);
 
         return null;
     }

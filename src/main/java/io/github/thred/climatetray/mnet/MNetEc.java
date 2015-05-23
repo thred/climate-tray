@@ -1,6 +1,6 @@
 package io.github.thred.climatetray.mnet;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 
 public enum MNetEc
 {
@@ -25,7 +25,7 @@ public enum MNetEc
             }
         }
 
-        ClimateTray.LOG.error("Failed to parse EC key \"%s\"", key);
+        LOG.error("Failed to parse EC key \"%s\"", key);
 
         return null;
     }
@@ -54,10 +54,10 @@ public enum MNetEc
     {
         return getLabel();
     }
-    
+
     public static String labelOf(MNetEc mode)
     {
         return (mode != null) ? mode.getLabel() : null;
     }
-    
+
 }

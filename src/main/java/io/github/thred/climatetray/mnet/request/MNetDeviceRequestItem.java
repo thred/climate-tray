@@ -1,6 +1,6 @@
 package io.github.thred.climatetray.mnet.request;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.mnet.MNetAir;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetDrive;
@@ -252,7 +252,7 @@ public class MNetDeviceRequestItem
         }
         catch (NumberFormatException e)
         {
-            ClimateTray.LOG.error("Failed to parse number: %s", e, value);
+            LOG.error("Failed to parse number: %s", e, value);
         }
 
         return null;
@@ -271,7 +271,7 @@ public class MNetDeviceRequestItem
         }
         catch (NumberFormatException e)
         {
-            ClimateTray.LOG.error("Failed to parse number: %s", e, value);
+            LOG.error("Failed to parse number: %s", e, value);
         }
 
         return null;

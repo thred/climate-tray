@@ -5,5 +5,5 @@ public interface ExceptionConsumer
 {
 
     void failed(Exception exception);
-    
+
 }

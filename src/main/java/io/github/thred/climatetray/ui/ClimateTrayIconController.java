@@ -1,6 +1,6 @@
 package io.github.thred.climatetray.ui;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.ClimateTrayImage;
 import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.ClimateTrayPreferences;
@@ -93,7 +93,7 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
             }
             catch (AWTException e)
             {
-                ClimateTray.LOG.error("TrayIcon could not be added.", e);
+                LOG.error("TrayIcon could not be added.", e);
 
                 model.setTrayIconEnabled(false);
                 ClimateTrayService.store();
@@ -125,7 +125,7 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
 
     public void popup(int x, int y)
     {
-        ClimateTray.LOG.debug("Opening popup.");
+        LOG.debug("Opening popup.");
 
         popupController.consume(x, y);
     }

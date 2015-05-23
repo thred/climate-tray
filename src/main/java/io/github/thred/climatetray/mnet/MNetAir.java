@@ -14,7 +14,7 @@
  */
 package io.github.thred.climatetray.mnet;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.ClimateTrayImage;
 
 public enum MNetAir
@@ -41,7 +41,7 @@ public enum MNetAir
             }
         }
 
-        ClimateTray.LOG.error("Failed to parse air key \"%s\"", key);
+        LOG.error("Failed to parse air key \"%s\"", key);
 
         return null;
     }

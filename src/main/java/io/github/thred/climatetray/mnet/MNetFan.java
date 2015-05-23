@@ -14,7 +14,7 @@
  */
 package io.github.thred.climatetray.mnet;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.ClimateTrayImage;
 
 public enum MNetFan
@@ -40,7 +40,7 @@ public enum MNetFan
             }
         }
 
-        ClimateTray.LOG.error("Failed to parse fan key \"%s\"", key);
+        LOG.error("Failed to parse fan key \"%s\"", key);
 
         return null;
     }
@@ -85,7 +85,7 @@ public enum MNetFan
     {
         return backgroundImage;
     }
-    
+
     @Override
     public String toString()
     {

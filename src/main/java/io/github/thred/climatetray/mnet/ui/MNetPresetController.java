@@ -14,8 +14,8 @@
  */
 package io.github.thred.climatetray.mnet.ui;
 
+import static io.github.thred.climatetray.ClimateTray.*;
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
-import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.mnet.MNetAir;
 import io.github.thred.climatetray.mnet.MNetFan;
 import io.github.thred.climatetray.mnet.MNetMode;
@@ -86,7 +86,7 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
     @Override
     public void prepareWith(MNetPreset model)
     {
-        TemperatureUnit temperatureUnit = ClimateTray.PREFERENCES.getTemperatureUnit();
+        TemperatureUnit temperatureUnit = PREFERENCES.getTemperatureUnit();
 
         temperatureLabel.setText(String.format("Temperature (in %s):", temperatureUnit.getSymbol()));
 
@@ -117,7 +117,7 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
     @Override
     public void applyTo(MNetPreset model)
     {
-        TemperatureUnit temperatureUnit = ClimateTray.PREFERENCES.getTemperatureUnit();
+        TemperatureUnit temperatureUnit = PREFERENCES.getTemperatureUnit();
 
         model.setTemperature(temperatureUnit.convertToCelsius((Double) temperatureSpinner.getValue()));
 

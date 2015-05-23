@@ -14,7 +14,7 @@
  */
 package io.github.thred.climatetray.ui;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.ClimateTrayPreferences;
 
 import java.awt.Window;
@@ -33,7 +33,7 @@ public class ClimateTrayAboutDialogController extends DefaultClimateTrayDialogCo
     @Override
     public void dismiss(ClimateTrayPreferences model)
     {
-        ClimateTray.LOG.debug("Closing about dialog.");
+        LOG.debug("Closing about dialog.");
 
         super.dismiss(model);
     }

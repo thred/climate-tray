@@ -14,7 +14,7 @@
  */
 package io.github.thred.climatetray.ui;
 
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.ClimateTrayPreferences;
 import io.github.thred.climatetray.util.MessageBuffer;
 
@@ -60,13 +60,13 @@ public class ClimateTrayAboutController extends AbstractClimateTrayController<Cl
                     {
                         URL url = event.getURL();
 
-                        ClimateTray.LOG.info("Opening browser with URL: %s", url);
+                        LOG.info("Opening browser with URL: %s", url);
 
                         Desktop.getDesktop().browse(url.toURI());
                     }
                     catch (IOException | URISyntaxException e)
                     {
-                        ClimateTray.LOG.warn("Failed to open hyperlink", e);
+                        LOG.warn("Failed to open hyperlink", e);
                     }
                 }
             }

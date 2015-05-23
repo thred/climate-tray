@@ -1,25 +1,25 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray.mnet;
 
-import java.awt.Image;
-
-import io.github.thred.climatetray.ClimateTray;
+import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.util.Copyable;
 import io.github.thred.climatetray.util.Utils;
+
+import java.awt.Image;
 
 import javax.swing.Icon;
 
@@ -145,9 +145,8 @@ public class MNetState implements Copyable<MNetState>
         boolean on = drive == MNetDrive.ON;
         String power = ((on) && (mode != null)) ? mode.getDescription() : MNetDrive.labelOf(drive);
         String temp =
-            (on) ? Utils.combine(" -> ", ClimateTray.PREFERENCES.getTemperatureUnit().format(thermometer),
-                ClimateTray.PREFERENCES.getTemperatureUnit().format(temperature)) : ClimateTray.PREFERENCES
-                .getTemperatureUnit().format(thermometer);
+            (on) ? Utils.combine(" -> ", PREFERENCES.getTemperatureUnit().format(thermometer), PREFERENCES
+                .getTemperatureUnit().format(temperature)) : PREFERENCES.getTemperatureUnit().format(thermometer);
 
         String result = Utils.combine(" ", power, Utils.surround("(", temp, ")"));
 
