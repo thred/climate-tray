@@ -164,7 +164,7 @@ public class Message
                 exception.printStackTrace(printWriter);
             }
 
-            return message + " Exception: " + stringWriter.toString();
+            return message + "\nBecause of " + stringWriter.toString();
         }
         catch (IOException e)
         {

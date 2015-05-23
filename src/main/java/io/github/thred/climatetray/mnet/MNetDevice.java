@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -16,6 +16,7 @@ package io.github.thred.climatetray.mnet;
 
 import io.github.thred.climatetray.util.Copyable;
 import io.github.thred.climatetray.util.Persistent;
+import io.github.thred.climatetray.util.Utils;
 import io.github.thred.climatetray.util.prefs.Prefs;
 
 import java.net.MalformedURLException;
@@ -102,6 +103,11 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         this.host = host;
     }
 
+    public URL getURL() throws MalformedURLException
+    {
+        return MNetUtils.toURL(host);
+    }
+
     public MNetEc getEc()
     {
         return ec;
@@ -152,12 +158,16 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         this.state = state;
     }
 
-    public MNetPreset getPreset()
+    // currently not needed - later use: stores the defined preset, allows to detect changes by other apps
+    @SuppressWarnings("unused")
+    private MNetPreset getPreset()
     {
         return preset;
     }
 
-    public void setPreset(MNetPreset preset)
+    // currently not needed - later use: stores the defined preset, allows to detect changes by other apps
+    @SuppressWarnings("unused")
+    private void setPreset(MNetPreset preset)
     {
         this.preset = preset;
     }
@@ -172,44 +182,31 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         this.model = model;
     }
 
-    public String describe(boolean withHost, MNetStateType stateType)
+    public String describeState()
     {
-        StringBuilder builder = new StringBuilder(name);
+        return Utils.combine(": ", name, state.describe());
+    }
 
-        if ((withHost) && (host != null))
+    public String describeSettings()
+    {
+        String target = host;
+
+        try
         {
-            String target = host;
+            URL url = getURL();
 
-            try
+            if (url != null)
             {
-                URL url = MNetUtils.toURL(host);
-
-                if (url != null)
-                {
-                    target = url.toExternalForm();
-                }
+                target = url.toExternalForm();
             }
-            catch (MalformedURLException e)
-            {
-                // ignore
-            }
-
-            builder.append(" [").append(target).append(" / ");
-
-            if (ec != MNetEc.NONE)
-            {
-                builder.append(ec.getLabel()).append(" / ");
-            }
-
-            builder.append(address).append("]");
+        }
+        catch (MalformedURLException e)
+        {
+            // ignore
         }
 
-        if ((stateType != MNetStateType.NONE) && (state != null))
-        {
-            builder.append(": ").append(state.describe(stateType));
-        }
-
-        return builder.toString();
+        return Utils.combine(": ", name,
+            Utils.combine(" ", target, Utils.surround("[", Utils.combine(ec.getLabel(), address), "]")));
     }
 
     @Override
@@ -221,13 +218,7 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         ec = prefs.getEnum(MNetEc.class, "ec", ec);
         address = prefs.getInteger("address", 0);
         selected = prefs.getBoolean("selected", selected);
-
-        if (state == null)
-        {
-            state = new MNetState();
-        }
-
-        state.read(prefs.withPrefix("state."));
+        state = new MNetState();
 
         if (preset == null)
         {
@@ -247,7 +238,6 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         prefs.setInteger("address", address);
         prefs.setBoolean("enabled", selected);
 
-        state.write(prefs.withPrefix("state."));
         preset.write(prefs.withPrefix("preset."));
     }
 

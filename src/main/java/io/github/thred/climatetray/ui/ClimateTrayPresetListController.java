@@ -53,7 +53,7 @@ public class ClimateTrayPresetListController extends AbstractClimateTrayListCont
 
         if (listModel.getSize() == 0)
         {
-            messageBuffer.warn("Please, add at least one preset for managing a device.");
+            messageBuffer.warn("Please, add at least one preset for managing an air conditioner.");
         }
     }
 

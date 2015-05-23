@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -50,18 +50,21 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     protected JPanel createView()
     {
         JPanel view = new JPanel(new GridBagLayout());
-        GBC gbc = new GBC(3, 4);
+        GBC gbc = new GBC(3, 5);
 
-        view.add(createLabel("Name:", nameField), gbc);
+        view.add(createLabel("Custom Name:", nameField), gbc);
         view.add(nameField, gbc.next().span(2).hFill());
 
-        view.add(createLabel("Host / URL:", hostField), gbc.next());
+        view.add(createHint("Check the case of the air conditioner for the following fields."), gbc.next().center()
+            .span(3));
+
+        view.add(createLabel("Controller Address (IP):", hostField), gbc.next());
         view.add(hostField, gbc.next().span(2).hFill());
 
         view.add(createLabel("EC:", ecField), gbc.next());
         view.add(ecField, gbc.next().span(2));
 
-        view.add(createLabel("Address:", addressField), gbc.next());
+        view.add(createLabel("Air Conditioner Address:", addressField), gbc.next());
         view.add(addressField, gbc.next().hFill());
 
         return view;
@@ -83,14 +86,14 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
 
         if (name.length() <= 0)
         {
-            messageBuffer.error("The name is missing.");
+            messageBuffer.error("The field \"Custom Name\" is empty.");
         }
 
         String host = hostField.getText().trim();
 
         if (host.length() <= 0)
         {
-            messageBuffer.error("The host / URL is missing.");
+            messageBuffer.error("The field \"Controller Address\" is empty.");
         }
 
         URL url = null;
@@ -101,7 +104,7 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
         }
         catch (MalformedURLException e)
         {
-            messageBuffer.error("The host / URL is invalid.");
+            messageBuffer.error("The value of the field \"Controller Address\" is invalid.");
         }
 
         if (url != null)

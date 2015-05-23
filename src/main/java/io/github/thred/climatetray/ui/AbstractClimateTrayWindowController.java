@@ -44,9 +44,11 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
 
     public enum Button
     {
-        CLOSE,
+        YES,
+        NO,
         OK,
-        CANCEL
+        CANCEL,
+        CLOSE
     }
 
     protected final Window owner;
@@ -54,6 +56,8 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
     protected final Button[] buttons;
 
     protected final TitlePanel titlePanel = new TitlePanel(null, null);
+    protected final JButton yesButton = SwingUtils.createButton("Yes", (e) -> yes());
+    protected final JButton noButton = SwingUtils.createButton("No", (e) -> no());
     protected final JButton okButton = SwingUtils.createButton("Ok", (e) -> ok());
     protected final JButton cancelButton = SwingUtils.createButton("Cancel", (e) -> cancel());
     protected final JButton closeButton = SwingUtils.createButton("Close", (e) -> close());
@@ -152,6 +156,16 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
         Set<Button> set = new HashSet<>(Arrays.asList(buttons));
         ButtonPanel buttonPanel = new ButtonPanel();
 
+        if (set.contains(Button.YES))
+        {
+            buttonPanel.right(yesButton);
+        }
+
+        if (set.contains(Button.NO))
+        {
+            buttonPanel.right(noButton);
+        }
+
         if (set.contains(Button.OK))
         {
             buttonPanel.right(okButton);
@@ -239,6 +253,22 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
     public MODEL_TYPE getModel()
     {
         return model;
+    }
+
+    public void yes()
+    {
+        applyTo(model);
+
+        result = Button.OK;
+
+        dismiss(model);
+    }
+
+    public void no()
+    {
+        result = Button.CLOSE;
+
+        dismiss(model);
     }
 
     public void ok()

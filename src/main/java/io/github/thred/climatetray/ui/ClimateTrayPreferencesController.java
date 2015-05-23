@@ -65,7 +65,7 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
         view.add(createLabel("Presets:", presetListView), gbc.next().top().insetTop(8));
         view.add(presetListView, gbc.next().weight(1, 1).fill());
 
-        view.add(createLabel("Devices:", deviceListView), gbc.next().top().insetTop(8));
+        view.add(createLabel("Air Conditioners:", deviceListView), gbc.next().top().insetTop(8));
         view.add(deviceListView, gbc.next().weight(1, 1).fill());
 
         return view;

@@ -2,29 +2,30 @@ package io.github.thred.climatetray.mnet.request;
 
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.util.DomBuilder;
-import io.github.thred.climatetray.util.DomUtils;
 
-import org.w3c.dom.Node;
-
-public class MNetInfoRequest extends MNetRequest
+public class MNetInfoRequest extends AbstractMNetDeviceRequest
 {
-
-    private Integer group;
-    private String model;
 
     public MNetInfoRequest()
     {
         super();
     }
 
-    public Integer getGroup()
+    public MNetInfoRequest addDevice(MNetDevice device) throws MNetRequestException
     {
-        return group;
-    }
+        if (device.getEc() == null)
+        {
+            throw new MNetRequestException("The EC is missing");
+        }
 
-    public String getModel()
-    {
-        return model;
+        if (device.getAddress() == null)
+        {
+            throw new MNetRequestException("The address of the air conditioner is missing.");
+        }
+
+        addRequestItem(new MNetDeviceRequestItem(device));
+
+        return this;
     }
 
     @Override
@@ -34,22 +35,12 @@ public class MNetInfoRequest extends MNetRequest
     }
 
     @Override
-    protected void buildRequestContent(DomBuilder builder, MNetDevice device)
+    protected void buildRequestItemContent(DomBuilder builder, MNetDeviceRequestItem item) throws MNetRequestException
     {
-        builder.begin("Mnet");
-        builder.attribute("Ec", device.getEc().getKey());
-        builder.attribute("Address", device.getAddress());
+        builder.attribute("Ec", item.getEc().getKey());
+        builder.attribute("Address", item.getAddress());
         builder.attribute("Group", "*");
         builder.attribute("Model", "*");
-        builder.end();
     }
 
-    @Override
-    protected void parseResponseContent(Node document)
-    {
-        DomUtils.findAll(document, "//Mnet").forEach((node) -> {
-            group = DomUtils.getIntegerAttribute(node, "Group", null);
-            model = DomUtils.getAttribute(node, "Model", null);
-        });
-    }
 }

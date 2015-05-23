@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -17,29 +17,30 @@ package io.github.thred.climatetray.mnet;
 import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.util.Copyable;
-import io.github.thred.climatetray.util.Persistent;
-import io.github.thred.climatetray.util.prefs.Prefs;
+import io.github.thred.climatetray.util.Utils;
 
 import javax.swing.Icon;
 
-public class MNetState implements Copyable<MNetState>, Persistent
+public class MNetState implements Copyable<MNetState>
 {
 
-    private MNetMode mode = MNetMode.OFF;
-    private Double temperature = Double.valueOf(22);
+    private MNetDrive drive = null;
+    private MNetMode mode = null;
+    private Double temperature = null;
     private Double thermometer = null;
-    private MNetFan fan = MNetFan.MID1;
-    private MNetAir air = MNetAir.HORIZONTAL;
+    private MNetFan fan = null;
+    private MNetAir air = null;
 
     public MNetState()
     {
         super();
     }
 
-    public MNetState(MNetMode mode, Double temperature, Double thermometer, MNetFan fan, MNetAir air)
+    public MNetState(MNetDrive drive, MNetMode mode, Double temperature, Double thermometer, MNetFan fan, MNetAir air)
     {
         super();
 
+        this.drive = drive;
         this.mode = mode;
         this.temperature = temperature;
         this.thermometer = thermometer;
@@ -50,7 +51,17 @@ public class MNetState implements Copyable<MNetState>, Persistent
     @Override
     public MNetState deepCopy()
     {
-        return new MNetState(mode, temperature, thermometer, fan, air);
+        return new MNetState(drive, mode, temperature, thermometer, fan, air);
+    }
+
+    public MNetDrive getDrive()
+    {
+        return drive;
+    }
+
+    public void setDrive(MNetDrive drive)
+    {
+        this.drive = drive;
     }
 
     public MNetMode getMode()
@@ -78,6 +89,11 @@ public class MNetState implements Copyable<MNetState>, Persistent
         return thermometer;
     }
 
+    public void setThermometer(Double thermometer)
+    {
+        this.thermometer = thermometer;
+    }
+
     public MNetFan getFan()
     {
         return fan;
@@ -103,85 +119,34 @@ public class MNetState implements Copyable<MNetState>, Persistent
         return MNetUtils.createIcon(state, size, mode, fan, thermometer, air);
     }
 
-    public String describe(MNetStateType stateType)
+    public String describe()
     {
-        StringBuilder builder = new StringBuilder(mode.getDescription());
+        boolean on = drive == MNetDrive.ON;
+        String power = ((on) && (mode != null)) ? mode.getDescription() : MNetDrive.labelOf(drive);
+        String temp =
+            (on) ? Utils.combine(" -> ", ClimateTray.PREFERENCES.getTemperatureUnit().format(thermometer),
+                ClimateTray.PREFERENCES.getTemperatureUnit().format(temperature)) : ClimateTray.PREFERENCES
+                .getTemperatureUnit().format(temperature);
 
-        switch (stateType)
+        String result = Utils.combine(" ", power, Utils.surround("(", temp, ")"));
+
+        if (on)
         {
-            case NONE:
-                break;
-
-            case SETTING:
-                if ((mode.isTemperatureEnabled()) && (temperature != null))
-                {
-                    builder.append(" ,").append(ClimateTray.PREFERENCES.getTemperatureUnit().format(temperature));
-                }
-                break;
-
-            case STATE:
-                if (thermometer != null)
-                {
-                    builder.append(" (").append(ClimateTray.PREFERENCES.getTemperatureUnit().format(thermometer))
-                        .append(")");
-                }
-                break;
-
-            case STATE_AND_SETTING:
-                if (thermometer != null)
-                {
-                    builder.append(" (").append(ClimateTray.PREFERENCES.getTemperatureUnit().format(thermometer))
-                        .append(")");
-                }
-
-                if ((mode.isTemperatureEnabled()) && (temperature != null))
-                {
-                    builder.append(", ").append(ClimateTray.PREFERENCES.getTemperatureUnit().format(temperature));
-                }
-                break;
-
-            default:
-                throw new UnsupportedOperationException("Type not supported: " + stateType);
-
+            result =
+                Utils.combine(
+                    " ",
+                    Utils.combine(", ", MNetAir.descriptionOf(air),
+                        Utils.surround("(", MNetFan.descriptionOf(fan), ")")));
         }
 
-        if ((mode.isFanEnabled()) && (fan != null))
-        {
-            builder.append(", ").append(fan.getDescription());
-        }
-
-        if ((mode.isAirEnabled()) && (air != null))
-        {
-            builder.append(" (").append(air.getDescription()).append(")");
-        }
-
-        return builder.toString();
-    }
-
-    @Override
-    public void read(Prefs prefs)
-    {
-        mode = prefs.getEnum(MNetMode.class, "mode", MNetMode.OFF);
-        temperature = prefs.getDouble("temperature", temperature);
-        thermometer = null;
-        fan = prefs.getEnum(MNetFan.class, "fan", fan);
-        air = prefs.getEnum(MNetAir.class, "air", air);
-    }
-
-    @Override
-    public void write(Prefs prefs)
-    {
-        prefs.setEnum("mode", mode);
-        prefs.setDouble("temperature", temperature);
-        prefs.setEnum("fan", fan);
-        prefs.setEnum("air", air);
+        return result;
     }
 
     @Override
     public String toString()
     {
-        return "MNetState [mode=" + mode + ", temperature=" + temperature + ", thermometer=" + thermometer + ", fan="
-            + fan + ", air=" + air + "]";
+        return "MNetState [drive=" + drive + ", mode=" + mode + ", temperature=" + temperature + ", thermometer="
+            + thermometer + ", fan=" + fan + ", air=" + air + "]";
     }
 
 }

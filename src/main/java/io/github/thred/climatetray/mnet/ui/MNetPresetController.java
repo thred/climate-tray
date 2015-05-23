@@ -40,7 +40,7 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
     private static final double MINIMUM = 17;
     private static final double MAXIMUM = 30;
 
-    private final JComboBox<MNetMode> modeBox = monitor(createComboBox(MNetMode.values()));
+    private final JComboBox<MNetMode> modeBox = monitor(createComboBox(MNetMode.selectableValues()));
     private final SpinnerNumberModel temperatureSpinnerModel = new SpinnerNumberModel(DEFAULT, MINIMUM, MAXIMUM, 0.5);
     private final JSpinner temperatureSpinner = monitor(createSpinner(temperatureSpinnerModel));
     private final JLabel temperatureLabel = createLabel("Temperature:", temperatureSpinner);

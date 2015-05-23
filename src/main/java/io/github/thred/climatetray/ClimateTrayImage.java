@@ -52,8 +52,6 @@ public enum ClimateTrayImage
     CHAR_9,
     ICON,
     ICON_AUTO,
-    ICON_AUTO_COOL,
-    ICON_AUTO_HEAT,
     ICON_COOL,
     ICON_DIR1,
     ICON_DIR2,

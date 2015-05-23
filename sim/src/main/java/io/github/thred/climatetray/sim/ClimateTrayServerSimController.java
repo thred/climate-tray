@@ -21,11 +21,11 @@ public class ClimateTrayServerSimController
     private static final String GROUP = "22";
     private static final String MODEL = "IC";
 
-    private final String drive = "OFF";
-    private final String mode = "COOL";
-    private final double temperature = 22.5;
-    private final String air = "HORIZONTAL";
-    private final String fan = "LOW";
+    private String drive = "OFF";
+    private String mode = "COOL";
+    private Double temperature = 22.5;
+    private String air = "HORIZONTAL";
+    private String fan = "LOW";
 
     @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody String mNet(@RequestBody String body)
@@ -43,11 +43,24 @@ public class ClimateTrayServerSimController
                 getRequest(requestDoc, responseBuilder);
                 break;
 
+            case "setRequest":
+                setRequest(requestDoc, responseBuilder);
+                break;
+
             default:
                 throw new IllegalArgumentException("Unsupported request: " + body);
         }
 
         responseBuilder.end();
+
+        try
+        {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
 
         return responseBuilder.toString();
     }
@@ -110,11 +123,9 @@ public class ClimateTrayServerSimController
             }
             else if ("22".equals(group))
             {
-                responseBuilder.begin("Mnet").attribute("Ec", ec).attribute("Address", address)
-                    .attribute("Group", GROUP).attribute("Model", MODEL).attribute("Drive", drive)
-                    .attribute("Mode", mode).attribute("SetTemp", String.format(Locale.ENGLISH, "%.1f", temperature))
-                    .attribute("InletTemp", String.format(Locale.ENGLISH, "%.1f", (Math.random() * 20) + 17))
-                    .attribute("AirDirection", air).attribute("FanSpeed", fan).end();
+                System.err.println("Returning state: " + this);
+
+                appendState(responseBuilder.begin("Mnet").attribute("Ec", ec).attribute("Address", address).attribute("Model", MODEL)).end();
             }
         }
 
@@ -125,9 +136,89 @@ public class ClimateTrayServerSimController
         }
     }
 
+    private void setRequest(Document requestDoc, DomBuilder responseBuilder)
+    {
+        responseBuilder.element("Command", "setResponse");
+        responseBuilder.begin("DatabaseManager");
+
+        DomUtils.findAll(requestDoc, "//Mnet").forEach(requestNode -> setRequestElement(requestNode, responseBuilder));
+
+        responseBuilder.end();
+    }
+
+    private void setRequestElement(Node requestNode, DomBuilder responseBuilder)
+    {
+        String ec = DomUtils.getAttribute(requestNode, "Ec");
+
+        if (!"1".equals(ec))
+        {
+            // unknown EC
+            return;
+        }
+
+        String group = DomUtils.getAttribute(requestNode, "Group");
+
+        if (!"22".equals(group))
+        {
+            // unknown group
+            return;
+        }
+
+        drive = DomUtils.getAttribute(requestNode, "Drive", drive);
+        mode = DomUtils.getAttribute(requestNode, "Mode", mode);
+        temperature = DomUtils.getDoubleAttribute(requestNode, "temperature", temperature);
+        air = DomUtils.getAttribute(requestNode, "AirDirection", air);
+        fan = DomUtils.getAttribute(requestNode, "FanSpeed", fan);
+
+        System.err.println("State set to: " + this);
+
+        appendState(responseBuilder.begin("Mnet").attribute("Ec", ec)).end();
+    }
+
+    private DomBuilder appendState(DomBuilder responseBuilder)
+    {
+        double thermometer = (Math.random() * 20) + 17;
+
+        responseBuilder.attribute("Drive", drive).attribute("Group", GROUP);
+
+        if ("AUTO".equals(mode))
+        {
+            if ((thermometer + 3) < temperature.doubleValue())
+            {
+                responseBuilder.attribute("Mode", "AUTOHEAT");
+            }
+            else if ((thermometer - 3) > temperature.doubleValue())
+            {
+                responseBuilder.attribute("Mode", "AUTOCOOL");
+            }
+            else
+            {
+                responseBuilder.attribute("Mode", "AUTO");
+            }
+        }
+        else
+        {
+            responseBuilder.attribute("Mode", mode);
+        }
+
+        responseBuilder.attribute("SetTemp", String.format(Locale.ENGLISH, "%.1f", temperature))
+            .attribute("InletTemp", String.format(Locale.ENGLISH, "%.1f", thermometer)).attribute("AirDirection", air)
+            .attribute("FanSpeed", fan);
+
+        return responseBuilder;
+    }
+
     public DomBuilder unknwonDevice(DomBuilder responseBuilder, String ec, String address)
     {
         return responseBuilder.begin("Mnet").attribute("Ec", ec).attribute("Address", address).attribute("Group", "99")
             .attribute("Model", "NONE").end();
     }
+
+    @Override
+    public String toString()
+    {
+        return "ClimateTrayServerSimController [drive=" + drive + ", mode=" + mode + ", temperature=" + temperature
+            + ", air=" + air + ", fan=" + fan + "]";
+    }
+
 }

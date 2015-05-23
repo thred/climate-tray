@@ -2,22 +2,20 @@ package io.github.thred.climatetray.mnet;
 
 import io.github.thred.climatetray.ClimateTray;
 
-public enum MNetEc
+public enum MNetDrive
 {
 
-    NONE(null, "Not Used"),
-    EC_1("1", "EC #1"),
-    EC_2("2", "EC #2"),
-    EC_3("3", "EC #3");
+    OFF("OFF", "Off"),
+    ON("ON", "On");
 
-    public static MNetEc valueOfKey(String key)
+    public static MNetDrive valueOfKey(String key)
     {
         if ((key == null) || ("*".equals(key)))
         {
             return null;
         }
 
-        for (MNetEc ec : values())
+        for (MNetDrive ec : values())
         {
             if (key.equals(ec.getKey()))
             {
@@ -25,7 +23,7 @@ public enum MNetEc
             }
         }
 
-        ClimateTray.LOG.error("Failed to parse EC key \"%s\"", key);
+        ClimateTray.LOG.error("Failed to parse drive key \"%s\"", key);
 
         return null;
     }
@@ -33,7 +31,7 @@ public enum MNetEc
     private final String key;
     private final String label;
 
-    private MNetEc(String key, String label)
+    private MNetDrive(String key, String label)
     {
         this.key = key;
         this.label = label;
@@ -54,10 +52,9 @@ public enum MNetEc
     {
         return getLabel();
     }
-    
-    public static String labelOf(MNetEc mode)
+
+    public static String labelOf(MNetDrive drive)
     {
-        return (mode != null) ? mode.getLabel() : null;
+        return (drive != null) ? drive.getLabel() : null;
     }
-    
 }

@@ -12,9 +12,9 @@ public class MNetTestDialogController extends DefaultClimateTrayDialogController
 
     public MNetTestDialogController(Window owner)
     {
-        super(owner, new MNetTestController(), Button.CANCEL, Button.CLOSE);
+        super(owner, new MNetTestController(), Button.YES, Button.NO, Button.CANCEL, Button.CLOSE);
 
-        setTitle("Testing Device");
+        setTitle("Testing Air Conditioner Settings");
     }
 
     @Override
@@ -34,9 +34,24 @@ public class MNetTestDialogController extends DefaultClimateTrayDialogController
     public void testStep(MNetTest test, Step step, State state)
     {
         boolean finished = (state != State.RUNNING);
+        boolean asking = (!finished) && (step == Step.TOGGLING);
 
+        yesButton.setVisible(asking);
+        noButton.setVisible(asking);
         closeButton.setVisible(finished);
         cancelButton.setVisible(!finished);
+    }
+
+    @Override
+    public void yes()
+    {
+        getModel().restoring(true);
+    }
+
+    @Override
+    public void no()
+    {
+        getModel().restoring(false);
     }
 
     @Override

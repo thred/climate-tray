@@ -53,7 +53,7 @@ public class ClimateTrayDeviceListController extends AbstractClimateTrayListCont
 
         if (listModel.getSize() == 0)
         {
-            messageBuffer.warn("Please, add at least one device you want to manage.");
+            messageBuffer.warn("Please, add at least one air conditioner you want to manage.");
         }
     }
 

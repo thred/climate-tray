@@ -21,7 +21,6 @@ import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.ClimateTrayPreferences;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
-import io.github.thred.climatetray.mnet.MNetStateType;
 import io.github.thred.climatetray.util.MessageBuffer;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
@@ -48,7 +47,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 {
 
     private final JMenuItem preferencesItem = createMenuItem("Preferences...", null,
-        "Manage the presets, devices and other settings.", (e) -> ClimateTray.preferences());
+        "Manage the presets, air conditioners and other settings.", (e) -> ClimateTray.preferences());
     private final JMenuItem logItem = createMenuItem("Log...", null, null, (e) -> ClimateTray.log());
     private final JMenuItem aboutItem = createMenuItem("About...", null, null, (e) -> ClimateTray.about());
     private final JMenuItem exitItem = createMenuItem("Exit", null, null, (e) -> ClimateTray.exit());
@@ -125,8 +124,8 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
             {
                 Icon icon = createIcon(device);
                 JCheckBoxMenuItem item =
-                    SwingUtils.createCheckBoxMenuItem(device.describe(false, MNetStateType.STATE), icon,
-                        device.describe(true, MNetStateType.STATE_AND_SETTING), (e) -> deviceSelect(device));
+                    SwingUtils.createCheckBoxMenuItem(device.describeState(), icon, device.describeState(),
+                        (e) -> deviceSelect(device));
 
                 item.setName(device.getId().toString());
                 item.setSelected(device.isSelected());

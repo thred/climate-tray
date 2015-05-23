@@ -1,6 +1,7 @@
 package io.github.thred.climatetray;
 
 import io.github.thred.climatetray.util.ExceptionConsumer;
+import io.github.thred.climatetray.util.VoidCallable;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -53,23 +54,27 @@ public class ClimateTrayProcessor
         }, 0, (long) (updatePeriodInMinutes * 60), TimeUnit.SECONDS);
     }
 
-    public Future<?> submit(Runnable task)
+    public Future<?> submit(VoidCallable task)
     {
-        return executor.submit(task);
+        return submit(task, null, null);
     }
 
-    public Future<?> submit(Runnable task, Runnable onSuccess)
+    public Future<?> submit(VoidCallable task, VoidCallable onSuccess)
     {
-        return executor.submit(task);
+        return submit(task, onSuccess, null);
     }
 
-    public Future<?> submit(Runnable task, Runnable onSuccess, ExceptionConsumer onError)
+    public Future<?> submit(VoidCallable task, VoidCallable onSuccess, ExceptionConsumer onError)
     {
         return executor.submit(() -> {
             try
             {
-                task.run();
-                onSuccess.run();
+                task.call();
+
+                if (onSuccess != null)
+                {
+                    onSuccess.call();
+                }
             }
             catch (Exception e)
             {
@@ -80,6 +85,8 @@ public class ClimateTrayProcessor
 
                 throw e;
             }
+
+            return null;
         });
     }
 

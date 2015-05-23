@@ -1,37 +1,32 @@
 package io.github.thred.climatetray.mnet.ui;
 
+import io.github.thred.climatetray.util.Message;
+import io.github.thred.climatetray.util.Severity;
 
-public class MNetTestException extends RuntimeException
+public class MNetTestException extends Exception
 {
 
     private static final long serialVersionUID = -8978733427880485431L;
 
-    private final Object[] args;
+    private final Severity severity;
 
-    public MNetTestException()
+    public MNetTestException(Severity severity, String message, Object... args)
     {
-        super();
+        super(String.format(message, args));
 
-        args = new Object[0];
+        this.severity = severity;
     }
 
-    public MNetTestException(String message, Object... args)
+    public MNetTestException(Severity severity, String message, Throwable cause, Object... args)
     {
-        super(message);
+        super(String.format(message, args), cause);
 
-        this.args = args;
+        this.severity = severity;
     }
 
-    public MNetTestException(String message, Throwable cause, Object... args)
+    public Message toMessage()
     {
-        super(message, cause);
-
-        this.args = args;
-    }
-
-    public Object[] getArgs()
-    {
-        return args;
+        return new Message(severity, getMessage(), getCause());
     }
 
 }

@@ -38,8 +38,8 @@ public class ClimateTrayDeviceDialogController extends DefaultClimateTrayDialogC
     {
         super(owner, new MNetDeviceController(), Button.OK, Button.CANCEL);
 
-        setTitle("Device");
-        setDescription(Message.info("Look on the device for the necessary informations."));
+        setTitle("Air Conditioner Settings");
+        setDescription(Message.info("Look on the air conditioner for the necessary informations."));
 
         okButton.setEnabled(false);
         testButton.setEnabled(false);
