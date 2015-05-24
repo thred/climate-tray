@@ -47,7 +47,7 @@ public class MNetAirCellRenderer extends DefaultListCellRenderer
 
         MNetAir air = (MNetAir) value;
 
-        setIcon(air.getImage().getIcon(ClimateTrayImageState.NOT_SELECTED, 16));
+        setIcon(air.getImage().getIcon(ClimateTrayImageState.DEFAULT, 16));
         setText(air.getLabel());
 
         return this;

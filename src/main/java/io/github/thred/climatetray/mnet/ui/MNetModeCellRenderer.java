@@ -47,7 +47,7 @@ public class MNetModeCellRenderer extends DefaultListCellRenderer
 
         MNetMode mode = (MNetMode) value;
 
-        setIcon(mode.getImage().getIcon(ClimateTrayImageState.NOT_SELECTED, 16));
+        setIcon(mode.getImage().getIcon(ClimateTrayImageState.DEFAULT, 16));
         setText(mode.getLabel());
 
         return this;

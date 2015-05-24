@@ -84,11 +84,11 @@ public class MNetUtils
             case NONE:
                 break;
 
-            case SELECTED:
+            case HIGHLIGHT:
                 g.drawImage(ClimateTrayImage.BACKGROUND_SELECTED.getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
                 break;
 
-            case NOT_SELECTED:
+            case DEFAULT:
                 g.drawImage(ClimateTrayImage.BACKGROUND.getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
                 break;
 
@@ -129,6 +129,7 @@ public class MNetUtils
                 g.drawImage(fan.getImage().getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
 
                 mainFilled = true;
+                subFilled = true;
             }
         }
 

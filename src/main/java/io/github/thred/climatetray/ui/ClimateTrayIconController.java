@@ -22,7 +22,7 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
     public static final int TRAY_ICON_SIZE = 16;
 
     private final ClimateTrayPopupController popupController = new ClimateTrayPopupController();
-    private final TrayIcon view = new TrayIcon(ClimateTrayImage.ICON.getImage(ClimateTrayImageState.NOT_SELECTED,
+    private final TrayIcon view = new TrayIcon(ClimateTrayImage.ICON.getImage(ClimateTrayImageState.DEFAULT,
         TRAY_ICON_SIZE));
 
     public ClimateTrayIconController()
@@ -68,7 +68,7 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
 
             if (activeDevice != null)
             {
-                Image image = activeDevice.getState().createImage(ClimateTrayImageState.NOT_SELECTED, TRAY_ICON_SIZE);
+                Image image = activeDevice.getState().createImage(ClimateTrayImageState.DEFAULT, TRAY_ICON_SIZE);
                 String toolTip = activeDevice.describeState();
 
                 refreshIconWith(image, toolTip);
@@ -112,7 +112,7 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
 
     protected void refreshIconWith(Image image, String toolTip)
     {
-        view.setImage((image != null) ? image : ClimateTrayImage.ICON.getImage(ClimateTrayImageState.NOT_SELECTED,
+        view.setImage((image != null) ? image : ClimateTrayImage.ICON.getImage(ClimateTrayImageState.DEFAULT,
             TRAY_ICON_SIZE));
         view.setToolTip((toolTip != null) ? toolTip : "Climate-Tray");
     }

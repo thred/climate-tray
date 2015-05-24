@@ -48,7 +48,7 @@ public class MNetPresetCellRenderer extends DefaultListCellRenderer
         }
 
         MNetPreset preset = (MNetPreset) value;
-        ClimateTrayImageState imageState = ClimateTrayImageState.NOT_SELECTED;
+        ClimateTrayImageState imageState = ClimateTrayImageState.DEFAULT;
 
         setIcon(preset.createIcon(imageState, ICON_SIZE));
         setText(preset.describe());

@@ -21,6 +21,7 @@ import org.w3c.dom.Node;
 public class ClimateTrayServerSimController
 {
 
+    private static final long LAG = 250;
     private final List<ClimateTrayServerSimState> states = new ArrayList<>();
 
     public ClimateTrayServerSimController()
@@ -70,7 +71,7 @@ public class ClimateTrayServerSimController
 
         try
         {
-            Thread.sleep(1000);
+            Thread.sleep(LAG);
         }
         catch (InterruptedException e)
         {

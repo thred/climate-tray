@@ -199,7 +199,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     protected Icon createIcon(MNetPreset preset)
     {
         ClimateTrayImageState imageState =
-            (preset.isSelected()) ? ClimateTrayImageState.SELECTED : ClimateTrayImageState.NOT_SELECTED;
+            (preset.isSelected()) ? ClimateTrayImageState.HIGHLIGHT : ClimateTrayImageState.NONE;
 
         return preset.createIcon(imageState, 16);
     }
@@ -207,7 +207,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     protected Icon createIcon(MNetDevice device)
     {
         ClimateTrayImageState imageState =
-            (device.isSelected()) ? ClimateTrayImageState.SELECTED : ClimateTrayImageState.NOT_SELECTED;
+            (device.isSelected()) ? ClimateTrayImageState.HIGHLIGHT : ClimateTrayImageState.NONE;
 
         return device.getState().createIcon(imageState, 16);
     }

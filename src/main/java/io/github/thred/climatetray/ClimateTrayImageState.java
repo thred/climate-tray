@@ -18,8 +18,8 @@ public enum ClimateTrayImageState
 {
 
     NONE(""),
-    SELECTED(":selected"),
-    NOT_SELECTED(":not-selected");
+    HIGHLIGHT(":selected"),
+    DEFAULT(":not-selected");
 
     private final String postfix;
 

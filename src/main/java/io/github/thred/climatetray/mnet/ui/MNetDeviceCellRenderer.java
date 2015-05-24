@@ -51,7 +51,7 @@ public class MNetDeviceCellRenderer extends DefaultListCellRenderer
 
         MNetDevice device = (MNetDevice) value;
         MNetState state = device.getState();
-        ClimateTrayImageState imageState = ClimateTrayImageState.NOT_SELECTED;
+        ClimateTrayImageState imageState = ClimateTrayImageState.DEFAULT;
 
         setIcon((state != null) ? state.createIcon(imageState, ICON_SIZE) : ClimateTrayImage.ICON.getIcon(imageState,
             ICON_SIZE));

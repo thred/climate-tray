@@ -102,11 +102,11 @@ public enum ClimateTrayImage
                 // do nothing
                 break;
 
-            case SELECTED:
+            case HIGHLIGHT:
                 backgroundImage = BACKGROUND_SELECTED.getImage(ClimateTrayImageState.NONE, size);
                 break;
 
-            case NOT_SELECTED:
+            case DEFAULT:
                 backgroundImage = BACKGROUND.getImage(ClimateTrayImageState.NONE, size);
                 break;
 

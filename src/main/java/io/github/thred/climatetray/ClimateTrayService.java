@@ -118,7 +118,7 @@ public class ClimateTrayService
 
     public static void refresh()
     {
-        ICON_CONTROLLER.refreshWith(PREFERENCES);
+        SwingUtilities.invokeLater(() -> ICON_CONTROLLER.refreshWith(PREFERENCES));
     }
 
     public static void updateDevices()
@@ -269,37 +269,45 @@ public class ClimateTrayService
 
     public static void preferences()
     {
-        LOG.debug("Opening preferences dialog.");
+        SwingUtilities.invokeLater(() -> {
+            LOG.debug("Opening preferences dialog.");
 
-        PREFERENCES_CONTROLLER.consume(PREFERENCES);
+            PREFERENCES_CONTROLLER.consume(PREFERENCES);
+        });
     }
 
     public static void log()
     {
-        LOG.debug("Opening log frame.");
+        SwingUtilities.invokeLater(() -> {
+            LOG.debug("Opening log frame.");
 
-        LOG_CONTROLLER.consume(LOG);
+            LOG_CONTROLLER.consume(LOG);
+        });
     }
 
     public static void about()
     {
-        LOG.debug("Opening about dialog.");
+        SwingUtilities.invokeLater(() -> {
+            LOG.debug("Opening about dialog.");
 
-        ABOUT_CONTROLLER.consume(PREFERENCES);
+            ABOUT_CONTROLLER.consume(PREFERENCES);
+        });
     }
 
     public static void exit()
     {
-        LOG.info("Exiting.");
+        SwingUtilities.invokeLater(() -> {
+            LOG.info("Exiting.");
 
-        ICON_CONTROLLER.dismiss(PREFERENCES);
-        ABOUT_CONTROLLER.dismiss(PREFERENCES);
-        LOG_CONTROLLER.dismiss(LOG);
-        PREFERENCES_CONTROLLER.dismiss(PREFERENCES);
+            ICON_CONTROLLER.dismiss(PREFERENCES);
+            ABOUT_CONTROLLER.dismiss(PREFERENCES);
+            LOG_CONTROLLER.dismiss(LOG);
+            PREFERENCES_CONTROLLER.dismiss(PREFERENCES);
 
-        ClimateTrayService.shutdown();
+            ClimateTrayService.shutdown();
 
-        System.exit(0);
+            System.exit(0);
+        });
     }
 
 }

@@ -30,9 +30,9 @@ public enum MNetMode
         true),
     AUTO("AUTO", "Automatic", "auto", ClimateTrayImage.ICON_AUTO, ClimateTrayImage.BACKGROUND_AUTO, true, 19, 28, true,
         true),
-    AUTO_COOL("AUTOCOOL", "Automatic (cooling)", "auto (\u25bc)", null, ClimateTrayImage.BACKGROUND_AUTO_COOL, false,
+    AUTO_COOL("AUTOCOOL", "Automatic (cooling)", "auto\u25bc", null, ClimateTrayImage.BACKGROUND_AUTO_COOL, false,
         19, 28, true, true),
-    AUTO_HEAT("AUTOHEAT", "Automatic (heating)", "auto (\u25b2)", null, ClimateTrayImage.BACKGROUND_AUTO_HEAT, false,
+    AUTO_HEAT("AUTOHEAT", "Automatic (heating)", "auto\u25b2", null, ClimateTrayImage.BACKGROUND_AUTO_HEAT, false,
         19, 28, true, true),
     DRY("DRY", "Dry", "drying", ClimateTrayImage.ICON_DRY, ClimateTrayImage.BACKGROUND_DRY, true, true, true);
 

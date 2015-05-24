@@ -186,7 +186,7 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
 
     public String describe()
     {
-        return Utils.sentence(Utils.combine(", ", MNetDrive.descriptionOf(drive), MNetMode.descriptionOf(mode),
+        return Utils.sentence(Utils.combine(" | ", MNetDrive.descriptionOf(drive), MNetMode.descriptionOf(mode),
             PREFERENCES.getTemperatureUnit().format(temperature), MNetFan.descriptionOf(fan),
             MNetAir.descriptionOf(air)));
     }

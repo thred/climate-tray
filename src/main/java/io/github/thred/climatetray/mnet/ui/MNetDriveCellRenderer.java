@@ -47,7 +47,7 @@ public class MNetDriveCellRenderer extends DefaultListCellRenderer
 
         MNetDrive drive = (MNetDrive) value;
 
-        setIcon(drive.getImage().getIcon(ClimateTrayImageState.NOT_SELECTED, 16));
+        setIcon(drive.getImage().getIcon(ClimateTrayImageState.DEFAULT, 16));
         setText(drive.getLabel());
 
         return this;

@@ -168,22 +168,27 @@ public class MNetService
         }
 
         MNetMode mode = preset.getMode();
+        MNetMode stateMode = state.getMode();
 
         if (mode != MNetMode.NO_CHANGE)
         {
-            if ((mode == MNetMode.AUTO)
-                && (!((state.getMode() == MNetMode.AUTO) || (state.getMode() == MNetMode.AUTO_HEAT) || (state.getMode() == MNetMode.AUTO_COOL))))
+            if ((stateMode == MNetMode.AUTO_COOL) || (stateMode == MNetMode.AUTO_HEAT))
             {
-                return false;
+                stateMode = MNetMode.AUTO;
             }
 
-            if (mode != state.getMode())
+            if (mode != stateMode)
             {
                 return false;
             }
         }
 
         Double temperature = preset.getTemperature();
+
+        if ((temperature != null) && (!stateMode.isTemperatureEnabled()))
+        {
+            return false;
+        }
 
         if ((temperature != null) && (Math.abs(temperature - state.getTemperature()) > 0.667))
         {
@@ -192,14 +197,14 @@ public class MNetService
 
         MNetFan fan = preset.getFan();
 
-        if ((fan != MNetFan.NO_CHANGE) && (fan != state.getFan()))
+        if ((fan != MNetFan.NO_CHANGE) && ((fan != state.getFan()) || (!mode.isFanEnabled())))
         {
             return false;
         }
 
         MNetAir air = preset.getAir();
 
-        if ((air != MNetAir.NO_CHANGE) && (air != state.getAir()))
+        if ((air != MNetAir.NO_CHANGE) && ((air != state.getAir()) || (!mode.isAirEnabled())))
         {
             return false;
         }
