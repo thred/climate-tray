@@ -80,12 +80,12 @@ public class MNetDeviceRequestItem
         {
             setFan(fan);
         }
-        
+
         MNetAir air = preset.getAir();
 
         if (air != MNetAir.NO_CHANGE)
         {
-            setAir(air);
+            setAir(device.getInstallation().translate(air));
         }
     }
 
@@ -227,7 +227,7 @@ public class MNetDeviceRequestItem
 
         if (air != null)
         {
-            device.getState().setAir(air);
+            device.getState().setAir(device.getInstallation().translate(air));
         }
 
         if (fan != null)

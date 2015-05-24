@@ -15,19 +15,19 @@
 package io.github.thred.climatetray.mnet.ui;
 
 import io.github.thred.climatetray.ClimateTrayImageState;
-import io.github.thred.climatetray.mnet.MNetAir;
+import io.github.thred.climatetray.mnet.MNetInstallation;
 
 import java.awt.Component;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 
-public class MNetAirCellRenderer extends DefaultListCellRenderer
+public class MNetInstallationCellRenderer extends DefaultListCellRenderer
 {
 
     private static final long serialVersionUID = -1286708018290981191L;
 
-    public MNetAirCellRenderer()
+    public MNetInstallationCellRenderer()
     {
         super();
     }
@@ -45,10 +45,10 @@ public class MNetAirCellRenderer extends DefaultListCellRenderer
             return this;
         }
 
-        MNetAir air = (MNetAir) value;
+        MNetInstallation installation = (MNetInstallation) value;
 
-        setIcon(air.getImage().getIcon(ClimateTrayImageState.NONE, 16));
-        setText(air.getLabel());
+        setIcon(installation.getImage().getIcon(ClimateTrayImageState.NONE, 16));
+        setText(installation.getLabel());
 
         return this;
     }

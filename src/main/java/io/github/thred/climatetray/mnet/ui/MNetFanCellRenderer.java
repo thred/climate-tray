@@ -47,7 +47,7 @@ public class MNetFanCellRenderer extends DefaultListCellRenderer
 
         MNetFan fan = (MNetFan) value;
 
-        setIcon(fan.getImage().getIcon(ClimateTrayImageState.DEFAULT, 16));
+        setIcon(fan.getImage().getIcon(ClimateTrayImageState.NONE, 16));
         setText(fan.getLabel());
 
         return this;

@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -17,6 +17,7 @@ package io.github.thred.climatetray.mnet.ui;
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetEc;
+import io.github.thred.climatetray.mnet.MNetInstallation;
 import io.github.thred.climatetray.mnet.MNetUtils;
 import io.github.thred.climatetray.ui.AbstractClimateTrayController;
 import io.github.thred.climatetray.util.Utils;
@@ -38,6 +39,7 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
 {
 
     private final JTextField nameField = monitor(createTextField("", 32));
+    private final JComboBox<MNetInstallation> instalationField = monitor(createComboBox(MNetInstallation.values()));
     private final JCheckBox enabledBox = monitor(createCheckBox("Enabled"));
     private final JTextField hostField = monitor(createTextField("", 32));
     private final JComboBox<MNetEc> ecField = monitor(createComboBox(MNetEc.values()));
@@ -46,16 +48,21 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     public MNetDeviceController()
     {
         super();
+
+        instalationField.setRenderer(new MNetInstallationCellRenderer());
     }
 
     @Override
     protected JPanel createView()
     {
         JPanel view = new JPanel(new GridBagLayout());
-        GBC gbc = new GBC(3, 6);
+        GBC gbc = new GBC(3, 7);
 
         view.add(createLabel("Custom Name:", nameField), gbc);
         view.add(nameField, gbc.next().span(2).hFill());
+
+        view.add(createLabel("Installation:", instalationField), gbc.next());
+        view.add(instalationField, gbc.next().span(2));
 
         view.add(enabledBox, gbc.next().next().span(2));
 
@@ -78,6 +85,7 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     public void refreshWith(MNetDevice model)
     {
         nameField.setText(Utils.ensure(model.getName(), ""));
+        instalationField.setSelectedItem(Utils.ensure(model.getInstallation(), MNetInstallation.STANDING));
         enabledBox.setSelected(model.isEnabled());
         hostField.setText(Utils.ensure(model.getHost(), ""));
         ecField.setSelectedItem(Utils.ensure(model.getEc(), MNetEc.NONE));
@@ -127,6 +135,7 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     public void applyTo(MNetDevice model)
     {
         model.setName(nameField.getText().trim());
+        model.setInstallation((MNetInstallation) instalationField.getSelectedItem());
         model.setEnabled(enabledBox.isSelected());
         model.setHost(hostField.getText().trim());
         model.setEc((MNetEc) ecField.getSelectedItem());
