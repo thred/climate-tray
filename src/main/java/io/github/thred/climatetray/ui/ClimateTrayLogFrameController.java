@@ -69,11 +69,11 @@ public class ClimateTrayLogFrameController extends DefaultClimateTrayFrameContro
     }
 
     @Override
-    public void prepareWith(MessageBuffer model)
+    public void refreshWith(MessageBuffer model)
     {
         model.addMessageListener(this);
 
-        super.prepareWith(model);
+        super.refreshWith(model);
     }
 
     @Override

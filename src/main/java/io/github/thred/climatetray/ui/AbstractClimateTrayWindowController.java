@@ -185,9 +185,9 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
     }
 
     @Override
-    public void prepareWith(MODEL_TYPE model)
+    public void refreshWith(MODEL_TYPE model)
     {
-        controller.prepareWith(model);
+        controller.refreshWith(model);
     }
 
     @Override

@@ -75,7 +75,7 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     }
 
     @Override
-    public void prepareWith(MNetDevice model)
+    public void refreshWith(MNetDevice model)
     {
         nameField.setText(Utils.ensure(model.getName(), ""));
         enabledBox.setSelected(model.isEnabled());

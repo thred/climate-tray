@@ -94,7 +94,7 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
     }
 
     @Override
-    public void prepareWith(MNetPreset model)
+    public void refreshWith(MNetPreset model)
     {
         driveBox.setSelectedItem(Utils.ensure(model.getDrive(), MNetDrive.NO_CHANGE));
         modeBox.setSelectedItem(Utils.ensure(model.getMode(), MNetMode.NO_CHANGE));

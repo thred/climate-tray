@@ -154,6 +154,7 @@ public class MNetState implements Copyable<MNetState>
             result =
                 Utils.combine(
                     " ",
+                    result,
                     Utils.combine(", ", MNetAir.descriptionOf(air),
                         Utils.surround("(", MNetFan.descriptionOf(fan), ")")));
         }

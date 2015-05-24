@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -23,14 +23,14 @@ import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.util.message.MessageBuffer;
-import io.github.thred.climatetray.util.swing.SwingUtils;
 
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.MouseInfo;
 import java.awt.Point;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.JCheckBoxMenuItem;
@@ -50,7 +50,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     private final JMenuItem logItem = createMenuItem("Log...", null, null, (e) -> ClimateTrayService.log());
     private final JMenuItem aboutItem = createMenuItem("About...", null, null, (e) -> ClimateTrayService.about());
     private final JMenuItem exitItem = createMenuItem("Exit", null, null, (e) -> ClimateTrayService.exit());
-    private final List<Component> dynamicItems = new ArrayList<>();
+    private final Map<String, Component> dynamicItems = new HashMap<>();
 
     private JDialog hiddenDialogForFocusManagement;
 
@@ -80,15 +80,16 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         JPopupMenu view = getView();
         int index = 0;
 
-        dynamicItems.stream().forEach(view::remove);
+        dynamicItems.values().stream().forEach(view::remove);
         dynamicItems.clear();
 
-        index = preparePresets(model, view, index, model.isAnyDeviceSelected());
-        prepareDevices(model, view, index);
+        index = prepareWithPresets(model, view, index, model.isAnyDeviceSelected());
+        prepareWithDevices(model, view, index);
 
+        view.revalidate();
     }
 
-    protected int preparePresets(ClimateTrayPreferences model, JPopupMenu view, int index, boolean enabled)
+    protected int prepareWithPresets(ClimateTrayPreferences model, JPopupMenu view, int index, boolean enabled)
     {
         List<MNetPreset> presets = model.getPresets();
 
@@ -96,24 +97,25 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         {
             for (MNetPreset preset : presets)
             {
-                Icon icon = createIcon(preset);
-                JCheckBoxMenuItem item =
-                    SwingUtils.createCheckBoxMenuItem(preset.describe(), icon, null, (e) -> presetSelect(preset));
+                String id = preset.getId().toString();
+                JCheckBoxMenuItem item = new JCheckBoxMenuItem();
 
-                item.setName(preset.getId().toString());
-                item.setEnabled(enabled);
+                item.setName(id);
+                item.addActionListener((e) -> presetSelect(preset));
+
+                refreshPresetWith(item, preset, enabled);
 
                 view.add(item, index++);
-                dynamicItems.add(item);
+                dynamicItems.put(id, item);
             }
 
-            dynamicItems.add(view.add(new JPopupMenu.Separator(), index++));
+            dynamicItems.put("#presetSeparator", view.add(new JPopupMenu.Separator(), index++));
         }
 
         return index;
     }
 
-    protected int prepareDevices(ClimateTrayPreferences model, JPopupMenu view, int index)
+    protected int prepareWithDevices(ClimateTrayPreferences model, JPopupMenu view, int index)
     {
         List<MNetDevice> devices = model.getDevices();
 
@@ -121,22 +123,77 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         {
             for (MNetDevice device : devices)
             {
-                Icon icon = createIcon(device);
-                JCheckBoxMenuItem item =
-                    SwingUtils.createCheckBoxMenuItem(device.describeState(), icon, device.describeState(),
-                        (e) -> deviceSelect(device));
+                String id = device.getId().toString();
+                JCheckBoxMenuItem item = new JCheckBoxMenuItem();
 
-                item.setName(device.getId().toString());
-                item.setSelected(device.isSelected());
-                item.setEnabled(device.isEnabled());
+                item.setName(id);
+                item.addActionListener((e) -> deviceSelect(device));
 
-                dynamicItems.add(view.add(item, index++));
+                refreshDeviceWith(item, device);
+
+                view.add(item, index++);
+                dynamicItems.put(id, item);
             }
 
-            dynamicItems.add(view.add(new JPopupMenu.Separator(), index++));
+            dynamicItems.put("#deviceSeparator", view.add(new JPopupMenu.Separator(), index++));
         }
 
         return index;
+    }
+
+    @Override
+    public void refreshWith(ClimateTrayPreferences model)
+    {
+        refreshPresetsWith(model, model.isAnyDeviceSelected());
+        refreshDevicesWith(model);
+    }
+
+    protected void refreshPresetsWith(ClimateTrayPreferences model, boolean enabled)
+    {
+        model.getPresets().forEach(preset -> {
+            String id = preset.getId().toString();
+            JCheckBoxMenuItem item = (JCheckBoxMenuItem) dynamicItems.get(id);
+
+            if (item == null)
+            {
+                return;
+            }
+
+            refreshPresetWith(item, preset, enabled);
+        });
+    }
+
+    protected void refreshDevicesWith(ClimateTrayPreferences model)
+    {
+        model.getDevices().forEach(device -> {
+            String id = device.getId().toString();
+            JCheckBoxMenuItem item = (JCheckBoxMenuItem) dynamicItems.get(id);
+
+            if (item == null)
+            {
+                return;
+            }
+
+            refreshDeviceWith(item, device);
+
+        });
+    }
+
+    protected void refreshPresetWith(JCheckBoxMenuItem item, MNetPreset preset, boolean enabled)
+    {
+        item.setText(preset.describe());
+        item.setIcon(createIcon(preset));
+        item.setSelected(preset.isSelected());
+        item.setEnabled(enabled);
+    }
+
+    protected void refreshDeviceWith(JCheckBoxMenuItem item, MNetDevice device)
+    {
+        item.setText(device.describeState());
+        item.setToolTipText(device.describeSettings());
+        item.setIcon(createIcon(device));
+        item.setSelected(device.isSelected());
+        item.setEnabled(device.isEnabled());
     }
 
     protected Icon createIcon(MNetPreset preset)

@@ -36,7 +36,7 @@ public class MNetService
             return;
         }
 
-        if (!ensureGroup(device))
+        if (!ensureDeviceGroup(device))
         {
             LOG.error("Cannot update state of air conditioner \"%s\" without group value.", device.getName());
 
@@ -59,7 +59,7 @@ public class MNetService
             }
             else
             {
-                item.update(device);
+                updateDeviceState(device, item);
             }
         }
         catch (MalformedURLException e)
@@ -94,7 +94,7 @@ public class MNetService
             }
             else
             {
-                item.update(device);
+                updateDeviceState(device, item);
             }
         }
         catch (MalformedURLException e)
@@ -111,7 +111,7 @@ public class MNetService
         }
     }
 
-    public static boolean ensureGroup(MNetDevice device)
+    public static boolean ensureDeviceGroup(MNetDevice device)
     {
         if (device.getGroup() != null)
         {
@@ -128,7 +128,7 @@ public class MNetService
 
             if (item != null)
             {
-                item.update(device);
+                updateDeviceState(device, item);
             }
         }
         catch (MalformedURLException e)
@@ -143,6 +143,11 @@ public class MNetService
         return device.getGroup() != null;
     }
 
+    public static void updateDeviceState(MNetDevice device, MNetDeviceRequestItem item)
+    {
+        item.update(device);
+    }
+
     public static boolean isMatching(MNetPreset preset, List<MNetState> states)
     {
         return states.stream().allMatch(state -> isMatching(preset, state));
@@ -151,6 +156,11 @@ public class MNetService
     public static boolean isMatching(MNetPreset preset, MNetState state)
     {
         MNetDrive drive = preset.getDrive();
+
+        if (state.getDrive() == MNetDrive.OFF)
+        {
+            return drive == MNetDrive.OFF;
+        }
 
         if ((drive != MNetDrive.NO_CHANGE) && (drive != state.getDrive()))
         {

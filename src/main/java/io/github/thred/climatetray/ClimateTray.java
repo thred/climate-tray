@@ -40,6 +40,7 @@ public class ClimateTray
 
     public static void main(String[] arguments)
     {
+        ClimateTrayService.prepare();
         ClimateTrayService.load();
         ClimateTrayService.scheduleUpdate();
     }

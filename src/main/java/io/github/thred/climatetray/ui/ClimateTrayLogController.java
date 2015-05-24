@@ -83,7 +83,7 @@ public class ClimateTrayLogController extends AbstractClimateTrayController<Mess
     }
 
     @Override
-    public void prepareWith(MessageBuffer model)
+    public void refreshWith(MessageBuffer model)
     {
         for (Message message : model)
         {

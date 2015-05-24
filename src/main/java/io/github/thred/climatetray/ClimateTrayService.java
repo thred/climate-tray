@@ -25,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import javax.swing.SwingUtilities;
+
 public class ClimateTrayService
 {
 
@@ -53,6 +55,11 @@ public class ClimateTrayService
 
     private static ScheduledFuture<?> updateFuture;
 
+    public static void prepare()
+    {
+        SwingUtilities.invokeLater(() -> ICON_CONTROLLER.prepareWith(PREFERENCES));
+    }
+
     public static void load()
     {
         LOG.info("Loading preferences.");
@@ -67,7 +74,7 @@ public class ClimateTrayService
             ClimateTrayUtils.okDialog(null, "Preferences", Message.error("Failed to load existing preferences."));
         }
 
-        ICON_CONTROLLER.prepareWith(PREFERENCES);
+        refresh();
     }
 
     public static void store()
@@ -107,17 +114,21 @@ public class ClimateTrayService
         LOG.debug("Updating.");
 
         updateDevices();
+    }
 
-        ICON_CONTROLLER.prepareWith(PREFERENCES);
-
-        updatePresets();
+    public static void refresh()
+    {
+        ICON_CONTROLLER.refreshWith(PREFERENCES);
     }
 
     public static void updateDevices()
     {
         List<MNetDevice> devices = PREFERENCES.getDevices();
 
-        devices.stream().forEach(MNetService::updateDevice);
+        devices.stream().forEach(device -> {
+            MNetService.updateDevice(device);
+            updatePresets();
+        });
     }
 
     public static void updatePresets()
@@ -130,6 +141,8 @@ public class ClimateTrayService
                 .map(device -> device.getState()).collect(Collectors.toList());
 
         presets.stream().forEach(preset -> preset.setSelected(MNetService.isMatching(preset, states)));
+
+        refresh();
     }
 
     public static Future<?> submitTask(VoidCallable task)
@@ -225,8 +238,6 @@ public class ClimateTrayService
     public static void togglePreset(UUID id)
     {
         LOG.debug("Toggling preset with id %s.", id);
-
-        PREFERENCES.getPresets().stream().forEach((preset) -> preset.setSelected(false));
 
         MNetPreset preset = PREFERENCES.getPreset(id);
 

@@ -50,7 +50,7 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
     }
 
     @Override
-    public void prepareWith(ClimateTrayPreferences model)
+    public void refreshWith(ClimateTrayPreferences model)
     {
         if (!SystemTray.isSupported())
         {
@@ -71,16 +71,16 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
                 Image image = activeDevice.getState().createImage(ClimateTrayImageState.NOT_SELECTED, TRAY_ICON_SIZE);
                 String toolTip = activeDevice.describeState();
 
-                update(image, toolTip);
+                refreshIconWith(image, toolTip);
             }
             else
             {
-                update(null, null);
+                refreshIconWith(null, null);
             }
         }
         else
         {
-            update(null, null);
+            refreshIconWith(null, null);
         }
 
         boolean exists = Arrays.stream(tray.getTrayIcons()).filter(trayIcon -> trayIcon == view).count() > 0;
@@ -103,6 +103,18 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
         {
             tray.remove(view);
         }
+
+        //if (popupController.getView().isVisible())
+        //{
+            popupController.refreshWith(model);
+        //}
+    }
+
+    protected void refreshIconWith(Image image, String toolTip)
+    {
+        view.setImage((image != null) ? image : ClimateTrayImage.ICON.getImage(ClimateTrayImageState.NOT_SELECTED,
+            TRAY_ICON_SIZE));
+        view.setToolTip((toolTip != null) ? toolTip : "Climate-Tray");
     }
 
     @Override
@@ -121,6 +133,8 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
     public void dismiss(ClimateTrayPreferences model)
     {
         SystemTray.getSystemTray().remove(view);
+
+        popupController.dismiss(model);
     }
 
     public void popup(int x, int y)
@@ -128,13 +142,6 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
         LOG.debug("Opening popup.");
 
         popupController.consume(x, y);
-    }
-
-    public void update(Image image, String toolTip)
-    {
-        view.setImage((image != null) ? image : ClimateTrayImage.ICON.getImage(ClimateTrayImageState.NOT_SELECTED,
-            TRAY_ICON_SIZE));
-        view.setToolTip((toolTip != null) ? toolTip : "Climate-Tray");
     }
 
 }

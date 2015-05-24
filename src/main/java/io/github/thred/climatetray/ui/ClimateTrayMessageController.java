@@ -28,7 +28,7 @@ public class ClimateTrayMessageController extends AbstractClimateTrayController<
     }
 
     @Override
-    public void prepareWith(Message model)
+    public void refreshWith(Message model)
     {
         messageComponent.setMessage(model);
     }

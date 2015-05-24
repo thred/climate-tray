@@ -18,14 +18,14 @@ public class MNetTestDialogController extends DefaultClimateTrayDialogController
     }
 
     @Override
-    public void prepareWith(MNetTest model)
+    public void refreshWith(MNetTest model)
     {
         closeButton.setVisible(false);
         cancelButton.setVisible(true);
 
         model.addTestStepListener(this);
 
-        super.prepareWith(model);
+        super.refreshWith(model);
 
         model.start();
     }

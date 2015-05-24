@@ -36,7 +36,7 @@ public class MNetTestController extends AbstractClimateTrayController<MNetTest, 
     }
 
     @Override
-    public void prepareWith(MNetTest model)
+    public void refreshWith(MNetTest model)
     {
         model.addTestStepListener(this);
         model.getMessages().addMessageListener(this);
