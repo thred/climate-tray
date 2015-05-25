@@ -54,7 +54,7 @@ public class Utils
         return result;
     }
 
-    public static byte[] readFully(InputStream in) throws IOException
+    public static byte[] toByteArray(InputStream in) throws IOException
     {
         byte[] buffer = new byte[4096];
 

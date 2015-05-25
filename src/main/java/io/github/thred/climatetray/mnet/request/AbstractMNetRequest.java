@@ -78,7 +78,7 @@ public abstract class AbstractMNetRequest implements MNetRequest
                             {
                                 if (LOG.isDebugEnabled())
                                 {
-                                    byte[] bytes = Utils.readFully(in);
+                                    byte[] bytes = Utils.toByteArray(in);
 
                                     LOG.debug("Reading response from \"%s\". The response is:\n%s",
                                         url.toExternalForm(), new String(bytes, "UTF-8"));
