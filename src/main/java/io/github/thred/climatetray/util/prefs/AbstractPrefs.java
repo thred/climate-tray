@@ -1,19 +1,20 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray.util.prefs;
 
+import java.util.Base64;
 import java.util.UUID;
 
 public abstract class AbstractPrefs extends AbstractTypedPrefs
@@ -179,6 +180,25 @@ public abstract class AbstractPrefs extends AbstractTypedPrefs
     protected boolean setLocalUUID(String key, UUID value)
     {
         return setLocal(key, String.valueOf(value));
+    }
+
+    @Override
+    public byte[] getLocalBytes(String key)
+    {
+        String result = getLocal(key);
+
+        if (result == null)
+        {
+            return null;
+        }
+
+        return Base64.getDecoder().decode(result);
+    }
+
+    @Override
+    public boolean setLocalBytes(String key, byte[] bytes)
+    {
+        return setLocal(key, Base64.getEncoder().encodeToString(bytes));
     }
 
     protected abstract String getLocal(String key);

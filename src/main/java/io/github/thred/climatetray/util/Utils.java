@@ -17,7 +17,16 @@ package io.github.thred.climatetray.util;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.SecretKeySpec;
 
 public class Utils
 {
@@ -52,6 +61,68 @@ public class Utils
         System.arraycopy(values, 0, result, 1, values.length);
 
         return result;
+    }
+
+    public static byte[] toKey(String key) throws UnsupportedEncodingException
+    {
+        byte[] source = key.getBytes("UTF-8");
+        int sourceIndex = 0;
+        byte[] target = new byte[8];
+        int targetIndex = 0;
+
+        while ((sourceIndex < source.length) || (targetIndex < target.length))
+        {
+            target[targetIndex % target.length] ^= source[sourceIndex % source.length];
+
+            sourceIndex++;
+            targetIndex++;
+        }
+
+        return target;
+    }
+
+    public static byte[] crypt(String key, String text)
+    {
+        if (text == null)
+        {
+            return null;
+        }
+
+        try
+        {
+            Cipher cipher = Cipher.getInstance("Blowfish");
+
+            cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(toKey(key), "Blowfish"));
+
+            return cipher.doFinal(text.getBytes("UTF-8"));
+        }
+        catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException
+            | BadPaddingException | UnsupportedEncodingException e)
+        {
+            throw new IllegalArgumentException("Failed to encode text", e);
+        }
+    }
+
+    public static String decrypt(String key, byte[] bytes)
+    {
+        if (bytes == null)
+        {
+            return null;
+        }
+
+        try
+        {
+            Cipher cipher = Cipher.getInstance("Blowfish");
+
+            cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(toKey(key), "Blowfish"));
+
+            return new String(cipher.doFinal(bytes), "UTF-8");
+        }
+        catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException
+            | BadPaddingException | UnsupportedEncodingException e)
+        {
+            throw new IllegalArgumentException("Failed to encode text", e);
+        }
     }
 
     public static byte[] toByteArray(InputStream in) throws IOException

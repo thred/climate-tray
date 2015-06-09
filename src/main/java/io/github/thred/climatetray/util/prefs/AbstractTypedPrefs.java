@@ -279,6 +279,32 @@ public abstract class AbstractTypedPrefs implements Prefs
     protected abstract boolean setLocalUUID(String key, UUID value);
 
     @Override
+    public byte[] getBytes(String key)
+    {
+        if (!exists(key))
+        {
+            return null;
+        }
+
+        return getLocalBytes(prefix(prefix, key));
+    }
+
+    protected abstract byte[] getLocalBytes(String key);
+
+    @Override
+    public boolean setBytes(String key, byte[] value)
+    {
+        if (value == null)
+        {
+            return remove(key);
+        }
+
+        return setLocalBytes(prefix(prefix, key), value);
+    }
+
+    protected abstract boolean setLocalBytes(String key, byte[] value);
+
+    @Override
     public final boolean remove(String key)
     {
         if (!exists(key))

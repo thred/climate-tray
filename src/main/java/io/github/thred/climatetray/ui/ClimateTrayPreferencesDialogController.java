@@ -17,17 +17,41 @@ package io.github.thred.climatetray.ui;
 import static io.github.thred.climatetray.ClimateTray.*;
 import io.github.thred.climatetray.ClimateTrayPreferences;
 import io.github.thred.climatetray.ClimateTrayService;
+import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.SwingUtils;
 
 import java.awt.Window;
 
+import javax.swing.JButton;
+import javax.swing.JComponent;
+
 public class ClimateTrayPreferencesDialogController extends DefaultClimateTrayDialogController<ClimateTrayPreferences>
 {
+
+    private final JButton proxyButton = SwingUtils.createButton("Proxy Settings", e -> proxySettings());
 
     public ClimateTrayPreferencesDialogController(Window owner)
     {
         super(owner, new ClimateTrayPreferencesController(), Button.OK, Button.CANCEL);
 
         setTitle("Preferences");
+    }
+
+    @Override
+    protected JComponent createBottomPanel(Button... buttons)
+    {
+        ButtonPanel panel = (ButtonPanel) super.createBottomPanel(buttons);
+
+        panel.left(proxyButton);
+
+        return panel;
+    }
+
+    public void proxySettings()
+    {
+        ClimateTrayProxyDialogController controller = new ClimateTrayProxyDialogController(getView(), false);
+
+        controller.consume(getModel().getProxySettings());
     }
 
     @Override

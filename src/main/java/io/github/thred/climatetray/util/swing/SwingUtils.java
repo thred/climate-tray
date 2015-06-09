@@ -18,6 +18,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -25,8 +26,11 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 
@@ -143,9 +147,45 @@ public class SwingUtils
         return result;
     }
 
+    public static JPasswordField createPasswordField(String text, int columns, ActionListener... listeners)
+    {
+        JPasswordField result = new JPasswordField(text, columns);
+
+        for (ActionListener listener : listeners)
+        {
+            result.addActionListener(listener);
+        }
+
+        return result;
+    }
+
+    public static JTextArea createTextArea(String text, int rows, int columns)
+    {
+        JTextArea result = new JTextArea(text, rows, columns);
+
+        return result;
+    }
+
     public static JCheckBox createCheckBox(String text, ActionListener... listeners)
     {
         JCheckBox result = new JCheckBox(text);
+
+        for (ActionListener listener : listeners)
+        {
+            result.addActionListener(listener);
+        }
+
+        return result;
+    }
+
+    public static JRadioButton createRadioButton(String text, ButtonGroup buttonGroup, ActionListener... listeners)
+    {
+        JRadioButton result = new JRadioButton(text);
+
+        if (buttonGroup != null)
+        {
+            buttonGroup.add(result);
+        }
 
         for (ActionListener listener : listeners)
         {

@@ -28,6 +28,7 @@ import java.util.UUID;
 public class ClimateTrayPreferences implements Persistent
 {
 
+    private final ClimateTrayProxySettings proxySettings = new ClimateTrayProxySettings();
     private final List<MNetDevice> devices = new ArrayList<MNetDevice>();
     private final List<MNetPreset> presets = new ArrayList<MNetPreset>();
 
@@ -38,6 +39,11 @@ public class ClimateTrayPreferences implements Persistent
     public ClimateTrayPreferences()
     {
         super();
+    }
+
+    public ClimateTrayProxySettings getProxySettings()
+    {
+        return proxySettings;
     }
 
     public MNetDevice getDevice(UUID id)
@@ -98,6 +104,8 @@ public class ClimateTrayPreferences implements Persistent
     @Override
     public void read(Prefs prefs)
     {
+        proxySettings.read(prefs);
+
         Persistent.readList(prefs, "device", devices, MNetDevice::new);
         Persistent.readList(prefs, "preset", presets, MNetPreset::new);
 
@@ -109,6 +117,8 @@ public class ClimateTrayPreferences implements Persistent
     @Override
     public void write(Prefs prefs)
     {
+        proxySettings.write(prefs);
+
         Persistent.writeList(prefs, "device", devices);
         Persistent.writeList(prefs, "preset", presets);
 
@@ -120,9 +130,9 @@ public class ClimateTrayPreferences implements Persistent
     @Override
     public String toString()
     {
-        return "ClimateTrayPreferences [devices=" + devices + ", presets=" + presets + ", temperatureUnit="
-            + temperatureUnit + ", updatePeriodInMinutes=" + updatePeriodInMinutes + ", trayIconEnabled="
-            + trayIconEnabled + "]";
+        return "ClimateTrayPreferences [proxySettings=" + proxySettings + ", devices=" + devices + ", presets="
+            + presets + ", temperatureUnit=" + temperatureUnit + ", updatePeriodInMinutes=" + updatePeriodInMinutes
+            + ", trayIconEnabled=" + trayIconEnabled + "]";
     }
 
 }
