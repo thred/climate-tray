@@ -23,6 +23,8 @@ public class ClimateTrayProxyController extends AbstractClimateTrayController<Cl
 
     private final ButtonGroup proxyTypeGroup = new ButtonGroup();
     private final JRadioButton proxyTypeNoneRadio = monitor(createRadioButton("No Proxy", proxyTypeGroup));
+    private final JRadioButton proxyTypeSystemDefaultRadio = monitor(createRadioButton("Use System Default Proxy",
+        proxyTypeGroup));
     private final JRadioButton proxyTypeUserDefinedRadio = monitor(createRadioButton("User Defined Proxy",
         proxyTypeGroup));
     private final JTextField proxyHostField = monitor(createTextField("", 32));
@@ -45,10 +47,10 @@ public class ClimateTrayProxyController extends AbstractClimateTrayController<Cl
     protected JPanel createView()
     {
         JPanel view = new JPanel(new GridBagLayout());
-        GBC gbc = new GBC(2, 8);
+        GBC gbc = new GBC(2, 9);
 
         view.add(proxyTypeNoneRadio, gbc.span(2));
-
+        view.add(proxyTypeSystemDefaultRadio, gbc.next().span(2));
         view.add(proxyTypeUserDefinedRadio, gbc.next().span(2));
 
         view.add(createLabel("Proxy Host:", proxyHostField), gbc.next().insetLeft(48));
@@ -59,10 +61,10 @@ public class ClimateTrayProxyController extends AbstractClimateTrayController<Cl
 
         view.add(proxyAuthorizationNeededBox, gbc.next().span(2).insetLeft(48));
 
-        view.add(createLabel("Proxy User:", proxyUserField), gbc.next().insetLeft(48));
+        view.add(createLabel("Proxy User:", proxyUserField), gbc.next().insetLeft(96));
         view.add(proxyUserField, gbc.next().hFill());
 
-        view.add(createLabel("Proxy Password:", proxyPasswordField), gbc.next().insetLeft(48));
+        view.add(createLabel("Proxy Password:", proxyPasswordField), gbc.next().insetLeft(96));
         view.add(proxyPasswordField, gbc.next().hFill());
 
         view.add(createLabel("Proxy Excludes:", proxyExcludesField), gbc.next().top().insetTop(4).insetLeft(48));
@@ -75,6 +77,7 @@ public class ClimateTrayProxyController extends AbstractClimateTrayController<Cl
     public void refreshWith(ClimateTrayProxySettings model)
     {
         proxyTypeNoneRadio.setSelected(model.getProxyType() == ProxyType.NONE);
+        proxyTypeSystemDefaultRadio.setSelected(model.getProxyType() == ProxyType.SYSTEM_DEFAULT);
         proxyTypeUserDefinedRadio.setSelected(model.getProxyType() == ProxyType.USER_DEFINED);
         proxyHostField.setText(Utils.ensure(model.getProxyHost(), ""));
         proxyPortSpinner.setValue(Utils.ensure(model.getProxyPort(), 80));
@@ -129,6 +132,10 @@ public class ClimateTrayProxyController extends AbstractClimateTrayController<Cl
         if (proxyTypeNoneRadio.isSelected())
         {
             model.setProxyType(ProxyType.NONE);
+        }
+        else if (proxyTypeSystemDefaultRadio.isSelected())
+        {
+            model.setProxyType(ProxyType.SYSTEM_DEFAULT);
         }
         else if (proxyTypeUserDefinedRadio.isSelected())
         {

@@ -24,7 +24,7 @@ public class ClimateTrayProxySettings implements Persistent
 
     private static final String KEY = "correct horse battery staple";
 
-    private ProxyType proxyType = ProxyType.NONE;
+    private ProxyType proxyType = ProxyType.SYSTEM_DEFAULT;
     private String proxyHost = "";
     private Integer proxyPort = 80;
     private boolean proxyAuthorizationNeeded = false;
