@@ -1,20 +1,21 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray.mnet.request;
 
 import static io.github.thred.climatetray.ClimateTray.*;
+import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.util.DomBuilder;
 import io.github.thred.climatetray.util.DomUtils;
@@ -31,7 +32,6 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -50,7 +50,7 @@ public abstract class AbstractMNetRequest implements MNetRequest
         {
             String content = buildRequest();
             StringEntity body = new StringEntity(content);
-            CloseableHttpClient client = HttpClients.createDefault();
+            CloseableHttpClient client = ClimateTray.PREFERENCES.getProxySettings().createHttpClient();
             HttpPost post = new HttpPost(url.toURI());
 
             post.setHeader("content-type", "text/xml");

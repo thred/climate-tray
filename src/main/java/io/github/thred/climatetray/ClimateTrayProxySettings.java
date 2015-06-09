@@ -19,6 +19,16 @@ import io.github.thred.climatetray.util.ProxyType;
 import io.github.thred.climatetray.util.Utils;
 import io.github.thred.climatetray.util.prefs.Prefs;
 
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.Credentials;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+
 public class ClimateTrayProxySettings implements Persistent
 {
 
@@ -105,6 +115,34 @@ public class ClimateTrayProxySettings implements Persistent
     public void setProxyExcludes(String proxyExcludes)
     {
         this.proxyExcludes = proxyExcludes;
+    }
+
+    public CloseableHttpClient createHttpClient()
+    {
+        if (proxyType == ProxyType.NONE)
+        {
+            return HttpClients.createDefault();
+        }
+
+        if (proxyType == ProxyType.SYSTEM_DEFAULT)
+        {
+            return HttpClients.createSystem();
+        }
+
+        HttpHost proxy = new HttpHost(getProxyHost(), getProxyPort());
+
+        if (isProxyAuthorizationNeeded())
+        {
+            Credentials credentials = new UsernamePasswordCredentials(getProxyUser(), getProxyPassword());
+            AuthScope authScope = new AuthScope(getProxyHost(), getProxyPort());
+            CredentialsProvider credsProvider = new BasicCredentialsProvider();
+
+            credsProvider.setCredentials(authScope, credentials);
+
+            return HttpClientBuilder.create().setProxy(proxy).setDefaultCredentialsProvider(credsProvider).build();
+        }
+
+        return HttpClientBuilder.create().setProxy(proxy).build();
     }
 
     @Override
