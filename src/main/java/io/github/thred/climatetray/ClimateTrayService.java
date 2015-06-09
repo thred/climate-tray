@@ -36,6 +36,7 @@ import org.apache.http.util.EntityUtils;
 public class ClimateTrayService
 {
 
+    private static final String VERSION_URL = "http://thred.github.io/climate-tray/VERSION";
     private static final SystemPrefs PREFS = SystemPrefs.get(ClimateTray.class);
     private static final ScheduledExecutorService EXECUTOR;
     private static final ClimateTrayIconController ICON_CONTROLLER;
@@ -294,7 +295,7 @@ public class ClimateTrayService
     public static void about()
     {
         version();
-        
+
         SwingUtilities.invokeLater(() -> {
             LOG.debug("Opening about dialog.");
 
@@ -306,9 +307,8 @@ public class ClimateTrayService
     {
         try
         {
-            String url = "http://thred.github.io/xkcd-time-catapult/index.html";
             CloseableHttpClient client = ClimateTray.PREFERENCES.getProxySettings().createHttpClient();
-            HttpGet request = new HttpGet(url);
+            HttpGet request = new HttpGet(VERSION_URL);
             CloseableHttpResponse response;
 
             try
@@ -317,7 +317,7 @@ public class ClimateTrayService
             }
             catch (IOException e)
             {
-                ClimateTray.LOG.warn("Failed to request version from \"%s\".", e, url);
+                ClimateTray.LOG.warn("Failed to request version from \"%s\".", e, VERSION_URL);
 
                 return;
             }
@@ -328,11 +328,11 @@ public class ClimateTrayService
 
                 if ((status >= 200) && (status < 300))
                 {
-                    System.out.println(EntityUtils.toString(response.getEntity()));
+                    ClimateTray.LOG.info("Version Information: \n%s", EntityUtils.toString(response.getEntity()));
                 }
                 else
                 {
-                    ClimateTray.LOG.warn("Request to \"%s\" failed with error %d.", url, status);
+                    ClimateTray.LOG.warn("Request to \"%s\" failed with error %d.", VERSION_URL, status);
                 }
             }
             finally
