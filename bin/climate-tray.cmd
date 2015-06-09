@@ -1,2 +1,2 @@
 @echo off
-start javaw -Xmx64m -jar climate-tray.jar
+start javaw -Xmx64m -jar climate-tray-1.0.0-SNAPSHOT-executable.jar

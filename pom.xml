@@ -1,15 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	
+
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<groupId>io.github.thred.climate-tray</groupId>
 	<artifactId>climate-tray</artifactId>
-	
+
 	<version>1.0.0-SNAPSHOT</version>
 
 	<name>Climate-Tray</name>
-	
+
+	<properties>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -19,6 +24,13 @@
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -46,6 +58,26 @@
 							<overWriteIfNewer>true</overWriteIfNewer>
 						</configuration>
 					</execution>
+
+					<execution>
+						<id>unpack-version</id>
+						<phase>package</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>${project.groupId}</groupId>
+									<artifactId>${project.artifactId}</artifactId>
+									<version>${project.version}</version>
+									<type>jar</type>
+									<includes>climate-tray.cmd,COPYING,VERSION</includes>
+									<outputDirectory>bin</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 
@@ -68,12 +100,10 @@
 							<mainClass>io.github.thred.climatetray.ClimateTray</mainClass>
 						</manifest>
 					</archive>
-					<finalName>climate-tray</finalName>
 					<outputDirectory>bin</outputDirectory>
-					<appendAssemblyId>false</appendAssemblyId>
 					<descriptors>
-            			<descriptor>src/main/config/assembly.xml</descriptor>
-          			</descriptors>
+						<descriptor>src/main/config/assembly.xml</descriptor>
+					</descriptors>
 				</configuration>
 			</plugin>
 		</plugins>
