@@ -1,0 +1,27 @@
+body {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+h1.title {
+    padding-top: 80px;
+    background: url("../img/icon.png") no-repeat center top;
+}
+
+.jumbotron {
+    color: white;
+    background-color: #202030;
+    text-align: center;
+}
+
+footer {
+    font-size: 80%;
+}
+
+p.version {
+    font-size: 80%;
+    opacity: 0.5;
+}
+
+p.hint {
+    font-size: 95%;
+}
