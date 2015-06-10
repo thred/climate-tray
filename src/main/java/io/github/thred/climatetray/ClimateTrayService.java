@@ -14,7 +14,6 @@ import io.github.thred.climatetray.util.VoidCallable;
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.prefs.SystemPrefs;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.Callable;
@@ -28,15 +27,9 @@ import java.util.stream.Collectors;
 
 import javax.swing.SwingUtilities;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.util.EntityUtils;
-
 public class ClimateTrayService
 {
 
-    private static final String VERSION_URL = "http://thred.github.io/climate-tray/VERSION";
     private static final SystemPrefs PREFS = SystemPrefs.get(ClimateTray.class);
     private static final ScheduledExecutorService EXECUTOR;
     private static final ClimateTrayIconController ICON_CONTROLLER;
@@ -294,8 +287,6 @@ public class ClimateTrayService
 
     public static void about()
     {
-        version();
-
         SwingUtilities.invokeLater(() -> {
             LOG.debug("Opening about dialog.");
 
@@ -303,47 +294,11 @@ public class ClimateTrayService
         });
     }
 
-    public static void version()
+    public static void checkVersion()
     {
-        try
-        {
-            CloseableHttpClient client = ClimateTray.PREFERENCES.getProxySettings().createHttpClient();
-            HttpGet request = new HttpGet(VERSION_URL);
-            CloseableHttpResponse response;
-
-            try
-            {
-                response = client.execute(request);
-            }
-            catch (IOException e)
-            {
-                ClimateTray.LOG.warn("Failed to request version from \"%s\".", e, VERSION_URL);
-
-                return;
-            }
-
-            try
-            {
-                int status = response.getStatusLine().getStatusCode();
-
-                if ((status >= 200) && (status < 300))
-                {
-                    ClimateTray.LOG.info("Version Information: \n%s", EntityUtils.toString(response.getEntity()));
-                }
-                else
-                {
-                    ClimateTray.LOG.warn("Request to \"%s\" failed with error %d.", VERSION_URL, status);
-                }
-            }
-            finally
-            {
-                response.close();
-            }
-        }
-        catch (Exception e)
-        {
-            ClimateTray.LOG.warn("Failed to request version.", e);
-        }
+        submitTask(ClimateTrayUtils::performVersionRequest, properties -> {
+            System.out.println(properties);
+        });
     }
 
     public static void exit()
