@@ -17,17 +17,27 @@ package io.github.thred.climatetray;
 import io.github.thred.climatetray.util.Persistent;
 import io.github.thred.climatetray.util.ProxyType;
 import io.github.thred.climatetray.util.Utils;
+import io.github.thred.climatetray.util.WildcardPattern;
 import io.github.thred.climatetray.util.prefs.Prefs;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
+import org.apache.http.HttpException;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpRequest;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.conn.routing.HttpRoute;
+import org.apache.http.conn.routing.HttpRoutePlanner;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
+import org.apache.http.protocol.HttpContext;
 
 public class ClimateTrayProxySettings implements Persistent
 {
@@ -40,7 +50,7 @@ public class ClimateTrayProxySettings implements Persistent
     private boolean proxyAuthorizationNeeded = false;
     private String proxyUser = "";
     private String proxyPassword = "";
-    private String proxyExcludes = "";
+    private String proxyExcludes = "localhost";
 
     public ClimateTrayProxySettings()
     {
@@ -130,6 +140,7 @@ public class ClimateTrayProxySettings implements Persistent
         }
 
         HttpHost proxy = new HttpHost(getProxyHost(), getProxyPort());
+        HttpClientBuilder builder = HttpClientBuilder.create().setProxy(proxy);
 
         if (isProxyAuthorizationNeeded())
         {
@@ -139,10 +150,59 @@ public class ClimateTrayProxySettings implements Persistent
 
             credsProvider.setCredentials(authScope, credentials);
 
-            return HttpClientBuilder.create().setProxy(proxy).setDefaultCredentialsProvider(credsProvider).build();
+            builder.setDefaultCredentialsProvider(credsProvider);
         }
 
-        return HttpClientBuilder.create().setProxy(proxy).build();
+        String excludes = proxyExcludes;
+
+        if (!Utils.isBlank(excludes))
+        {
+            WildcardPattern pattern = new WildcardPattern(excludes.split("\\s*,\\s*"));
+            HttpRoutePlanner routePlanner = new DefaultProxyRoutePlanner(proxy)
+            {
+                @Override
+                public HttpRoute determineRoute(HttpHost host, HttpRequest request, HttpContext context)
+                    throws HttpException
+                {
+                    InetAddress address = host.getAddress();
+
+                    if (address == null)
+                    {
+                        try
+                        {
+                            address = InetAddress.getByName(host.getHostName());
+                        }
+                        catch (UnknownHostException e)
+                        {
+                            ClimateTray.LOG.info("Failed to determine address of host \"%s\"", host.getHostName());
+                        }
+                    }
+
+                    if (address != null)
+                    {
+                        String hostAddress = address.getHostAddress();
+
+                        if (pattern.matches(hostAddress))
+                        {
+                            return new HttpRoute(host);
+                        }
+                    }
+
+                    String hostName = host.getHostName();
+
+                    if (pattern.matches(hostName))
+                    {
+                        return new HttpRoute(host);
+                    }
+
+                    return super.determineRoute(host, request, context);
+                }
+            };
+
+            builder.setRoutePlanner(routePlanner);
+        }
+
+        return builder.build();
     }
 
     @Override

@@ -47,7 +47,7 @@ public class ClimateTrayProxyController extends AbstractClimateTrayController<Cl
     protected JPanel createView()
     {
         JPanel view = new JPanel(new GridBagLayout());
-        GBC gbc = new GBC(2, 9);
+        GBC gbc = new GBC(2, 10);
 
         view.add(proxyTypeNoneRadio, gbc.span(2));
         view.add(proxyTypeSystemDefaultRadio, gbc.next().span(2));
@@ -59,6 +59,10 @@ public class ClimateTrayProxyController extends AbstractClimateTrayController<Cl
         view.add(createLabel("Proxy Port:", proxyPortSpinner), gbc.next().insetLeft(48));
         view.add(proxyPortSpinner, gbc.next());
 
+        view.add(createLabel("Proxy Excludes:", proxyExcludesField), gbc.next().top().insetTop(4).insetLeft(48));
+        view.add(proxyExcludesField, gbc.next().hFill());
+        view.add(createHint("A comma-separated list of hostnames/addresses with wildcards (*/?)."), gbc.next().next());
+
         view.add(proxyAuthorizationNeededBox, gbc.next().span(2).insetLeft(48));
 
         view.add(createLabel("Proxy User:", proxyUserField), gbc.next().insetLeft(96));
@@ -66,9 +70,6 @@ public class ClimateTrayProxyController extends AbstractClimateTrayController<Cl
 
         view.add(createLabel("Proxy Password:", proxyPasswordField), gbc.next().insetLeft(96));
         view.add(proxyPasswordField, gbc.next().hFill());
-
-        view.add(createLabel("Proxy Excludes:", proxyExcludesField), gbc.next().top().insetTop(4).insetLeft(48));
-        view.add(proxyExcludesField, gbc.next());
 
         return view;
     }
