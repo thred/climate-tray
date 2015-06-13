@@ -28,7 +28,7 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
 
     private UUID id = UUID.randomUUID();
     private String name = "";
-    private MNetInstallation installation = MNetInstallation.HANGING;
+    private MNetInstallation installation = MNetInstallation.STANDING;
     private String host = "";
     private MNetEc ec = MNetEc.NONE;
     private Integer address = 0;
