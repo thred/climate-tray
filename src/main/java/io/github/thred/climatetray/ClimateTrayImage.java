@@ -51,6 +51,8 @@ public enum ClimateTrayImage
     CHAR_7,
     CHAR_8,
     CHAR_9,
+    FOREGROUND_WARN,
+    FOREGROUND_ERROR,
     ICON,
     ICON_AUTO,
     ICON_COOL,

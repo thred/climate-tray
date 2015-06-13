@@ -14,6 +14,16 @@ import java.util.List;
 public class MNetService
 {
 
+    public static void resetErrorCount(MNetDevice device)
+    {
+        device.getState().setFails(0);
+    }
+
+    public static void incrementErrorCount(MNetDevice device)
+    {
+        device.getState().setFails(device.getState().getFails() + 1);
+    }
+
     public static void disable(MNetDevice device)
     {
         if (!device.isEnabled())
@@ -40,7 +50,7 @@ public class MNetService
         {
             LOG.error("Cannot update state of air conditioner \"%s\" without group value.", device.getName());
 
-            disable(device);
+            incrementErrorCount(device);
         }
 
         MNetMonitorRequest request = new MNetMonitorRequest();
@@ -55,10 +65,12 @@ public class MNetService
             {
                 LOG.error("The centralized controller did not return a state for the air conditioner \"%s\".");
 
-                disable(device);
+                incrementErrorCount(device);
             }
             else
             {
+                resetErrorCount(device);
+
                 updateDeviceState(device, item);
             }
         }
@@ -66,13 +78,13 @@ public class MNetService
         {
             LOG.error("Invalid url for air conditioner \"%s\".", e, device.getName());
 
-            disable(device);
+            incrementErrorCount(device);
         }
         catch (MNetRequestException e)
         {
             LOG.error("Failed to request info of air conditioner \"%s\".", e, device.getName());
 
-            disable(device);
+            incrementErrorCount(device);
         }
     }
 
@@ -90,10 +102,12 @@ public class MNetService
             {
                 LOG.error("The centralized controller did not return a state for the air conditioner \"%s\".");
 
-                disable(device);
+                incrementErrorCount(device);
             }
             else
             {
+                resetErrorCount(device);
+
                 updateDeviceState(device, item);
             }
         }
@@ -101,13 +115,13 @@ public class MNetService
         {
             LOG.error("Invalid url for air conditioner \"%s\".", e, device.getName());
 
-            disable(device);
+            incrementErrorCount(device);
         }
         catch (MNetRequestException e)
         {
             LOG.error("Failed to request info of air conditioner \"%s\".", e, device.getName());
 
-            disable(device);
+            incrementErrorCount(device);
         }
     }
 

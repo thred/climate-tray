@@ -33,13 +33,15 @@ public class MNetState implements Copyable<MNetState>
     private Double thermometer = null;
     private MNetFan fan = null;
     private MNetAir air = null;
+    private int fails = 0;
 
     public MNetState()
     {
         super();
     }
 
-    public MNetState(MNetDrive drive, MNetMode mode, Double temperature, Double thermometer, MNetFan fan, MNetAir air)
+    public MNetState(MNetDrive drive, MNetMode mode, Double temperature, Double thermometer, MNetFan fan, MNetAir air,
+        int fails)
     {
         super();
 
@@ -49,12 +51,13 @@ public class MNetState implements Copyable<MNetState>
         this.thermometer = thermometer;
         this.fan = fan;
         this.air = air;
+        this.fails = fails;
     }
 
     @Override
     public MNetState deepCopy()
     {
-        return new MNetState(drive, mode, temperature, thermometer, fan, air);
+        return new MNetState(drive, mode, temperature, thermometer, fan, air, fails);
     }
 
     public MNetDrive getDrive()
@@ -117,6 +120,16 @@ public class MNetState implements Copyable<MNetState>
         this.air = air;
     }
 
+    public int getFails()
+    {
+        return fails;
+    }
+
+    public void setFails(int fails)
+    {
+        this.fails = fails;
+    }
+
     public Icon createIcon(ClimateTrayImageState state, int size)
     {
         return new ImageIcon(createImage(state, size));
@@ -136,7 +149,7 @@ public class MNetState implements Copyable<MNetState>
             air = null;
         }
 
-        return MNetUtils.createImage(state, size, drive, mode, thermometer, fan, air);
+        return MNetUtils.createImage(state, size, drive, mode, thermometer, fan, air, fails > 0, fails > 10);
     }
 
     public String describe()
@@ -152,8 +165,7 @@ public class MNetState implements Copyable<MNetState>
         if (on)
         {
             result =
-                Utils.combine(" ", result,
-                    Utils.combine(", ", MNetFan.descriptionOf(fan), MNetAir.descriptionOf(air)));
+                Utils.combine(" ", result, Utils.combine(", ", MNetFan.descriptionOf(fan), MNetAir.descriptionOf(air)));
         }
 
         return result;
@@ -163,7 +175,7 @@ public class MNetState implements Copyable<MNetState>
     public String toString()
     {
         return "MNetState [drive=" + drive + ", mode=" + mode + ", temperature=" + temperature + ", thermometer="
-            + thermometer + ", fan=" + fan + ", air=" + air + "]";
+            + thermometer + ", fan=" + fan + ", air=" + air + ", fails=" + fails + "]";
     }
 
 }

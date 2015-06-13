@@ -64,13 +64,13 @@ public class MNetUtils
     }
 
     public static Icon createIcon(ClimateTrayImageState state, int size, MNetDrive drive, MNetMode mode,
-        Double temperature, MNetFan fan, MNetAir air)
+        Double temperature, MNetFan fan, MNetAir air, boolean warn, boolean error)
     {
-        return new ImageIcon(createImage(state, size, drive, mode, temperature, fan, air));
+        return new ImageIcon(createImage(state, size, drive, mode, temperature, fan, air, warn, error));
     }
 
     public static Image createImage(ClimateTrayImageState state, int size, MNetDrive drive, MNetMode mode,
-        Double temperature, MNetFan fan, MNetAir air)
+        Double temperature, MNetFan fan, MNetAir air, boolean warn, boolean error)
     {
         BufferedImage image = new BufferedImage(size, size, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = image.createGraphics();
@@ -183,6 +183,15 @@ public class MNetUtils
                     subFilled = true;
                 }
             }
+        }
+
+        if (error)
+        {
+            g.drawImage(ClimateTrayImage.FOREGROUND_ERROR.getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
+        }
+        else if (warn)
+        {
+            g.drawImage(ClimateTrayImage.FOREGROUND_WARN.getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
         }
 
         return image;
