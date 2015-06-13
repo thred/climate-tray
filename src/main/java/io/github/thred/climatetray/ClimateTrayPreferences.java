@@ -59,7 +59,8 @@ public class ClimateTrayPreferences implements Persistent
 
     public boolean isAnyDeviceSelected()
     {
-        return devices.stream().filter(device -> device.isEnabled() && device.isSelected()).count() > 0;
+        return devices.stream()
+            .filter(device -> device.isEnabled() && device.isSelected() && (device.getState().getFails() == 0)).count() > 0;
     }
 
     public MNetPreset getPreset(UUID id)

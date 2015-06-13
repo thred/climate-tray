@@ -149,7 +149,8 @@ public class ClimateTrayService
         List<MNetPreset> presets = PREFERENCES.getPresets();
 
         List<MNetState> states =
-            devices.stream().filter(device -> device.isEnabled() && device.isSelected())
+            devices.stream()
+                .filter(device -> device.isEnabled() && device.isSelected() && (device.getState().getFails() == 0))
                 .map(device -> device.getState()).collect(Collectors.toList());
 
         presets.stream().forEach(preset -> preset.setSelected(MNetService.isMatching(preset, states)));

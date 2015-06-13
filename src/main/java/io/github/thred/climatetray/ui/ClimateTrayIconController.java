@@ -72,8 +72,12 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
         if (enabled)
         {
             MNetDevice activeDevice =
-                model.getDevices().stream().filter(device -> (device.isEnabled()) && (device.isSelected())).findFirst()
-                    .orElse(null);
+                model
+                    .getDevices()
+                    .stream()
+                    .filter(
+                        device -> (device.isEnabled()) && (device.isSelected()) && (device.getState().getFails() == 0))
+                    .findFirst().orElse(null);
 
             if (activeDevice != null)
             {
