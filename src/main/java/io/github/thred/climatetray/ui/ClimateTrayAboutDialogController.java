@@ -15,12 +15,27 @@
 package io.github.thred.climatetray.ui;
 
 import static io.github.thred.climatetray.ClimateTray.*;
+import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.ClimateTrayPreferences;
+import io.github.thred.climatetray.ClimateTrayService;
+import io.github.thred.climatetray.util.BuildInfo;
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.SwingUtils;
 
+import java.awt.Desktop;
 import java.awt.Window;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Objects;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
 
 public class ClimateTrayAboutDialogController extends DefaultClimateTrayDialogController<ClimateTrayPreferences>
 {
+
+    private final JButton visitHomepageButton = SwingUtils.createButton("Visit Homepage", e -> visitHomepage());
 
     public ClimateTrayAboutDialogController(Window owner)
     {
@@ -31,11 +46,51 @@ public class ClimateTrayAboutDialogController extends DefaultClimateTrayDialogCo
     }
 
     @Override
+    protected JComponent createBottomPanel(Button... buttons)
+    {
+        ButtonPanel panel = (ButtonPanel) super.createBottomPanel(buttons);
+
+        panel.left(visitHomepageButton);
+
+        return panel;
+    }
+
+    @Override
+    public io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button consume(
+        ClimateTrayPreferences model)
+    {
+        ClimateTrayService.checkVersion(remoteBuildInfo -> {
+            BuildInfo localBuildInfo = BuildInfo.createDefault();
+
+            if (!Objects.equals(localBuildInfo, remoteBuildInfo))
+            {
+                setDescription(Message.warn("A new version is available."));
+            }
+        });
+
+        return super.consume(model);
+    }
+
+    @Override
     public void dismiss(ClimateTrayPreferences model)
     {
         LOG.debug("Closing about dialog.");
 
         super.dismiss(model);
+    }
+
+    public void visitHomepage()
+    {
+        try
+        {
+            LOG.info("Opening browser with URL: %s", ClimateTray.HOMEPAGE.toExternalForm());
+
+            Desktop.getDesktop().browse(ClimateTray.HOMEPAGE.toURI());
+        }
+        catch (IOException | URISyntaxException e)
+        {
+            LOG.warn("Failed to open hyperlink", e);
+        }
     }
 
 }

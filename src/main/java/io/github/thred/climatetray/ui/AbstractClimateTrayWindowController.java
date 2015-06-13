@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -37,6 +37,7 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE extends Window> extends
     AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
@@ -245,6 +246,12 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
         view.pack();
         view.setLocationRelativeTo(owner);
         view.revalidate();
+
+        SwingUtilities.invokeLater(() -> {
+            view.pack();
+            view.revalidate();
+        });
+
         view.setVisible(true);
 
         return result;
@@ -259,14 +266,14 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
     {
         applyTo(model);
 
-        result = Button.OK;
+        result = Button.YES;
 
         dismiss(model);
     }
 
     public void no()
     {
-        result = Button.CLOSE;
+        result = Button.NO;
 
         dismiss(model);
     }

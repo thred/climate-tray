@@ -34,6 +34,7 @@ public class ClimateTrayPreferences implements Persistent
 
     private TemperatureUnit temperatureUnit = TemperatureUnit.CELSIUS;
     private double updatePeriodInMinutes = 1;
+    private boolean versionCheckEnabled = true;
     private boolean trayIconEnabled = true;
 
     public ClimateTrayPreferences()
@@ -91,6 +92,16 @@ public class ClimateTrayPreferences implements Persistent
         this.updatePeriodInMinutes = updatePeriodInMinutes;
     }
 
+    public boolean isVersionCheckEnabled()
+    {
+        return versionCheckEnabled;
+    }
+
+    public void setVersionCheckEnabled(boolean versionCheckEnabled)
+    {
+        this.versionCheckEnabled = versionCheckEnabled;
+    }
+
     public boolean isTrayIconEnabled()
     {
         return trayIconEnabled;
@@ -111,6 +122,7 @@ public class ClimateTrayPreferences implements Persistent
 
         temperatureUnit = prefs.getEnum(TemperatureUnit.class, "temperatureUnit", temperatureUnit);
         updatePeriodInMinutes = prefs.getDouble("updatePeriodInMinutes", updatePeriodInMinutes);
+        versionCheckEnabled = prefs.getBoolean("versionCheckEnabled", versionCheckEnabled);
         trayIconEnabled = prefs.getBoolean("trayIconEnabled", trayIconEnabled);
     }
 
@@ -124,6 +136,7 @@ public class ClimateTrayPreferences implements Persistent
 
         prefs.setEnum("temperatureUnit", temperatureUnit);
         prefs.setDouble("updatePeriodInMinutes", updatePeriodInMinutes);
+        prefs.setBoolean("versionCheckEnabled", versionCheckEnabled);
         prefs.setBoolean("trayIconEnabled", trayIconEnabled);
     }
 

@@ -16,6 +16,7 @@ package io.github.thred.climatetray;
 
 import io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button;
 import io.github.thred.climatetray.ui.ClimateTrayMessageDialogController;
+import io.github.thred.climatetray.util.BuildInfo;
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.swing.ButtonPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
@@ -23,7 +24,6 @@ import io.github.thred.climatetray.util.swing.SwingUtils;
 import java.awt.Window;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -36,14 +36,14 @@ import org.apache.http.impl.client.CloseableHttpClient;
 public class ClimateTrayUtils
 {
 
-    private static final String VERSION_URL = "http://thred.github.io/climate-tray/VERSION";
+    private static final String BUILD_INFO_URL = "http://thred.github.io/climate-tray/VERSION";
 
-    public static Properties performVersionRequest()
+    public static BuildInfo performBuildInfoRequest()
     {
         try
         {
             CloseableHttpClient client = ClimateTray.PREFERENCES.getProxySettings().createHttpClient();
-            HttpGet request = new HttpGet(VERSION_URL);
+            HttpGet request = new HttpGet(BUILD_INFO_URL);
             CloseableHttpResponse response;
 
             try
@@ -52,7 +52,7 @@ public class ClimateTrayUtils
             }
             catch (IOException e)
             {
-                ClimateTray.LOG.warn("Failed to request version from \"%s\".", e, VERSION_URL);
+                ClimateTray.LOG.warn("Failed to request build information from \"%s\".", e, BUILD_INFO_URL);
 
                 consumeUpdateFailed();
 
@@ -65,20 +65,18 @@ public class ClimateTrayUtils
 
                 if ((status >= 200) && (status < 300))
                 {
-                    Properties properties = new Properties();
-
                     try (InputStream in = response.getEntity().getContent())
                     {
-                        properties.load(in);
+                        BuildInfo buildInfo = BuildInfo.create(in);
+
+                        ClimateTray.LOG.info("Build Information: %s", buildInfo);
+
+                        return buildInfo;
                     }
-
-                    ClimateTray.LOG.info("Version Information: \n%s", properties.getProperty("build.version"));
-
-                    return properties;
                 }
                 else
                 {
-                    ClimateTray.LOG.warn("Request to \"%s\" failed with error %d.", VERSION_URL, status);
+                    ClimateTray.LOG.warn("Request to \"%s\" failed with error %d.", BUILD_INFO_URL, status);
 
                     consumeUpdateFailed();
                 }
@@ -90,7 +88,7 @@ public class ClimateTrayUtils
         }
         catch (Exception e)
         {
-            ClimateTray.LOG.warn("Failed to request version.", e);
+            ClimateTray.LOG.warn("Failed to request build information.", e);
         }
 
         return null;
@@ -100,13 +98,20 @@ public class ClimateTrayUtils
     {
         SwingUtilities.invokeLater(() -> {
             ClimateTrayUtils.dialogWithCloseAndProxySettings(null, "Request failed", Message
-                .error("The request for the up-to-date version failed. You may wish to update the proxy settings."));
+                .error("The request for the version updates failed.\n\n"
+                    + "This usually indicates, that the application cannot contact the website with the "
+                    + "build information on GitHub. You may wish to update your proxy settings, now."));
         });
     }
 
     public static Button dialogWithOkButton(Window owner, String title, Message message)
     {
         return ClimateTrayMessageDialogController.consumeOkDialog(owner, title, message);
+    }
+
+    public static boolean dialogWithYesAndNoButtons(Window owner, String title, Message message)
+    {
+        return ClimateTrayMessageDialogController.consumeYesNoDialog(owner, title, message) == Button.YES;
     }
 
     public static Button dialogWithCloseAndProxySettings(Window owner, String title, Message message)

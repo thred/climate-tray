@@ -8,14 +8,22 @@ import io.github.thred.climatetray.mnet.MNetState;
 import io.github.thred.climatetray.ui.ClimateTrayAboutDialogController;
 import io.github.thred.climatetray.ui.ClimateTrayIconController;
 import io.github.thred.climatetray.ui.ClimateTrayLogFrameController;
+import io.github.thred.climatetray.ui.ClimateTrayMessageDialogController;
 import io.github.thred.climatetray.ui.ClimateTrayPreferencesDialogController;
 import io.github.thred.climatetray.ui.ClimateTrayProxyDialogController;
+import io.github.thred.climatetray.util.BuildInfo;
 import io.github.thred.climatetray.util.ExceptionConsumer;
 import io.github.thred.climatetray.util.VoidCallable;
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.prefs.SystemPrefs;
+import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.SwingUtils;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -26,6 +34,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
 public class ClimateTrayService
@@ -54,7 +64,7 @@ public class ClimateTrayService
         PREFERENCES_CONTROLLER = new ClimateTrayPreferencesDialogController(null);
     }
 
-    private static ScheduledFuture<?> updateFuture;
+    private volatile static ScheduledFuture<?> updateFuture;
 
     public static void prepare()
     {
@@ -215,6 +225,10 @@ public class ClimateTrayService
                 {
                     onError.failed(e);
                 }
+                else
+                {
+                    ClimateTray.LOG.error("Unhandled exception", e);
+                }
 
                 throw e;
             }
@@ -307,7 +321,6 @@ public class ClimateTrayService
 
     public static void about()
     {
-        checkVersion();
         SwingUtilities.invokeLater(() -> {
             LOG.debug("Opening about dialog.");
 
@@ -317,9 +330,84 @@ public class ClimateTrayService
 
     public static void checkVersion()
     {
-        submitTask(ClimateTrayUtils::performVersionRequest, properties -> {
-            System.out.println(properties);
+        checkVersion(remoteBuildInfo -> {
+            BuildInfo localBuildInfo = BuildInfo.createDefault();
+
+            if (!Objects.equals(localBuildInfo, remoteBuildInfo))
+            {
+                ClimateTrayMessageDialogController controller = new ClimateTrayMessageDialogController(null)
+                {
+                    private final JButton visitHomepageButton = SwingUtils.createButton("Visit Homepage",
+                        e -> visitHomepage());
+                    private final JButton remindMeLaterButton = SwingUtils
+                        .createButton("Remind Me Later", e -> close());
+                    private final JButton disableCheckButton = SwingUtils.createButton("Disable Version Check",
+                        e -> disableVersionCheck());
+
+                    @Override
+                    protected JComponent createBottomPanel(Button... buttons)
+                    {
+                        ButtonPanel panel = (ButtonPanel) super.createBottomPanel(buttons);
+
+                        panel.left(visitHomepageButton);
+                        panel.right(remindMeLaterButton, disableCheckButton);
+
+                        return panel;
+                    }
+
+                    public void visitHomepage()
+                    {
+                        try
+                        {
+                            LOG.info("Opening browser with URL: %s", ClimateTray.HOMEPAGE.toExternalForm());
+
+                            Desktop.getDesktop().browse(ClimateTray.HOMEPAGE.toURI());
+                        }
+                        catch (IOException | URISyntaxException e)
+                        {
+                            LOG.warn("Failed to open hyperlink", e);
+                        }
+                    }
+
+                    public void disableVersionCheck()
+                    {
+                        if (ClimateTrayUtils.dialogWithYesAndNoButtons(getView(), "Disable Version Check",
+                            Message.warn("Are you sure, that you want to disable the version check?\n\n"
+                                + "You can enable the check later in the preferences.")))
+                        {
+                            close();
+
+                            if (PREFERENCES_CONTROLLER.getView().isVisible())
+                            {
+                                PREFERENCES_CONTROLLER.setVersionCheckEnabled(false);
+                            }
+                            else
+                            {
+                                ClimateTray.PREFERENCES.setVersionCheckEnabled(false);
+
+                                store();
+                            }
+                        }
+                    }
+                };
+
+                controller.setTitle("Version Update Check");
+
+                controller.consume(Message.info("There is a new version available for download: %s.\n\n"
+                    + "You are currently using version %s.", remoteBuildInfo, localBuildInfo));
+            }
+
         });
+    }
+
+    public static void checkVersion(Consumer<BuildInfo> onSuccess)
+    {
+        if (!ClimateTray.PREFERENCES.isVersionCheckEnabled())
+        {
+            return;
+        }
+
+        submitTask(ClimateTrayUtils::performBuildInfoRequest, onSuccess);
     }
 
     public static void exit()

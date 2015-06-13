@@ -419,7 +419,7 @@ public class MNetTest implements ExceptionConsumer
 
         Integer group = device.getGroup();
 
-        if ((group == null) || ("*".equals(group)) || ("99".equals(group)))
+        if ((group == null) || (Integer.valueOf(99).equals(group)))
         {
             return false;
         }

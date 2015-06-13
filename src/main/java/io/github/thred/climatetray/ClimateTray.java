@@ -16,6 +16,9 @@ package io.github.thred.climatetray;
 
 import io.github.thred.climatetray.util.message.MessageBuffer;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -24,6 +27,19 @@ public class ClimateTray
 
     public static final MessageBuffer LOG = new MessageBuffer(true, 1024);
     public static final ClimateTrayPreferences PREFERENCES = new ClimateTrayPreferences();
+    public static final URL HOMEPAGE;
+
+    static
+    {
+        try
+        {
+            HOMEPAGE = new URL("http://thred.github.io/climate-tray/");
+        }
+        catch (MalformedURLException e)
+        {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
 
     static
     {

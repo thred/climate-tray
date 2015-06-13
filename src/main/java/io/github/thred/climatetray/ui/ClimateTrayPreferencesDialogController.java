@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -30,7 +30,7 @@ public class ClimateTrayPreferencesDialogController extends DefaultClimateTrayDi
 {
 
     private final JButton proxyButton = SwingUtils.createButton("Proxy Settings", e -> proxySettings());
-    private final ClimateTrayProxyDialogController controller = new ClimateTrayProxyDialogController(getView(), false);
+    private final ClimateTrayProxyDialogController proxyController = new ClimateTrayProxyDialogController(getView(), false);
 
     public ClimateTrayPreferencesDialogController(Window owner)
     {
@@ -49,9 +49,14 @@ public class ClimateTrayPreferencesDialogController extends DefaultClimateTrayDi
         return panel;
     }
 
+    public void setVersionCheckEnabled(boolean enabled)
+    {
+        ((ClimateTrayPreferencesController)controller).setVersionCheckEnabled(enabled);
+    }
+
     public void proxySettings()
     {
-        JDialog view = controller.getView();
+        JDialog view = proxyController.getView();
 
         if (view.isVisible())
         {
@@ -59,7 +64,7 @@ public class ClimateTrayPreferencesDialogController extends DefaultClimateTrayDi
         }
         else
         {
-            controller.consume(getModel().getProxySettings());
+            proxyController.consume(getModel().getProxySettings());
         }
     }
 
