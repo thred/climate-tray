@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -16,7 +16,6 @@ package io.github.thred.climatetray;
 
 import io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button;
 import io.github.thred.climatetray.ui.ClimateTrayMessageDialogController;
-import io.github.thred.climatetray.ui.ClimateTrayProxyDialogController;
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.swing.ButtonPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
@@ -28,6 +27,7 @@ import java.util.Properties;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -98,16 +98,18 @@ public class ClimateTrayUtils
 
     protected static void consumeUpdateFailed()
     {
-        ClimateTrayUtils.closeDialogWithProxySettings(null, "Request failed",
-            Message.error("The request for the up-to-date version failed. You may wish to update the proxy settings."));
+        SwingUtilities.invokeLater(() -> {
+            ClimateTrayUtils.dialogWithCloseAndProxySettings(null, "Request failed", Message
+                .error("The request for the up-to-date version failed. You may wish to update the proxy settings."));
+        });
     }
 
-    public static Button okDialog(Window owner, String title, Message message)
+    public static Button dialogWithOkButton(Window owner, String title, Message message)
     {
         return ClimateTrayMessageDialogController.consumeOkDialog(owner, title, message);
     }
 
-    public static Button closeDialogWithProxySettings(Window owner, String title, Message message)
+    public static Button dialogWithCloseAndProxySettings(Window owner, String title, Message message)
     {
         ClimateTrayMessageDialogController controller = new ClimateTrayMessageDialogController(owner, Button.CLOSE)
         {
@@ -127,9 +129,7 @@ public class ClimateTrayUtils
             {
                 close();
 
-                ClimateTrayProxyDialogController controller = new ClimateTrayProxyDialogController(getView(), true);
-
-                controller.consume(ClimateTray.PREFERENCES.getProxySettings());
+                ClimateTrayService.proxySettings();
             }
         };
 

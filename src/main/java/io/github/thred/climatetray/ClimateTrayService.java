@@ -9,6 +9,7 @@ import io.github.thred.climatetray.ui.ClimateTrayAboutDialogController;
 import io.github.thred.climatetray.ui.ClimateTrayIconController;
 import io.github.thred.climatetray.ui.ClimateTrayLogFrameController;
 import io.github.thred.climatetray.ui.ClimateTrayPreferencesDialogController;
+import io.github.thred.climatetray.ui.ClimateTrayProxyDialogController;
 import io.github.thred.climatetray.util.ExceptionConsumer;
 import io.github.thred.climatetray.util.VoidCallable;
 import io.github.thred.climatetray.util.message.Message;
@@ -71,7 +72,8 @@ public class ClimateTrayService
         catch (Exception e)
         {
             LOG.error("Failed to load preferences", e);
-            ClimateTrayUtils.okDialog(null, "Preferences", Message.error("Failed to load existing preferences."));
+            ClimateTrayUtils.dialogWithOkButton(null, "Preferences",
+                Message.error("Failed to load existing preferences."));
         }
 
         refresh();
@@ -276,6 +278,24 @@ public class ClimateTrayService
         });
     }
 
+    public static void proxySettings()
+    {
+        SwingUtilities.invokeLater(() -> {
+            LOG.debug("Opening proxy settings dialog.");
+
+            if (PREFERENCES_CONTROLLER.getView().isVisible())
+            {
+                PREFERENCES_CONTROLLER.proxySettings();
+            }
+            else
+            {
+                ClimateTrayProxyDialogController controller = new ClimateTrayProxyDialogController(null, true);
+
+                controller.consume(ClimateTray.PREFERENCES.getProxySettings());
+            }
+        });
+    }
+
     public static void log()
     {
         SwingUtilities.invokeLater(() -> {
@@ -287,6 +307,7 @@ public class ClimateTrayService
 
     public static void about()
     {
+        checkVersion();
         SwingUtilities.invokeLater(() -> {
             LOG.debug("Opening about dialog.");
 

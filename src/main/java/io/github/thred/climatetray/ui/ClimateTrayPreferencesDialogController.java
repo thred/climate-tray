@@ -24,11 +24,13 @@ import java.awt.Window;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 
 public class ClimateTrayPreferencesDialogController extends DefaultClimateTrayDialogController<ClimateTrayPreferences>
 {
 
     private final JButton proxyButton = SwingUtils.createButton("Proxy Settings", e -> proxySettings());
+    private final ClimateTrayProxyDialogController controller = new ClimateTrayProxyDialogController(getView(), false);
 
     public ClimateTrayPreferencesDialogController(Window owner)
     {
@@ -49,9 +51,16 @@ public class ClimateTrayPreferencesDialogController extends DefaultClimateTrayDi
 
     public void proxySettings()
     {
-        ClimateTrayProxyDialogController controller = new ClimateTrayProxyDialogController(getView(), false);
+        JDialog view = controller.getView();
 
-        controller.consume(getModel().getProxySettings());
+        if (view.isVisible())
+        {
+            view.toFront();
+        }
+        else
+        {
+            controller.consume(getModel().getProxySettings());
+        }
     }
 
     @Override
