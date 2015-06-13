@@ -33,6 +33,15 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
         view.addMouseListener(new MouseAdapter()
         {
             @Override
+            public void mousePressed(MouseEvent e)
+            {
+                if (e.isPopupTrigger())
+                {
+                    popup(e.getX(), e.getY());
+                }
+            }
+
+            @Override
             public void mouseReleased(MouseEvent e)
             {
                 if (e.isPopupTrigger())
@@ -106,7 +115,7 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
 
         //if (popupController.getView().isVisible())
         //{
-            popupController.refreshWith(model);
+        popupController.refreshWith(model);
         //}
     }
 
