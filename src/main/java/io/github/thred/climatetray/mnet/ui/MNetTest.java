@@ -1,6 +1,8 @@
 package io.github.thred.climatetray.mnet.ui;
 
 import static io.github.thred.climatetray.ClimateTray.*;
+import io.github.thred.climatetray.ClimateTray;
+import io.github.thred.climatetray.ClimateTrayProxySettings;
 import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetDrive;
@@ -13,11 +15,14 @@ import io.github.thred.climatetray.mnet.request.MNetMonitorRequest;
 import io.github.thred.climatetray.mnet.request.MNetOperateRequest;
 import io.github.thred.climatetray.mnet.request.MNetRequestException;
 import io.github.thred.climatetray.util.ExceptionConsumer;
+import io.github.thred.climatetray.util.ProxyType;
 import io.github.thred.climatetray.util.Severity;
+import io.github.thred.climatetray.util.Utils;
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.message.MessageBuffer;
 
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.stream.StreamSupport;
 
 import javax.swing.event.EventListenerList;
@@ -52,6 +57,7 @@ public class MNetTest implements ExceptionConsumer
     private Step step;
     private State state;
     private boolean fixedEc = false;
+    private boolean fixedProxyExcludes = false;
 
     public MNetTest(MNetDevice device)
     {
@@ -105,6 +111,11 @@ public class MNetTest implements ExceptionConsumer
     public boolean isFixedEc()
     {
         return fixedEc;
+    }
+
+    public boolean isFixedProxyExcludes()
+    {
+        return fixedProxyExcludes;
     }
 
     public void cancel()
@@ -180,6 +191,7 @@ public class MNetTest implements ExceptionConsumer
 
         state = State.RUNNING;
         fixedEc = false;
+        fixedProxyExcludes = false;
 
         ClimateTrayService.submitTask(() -> {
             step(Step.VALIDATE, "Validating the settings...");
@@ -208,9 +220,44 @@ public class MNetTest implements ExceptionConsumer
             ensureNotCanceled();
             step(Step.CHECK, "Calling %s...", device.describeSettings());
 
+            URL url = device.getURL();
             MNetInfoRequest request = new MNetInfoRequest();
 
-            request.addDevice(device).execute(device.getURL());
+            request.addDevice(device);
+
+            try
+            {
+                request.execute(url);
+            }
+            catch (MNetRequestException e)
+            {
+                ClimateTrayProxySettings proxySettings = ClimateTray.PREFERENCES.getProxySettings();
+
+                if (proxySettings.getProxyType() != ProxyType.USER_DEFINED)
+                {
+                    throw e;
+                }
+
+                String additinalProxyExclude = url.getHost();
+
+                request.execute(url, additinalProxyExclude);
+
+                String excludes = proxySettings.getProxyExcludes();
+
+                if (Utils.isBlank(excludes))
+                {
+                    excludes = additinalProxyExclude;
+                }
+                else
+                {
+                    excludes += ", " + additinalProxyExclude;
+                }
+
+                proxySettings.setProxyExcludes(excludes);
+
+                fixedProxyExcludes = true;
+            }
+
             updateDevice(request, device);
         }, this::fixEc, this);
     }
@@ -378,16 +425,21 @@ public class MNetTest implements ExceptionConsumer
 
     public void success()
     {
+        String text = "The test succeeded.";
+
         state = State.SUCCEEDED;
+
+        if (fixedProxyExcludes)
+        {
+            text += String.format(" The host has been added to the proxy excludes.");
+        }
 
         if (fixedEc)
         {
-            step(Step.FINISHED, "The test succeeded. The EC value was corrected automatically to %s.", device.getEc());
+            text += String.format(" The EC value has been corrected to %s.", device.getEc());
         }
-        else
-        {
-            step(Step.FINISHED, "The test succeeded.");
-        }
+
+        step(Step.FINISHED, text);
     }
 
     protected MNetDeviceRequestItem updateDevice(AbstractMNetDeviceRequest request, MNetDevice device)

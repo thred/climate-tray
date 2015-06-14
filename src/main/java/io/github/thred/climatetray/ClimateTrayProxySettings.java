@@ -127,7 +127,7 @@ public class ClimateTrayProxySettings implements Persistent
         this.proxyExcludes = proxyExcludes;
     }
 
-    public CloseableHttpClient createHttpClient()
+    public CloseableHttpClient createHttpClient(String... additionalProxyExcludes)
     {
         if (proxyType == ProxyType.NONE)
         {
@@ -138,7 +138,7 @@ public class ClimateTrayProxySettings implements Persistent
         {
             return HttpClients.createSystem();
         }
-
+        
         HttpHost proxy = new HttpHost(getProxyHost(), getProxyPort());
         HttpClientBuilder builder = HttpClientBuilder.create().setProxy(proxy);
 
@@ -154,6 +154,21 @@ public class ClimateTrayProxySettings implements Persistent
         }
 
         String excludes = proxyExcludes;
+
+        if (Utils.isBlank(excludes))
+        {
+            excludes = "";
+        }
+
+        for (String additionalProxyExclude : additionalProxyExcludes)
+        {
+            if (excludes.length() > 0)
+            {
+                excludes += ", ";
+            }
+
+            excludes += additionalProxyExclude;
+        }
 
         if (!Utils.isBlank(excludes))
         {
