@@ -152,6 +152,10 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         this.group = group;
     }
 
+    public boolean isSelectedAndWorking() {
+        return isSelected() && (getState() != null) && (getState().getFails() == 0);
+    }
+    
     public boolean isSelected()
     {
         return selected && enabled;

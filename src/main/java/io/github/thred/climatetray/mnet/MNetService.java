@@ -14,12 +14,12 @@ import java.util.List;
 public class MNetService
 {
 
-    public static void resetErrorCount(MNetDevice device)
+    public static void resetFails(MNetDevice device)
     {
         device.getState().setFails(0);
     }
 
-    public static void incrementErrorCount(MNetDevice device)
+    public static void incrementFails(MNetDevice device)
     {
         device.getState().setFails(device.getState().getFails() + 1);
     }
@@ -50,7 +50,7 @@ public class MNetService
         {
             LOG.error("Cannot update state of air conditioner \"%s\" without group value.", device.getName());
 
-            incrementErrorCount(device);
+            incrementFails(device);
         }
 
         MNetMonitorRequest request = new MNetMonitorRequest();
@@ -65,11 +65,11 @@ public class MNetService
             {
                 LOG.error("The centralized controller did not return a state for the air conditioner \"%s\".");
 
-                incrementErrorCount(device);
+                incrementFails(device);
             }
             else
             {
-                resetErrorCount(device);
+                resetFails(device);
 
                 updateDeviceState(device, item);
             }
@@ -78,13 +78,13 @@ public class MNetService
         {
             LOG.error("Invalid url for air conditioner \"%s\".", e, device.getName());
 
-            incrementErrorCount(device);
+            incrementFails(device);
         }
         catch (MNetRequestException e)
         {
             LOG.error("Failed to request info of air conditioner \"%s\".", e, device.getName());
 
-            incrementErrorCount(device);
+            incrementFails(device);
         }
     }
 
@@ -102,11 +102,11 @@ public class MNetService
             {
                 LOG.error("The centralized controller did not return a state for the air conditioner \"%s\".");
 
-                incrementErrorCount(device);
+                incrementFails(device);
             }
             else
             {
-                resetErrorCount(device);
+                resetFails(device);
 
                 updateDeviceState(device, item);
             }
@@ -115,13 +115,13 @@ public class MNetService
         {
             LOG.error("Invalid url for air conditioner \"%s\".", e, device.getName());
 
-            incrementErrorCount(device);
+            incrementFails(device);
         }
         catch (MNetRequestException e)
         {
             LOG.error("Failed to request info of air conditioner \"%s\".", e, device.getName());
 
-            incrementErrorCount(device);
+            incrementFails(device);
         }
     }
 
@@ -164,7 +164,7 @@ public class MNetService
 
     public static boolean isMatching(MNetPreset preset, List<MNetState> states)
     {
-        return states.stream().allMatch(state -> isMatching(preset, state));
+        return (states.size() > 0) && (states.stream().allMatch(state -> isMatching(preset, state)));
     }
 
     public static boolean isMatching(MNetPreset preset, MNetState state)

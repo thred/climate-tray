@@ -150,7 +150,7 @@ public class ClimateTrayService
 
         List<MNetState> states =
             devices.stream()
-                .filter(device -> device.isEnabled() && device.isSelected() && (device.getState().getFails() == 0))
+                .filter(device -> device.isEnabled() && device.isSelectedAndWorking())
                 .map(device -> device.getState()).collect(Collectors.toList());
 
         presets.stream().forEach(preset -> preset.setSelected(MNetService.isMatching(preset, states)));
@@ -263,8 +263,10 @@ public class ClimateTrayService
             return;
         }
 
-        submitTask(() -> PREFERENCES.getDevices().stream().filter(device -> device.isEnabled() && device.isSelected())
-            .forEach(device -> MNetService.adjustDevice(device, preset)), ClimateTrayService::updatePresets);
+        submitTask(
+            () -> PREFERENCES.getDevices().stream()
+                .filter(device -> device.isEnabled() && device.isSelected())
+                .forEach(device -> MNetService.adjustDevice(device, preset)), ClimateTrayService::updatePresets);
     }
 
     public static void toggleDevice(UUID id)
