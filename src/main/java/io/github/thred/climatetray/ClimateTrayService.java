@@ -149,8 +149,7 @@ public class ClimateTrayService
         List<MNetPreset> presets = PREFERENCES.getPresets();
 
         List<MNetState> states =
-            devices.stream()
-                .filter(device -> device.isEnabled() && device.isSelectedAndWorking())
+            devices.stream().filter(device -> device.isEnabled() && device.isSelectedAndWorking())
                 .map(device -> device.getState()).collect(Collectors.toList());
 
         presets.stream().forEach(preset -> preset.setSelected(MNetService.isMatching(preset, states)));
@@ -263,10 +262,8 @@ public class ClimateTrayService
             return;
         }
 
-        submitTask(
-            () -> PREFERENCES.getDevices().stream()
-                .filter(device -> device.isEnabled() && device.isSelected())
-                .forEach(device -> MNetService.adjustDevice(device, preset)), ClimateTrayService::updatePresets);
+        submitTask(() -> PREFERENCES.getDevices().stream().filter(device -> device.isEnabled() && device.isSelected())
+            .forEach(device -> MNetService.adjustDevice(device, preset)), ClimateTrayService::updatePresets);
     }
 
     public static void toggleDevice(UUID id)
@@ -334,6 +331,11 @@ public class ClimateTrayService
     public static void checkVersion()
     {
         checkVersion(remoteBuildInfo -> {
+            if (remoteBuildInfo == null)
+            {
+                return;
+            }
+
             BuildInfo localBuildInfo = BuildInfo.createDefault();
 
             if (!Objects.equals(localBuildInfo, remoteBuildInfo))
@@ -399,7 +401,6 @@ public class ClimateTrayService
                 controller.consume(Message.info("There is a new version available for download: %s.\n\n"
                     + "You are currently using version %s.", remoteBuildInfo, localBuildInfo));
             }
-
         });
     }
 

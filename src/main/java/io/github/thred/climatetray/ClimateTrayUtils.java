@@ -98,7 +98,7 @@ public class ClimateTrayUtils
     {
         SwingUtilities.invokeLater(() -> {
             ClimateTrayUtils.dialogWithCloseAndProxySettings(null, "Request failed", Message
-                .error("The request for the version updates failed.\n\n"
+                .error("The request for version updates failed.\n\n"
                     + "This usually indicates, that the application cannot contact the website with the "
                     + "build information on GitHub. You may wish to update your proxy settings, now."));
         });
