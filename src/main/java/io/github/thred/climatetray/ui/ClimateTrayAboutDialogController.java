@@ -67,10 +67,15 @@ public class ClimateTrayAboutDialogController extends DefaultClimateTrayDialogCo
 
             BuildInfo localBuildInfo = BuildInfo.createDefault();
 
-            if (!Objects.equals(localBuildInfo, remoteBuildInfo))
+            if (Objects.equals(localBuildInfo, remoteBuildInfo))
             {
-                setDescription(Message.warn("A new version is available."));
+                setDescription(Message.info("Your version of Climate-Tray is up-to-date."));
             }
+            else
+            {
+                setDescription(Message.warn("A new version of Climate-Tray is available."));
+            }
+            
         });
 
         return super.consume(model);
