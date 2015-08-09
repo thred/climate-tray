@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -17,6 +17,8 @@ package io.github.thred.climatetray.util.swing;
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.message.MessageComponent;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -28,8 +30,10 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
@@ -42,22 +46,31 @@ import javax.swing.SpinnerModel;
 public class SwingUtils
 {
 
-    public static JLabel createMenuHeadline(String text)
+    public static JComponent createMenuHeadline(String text, boolean upperLine, boolean lowerLine)
     {
-        JLabel result = createLabel(text);
+        JLabel label = createLabel(text);
 
-        result.setBorder(BorderFactory.createEmptyBorder(4, 32, 4, 0));
-        
         try
         {
-            result.setFont(result.getFont().deriveFont(Font.BOLD, result.getFont().getSize2D() * 1.2f));
+            label.setFont(label.getFont().deriveFont(Font.BOLD, label.getFont().getSize2D() * 1.2f));
         }
         catch (NullPointerException e)
         {
             // ignore, some LookAndFeels cause this, because the font is not initialized
         }
 
-        return result;
+        label.setForeground(new Color(0x191970));
+        label.setBorder(BorderFactory.createEmptyBorder(4, 24, 4, 16));
+        //        label.setBorder(BorderFactory.createEmptyBorder(4, 32, 4, 0));
+
+        JPanel result = new JPanel(new BorderLayout());
+
+        result.setBackground(Color.WHITE);
+        result.setBorder(BorderFactory.createMatteBorder((upperLine) ? 1 : 0, 0, (lowerLine) ? 1 : 0, 0,
+            Color.LIGHT_GRAY));
+        result.add(label, BorderLayout.NORTH);
+
+        return new BorderPanel(BorderFactory.createEmptyBorder((upperLine) ? 2 : 0, 0, (lowerLine) ? 2 : 0, 0), result);
     }
 
     public static JMenuItem createMenuItem(String text, Icon icon, String toolTip, ActionListener... listeners)

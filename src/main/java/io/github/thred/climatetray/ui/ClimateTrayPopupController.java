@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -23,6 +23,7 @@ import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.util.message.MessageBuffer;
+import io.github.thred.climatetray.util.swing.TitlePanel;
 
 import java.awt.Component;
 import java.awt.Frame;
@@ -32,10 +33,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -47,6 +49,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     implements PopupMenuListener
 {
 
+    private final TitlePanel titlePanel = new TitlePanel("Climate Tray", null);
     private final JMenuItem preferencesItem = createMenuItem("Preferences...", null,
         "Manage the presets, air conditioners and other settings.", (e) -> ClimateTrayService.preferences());
     private final JMenuItem logItem = createMenuItem("Log...", null, null, (e) -> ClimateTrayService.log());
@@ -67,6 +70,8 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         JPopupMenu view = new JPopupMenu("Climate Tray");
 
         view.addPopupMenuListener(this);
+
+        view.add(titlePanel);
         view.add(preferencesItem);
         view.add(logItem);
         view.add(aboutItem);
@@ -80,14 +85,19 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     public void prepareWith(ClimateTrayPreferences model)
     {
         JPopupMenu view = getView();
-        int index = 0;
+        int index = 1;
 
         dynamicItems.values().stream().forEach(view::remove);
         dynamicItems.clear();
 
         index = prepareWithPresets(model, view, index, model.isAnyDeviceSelected());
-        prepareWithDevices(model, view, index);
+        index = prepareWithDevices(model, view, index);
 
+        JComponent headline = createMenuHeadline("Options", index > 1, true);
+
+        dynamicItems.put("#optionsHeadline", headline);
+
+        view.add(headline, index++);
         view.revalidate();
     }
 
@@ -97,7 +107,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
         if (presets.size() > 0)
         {
-            JLabel headline = createMenuHeadline("Global Presets");
+            JComponent headline = createMenuHeadline("Global Presets", index > 1, true);
 
             dynamicItems.put("#presetHeadline", headline);
             view.add(headline, index++);
@@ -107,7 +117,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
                 view.add(prepareWithPreset(preset, enabled), index++);
             }
 
-            dynamicItems.put("#presetSeparator", view.add(new JPopupMenu.Separator(), index++));
+            //dynamicItems.put("#presetSeparator", view.add(new JPopupMenu.Separator(), index++));
         }
 
         return index;
@@ -134,7 +144,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
         if (devices.size() > 0)
         {
-            JLabel headline = createMenuHeadline("Air Conditioners");
+            JComponent headline = createMenuHeadline("Air Conditioners", index > 1, true);
 
             dynamicItems.put("#deviceHeadline", headline);
             view.add(headline, index++);
@@ -146,7 +156,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
                 view.add(menu, index++);
             }
 
-            dynamicItems.put("#deviceSeparator", view.add(new JPopupMenu.Separator(), index++));
+            // dynamicItems.put("#deviceSeparator", view.add(new JPopupMenu.Separator(), index++));
         }
 
         return index;
@@ -163,6 +173,8 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
         dynamicItems.put(id, menu);
 
+        menu.add(createMenuHeadline(device.getName(), false, true));
+
         JCheckBoxMenuItem selectItem = new JCheckBoxMenuItem();
 
         selectItem.addActionListener(e -> deviceSelect(device));
@@ -170,13 +182,18 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
         dynamicItems.put(id + "#deviceSelect", menu.add(selectItem));
 
-        menu.addSeparator();
+        List<MNetPreset> presets = device.getPresets();
 
-        int subIndex = 2;
-
-        for (MNetPreset defaultPreset : device.getPresets())
+        if (!presets.isEmpty())
         {
-            menu.add(prepareWithPreset(defaultPreset, true), subIndex++);
+            menu.addSeparator();
+
+            int subIndex = 3;
+
+            for (MNetPreset defaultPreset : presets)
+            {
+                menu.add(prepareWithPreset(defaultPreset, true), subIndex++);
+            }
         }
 
         return menu;
