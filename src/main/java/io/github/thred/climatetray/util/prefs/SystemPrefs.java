@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -104,7 +104,8 @@ public class SystemPrefs extends AbstractTypedPrefs
     @Override
     protected boolean setLocalInteger(String key, Integer value)
     {
-        if (Objects.equals(prefs.getInt(key, 0), value))
+        if ((Objects.equals(prefs.getInt(key, 0), prefs.getInt(key, 1)))
+            && (Objects.equals(prefs.getInt(key, 0), value)))
         {
             return false;
         }
@@ -123,7 +124,8 @@ public class SystemPrefs extends AbstractTypedPrefs
     @Override
     protected boolean setLocalLong(String key, Long value)
     {
-        if (Objects.equals(prefs.getLong(key, 0), value))
+        if ((Objects.equals(prefs.getLong(key, 0), prefs.getLong(key, 1)))
+            && (Objects.equals(prefs.getLong(key, 0), value)))
         {
             return false;
         }
@@ -142,7 +144,8 @@ public class SystemPrefs extends AbstractTypedPrefs
     @Override
     protected boolean setLocalFloat(String key, Float value)
     {
-        if (Objects.equals(prefs.getFloat(key, 0), value))
+        if ((Objects.equals(prefs.getFloat(key, 0), prefs.getFloat(key, 1)))
+            && (Objects.equals(prefs.getFloat(key, 0), value)))
         {
             return false;
         }
@@ -161,7 +164,8 @@ public class SystemPrefs extends AbstractTypedPrefs
     @Override
     protected boolean setLocalDouble(String key, Double value)
     {
-        if (Objects.equals(prefs.getDouble(key, 0), value))
+        if ((Objects.equals(prefs.getDouble(key, 0), prefs.getDouble(key, 1)))
+            && (Objects.equals(prefs.getDouble(key, 0), value)))
         {
             return false;
         }
@@ -199,7 +203,8 @@ public class SystemPrefs extends AbstractTypedPrefs
     @Override
     protected boolean setLocalBoolean(String key, Boolean value)
     {
-        if (Objects.equals(prefs.getBoolean(key, false), value))
+        if ((Objects.equals(prefs.getBoolean(key, true), prefs.getBoolean(key, false)))
+            && (Objects.equals(prefs.getBoolean(key, false), value)))
         {
             return false;
         }
