@@ -58,4 +58,10 @@ public class ClimateTrayDeviceListController extends AbstractClimateTrayListCont
         }
     }
 
+    @Override
+    protected String describe(MNetDevice element)
+    {
+        return element.getName();
+    }
+    
 }

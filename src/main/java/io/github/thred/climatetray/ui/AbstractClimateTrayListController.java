@@ -1,20 +1,22 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray.ui;
 
+import io.github.thred.climatetray.ClimateTrayUtils;
 import io.github.thred.climatetray.util.Copyable;
+import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.AdvancedListModel;
 import io.github.thred.climatetray.util.swing.GBC;
@@ -33,6 +35,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 
 public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TYPE>> extends
     AbstractClimateTrayController<List<TYPE>, JPanel>
@@ -131,6 +134,8 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
         update();
     }
 
+    protected abstract String describe(TYPE element);
+
     public void update()
     {
         int selectedIndex = (list != null) ? list.getSelectedIndex() : -1;
@@ -189,16 +194,23 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
             return;
         }
 
-        listModel.removeElementAt(selectedIndex);
+        TYPE element = listModel.getElementAt(selectedIndex);
 
-        if (selectedIndex >= listModel.getSize())
+        if (ClimateTrayUtils.dialogWithYesAndNoButtons(SwingUtilities.getWindowAncestor(getView()), "Remove",
+            Message.warn("Are you sure, that you want to remove the item \"%s\"?", describe(element))))
         {
-            selectedIndex = listModel.getSize() - 1;
-        }
 
-        if (selectedIndex >= 0)
-        {
-            list.setSelectedIndex(selectedIndex);
+            listModel.removeElementAt(selectedIndex);
+
+            if (selectedIndex >= listModel.getSize())
+            {
+                selectedIndex = listModel.getSize() - 1;
+            }
+
+            if (selectedIndex >= 0)
+            {
+                list.setSelectedIndex(selectedIndex);
+            }
         }
     }
 
