@@ -1,16 +1,17 @@
 # Climate Tray 1.1.0
 
-Enhancements:
+## Enhancements
 
 * Security question before removing devices or presets (#23).
+* Added local presets for each device (#21).
 
-Bugfixes:
+## Bugfixes
 
 * Closing update check dialogs when opening homepage (#17).
 
 # Climate Tray 1.0.0
 
-Initial version contains:
+## Initial version contains
 
 * Handling of devices by name, IP, address, EC.
 * Support for standing/hanging installation type for devices (including correction for fin state). 

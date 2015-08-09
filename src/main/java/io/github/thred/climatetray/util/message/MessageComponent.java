@@ -98,4 +98,14 @@ public class MessageComponent extends JPanel
         this.iconSize = iconSize;
     }
 
+    public JTextArea getMessageArea()
+    {
+        return messageArea;
+    }
+
+    public JLabel getIconLabel()
+    {
+        return iconLabel;
+    }
+
 }

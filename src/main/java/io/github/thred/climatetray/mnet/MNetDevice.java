@@ -14,6 +14,7 @@
  */
 package io.github.thred.climatetray.mnet;
 
+import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.util.Copyable;
 import io.github.thred.climatetray.util.Persistent;
 import io.github.thred.climatetray.util.Utils;
@@ -21,6 +22,9 @@ import io.github.thred.climatetray.util.prefs.Prefs;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class MNetDevice implements Copyable<MNetDevice>, Persistent
@@ -38,16 +42,20 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
 
     private MNetState state = new MNetState();
     private MNetPreset preset = new MNetPreset();
+    private List<MNetPreset> presets = new ArrayList<>();
 
     private String model = null;
 
     public MNetDevice()
     {
         super();
+
+        createPresetsDefaults();
     }
 
     public MNetDevice(UUID id, String name, MNetInstallation installation, String host, MNetEc ec, Integer address,
-        Integer group, boolean selected, boolean enabled, MNetState state, MNetPreset preset, String model)
+        Integer group, boolean selected, boolean enabled, MNetState state, MNetPreset preset, List<MNetPreset> presets,
+        String model)
     {
         super();
 
@@ -62,6 +70,7 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         this.enabled = enabled;
         this.state = state;
         this.preset = preset;
+        this.presets = presets;
         this.model = model;
     }
 
@@ -69,7 +78,7 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
     public MNetDevice deepCopy()
     {
         return new MNetDevice(id, name, installation, host, ec, address, group, selected, enabled,
-            Copyable.deepCopy(state), Copyable.deepCopy(preset), model);
+            Copyable.deepCopy(state), Copyable.deepCopy(preset), Copyable.deepCopy(presets), model);
     }
 
     public UUID getId()
@@ -152,10 +161,11 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         this.group = group;
     }
 
-    public boolean isSelectedAndWorking() {
+    public boolean isSelectedAndWorking()
+    {
         return isSelected() && (getState() != null) && (getState().getFails() == 0);
     }
-    
+
     public boolean isSelected()
     {
         return selected && enabled;
@@ -198,6 +208,49 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
     private void setPreset(MNetPreset preset)
     {
         this.preset = preset;
+    }
+
+    public void createPresetsDefaults()
+    {
+        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.ON, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
+            MNetAir.NO_CHANGE, false));
+        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.OFF, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
+            MNetAir.NO_CHANGE, false));
+        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.HEAT, null, MNetFan.NO_CHANGE,
+            MNetAir.NO_CHANGE, false));
+        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.AUTO, null, MNetFan.NO_CHANGE,
+            MNetAir.NO_CHANGE, false));
+        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.COOL, null, MNetFan.NO_CHANGE,
+            MNetAir.NO_CHANGE, false));
+        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, Double.valueOf("22"),
+            MNetFan.NO_CHANGE, MNetAir.NO_CHANGE, false));
+        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, Double.valueOf("24"),
+            MNetFan.NO_CHANGE, MNetAir.NO_CHANGE, false));
+        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.LOW,
+            MNetAir.NO_CHANGE, false));
+        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.HIGH,
+            MNetAir.NO_CHANGE, false));
+        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
+            MNetAir.HORIZONTAL, false));
+        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
+            MNetAir.VERTICAL, false));
+        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
+            MNetAir.SWING, false));
+    }
+
+    public MNetPreset getPreset(UUID id)
+    {
+        return presets.stream().filter((device) -> Objects.equals(id, device.getId())).findFirst().orElse(null);
+    }
+
+    public List<MNetPreset> getPresets()
+    {
+        return presets;
+    }
+
+    public void setPresets(List<MNetPreset> presets)
+    {
+        this.presets = presets;
     }
 
     public String getModel()
@@ -263,6 +316,15 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         }
 
         preset.read(prefs.withPrefix("preset."));
+
+        Persistent.readList(prefs, "presets", presets, MNetPreset::new);
+
+        if ((presets.isEmpty()) && (ClimateTray.PREFERENCES.getVersion() < 2))
+        {
+            ClimateTray.LOG.info("Adding default presets while migrating preferences of device %s", id);
+
+            createPresetsDefaults();
+        }
     }
 
     @Override
@@ -278,6 +340,8 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         prefs.setBoolean("enabled", enabled);
 
         preset.write(prefs.withPrefix("preset."));
+
+        Persistent.writeList(prefs, "presets", presets);
     }
 
     @Override

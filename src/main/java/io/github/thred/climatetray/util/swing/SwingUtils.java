@@ -1,23 +1,27 @@
 /*
  * Copyright 2015 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray.util.swing;
 
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.message.MessageComponent;
+
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -29,6 +33,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -36,6 +41,24 @@ import javax.swing.SpinnerModel;
 
 public class SwingUtils
 {
+
+    public static JLabel createMenuHeadline(String text)
+    {
+        JLabel result = createLabel(text);
+
+        result.setBorder(BorderFactory.createEmptyBorder(4, 32, 4, 0));
+        
+        try
+        {
+            result.setFont(result.getFont().deriveFont(Font.BOLD, result.getFont().getSize2D() * 1.2f));
+        }
+        catch (NullPointerException e)
+        {
+            // ignore, some LookAndFeels cause this, because the font is not initialized
+        }
+
+        return result;
+    }
 
     public static JMenuItem createMenuItem(String text, Icon icon, String toolTip, ActionListener... listeners)
     {
@@ -135,6 +158,22 @@ public class SwingUtils
         return result;
     }
 
+    public static MessageComponent createHint(Message message)
+    {
+        MessageComponent result = new MessageComponent(16, message);
+
+        try
+        {
+            result.getMessageArea().setFont(result.getMessageArea().getFont().deriveFont(Font.ITALIC));
+        }
+        catch (NullPointerException e)
+        {
+            // ignore, some LookAndFeels cause this, because the font is not initialized
+        }
+
+        return result;
+    }
+
     public static JTextField createTextField(String text, int columns, ActionListener... listeners)
     {
         JTextField result = new JTextField(text, columns);
@@ -212,5 +251,10 @@ public class SwingUtils
         }
 
         return result;
+    }
+
+    public static JSeparator createSeparator()
+    {
+        return new JSeparator();
     }
 }

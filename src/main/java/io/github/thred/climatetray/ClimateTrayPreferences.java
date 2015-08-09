@@ -28,10 +28,13 @@ import java.util.UUID;
 public class ClimateTrayPreferences implements Persistent
 {
 
+    public static final int VERSION = 2;
+
     private final ClimateTrayProxySettings proxySettings = new ClimateTrayProxySettings();
     private final List<MNetDevice> devices = new ArrayList<MNetDevice>();
     private final List<MNetPreset> presets = new ArrayList<MNetPreset>();
 
+    private int version = 0;
     private TemperatureUnit temperatureUnit = TemperatureUnit.CELSIUS;
     private double updatePeriodInMinutes = 1;
     private boolean versionCheckEnabled = true;
@@ -77,6 +80,16 @@ public class ClimateTrayPreferences implements Persistent
         return presets;
     }
 
+    public int getVersion()
+    {
+        return version;
+    }
+
+    public void setVersion(int version)
+    {
+        this.version = version;
+    }
+
     public TemperatureUnit getTemperatureUnit()
     {
         return temperatureUnit;
@@ -120,6 +133,8 @@ public class ClimateTrayPreferences implements Persistent
     @Override
     public void read(Prefs prefs)
     {
+        version = prefs.getInteger("version", version);
+
         proxySettings.read(prefs);
 
         Persistent.readList(prefs, "device", devices, MNetDevice::new);
@@ -134,6 +149,10 @@ public class ClimateTrayPreferences implements Persistent
     @Override
     public void write(Prefs prefs)
     {
+        version = VERSION;
+
+        prefs.setInteger("version", version);
+
         proxySettings.write(prefs);
 
         Persistent.writeList(prefs, "device", devices);

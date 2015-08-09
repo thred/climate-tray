@@ -148,6 +148,9 @@ public class ClimateTrayService
         List<MNetDevice> devices = PREFERENCES.getDevices();
         List<MNetPreset> presets = PREFERENCES.getPresets();
 
+        devices.forEach(device -> device.getPresets().forEach(
+            preset -> preset.setSelected(MNetService.isMatching(preset, device.getState()))));
+
         List<MNetState> states =
             devices.stream().filter(device -> device.isEnabled() && device.isSelectedAndWorking())
                 .map(device -> device.getState()).collect(Collectors.toList());
@@ -251,19 +254,60 @@ public class ClimateTrayService
         }
     }
 
-    public static void togglePreset(UUID id)
+    public static void togglePreset(UUID presetId)
     {
-        LOG.debug("Toggling preset with id %s.", id);
+        MNetDevice device = null;
+        MNetPreset preset = PREFERENCES.getPreset(presetId);
 
-        MNetPreset preset = PREFERENCES.getPreset(id);
+        if (preset == null)
+        {
+            for (MNetDevice currentDevice : PREFERENCES.getDevices())
+            {
+                preset = currentDevice.getPreset(presetId);
+
+                if (preset != null)
+                {
+                    device = currentDevice;
+                    break;
+                }
+            }
+        }
 
         if (preset == null)
         {
             return;
         }
 
+        if (device == null)
+        {
+            togglePreset(preset);
+        }
+        else
+        {
+            togglePreset(device, preset);
+        }
+    }
+
+    protected static void togglePreset(MNetPreset preset)
+    {
+        LOG.debug("Toggling preset with id %s for all selected devices.", preset.getId());
+
         submitTask(() -> PREFERENCES.getDevices().stream().filter(device -> device.isEnabled() && device.isSelected())
             .forEach(device -> MNetService.adjustDevice(device, preset)), ClimateTrayService::updatePresets);
+    }
+
+    protected static void togglePreset(MNetDevice device, MNetPreset preset)
+    {
+        LOG.debug("Toggling preset with id %s for device %s.", preset.getId(), device.getId());
+
+        if (!device.isEnabled())
+        {
+            LOG.debug("Device is not enabled");
+
+            return;
+        }
+
+        submitTask(() -> MNetService.adjustDevice(device, preset), ClimateTrayService::updatePresets);
     }
 
     public static void toggleDevice(UUID id)
@@ -367,7 +411,7 @@ public class ClimateTrayService
                             LOG.info("Opening browser with URL: %s", ClimateTray.HOMEPAGE.toExternalForm());
 
                             Desktop.getDesktop().browse(ClimateTray.HOMEPAGE.toURI());
-                            
+
                             close();
                         }
                         catch (IOException | URISyntaxException e)

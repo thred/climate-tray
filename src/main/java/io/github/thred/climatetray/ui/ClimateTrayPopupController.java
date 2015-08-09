@@ -35,6 +35,8 @@ import java.util.Map;
 import javax.swing.Icon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.WindowConstants;
@@ -95,18 +97,14 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
         if (presets.size() > 0)
         {
+            JLabel headline = createMenuHeadline("Global Presets");
+
+            dynamicItems.put("#presetHeadline", headline);
+            view.add(headline, index++);
+
             for (MNetPreset preset : presets)
             {
-                String id = preset.getId().toString();
-                JCheckBoxMenuItem item = new JCheckBoxMenuItem();
-
-                item.setName(id);
-                item.addActionListener((e) -> presetSelect(preset));
-
-                refreshPresetWith(item, preset, enabled);
-
-                view.add(item, index++);
-                dynamicItems.put(id, item);
+                view.add(prepareWithPreset(preset, enabled), index++);
             }
 
             dynamicItems.put("#presetSeparator", view.add(new JPopupMenu.Separator(), index++));
@@ -115,30 +113,73 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         return index;
     }
 
+    protected JCheckBoxMenuItem prepareWithPreset(MNetPreset preset, boolean enabled)
+    {
+        String id = preset.getId().toString();
+        JCheckBoxMenuItem item = new JCheckBoxMenuItem();
+
+        item.setName(id);
+        item.addActionListener((e) -> presetSelect(preset));
+
+        refreshPresetWith(item, preset, enabled);
+
+        dynamicItems.put(id, item);
+
+        return item;
+    }
+
     protected int prepareWithDevices(ClimateTrayPreferences model, JPopupMenu view, int index)
     {
         List<MNetDevice> devices = model.getDevices();
 
         if (devices.size() > 0)
         {
+            JLabel headline = createMenuHeadline("Air Conditioners");
+
+            dynamicItems.put("#deviceHeadline", headline);
+            view.add(headline, index++);
+
             for (MNetDevice device : devices)
             {
-                String id = device.getId().toString();
-                JCheckBoxMenuItem item = new JCheckBoxMenuItem();
+                JMenu menu = prepareWithDevice(device);
 
-                item.setName(id);
-                item.addActionListener((e) -> deviceSelect(device));
-
-                refreshDeviceWith(item, device);
-
-                view.add(item, index++);
-                dynamicItems.put(id, item);
+                view.add(menu, index++);
             }
 
             dynamicItems.put("#deviceSeparator", view.add(new JPopupMenu.Separator(), index++));
         }
 
         return index;
+    }
+
+    protected JMenu prepareWithDevice(MNetDevice device)
+    {
+        String id = device.getId().toString();
+        JMenu menu = new JMenu();
+
+        menu.setName(id);
+
+        refreshDeviceWith(menu, device);
+
+        dynamicItems.put(id, menu);
+
+        JCheckBoxMenuItem selectItem = new JCheckBoxMenuItem();
+
+        selectItem.addActionListener(e -> deviceSelect(device));
+        refreshDeviceSelectWith(selectItem, device);
+
+        dynamicItems.put(id + "#deviceSelect", menu.add(selectItem));
+
+        menu.addSeparator();
+
+        int subIndex = 2;
+
+        for (MNetPreset defaultPreset : device.getPresets())
+        {
+            menu.add(prepareWithPreset(defaultPreset, true), subIndex++);
+        }
+
+        return menu;
     }
 
     @Override
@@ -167,15 +208,28 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     {
         model.getDevices().forEach(device -> {
             String id = device.getId().toString();
-            JCheckBoxMenuItem item = (JCheckBoxMenuItem) dynamicItems.get(id);
+            JMenu menu = (JMenu) dynamicItems.get(id);
 
-            if (item == null)
+            if (menu != null)
             {
-                return;
+                refreshDeviceWith(menu, device);
             }
 
-            refreshDeviceWith(item, device);
+            JCheckBoxMenuItem selectItem = (JCheckBoxMenuItem) dynamicItems.get(id + "#deviceSelect");
 
+            if (selectItem != null)
+            {
+                refreshDeviceSelectWith(selectItem, device);
+            }
+
+            device.getPresets().forEach(preset -> {
+                JCheckBoxMenuItem item = (JCheckBoxMenuItem) dynamicItems.get(preset.getId());
+
+                if (item != null)
+                {
+                    refreshDevicePresetWith(item, device, preset);
+                }
+            });
         });
     }
 
@@ -187,13 +241,27 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         item.setEnabled(enabled);
     }
 
-    protected void refreshDeviceWith(JCheckBoxMenuItem item, MNetDevice device)
+    protected void refreshDeviceWith(JMenu menu, MNetDevice device)
     {
-        item.setText(device.describeState());
-        item.setToolTipText(device.describeSettings());
-        item.setIcon(createIcon(device));
+        menu.setText(device.describeState());
+        menu.setToolTipText(device.describeSettings());
+        menu.setIcon(createIcon(device));
+        //        menu.setSelected(device.isSelected());
+        menu.setEnabled(device.isEnabled());
+    }
+
+    protected void refreshDeviceSelectWith(JCheckBoxMenuItem item, MNetDevice device)
+    {
+        item.setText("Controlled by Global Presets");
+        item.setToolTipText("If this option is checked, the defined global presets will control this device.");
         item.setSelected(device.isSelected());
-        item.setEnabled(device.isEnabled());
+    }
+
+    protected void refreshDevicePresetWith(JCheckBoxMenuItem item, MNetDevice device, MNetPreset preset)
+    {
+        item.setText(preset.describe());
+        item.setIcon(createIcon(preset));
+        item.setSelected(preset.isSelected());
     }
 
     protected Icon createIcon(MNetPreset preset)
