@@ -2,7 +2,11 @@
 
 Enhancements:
 
-* Security question before removing devices or presets (#23)
+* Security question before removing devices or presets (#23).
+
+Bugfixes:
+
+* Closing update check dialogs when opening homepage (#17).
 
 # Climate Tray 1.0.0
 

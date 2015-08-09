@@ -367,6 +367,8 @@ public class ClimateTrayService
                             LOG.info("Opening browser with URL: %s", ClimateTray.HOMEPAGE.toExternalForm());
 
                             Desktop.getDesktop().browse(ClimateTray.HOMEPAGE.toURI());
+                            
+                            close();
                         }
                         catch (IOException | URISyntaxException e)
                         {
