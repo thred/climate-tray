@@ -171,6 +171,29 @@ public class MNetState implements Copyable<MNetState>
         return result;
     }
 
+    public String describeAction()
+    {
+        StringBuilder result = new StringBuilder();
+
+        if (thermometer != null)
+        {
+            result.append(PREFERENCES.getTemperatureUnit().format(thermometer));
+        }
+
+        if ((drive == MNetDrive.ON) && (mode != null))
+        {
+            result.append(" (")
+                .append(String.format(mode.getAction(), PREFERENCES.getTemperatureUnit().format(temperature)))
+                .append(")");
+        }
+        else
+        {
+            result.append(" (off)");
+        }
+
+        return result.toString();
+    }
+
     @Override
     public String toString()
     {

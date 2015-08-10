@@ -41,13 +41,13 @@ public class TitlePanel extends JPanel
     {
         super(new BorderLayout());
 
-        setPreferredSize(new Dimension(256, 64));
+        setPreferredSize(new Dimension(320, 64));
 
         titleLabel.setFont(titleLabel.getFont().deriveFont(titleLabel.getFont().getSize() * 2f));
         titleLabel.setForeground(new Color(0x191970));
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(4, 16, 2, 16));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(4, 16, 2, 80));
 
-        descriptionLabel.setBorder(BorderFactory.createEmptyBorder(2, 16, 4, 16));
+        descriptionLabel.setBorder(BorderFactory.createEmptyBorder(2, 16, 4, 80));
 
         setBackground(Color.WHITE);
         setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));

@@ -78,7 +78,7 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
             if (activeDevice != null)
             {
                 Image image = activeDevice.getState().createImage(ClimateTrayImageState.DEFAULT, TRAY_ICON_SIZE);
-                String toolTip = activeDevice.describeState();
+                String toolTip = activeDevice.describeStateAction();
 
                 refreshIconWith(image, toolTip);
             }

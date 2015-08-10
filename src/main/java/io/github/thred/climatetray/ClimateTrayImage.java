@@ -73,6 +73,7 @@ public enum ClimateTrayImage
     ICON_ON,
     ICON_OFF,
     ICON_SWING,
+    ICON_THERMOMETER,
     ICON_VERTICAL,
     ICON_ERROR,
     ICON_WARNING,

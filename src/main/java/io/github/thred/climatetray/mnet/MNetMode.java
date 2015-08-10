@@ -22,19 +22,21 @@ import java.util.Arrays;
 public enum MNetMode
 {
 
-    NO_CHANGE(null, "Do not change", null, ClimateTrayImage.ICON_JOKER, null, true, 17, 30, true, true),
-    FAN("FAN", "Fan", "blowing", ClimateTrayImage.ICON_FAN, ClimateTrayImage.BACKGROUND_FAN1, true, true, true),
-    COOL("COOL", "Cool", "cool down", ClimateTrayImage.ICON_COOL, ClimateTrayImage.BACKGROUND_COOL, true, 19, 30, true,
+    NO_CHANGE(null, "Do not change", null, null, ClimateTrayImage.ICON_JOKER, null, true, 17, 30, true, true),
+    FAN("FAN", "Fan", "blowing", "blowing", ClimateTrayImage.ICON_FAN, ClimateTrayImage.BACKGROUND_FAN1, true, true,
         true),
-    HEAT("HEAT", "Heat", "heat up", ClimateTrayImage.ICON_HEAT, ClimateTrayImage.BACKGROUND_HEAT, true, 17, 28, true,
-        true),
-    AUTO("AUTO", "Automatic", "auto", ClimateTrayImage.ICON_AUTO, ClimateTrayImage.BACKGROUND_AUTO, true, 19, 28, true,
-        true),
-    AUTO_COOL("AUTOCOOL", "Automatic (cooling)", "auto\u25bc", null, ClimateTrayImage.BACKGROUND_AUTO_COOL, false,
+    COOL("COOL", "Cool", "cool down", "cooling down to %s", ClimateTrayImage.ICON_COOL,
+        ClimateTrayImage.BACKGROUND_COOL, true, 19, 30, true, true),
+    HEAT("HEAT", "Heat", "heat up", "heating up to %s", ClimateTrayImage.ICON_HEAT, ClimateTrayImage.BACKGROUND_HEAT,
+        true, 17, 28, true, true),
+    AUTO("AUTO", "Automatic", "auto", "keeping %s", ClimateTrayImage.ICON_AUTO, ClimateTrayImage.BACKGROUND_AUTO, true,
         19, 28, true, true),
-    AUTO_HEAT("AUTOHEAT", "Automatic (heating)", "auto\u25b2", null, ClimateTrayImage.BACKGROUND_AUTO_HEAT, false,
-        19, 28, true, true),
-    DRY("DRY", "Dry", "drying", ClimateTrayImage.ICON_DRY, ClimateTrayImage.BACKGROUND_DRY, true, true, true);
+    AUTO_COOL("AUTOCOOL", "Automatic (cooling)", "auto\u25bc", "cooling down to %s", ClimateTrayImage.ICON_AUTO,
+        ClimateTrayImage.BACKGROUND_AUTO_COOL, false, 19, 28, true, true),
+    AUTO_HEAT("AUTOHEAT", "Automatic (heating)", "auto\u25b2", "heating up to %s", ClimateTrayImage.ICON_AUTO,
+        ClimateTrayImage.BACKGROUND_AUTO_HEAT, false, 19, 28, true, true),
+    DRY("DRY", "Dry", "drying", "drying at %s", ClimateTrayImage.ICON_DRY, ClimateTrayImage.BACKGROUND_DRY, true, true,
+        true);
 
     public static MNetMode valueOfKey(String key)
     {
@@ -61,6 +63,7 @@ public enum MNetMode
     private final String key;
     private final String label;
     private final String description;
+    private final String action;
     private final ClimateTrayImage image;
     private final ClimateTrayImage backgroundImage;
     private final boolean selectable;
@@ -70,27 +73,28 @@ public enum MNetMode
     private final boolean fanEnabled;
     private final boolean airEnabled;
 
-    private MNetMode(String key, String label, String description, ClimateTrayImage image,
+    private MNetMode(String key, String label, String description, String action, ClimateTrayImage image,
         ClimateTrayImage backgroundImage, boolean selectable, boolean fanEnabled, boolean airEnabled)
     {
-        this(key, label, description, image, backgroundImage, selectable, false, 0, 0, fanEnabled, airEnabled);
+        this(key, label, description, action, image, backgroundImage, selectable, false, 0, 0, fanEnabled, airEnabled);
     }
 
-    private MNetMode(String key, String label, String description, ClimateTrayImage image,
+    private MNetMode(String key, String label, String description, String action, ClimateTrayImage image,
         ClimateTrayImage backgroundImage, boolean selectable, int minTemperature, int maxTemperature,
         boolean fanEnabled, boolean airEnabled)
     {
-        this(key, label, description, image, backgroundImage, selectable, true, minTemperature, maxTemperature,
+        this(key, label, description, action, image, backgroundImage, selectable, true, minTemperature, maxTemperature,
             fanEnabled, airEnabled);
     }
 
-    private MNetMode(String key, String label, String description, ClimateTrayImage image,
+    private MNetMode(String key, String label, String description, String action, ClimateTrayImage image,
         ClimateTrayImage backgroundImage, boolean selectable, boolean temperatureEnabled, int minimumTemperature,
         int maximumTemperature, boolean fanEnabled, boolean airEnabled)
     {
         this.key = key;
         this.label = label;
         this.description = description;
+        this.action = action;
         this.image = image;
         this.backgroundImage = backgroundImage;
         this.temperatureEnabled = temperatureEnabled;
@@ -114,6 +118,11 @@ public enum MNetMode
     public String getDescription()
     {
         return description;
+    }
+
+    public String getAction()
+    {
+        return action;
     }
 
     public ClimateTrayImage getImage()

@@ -4,6 +4,7 @@
 
 * Security question before removing devices or presets (#23).
 * Added local presets for each device (#21).
+* Common UI Enhancements
 
 ## Bugfixes
 

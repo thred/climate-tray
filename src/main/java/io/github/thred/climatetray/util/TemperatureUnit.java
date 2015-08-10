@@ -17,8 +17,8 @@ package io.github.thred.climatetray.util;
 public enum TemperatureUnit
 {
 
-    CELSIUS("Degree Celsius", "\u00b0C", 0.5, "%,.1f %s", "0.0 \u00b0C"),
-    FAHRENHEIT("Degree Fahrenheit", "\u00b0F", 1.0, "%,.0f %s", "0 \u00b0F");
+    CELSIUS("Degree Celsius", "\u00b0C", 0.5, "%,.1f%s", "0.0\u00b0C"),
+    FAHRENHEIT("Degree Fahrenheit", "\u00b0F", 1.0, "%,.0f%s", "0\u00b0F");
 
     private final String label;
     private final String symbol;

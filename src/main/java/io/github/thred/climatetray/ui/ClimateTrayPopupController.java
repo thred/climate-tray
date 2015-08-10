@@ -1,14 +1,14 @@
 /*
  * Copyright 2015 Manfred Hantschel
- *
+ * 
  * This file is part of Climate-Tray.
- *
+ * 
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- *
+ * 
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -22,7 +22,9 @@ import io.github.thred.climatetray.ClimateTrayPreferences;
 import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
+import io.github.thred.climatetray.mnet.ui.MNetStatePanel;
 import io.github.thred.climatetray.util.message.MessageBuffer;
+import io.github.thred.climatetray.util.swing.BorderPanel;
 import io.github.thred.climatetray.util.swing.TitlePanel;
 
 import java.awt.Component;
@@ -169,11 +171,13 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
         menu.setName(id);
 
-        refreshDeviceWith(menu, device);
-
         dynamicItems.put(id, menu);
 
-        menu.add(createMenuHeadline(device.getName(), false, true));
+        MNetStatePanel titlePanel = new MNetStatePanel(device);
+        BorderPanel titleBorder = new BorderPanel(BorderFactory.createEmptyBorder(0, 0, 2, 0), titlePanel);
+
+        dynamicItems.put(id + "#deviceTitle", titlePanel);
+        dynamicItems.put(id + "#deviceTitleBorder", menu.add(titleBorder));
 
         JCheckBoxMenuItem selectItem = new JCheckBoxMenuItem();
 
@@ -196,6 +200,8 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
             }
         }
 
+        refreshDeviceWith(menu, device);
+
         return menu;
     }
 
@@ -204,6 +210,22 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     {
         refreshPresetsWith(model, model.isAnyDeviceSelected());
         refreshDevicesWith(model);
+
+        MNetDevice activeDevice =
+            model.getDevices().stream().filter(device -> (device.isEnabled()) && (device.isSelectedAndWorking()))
+                .findFirst().orElse(null);
+
+        if (activeDevice != null)
+        {
+            String description = activeDevice.getState().describeAction();
+
+            titlePanel.setDescription(ClimateTrayImage.ICON_THERMOMETER.getIcon(ClimateTrayImageState.NONE, 24), description);
+        }
+        else
+        {
+            titlePanel.setDescription(null, "Simple control utility for A/Cs");
+        }
+
     }
 
     protected void refreshPresetsWith(ClimateTrayPreferences model, boolean enabled)
@@ -231,22 +253,6 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
             {
                 refreshDeviceWith(menu, device);
             }
-
-            JCheckBoxMenuItem selectItem = (JCheckBoxMenuItem) dynamicItems.get(id + "#deviceSelect");
-
-            if (selectItem != null)
-            {
-                refreshDeviceSelectWith(selectItem, device);
-            }
-
-            device.getPresets().forEach(preset -> {
-                JCheckBoxMenuItem item = (JCheckBoxMenuItem) dynamicItems.get(preset.getId());
-
-                if (item != null)
-                {
-                    refreshDevicePresetWith(item, device, preset);
-                }
-            });
         });
     }
 
@@ -260,11 +266,34 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
     protected void refreshDeviceWith(JMenu menu, MNetDevice device)
     {
-        menu.setText(device.describeState());
+        menu.setText(device.describeStateAction());
         menu.setToolTipText(device.describeSettings());
         menu.setIcon(createIcon(device));
         //        menu.setSelected(device.isSelected());
         menu.setEnabled(device.isEnabled());
+
+        MNetStatePanel titlePanel = (MNetStatePanel) dynamicItems.get(device.getId() + "#deviceTitle");
+
+        if (titlePanel != null)
+        {
+            titlePanel.setDevice(device);
+        }
+
+        JCheckBoxMenuItem selectItem = (JCheckBoxMenuItem) dynamicItems.get(device.getId() + "#deviceSelect");
+
+        if (selectItem != null)
+        {
+            refreshDeviceSelectWith(selectItem, device);
+        }
+
+        device.getPresets().forEach(preset -> {
+            JCheckBoxMenuItem item = (JCheckBoxMenuItem) dynamicItems.get(preset.getId());
+
+            if (item != null)
+            {
+                refreshDevicePresetWith(item, device, preset);
+            }
+        });
     }
 
     protected void refreshDeviceSelectWith(JCheckBoxMenuItem item, MNetDevice device)

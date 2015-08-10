@@ -6,6 +6,7 @@ import io.github.thred.climatetray.util.swing.GBC;
 import java.awt.GridBagLayout;
 import java.awt.Window;
 
+import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
@@ -27,6 +28,7 @@ public class MessageComponent extends JPanel
         super();
 
         setLayout(new GridBagLayout());
+        setOpaque(false);
 
         messageArea.setWrapStyleWord(true);
         messageArea.setLineWrap(true);
@@ -71,11 +73,16 @@ public class MessageComponent extends JPanel
 
     public void setMessage(Message message)
     {
+        setMessage((message != null) ? message.getSeverity().getImage().getIcon(ClimateTrayImageState.NONE, iconSize)
+            : null, message);
+    }
+
+    public void setMessage(Icon icon, Message message)
+    {
         this.message = message;
 
         messageArea.setText((message != null) ? message.getMessage() : "");
-        iconLabel.setIcon((message != null) ? message.getSeverity().getImage()
-            .getIcon(ClimateTrayImageState.NONE, iconSize) : null);
+        iconLabel.setIcon(icon);
 
         Window window = SwingUtilities.getWindowAncestor(this);
 
@@ -86,6 +93,16 @@ public class MessageComponent extends JPanel
                 window.revalidate();
             });
         }
+    }
+
+    public Icon getIcon()
+    {
+        return iconLabel.getIcon();
+    }
+
+    public void setIcon(Icon icon)
+    {
+        iconLabel.setIcon(icon);
     }
 
     public int getIconSize()
