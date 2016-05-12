@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 Manfred Hantschel
+ * Copyright 2015, 2016 Manfred Hantschel
  *
  * This file is part of Climate-Tray.
  *

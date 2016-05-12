@@ -9,7 +9,7 @@ and manipulating the state of one or more units by configurable presets.
 Currently only some Mitsubishi products are supported (especially the 
 one I have access to), but the application can easily be extended.
 
-Copyright 2015 Manfred Hantschel
+Copyright 2015, 2016 Manfred Hantschel
 
 Climate-Tray is free software: you can redistribute it and/or modify 
 it under the terms of the GNU General Public License as published by
