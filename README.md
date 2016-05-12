@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.org/thred/climate-tray.svg)](https://travis-ci.org/thred/climate-tray)
-
 # climate-tray
 
 Climate-Tray is an application to control Mitsubishi Cooling & Heating units.
