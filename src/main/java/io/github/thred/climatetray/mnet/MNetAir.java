@@ -24,9 +24,9 @@ public enum MNetAir
     NO_CHANGE(null, "Do not change", null, ClimateTrayImage.ICON_JOKER),
     HORIZONTAL("HORIZONTAL", "Horizontal", "fins horizontal", ClimateTrayImage.ICON_DIR1),
     MID1("MID1", "Slightly Inclined", "fins slightly inclined", ClimateTrayImage.ICON_DIR2),
-    MID2("MID2", "Stronly Inclined", "fins stronly inclined", ClimateTrayImage.ICON_DIR3),
+    MID2("MID2", "Strongly Inclined", "fins strongly inclined", ClimateTrayImage.ICON_DIR3),
     VERTICAL("VERTICAL", "Vertical", "fins vertical", ClimateTrayImage.ICON_DIR4),
-    SWING("SWING", "Swing", "fins swining", ClimateTrayImage.ICON_SWING);
+    SWING("SWING", "Swing", "fins swinging", ClimateTrayImage.ICON_SWING);
 
     public static MNetAir valueOfKey(String key)
     {
