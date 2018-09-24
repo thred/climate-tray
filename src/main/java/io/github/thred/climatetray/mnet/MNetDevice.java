@@ -1,5 +1,5 @@
 /*
- * Copyright 2015, 2016 Manfred Hantschel
+ * Copyright 2015 Manfred Hantschel
  *
  * This file is part of Climate-Tray.
  *
@@ -14,18 +14,18 @@
  */
 package io.github.thred.climatetray.mnet;
 
-import io.github.thred.climatetray.ClimateTray;
-import io.github.thred.climatetray.util.Copyable;
-import io.github.thred.climatetray.util.Persistent;
-import io.github.thred.climatetray.util.Utils;
-import io.github.thred.climatetray.util.prefs.Prefs;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+
+import io.github.thred.climatetray.ClimateTray;
+import io.github.thred.climatetray.util.Copyable;
+import io.github.thred.climatetray.util.Persistent;
+import io.github.thred.climatetray.util.Utils;
+import io.github.thred.climatetray.util.prefs.Prefs;
 
 public class MNetDevice implements Copyable<MNetDevice>, Persistent
 {
@@ -123,7 +123,11 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
 
     public void setHost(String host)
     {
-        this.host = host;
+        if (!Objects.equals(this.host, host))
+        {
+            this.host = host;
+            group = null;
+        }
     }
 
     public URL getURL() throws MalformedURLException
@@ -148,7 +152,11 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
 
     public void setAddress(Integer address)
     {
-        this.address = address;
+        if (!Objects.equals(this.address, address))
+        {
+            this.address = address;
+            group = null;
+        }
     }
 
     public Integer getGroup()
@@ -212,30 +220,42 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
 
     public void createPresetsDefaults()
     {
-        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.ON, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
-            MNetAir.NO_CHANGE, false));
-        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.OFF, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
-            MNetAir.NO_CHANGE, false));
-        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.HEAT, null, MNetFan.NO_CHANGE,
-            MNetAir.NO_CHANGE, false));
-        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.AUTO, null, MNetFan.NO_CHANGE,
-            MNetAir.NO_CHANGE, false));
-        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.COOL, null, MNetFan.NO_CHANGE,
-            MNetAir.NO_CHANGE, false));
-        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, Double.valueOf("22"),
-            MNetFan.NO_CHANGE, MNetAir.NO_CHANGE, false));
-        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, Double.valueOf("24"),
-            MNetFan.NO_CHANGE, MNetAir.NO_CHANGE, false));
-        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.LOW,
-            MNetAir.NO_CHANGE, false));
-        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.HIGH,
-            MNetAir.NO_CHANGE, false));
-        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
-            MNetAir.HORIZONTAL, false));
-        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
-            MNetAir.VERTICAL, false));
-        presets.add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
-            MNetAir.SWING, false));
+        presets
+            .add(new MNetPreset(UUID.randomUUID(), MNetDrive.ON, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
+                MNetAir.NO_CHANGE, false));
+        presets
+            .add(new MNetPreset(UUID.randomUUID(), MNetDrive.OFF, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
+                MNetAir.NO_CHANGE, false));
+        presets
+            .add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.HEAT, null, MNetFan.NO_CHANGE,
+                MNetAir.NO_CHANGE, false));
+        presets
+            .add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.AUTO, null, MNetFan.NO_CHANGE,
+                MNetAir.NO_CHANGE, false));
+        presets
+            .add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.COOL, null, MNetFan.NO_CHANGE,
+                MNetAir.NO_CHANGE, false));
+        presets
+            .add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, Double.valueOf("22"),
+                MNetFan.NO_CHANGE, MNetAir.NO_CHANGE, false));
+        presets
+            .add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, Double.valueOf("24"),
+                MNetFan.NO_CHANGE, MNetAir.NO_CHANGE, false));
+        presets
+            .add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.LOW,
+                MNetAir.NO_CHANGE, false));
+        presets
+            .add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.HIGH,
+                MNetAir.NO_CHANGE, false));
+        presets
+            .add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
+                MNetAir.HORIZONTAL, false));
+        presets
+            .add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
+                MNetAir.VERTICAL, false));
+        presets
+            .add(new MNetPreset(UUID.randomUUID(), MNetDrive.NO_CHANGE, MNetMode.NO_CHANGE, null, MNetFan.NO_CHANGE,
+                MNetAir.SWING, false));
     }
 
     public MNetPreset getPreset(UUID id)
@@ -298,8 +318,9 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
             }
         }
 
-        return Utils.combine(": ", name,
-            Utils.combine(" ", target, Utils.surround("[", Utils.combine(ec.getLabel(), address), "]")));
+        return Utils
+            .combine(": ", name,
+                Utils.combine(" ", target, Utils.surround("[", Utils.combine(ec.getLabel(), address), "]")));
     }
 
     @Override
@@ -353,9 +374,31 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
     @Override
     public String toString()
     {
-        return "MNetDevice [id=" + id + ", name=" + name + ", installation=" + installation + ", host=" + host
-            + ", ec=" + ec + ", address=" + address + ", group=" + group + ", selected=" + selected + ", enabled="
-            + enabled + ", state=" + state + ", preset=" + preset + ", model=" + model + "]";
+        return "MNetDevice [id="
+            + id
+            + ", name="
+            + name
+            + ", installation="
+            + installation
+            + ", host="
+            + host
+            + ", ec="
+            + ec
+            + ", address="
+            + address
+            + ", group="
+            + group
+            + ", selected="
+            + selected
+            + ", enabled="
+            + enabled
+            + ", state="
+            + state
+            + ", preset="
+            + preset
+            + ", model="
+            + model
+            + "]";
     }
 
 }
