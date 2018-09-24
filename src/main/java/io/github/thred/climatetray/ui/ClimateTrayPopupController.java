@@ -292,7 +292,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         }
 
         device.getPresets().forEach(preset -> {
-            JCheckBoxMenuItem item = (JCheckBoxMenuItem) dynamicItems.get(preset.getId());
+            JCheckBoxMenuItem item = (JCheckBoxMenuItem) dynamicItems.get(String.valueOf(preset.getId()));
 
             if (item != null)
             {
