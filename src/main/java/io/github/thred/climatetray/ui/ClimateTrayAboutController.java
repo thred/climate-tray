@@ -15,9 +15,6 @@
 package io.github.thred.climatetray.ui;
 
 import static io.github.thred.climatetray.ClimateTray.*;
-import io.github.thred.climatetray.ClimateTrayPreferences;
-import io.github.thred.climatetray.util.Utils;
-import io.github.thred.climatetray.util.message.MessageBuffer;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
@@ -30,6 +27,10 @@ import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.event.HyperlinkEvent;
+
+import io.github.thred.climatetray.ClimateTrayPreferences;
+import io.github.thred.climatetray.util.Utils;
+import io.github.thred.climatetray.util.message.MessageBuffer;
 
 public class ClimateTrayAboutController extends AbstractClimateTrayController<ClimateTrayPreferences, JPanel>
 {

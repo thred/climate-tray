@@ -14,13 +14,13 @@
  */
 package io.github.thred.climatetray.mnet.request;
 
+import java.util.Locale;
+import java.util.Objects;
+
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetDrive;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.util.DomBuilder;
-
-import java.util.Locale;
-import java.util.Objects;
 
 public class MNetOperateRequest extends AbstractMNetDeviceRequest
 {
@@ -83,7 +83,10 @@ public class MNetOperateRequest extends AbstractMNetDeviceRequest
 
     public MNetDeviceRequestItem getItemByDeviceGroup(MNetDevice device)
     {
-        return responseItems.stream().filter(item -> Objects.equals(device.getGroup(), item.getGroup())).findFirst()
+        return responseItems
+            .stream()
+            .filter(item -> Objects.equals(device.getGroup(), item.getGroup()))
+            .findFirst()
             .orElse(null);
     }
 

@@ -15,12 +15,6 @@
 package io.github.thred.climatetray.mnet.request;
 
 import static io.github.thred.climatetray.ClimateTray.*;
-import io.github.thred.climatetray.ClimateTray;
-import io.github.thred.climatetray.mnet.MNetDevice;
-import io.github.thred.climatetray.util.DomBuilder;
-import io.github.thred.climatetray.util.DomUtils;
-import io.github.thred.climatetray.util.Utils;
-import io.github.thred.climatetray.util.message.Message;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -34,6 +28,13 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+import io.github.thred.climatetray.ClimateTray;
+import io.github.thred.climatetray.mnet.MNetDevice;
+import io.github.thred.climatetray.util.DomBuilder;
+import io.github.thred.climatetray.util.DomUtils;
+import io.github.thred.climatetray.util.Utils;
+import io.github.thred.climatetray.util.message.Message;
 
 public abstract class AbstractMNetRequest implements MNetRequest
 {
@@ -72,7 +73,8 @@ public abstract class AbstractMNetRequest implements MNetRequest
                         .error(
                             "Could not contact the centralized controller.\n\nThis usually indicates, that the value of the field \"Controller Address\" is wrong. "
                                 + "If you are sure, that the value is correct, there may be a firewall or a proxy in the way. "
-                                + "Try to call the URL \"%s\" in a browser.", url.toExternalForm()));
+                                + "Try to call the URL \"%s\" in a browser.",
+                            url.toExternalForm()));
             }
 
             try
@@ -95,8 +97,9 @@ public abstract class AbstractMNetRequest implements MNetRequest
                                 {
                                     byte[] bytes = Utils.toByteArray(in);
 
-                                    LOG.debug("Reading response from \"%s\". The response is:\n%s",
-                                        url.toExternalForm(), new String(bytes, "UTF-8"));
+                                    LOG
+                                        .debug("Reading response from \"%s\". The response is:\n%s",
+                                            url.toExternalForm(), new String(bytes, "UTF-8"));
 
                                     in = new ByteArrayInputStream(bytes);
                                 }
@@ -116,12 +119,11 @@ public abstract class AbstractMNetRequest implements MNetRequest
                         {
                             throw new MNetRequestException("Failed to parse response from \"%s\".", e,
                                 url.toExternalForm())
-                                .hint(Message
-                                    .error(
-                                        "The parsing of the response failed.\n\n"
+                                    .hint(Message
+                                        .error("The parsing of the response failed.\n\n"
                                             + "The request hit a server, but it may be the wrong one (the log may contain a more detailed description). "
                                             + "Check the contents of the field \"Controller Address\" or try to call the URL \"%s\" in a browser.",
-                                        url.toExternalForm()));
+                                            url.toExternalForm()));
                         }
                     }
                 }
@@ -129,12 +131,11 @@ public abstract class AbstractMNetRequest implements MNetRequest
                 {
                     throw new MNetRequestException("Request to \"%s\" failed with error %d.", url.toExternalForm(),
                         status)
-                        .hint(Message
-                            .error(
-                                "The request failed with error %d.\n\n"
+                            .hint(Message
+                                .error("The request failed with error %d.\n\n"
                                     + "The request hit a server, but it may be the wrong one. "
                                     + "Check the contents of the field \"Controller Address\" again or try to call the URL \"%s\" in a browser.",
-                                status, url.toExternalForm()));
+                                    status, url.toExternalForm()));
                 }
             }
             finally
@@ -150,8 +151,9 @@ public abstract class AbstractMNetRequest implements MNetRequest
         {
             throw new MNetRequestException("Sending an request to \"%s\" failed with an unhandled error: %s.", e,
                 url.toExternalForm(), e.toString())
-                .hint(Message
-                    .error("The request failed for some unknown reason.\n\nYou can check the log for the detailed exception."));
+                    .hint(Message
+                        .error(
+                            "The request failed for some unknown reason.\n\nYou can check the log for the detailed exception."));
         }
     }
 
@@ -196,17 +198,15 @@ public abstract class AbstractMNetRequest implements MNetRequest
             }
             else
             {
-                e =
-                    new MNetRequestException("The response contained the error \"%s\" (%s) at %s.", message, code,
-                        point);
+                e = new MNetRequestException("The response contained the error \"%s\" (%s) at %s.", message, code,
+                    point);
             }
 
             throw e
                 .hint(Message
-                    .error(
-                        "The response contained the error \"%s\".\n\n"
-                            + "This indicates that the centralized controller was successfully contacted, but it did not understand the request. "
-                            + "Please make sure that the values of the fields \"EC\" and \"Air Conditioner Address\" are correct.",
+                    .error("The response contained the error \"%s\".\n\n"
+                        + "This indicates that the centralized controller was successfully contacted, but it did not understand the request. "
+                        + "Please make sure that the values of the fields \"EC\" and \"Air Conditioner Address\" are correct.",
                         message));
         }
 

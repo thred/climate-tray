@@ -15,12 +15,6 @@
 package io.github.thred.climatetray.ui;
 
 import static io.github.thred.climatetray.ClimateTray.*;
-import io.github.thred.climatetray.util.Severity;
-import io.github.thred.climatetray.util.message.Message;
-import io.github.thred.climatetray.util.message.MessageBuffer;
-import io.github.thred.climatetray.util.message.MessageListener;
-import io.github.thred.climatetray.util.swing.ButtonPanel;
-import io.github.thred.climatetray.util.swing.SwingUtils;
 
 import java.awt.Window;
 
@@ -29,8 +23,15 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
-public class ClimateTrayLogFrameController extends DefaultClimateTrayFrameController<MessageBuffer> implements
-    MessageListener
+import io.github.thred.climatetray.util.Severity;
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.message.MessageBuffer;
+import io.github.thred.climatetray.util.message.MessageListener;
+import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.SwingUtils;
+
+public class ClimateTrayLogFrameController extends DefaultClimateTrayFrameController<MessageBuffer>
+    implements MessageListener
 {
 
     protected final JButton clearButton = SwingUtils.createButton("Clear", (e) -> clear());

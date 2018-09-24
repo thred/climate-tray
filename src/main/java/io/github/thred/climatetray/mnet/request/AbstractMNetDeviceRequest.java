@@ -14,20 +14,20 @@
  */
 package io.github.thred.climatetray.mnet.request;
 
-import io.github.thred.climatetray.util.DomBuilder;
-import io.github.thred.climatetray.util.DomUtils;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.w3c.dom.Node;
 
+import io.github.thred.climatetray.util.DomBuilder;
+import io.github.thred.climatetray.util.DomUtils;
+
 public abstract class AbstractMNetDeviceRequest extends AbstractMNetRequest implements Iterable<MNetDeviceRequestItem>
 {
 
-    protected final List<MNetDeviceRequestItem> requestItems = new ArrayList<MNetDeviceRequestItem>();
-    protected final List<MNetDeviceRequestItem> responseItems = new ArrayList<MNetDeviceRequestItem>();
+    protected final List<MNetDeviceRequestItem> requestItems = new ArrayList<>();
+    protected final List<MNetDeviceRequestItem> responseItems = new ArrayList<>();
 
     public AbstractMNetDeviceRequest()
     {

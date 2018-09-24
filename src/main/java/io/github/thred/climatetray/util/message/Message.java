@@ -14,12 +14,12 @@
  */
 package io.github.thred.climatetray.util.message;
 
-import io.github.thred.climatetray.util.Severity;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
+
+import io.github.thred.climatetray.util.Severity;
 
 public class Message implements Comparable<Message>
 {

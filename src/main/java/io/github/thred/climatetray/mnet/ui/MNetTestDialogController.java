@@ -1,13 +1,13 @@
 package io.github.thred.climatetray.mnet.ui;
 
+import java.awt.Window;
+
 import io.github.thred.climatetray.mnet.ui.MNetTest.State;
 import io.github.thred.climatetray.mnet.ui.MNetTest.Step;
 import io.github.thred.climatetray.ui.DefaultClimateTrayDialogController;
 
-import java.awt.Window;
-
-public class MNetTestDialogController extends DefaultClimateTrayDialogController<MNetTest> implements
-    MNetTestStepListener
+public class MNetTestDialogController extends DefaultClimateTrayDialogController<MNetTest>
+    implements MNetTestStepListener
 {
 
     public MNetTestDialogController(Window owner)

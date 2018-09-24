@@ -14,13 +14,13 @@
  */
 package io.github.thred.climatetray.mnet.ui;
 
-import io.github.thred.climatetray.ClimateTrayImageState;
-import io.github.thred.climatetray.mnet.MNetInstallation;
-
 import java.awt.Component;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
+
+import io.github.thred.climatetray.ClimateTrayImageState;
+import io.github.thred.climatetray.mnet.MNetInstallation;
 
 public class MNetInstallationCellRenderer extends DefaultListCellRenderer
 {

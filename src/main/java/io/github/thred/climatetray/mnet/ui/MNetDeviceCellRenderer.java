@@ -14,15 +14,15 @@
  */
 package io.github.thred.climatetray.mnet.ui;
 
-import io.github.thred.climatetray.ClimateTrayImage;
-import io.github.thred.climatetray.ClimateTrayImageState;
-import io.github.thred.climatetray.mnet.MNetDevice;
-import io.github.thred.climatetray.mnet.MNetState;
-
 import java.awt.Component;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
+
+import io.github.thred.climatetray.ClimateTrayImage;
+import io.github.thred.climatetray.ClimateTrayImageState;
+import io.github.thred.climatetray.mnet.MNetDevice;
+import io.github.thred.climatetray.mnet.MNetState;
 
 public class MNetDeviceCellRenderer extends DefaultListCellRenderer
 {
@@ -53,8 +53,8 @@ public class MNetDeviceCellRenderer extends DefaultListCellRenderer
         MNetState state = device.getState();
         ClimateTrayImageState imageState = ClimateTrayImageState.DEFAULT;
 
-        setIcon((state != null) ? state.createIcon(imageState, ICON_SIZE) : ClimateTrayImage.ICON.getIcon(imageState,
-            ICON_SIZE));
+        setIcon((state != null) ? state.createIcon(imageState, ICON_SIZE)
+            : ClimateTrayImage.ICON.getIcon(imageState, ICON_SIZE));
         setText(device.describeSettings());
         setEnabled(device.isEnabled());
 

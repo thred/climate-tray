@@ -1,37 +1,20 @@
 /*
  * Copyright 2015, 2016 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray;
 
 import static io.github.thred.climatetray.ClimateTray.*;
-import io.github.thred.climatetray.mnet.MNetDevice;
-import io.github.thred.climatetray.mnet.MNetPreset;
-import io.github.thred.climatetray.mnet.MNetService;
-import io.github.thred.climatetray.mnet.MNetState;
-import io.github.thred.climatetray.ui.ClimateTrayAboutDialogController;
-import io.github.thred.climatetray.ui.ClimateTrayIconController;
-import io.github.thred.climatetray.ui.ClimateTrayLogFrameController;
-import io.github.thred.climatetray.ui.ClimateTrayMessageDialogController;
-import io.github.thred.climatetray.ui.ClimateTrayPreferencesDialogController;
-import io.github.thred.climatetray.ui.ClimateTrayProxyDialogController;
-import io.github.thred.climatetray.util.BuildInfo;
-import io.github.thred.climatetray.util.ExceptionConsumer;
-import io.github.thred.climatetray.util.VoidCallable;
-import io.github.thred.climatetray.util.message.Message;
-import io.github.thred.climatetray.util.prefs.SystemPrefs;
-import io.github.thred.climatetray.util.swing.ButtonPanel;
-import io.github.thred.climatetray.util.swing.SwingUtils;
 
 import java.awt.Desktop;
 import java.io.IOException;
@@ -51,6 +34,24 @@ import java.util.stream.Collectors;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
+
+import io.github.thred.climatetray.mnet.MNetDevice;
+import io.github.thred.climatetray.mnet.MNetPreset;
+import io.github.thred.climatetray.mnet.MNetService;
+import io.github.thred.climatetray.mnet.MNetState;
+import io.github.thred.climatetray.ui.ClimateTrayAboutDialogController;
+import io.github.thred.climatetray.ui.ClimateTrayIconController;
+import io.github.thred.climatetray.ui.ClimateTrayLogFrameController;
+import io.github.thred.climatetray.ui.ClimateTrayMessageDialogController;
+import io.github.thred.climatetray.ui.ClimateTrayPreferencesDialogController;
+import io.github.thred.climatetray.ui.ClimateTrayProxyDialogController;
+import io.github.thred.climatetray.util.BuildInfo;
+import io.github.thred.climatetray.util.ExceptionConsumer;
+import io.github.thred.climatetray.util.VoidCallable;
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.prefs.SystemPrefs;
+import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.SwingUtils;
 
 public class ClimateTrayService
 {
@@ -96,8 +97,8 @@ public class ClimateTrayService
         catch (Exception e)
         {
             LOG.error("Failed to load preferences", e);
-            ClimateTrayUtils.dialogWithOkButton(null, "Preferences",
-                Message.error("Failed to load existing preferences."));
+            ClimateTrayUtils
+                .dialogWithOkButton(null, "Preferences", Message.error("Failed to load existing preferences."));
         }
 
         refresh();
@@ -162,12 +163,16 @@ public class ClimateTrayService
         List<MNetDevice> devices = PREFERENCES.getDevices();
         List<MNetPreset> presets = PREFERENCES.getPresets();
 
-        devices.forEach(device -> device.getPresets().forEach(
-            preset -> preset.setSelected(MNetService.isMatching(preset, device.getState()))));
+        devices
+            .forEach(device -> device
+                .getPresets()
+                .forEach(preset -> preset.setSelected(MNetService.isMatching(preset, device.getState()))));
 
-        List<MNetState> states =
-            devices.stream().filter(device -> device.isEnabled() && device.isSelectedAndWorking())
-                .map(device -> device.getState()).collect(Collectors.toList());
+        List<MNetState> states = devices
+            .stream()
+            .filter(device -> device.isEnabled() && device.isSelectedAndWorking())
+            .map(device -> device.getState())
+            .collect(Collectors.toList());
 
         presets.stream().forEach(preset -> preset.setSelected(MNetService.isMatching(preset, states)));
 
@@ -306,7 +311,10 @@ public class ClimateTrayService
     {
         LOG.debug("Toggling preset with id %s for all selected devices.", preset.getId());
 
-        submitTask(() -> PREFERENCES.getDevices().stream().filter(device -> device.isEnabled() && device.isSelected())
+        submitTask(() -> PREFERENCES
+            .getDevices()
+            .stream()
+            .filter(device -> device.isEnabled() && device.isSelected())
             .forEach(device -> MNetService.adjustDevice(device, preset)), ClimateTrayService::updatePresets);
     }
 
@@ -400,12 +408,12 @@ public class ClimateTrayService
             {
                 ClimateTrayMessageDialogController controller = new ClimateTrayMessageDialogController(null)
                 {
-                    private final JButton visitHomepageButton = SwingUtils.createButton("Visit Homepage",
-                        e -> visitHomepage());
-                    private final JButton remindMeLaterButton = SwingUtils
-                        .createButton("Remind Me Later", e -> close());
-                    private final JButton disableCheckButton = SwingUtils.createButton("Disable Version Check",
-                        e -> disableVersionCheck());
+                    private final JButton visitHomepageButton =
+                        SwingUtils.createButton("Visit Homepage", e -> visitHomepage());
+                    private final JButton remindMeLaterButton =
+                        SwingUtils.createButton("Remind Me Later", e -> close());
+                    private final JButton disableCheckButton =
+                        SwingUtils.createButton("Disable Version Check", e -> disableVersionCheck());
 
                     @Override
                     protected JComponent createBottomPanel(Button... buttons)
@@ -436,9 +444,11 @@ public class ClimateTrayService
 
                     public void disableVersionCheck()
                     {
-                        if (ClimateTrayUtils.dialogWithYesAndNoButtons(getView(), "Disable Version Check",
-                            Message.warn("Are you sure, that you want to disable the version check?\n\n"
-                                + "You can enable the check later in the preferences.")))
+                        if (ClimateTrayUtils
+                            .dialogWithYesAndNoButtons(getView(), "Disable Version Check",
+                                Message
+                                    .warn("Are you sure, that you want to disable the version check?\n\n"
+                                        + "You can enable the check later in the preferences.")))
                         {
                             close();
 
@@ -458,8 +468,10 @@ public class ClimateTrayService
 
                 controller.setTitle("Version Update Check");
 
-                controller.consume(Message.info("There is a new version available for download: %s.\n\n"
-                    + "You are currently using version %s.", remoteBuildInfo, localBuildInfo));
+                controller
+                    .consume(Message
+                        .info("There is a new version available for download: %s.\n\n"
+                            + "You are currently using version %s.", remoteBuildInfo, localBuildInfo));
             }
         });
     }

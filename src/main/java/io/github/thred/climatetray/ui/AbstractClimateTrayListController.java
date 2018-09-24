@@ -14,14 +14,6 @@
  */
 package io.github.thred.climatetray.ui;
 
-import io.github.thred.climatetray.ClimateTrayUtils;
-import io.github.thred.climatetray.util.Copyable;
-import io.github.thred.climatetray.util.message.Message;
-import io.github.thred.climatetray.util.message.MessageBuffer;
-import io.github.thred.climatetray.util.swing.AdvancedListModel;
-import io.github.thred.climatetray.util.swing.GBC;
-import io.github.thred.climatetray.util.swing.SwingUtils;
-
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
@@ -37,12 +29,20 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 
-public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TYPE>> extends
-    AbstractClimateTrayController<List<TYPE>, JPanel>
+import io.github.thred.climatetray.ClimateTrayUtils;
+import io.github.thred.climatetray.util.Copyable;
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.message.MessageBuffer;
+import io.github.thred.climatetray.util.swing.AdvancedListModel;
+import io.github.thred.climatetray.util.swing.GBC;
+import io.github.thred.climatetray.util.swing.SwingUtils;
+
+public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TYPE>>
+    extends AbstractClimateTrayController<List<TYPE>, JPanel>
 {
 
     protected final AdvancedListModel<TYPE> listModel = new AdvancedListModel<>();
-    protected final JList<TYPE> list = monitor(new JList<TYPE>(listModel));
+    protected final JList<TYPE> list = monitor(new JList<>(listModel));
     protected final JButton addButton = SwingUtils.createButton("Add...", (e) -> add());
     protected final JButton editButton = SwingUtils.createButton("Edit...", (e) -> edit());
     protected final JButton removeButton = SwingUtils.createButton("Remove", (e) -> remove());
@@ -196,8 +196,9 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
 
         TYPE element = listModel.getElementAt(selectedIndex);
 
-        if (ClimateTrayUtils.dialogWithYesAndNoButtons(SwingUtilities.getWindowAncestor(getView()), "Remove",
-            Message.warn("Are you sure, that you want to remove the item \"%s\"?", describe(element))))
+        if (ClimateTrayUtils
+            .dialogWithYesAndNoButtons(SwingUtilities.getWindowAncestor(getView()), "Remove",
+                Message.warn("Are you sure, that you want to remove the item \"%s\"?", describe(element))))
         {
 
             listModel.removeElementAt(selectedIndex);

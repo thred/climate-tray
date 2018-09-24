@@ -15,10 +15,11 @@
 package io.github.thred.climatetray.ui;
 
 import static io.github.thred.climatetray.ClimateTray.*;
-import io.github.thred.climatetray.ClimateTrayProxySettings;
-import io.github.thred.climatetray.ClimateTrayService;
 
 import java.awt.Window;
+
+import io.github.thred.climatetray.ClimateTrayProxySettings;
+import io.github.thred.climatetray.ClimateTrayService;
 
 public class ClimateTrayProxyDialogController extends DefaultClimateTrayDialogController<ClimateTrayProxySettings>
 {

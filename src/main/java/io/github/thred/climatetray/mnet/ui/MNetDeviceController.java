@@ -1,30 +1,20 @@
 /*
  * Copyright 2015, 2016 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray.mnet.ui;
 
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
-import io.github.thred.climatetray.mnet.MNetDevice;
-import io.github.thred.climatetray.mnet.MNetEc;
-import io.github.thred.climatetray.mnet.MNetInstallation;
-import io.github.thred.climatetray.mnet.MNetUtils;
-import io.github.thred.climatetray.ui.AbstractClimateTrayController;
-import io.github.thred.climatetray.ui.ClimateTrayPresetListController;
-import io.github.thred.climatetray.util.Utils;
-import io.github.thred.climatetray.util.message.Message;
-import io.github.thred.climatetray.util.message.MessageBuffer;
-import io.github.thred.climatetray.util.swing.GBC;
 
 import java.awt.GridBagLayout;
 import java.net.MalformedURLException;
@@ -36,6 +26,17 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+
+import io.github.thred.climatetray.mnet.MNetDevice;
+import io.github.thred.climatetray.mnet.MNetEc;
+import io.github.thred.climatetray.mnet.MNetInstallation;
+import io.github.thred.climatetray.mnet.MNetUtils;
+import io.github.thred.climatetray.ui.AbstractClimateTrayController;
+import io.github.thred.climatetray.ui.ClimateTrayPresetListController;
+import io.github.thred.climatetray.util.Utils;
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.message.MessageBuffer;
+import io.github.thred.climatetray.util.swing.GBC;
 
 public class MNetDeviceController extends AbstractClimateTrayController<MNetDevice, JPanel>
 {
@@ -71,8 +72,9 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
 
         view.add(createSeparator(), gbc.next().hFill().span(3));
 
-        view.add(createHint(Message.info("Check the case of the air conditioner for the following fields.")), gbc
-            .next().center().hFill().span(3));
+        view
+            .add(createHint(Message.info("Check the case of the air conditioner for the following fields.")),
+                gbc.next().center().hFill().span(3));
 
         view.add(createLabel("Installation:", instalationField), gbc.next());
         view.add(instalationField, gbc.next().span(2));
@@ -88,11 +90,12 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
 
         view.add(createSeparator(), gbc.next().next().hFill().span(3));
 
-        view.add(
-            createHint(Message
-                .info("The following presets control this air conditioner only, without modifying the state of other devices. "
-                    + "The defined presets can be found in the air conditioner's sub-menu of the popup menu.")),
-            gbc.next().center().hFill().span(3));
+        view
+            .add(createHint(Message
+                .info(
+                    "The following presets control this air conditioner only, without modifying the state of other devices. "
+                        + "The defined presets can be found in the air conditioner's sub-menu of the popup menu.")),
+                gbc.next().center().hFill().span(3));
 
         view.add(createLabel("Local Presets:", presetListView), gbc.next().top().insetTop(8));
         view.add(presetListView, gbc.next().span(2).weight(1, 1).fill());

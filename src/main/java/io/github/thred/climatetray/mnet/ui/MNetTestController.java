@@ -1,5 +1,10 @@
 package io.github.thred.climatetray.mnet.ui;
 
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+
 import io.github.thred.climatetray.mnet.ui.MNetTest.State;
 import io.github.thred.climatetray.mnet.ui.MNetTest.Step;
 import io.github.thred.climatetray.ui.AbstractClimateTrayController;
@@ -8,13 +13,8 @@ import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.message.MessageComponent;
 import io.github.thred.climatetray.util.message.MessageListener;
 
-import java.awt.BorderLayout;
-
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-
-public class MNetTestController extends AbstractClimateTrayController<MNetTest, JPanel> implements
-    MNetTestStepListener, MessageListener
+public class MNetTestController extends AbstractClimateTrayController<MNetTest, JPanel>
+    implements MNetTestStepListener, MessageListener
 {
 
     private final MessageComponent messageComponent = new MessageComponent();

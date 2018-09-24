@@ -15,15 +15,16 @@
 package io.github.thred.climatetray.mnet;
 
 import static io.github.thred.climatetray.ClimateTray.*;
+
+import java.util.UUID;
+
+import javax.swing.Icon;
+
 import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.util.Copyable;
 import io.github.thred.climatetray.util.Persistent;
 import io.github.thred.climatetray.util.Utils;
 import io.github.thred.climatetray.util.prefs.Prefs;
-
-import java.util.UUID;
-
-import javax.swing.Icon;
 
 public class MNetPreset implements Copyable<MNetPreset>, Persistent
 {
@@ -186,9 +187,11 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
 
     public String describe()
     {
-        return Utils.sentence(Utils.combine(" | ", MNetDrive.descriptionOf(drive), MNetMode.descriptionOf(mode),
-            PREFERENCES.getTemperatureUnit().format(temperature), MNetFan.descriptionOf(fan),
-            MNetAir.descriptionOf(air)));
+        return Utils
+            .sentence(Utils
+                .combine(" | ", MNetDrive.descriptionOf(drive), MNetMode.descriptionOf(mode),
+                    PREFERENCES.getTemperatureUnit().format(temperature), MNetFan.descriptionOf(fan),
+                    MNetAir.descriptionOf(air)));
     }
 
     @Override
@@ -218,8 +221,21 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
     @Override
     public String toString()
     {
-        return "MNetPreset [id=" + id + ", drive=" + drive + ", mode=" + mode + ", temperature=" + temperature
-            + ", fan=" + fan + ", air=" + air + ", selected=" + selected + "]";
+        return "MNetPreset [id="
+            + id
+            + ", drive="
+            + drive
+            + ", mode="
+            + mode
+            + ", temperature="
+            + temperature
+            + ", fan="
+            + fan
+            + ", air="
+            + air
+            + ", selected="
+            + selected
+            + "]";
     }
 
 }

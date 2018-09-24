@@ -14,14 +14,14 @@
  */
 package io.github.thred.climatetray.ui;
 
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.ui.MNetDeviceCellRenderer;
 import io.github.thred.climatetray.mnet.ui.MNetDeviceDialogController;
 import io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button;
 import io.github.thred.climatetray.util.message.MessageBuffer;
-
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 public class ClimateTrayDeviceListController extends AbstractClimateTrayListController<MNetDevice>
 {
@@ -63,5 +63,5 @@ public class ClimateTrayDeviceListController extends AbstractClimateTrayListCont
     {
         return element.getName();
     }
-    
+
 }

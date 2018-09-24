@@ -1,6 +1,13 @@
 package io.github.thred.climatetray.mnet.ui;
 
 import static io.github.thred.climatetray.ClimateTray.*;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.stream.StreamSupport;
+
+import javax.swing.event.EventListenerList;
+
 import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.ClimateTrayProxySettings;
 import io.github.thred.climatetray.ClimateTrayService;
@@ -20,12 +27,6 @@ import io.github.thred.climatetray.util.Severity;
 import io.github.thred.climatetray.util.Utils;
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.message.MessageBuffer;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.stream.StreamSupport;
-
-import javax.swing.event.EventListenerList;
 
 public class MNetTest implements ExceptionConsumer
 {
@@ -264,163 +265,145 @@ public class MNetTest implements ExceptionConsumer
 
     public void fixEc()
     {
-        ClimateTrayService
-            .submitTask(
-                () -> {
-                    ensureNotCanceled();
+        ClimateTrayService.submitTask(() -> {
+            ensureNotCanceled();
 
-                    if (isModelValid(device))
-                    {
-                        return;
-                    }
+            if (isModelValid(device))
+            {
+                return;
+            }
 
-                    step(Step.FIX_EC, "Trying to fix the EC value...");
+            step(Step.FIX_EC, "Trying to fix the EC value...");
 
-                    MNetEc initialEc = device.getEc();
+            MNetEc initialEc = device.getEc();
 
-                    for (MNetEc ec : MNetEc.values())
-                    {
-                        if (initialEc == ec)
-                        {
-                            continue;
-                        }
+            for (MNetEc ec : MNetEc.values())
+            {
+                if (initialEc == ec)
+                {
+                    continue;
+                }
 
-                        ensureNotCanceled();
+                ensureNotCanceled();
 
-                        LOG.info("Correcting EC to: %s", ec);
+                LOG.info("Correcting EC to: %s", ec);
 
-                        device.setEc(ec);
+                device.setEc(ec);
 
-                        MNetInfoRequest request = new MNetInfoRequest();
+                MNetInfoRequest request = new MNetInfoRequest();
 
-                        request.addDevice(device).execute(device.getURL());
-                        updateDevice(request, device);
+                request.addDevice(device).execute(device.getURL());
+                updateDevice(request, device);
 
-                        if (isModelValid(device))
-                        {
-                            fixedEc = true;
-                            return;
-                        }
-                    }
+                if (isModelValid(device))
+                {
+                    fixedEc = true;
+                    return;
+                }
+            }
 
-                    throw new MNetTestException(
-                        Severity.ERROR,
-                        "Failed to get the state of the air conditioner.\n\n"
-                            + "The centralized controller was successfully contacted, but it seems, that the value of the field \"Air Conditioner Address\" is wrong. "
-                            + "There is no air conditioner with the specified address.");
-                }, this::info, this);
+            throw new MNetTestException(Severity.ERROR, "Failed to get the state of the air conditioner.\n\n"
+                + "The centralized controller was successfully contacted, but it seems, that the value of the field \"Air Conditioner Address\" is wrong. "
+                + "There is no air conditioner with the specified address.");
+        }, this::info, this);
     }
 
     public void info()
     {
-        ClimateTrayService
-            .submitTask(
-                () -> {
-                    ensureNotCanceled();
-                    step(Step.INFO, "Requesting current state...");
+        ClimateTrayService.submitTask(() -> {
+            ensureNotCanceled();
+            step(Step.INFO, "Requesting current state...");
 
-                    MNetMonitorRequest request = new MNetMonitorRequest();
+            MNetMonitorRequest request = new MNetMonitorRequest();
 
-                    request.addDevice(device).execute(device.getURL());
-                    updateDevice(request, device);
+            request.addDevice(device).execute(device.getURL());
+            updateDevice(request, device);
 
-                    if (device.getState().getMode() == null)
-                    {
-                        throw new MNetTestException(
-                            Severity.ERROR,
-                            "Failed to get the state of the air conditioner.\n\n"
-                                + "The centralized controller was successfully contacted. It even found an air conditioner with the specified address, "
-                                + "but the air conditioner did not return its state.");
-                    }
-                }, this::toggling, this);
+            if (device.getState().getMode() == null)
+            {
+                throw new MNetTestException(Severity.ERROR, "Failed to get the state of the air conditioner.\n\n"
+                    + "The centralized controller was successfully contacted. It even found an air conditioner with the specified address, "
+                    + "but the air conditioner did not return its state.");
+            }
+        }, this::toggling, this);
     }
 
     public void toggling()
     {
-        ClimateTrayService
-            .submitTask(
-                () -> {
-                    ensureNotCanceled();
+        ClimateTrayService.submitTask(() -> {
+            ensureNotCanceled();
 
-                    MNetOperateRequest request = new MNetOperateRequest();
-                    boolean turnOn = (device.getState().getDrive() == MNetDrive.OFF);
+            MNetOperateRequest request = new MNetOperateRequest();
+            boolean turnOn = (device.getState().getDrive() == MNetDrive.OFF);
 
-                    if (turnOn)
-                    {
-                        step(Step.TOGGLING, "Turning the air conditioner on.\n\nDid the air conditioner turn on?");
-                        request.turnOn(device);
-                    }
-                    else
-                    {
-                        step(Step.TOGGLING, "Turning the air conditioner off.\n\nDid the air conditioner turn off?");
-                        request.turnOff(device);
-                    }
+            if (turnOn)
+            {
+                step(Step.TOGGLING, "Turning the air conditioner on.\n\nDid the air conditioner turn on?");
+                request.turnOn(device);
+            }
+            else
+            {
+                step(Step.TOGGLING, "Turning the air conditioner off.\n\nDid the air conditioner turn off?");
+                request.turnOff(device);
+            }
 
-                    request.execute(device.getURL());
+            request.execute(device.getURL());
 
-                    MNetDeviceRequestItem item = updateDevice(request, device);
+            MNetDeviceRequestItem item = updateDevice(request, device);
 
-                    if (turnOn)
-                    {
-                        if (item.getDrive() != MNetDrive.ON)
-                        {
-                            throw new MNetTestException(
-                                Severity.ERROR,
-                                "Failed to turn the air conditioner on.\n\n"
-                                    + "The centralized controller was successfully contacted. It even found an air conditioner with the specified address, "
-                                    + "but turning it on failed. May be this operation is blocked by the administrator.");
-                        }
-                    }
-                    else
-                    {
-                        if (item.getDrive() != MNetDrive.OFF)
-                        {
-                            throw new MNetTestException(
-                                Severity.ERROR,
-                                "Failed to turn the air conditioner off.\n\n"
-                                    + "The centralized controller was successfully contacted. It even found an air conditioner with the specified address, "
-                                    + "but turning it off failed. May be this operation is blocked by the administrator.");
-                        }
-                    }
-                }, null, this);
+            if (turnOn)
+            {
+                if (item.getDrive() != MNetDrive.ON)
+                {
+                    throw new MNetTestException(Severity.ERROR, "Failed to turn the air conditioner on.\n\n"
+                        + "The centralized controller was successfully contacted. It even found an air conditioner with the specified address, "
+                        + "but turning it on failed. May be this operation is blocked by the administrator.");
+                }
+            }
+            else
+            {
+                if (item.getDrive() != MNetDrive.OFF)
+                {
+                    throw new MNetTestException(Severity.ERROR, "Failed to turn the air conditioner off.\n\n"
+                        + "The centralized controller was successfully contacted. It even found an air conditioner with the specified address, "
+                        + "but turning it off failed. May be this operation is blocked by the administrator.");
+                }
+            }
+        }, null, this);
     }
 
     public void restoring(boolean successful)
     {
-        ClimateTrayService
-            .submitTask(
-                () -> {
-                    ensureNotCanceled();
+        ClimateTrayService.submitTask(() -> {
+            ensureNotCanceled();
 
-                    MNetOperateRequest request = new MNetOperateRequest();
-                    boolean turnOn = (device.getState().getDrive() == MNetDrive.OFF);
+            MNetOperateRequest request = new MNetOperateRequest();
+            boolean turnOn = (device.getState().getDrive() == MNetDrive.OFF);
 
-                    if (turnOn)
-                    {
-                        step(Step.RESTORING, "Turning the air conditioner on, again.");
-                        request.turnOn(device);
-                    }
-                    else
-                    {
-                        step(Step.RESTORING, "Turning the air conditioner off, again.");
-                        request.turnOff(device);
-                    }
+            if (turnOn)
+            {
+                step(Step.RESTORING, "Turning the air conditioner on, again.");
+                request.turnOn(device);
+            }
+            else
+            {
+                step(Step.RESTORING, "Turning the air conditioner off, again.");
+                request.turnOff(device);
+            }
 
-                    request.execute(device.getURL());
-                    updateDevice(request, device);
+            request.execute(device.getURL());
+            updateDevice(request, device);
 
-                    if (!successful)
-                    {
-                        String state = (turnOn) ? "off" : "on";
+            if (!successful)
+            {
+                String state = (turnOn) ? "off" : "on";
 
-                        throw new MNetTestException(
-                            Severity.ERROR,
-                            "Failed to turn the air conditioner %1$s.\n\n"
-                                + "The centralized controller was successfully contacted. It even found an air conditioner with the specified address and turned it %1$s. "
-                                + "Unfortunately your air conditioner did not react. Are the values in the fields \"Controller Address\", \"EC\" and \"Air Conditioner Address\" really correct?",
-                            state);
-                    }
-                }, this::success, this);
+                throw new MNetTestException(Severity.ERROR, "Failed to turn the air conditioner %1$s.\n\n"
+                    + "The centralized controller was successfully contacted. It even found an air conditioner with the specified address and turned it %1$s. "
+                    + "Unfortunately your air conditioner did not react. Are the values in the fields \"Controller Address\", \"EC\" and \"Air Conditioner Address\" really correct?",
+                    state);
+            }
+        }, this::success, this);
     }
 
     public void success()
@@ -445,15 +428,13 @@ public class MNetTest implements ExceptionConsumer
     protected MNetDeviceRequestItem updateDevice(AbstractMNetDeviceRequest request, MNetDevice device)
         throws MNetTestException
     {
-        MNetDeviceRequestItem item =
-            StreamSupport
-                .stream(request.spliterator(), false)
-                .findFirst()
-                .orElseThrow(
-                    () -> new MNetTestException(Severity.ERROR,
-                        "The centralized controller did not return any air conditioners.\n\n"
-                            + "The request hit a server, but it may be the wrong one. "
-                            + "You can check the log for the detailed exception."));
+        MNetDeviceRequestItem item = StreamSupport
+            .stream(request.spliterator(), false)
+            .findFirst()
+            .orElseThrow(() -> new MNetTestException(Severity.ERROR,
+                "The centralized controller did not return any air conditioners.\n\n"
+                    + "The request hit a server, but it may be the wrong one. "
+                    + "You can check the log for the detailed exception."));
 
         item.update(device);
 

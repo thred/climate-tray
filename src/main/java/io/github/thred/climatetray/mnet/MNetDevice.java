@@ -311,6 +311,7 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
         host = prefs.getString("host", host);
         ec = prefs.getEnum(MNetEc.class, "ec", ec);
         address = prefs.getInteger("address", 0);
+        group = null;
         selected = prefs.getBoolean("selected", selected);
         enabled = prefs.getBoolean("enabled", enabled);
         state = new MNetState();

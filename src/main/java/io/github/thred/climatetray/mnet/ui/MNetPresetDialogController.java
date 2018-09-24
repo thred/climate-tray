@@ -14,10 +14,10 @@
  */
 package io.github.thred.climatetray.mnet.ui;
 
+import java.awt.Window;
+
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.ui.DefaultClimateTrayDialogController;
-
-import java.awt.Window;
 
 public class MNetPresetDialogController extends DefaultClimateTrayDialogController<MNetPreset>
 {

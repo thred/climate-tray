@@ -14,16 +14,6 @@
  */
 package io.github.thred.climatetray.ui;
 
-import io.github.thred.climatetray.ClimateTrayImage;
-import io.github.thred.climatetray.ClimateTrayImageState;
-import io.github.thred.climatetray.util.Severity;
-import io.github.thred.climatetray.util.message.Message;
-import io.github.thred.climatetray.util.message.MessageBuffer;
-import io.github.thred.climatetray.util.swing.BorderPanel;
-import io.github.thred.climatetray.util.swing.ButtonPanel;
-import io.github.thred.climatetray.util.swing.SwingUtils;
-import io.github.thred.climatetray.util.swing.TitlePanel;
-
 import java.awt.BorderLayout;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
@@ -39,8 +29,18 @@ import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE extends Window> extends
-    AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
+import io.github.thred.climatetray.ClimateTrayImage;
+import io.github.thred.climatetray.ClimateTrayImageState;
+import io.github.thred.climatetray.util.Severity;
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.message.MessageBuffer;
+import io.github.thred.climatetray.util.swing.BorderPanel;
+import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.SwingUtils;
+import io.github.thred.climatetray.util.swing.TitlePanel;
+
+public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE extends Window>
+    extends AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
 {
 
     public enum Button

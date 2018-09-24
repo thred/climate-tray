@@ -1,21 +1,18 @@
 /*
  * Copyright 2015, 2016 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray.util.swing;
-
-import io.github.thred.climatetray.util.message.Message;
-import io.github.thred.climatetray.util.message.MessageComponent;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -43,6 +40,9 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.message.MessageComponent;
+
 public class SwingUtils
 {
 
@@ -66,8 +66,9 @@ public class SwingUtils
         JPanel result = new JPanel(new BorderLayout());
 
         result.setBackground(Color.WHITE);
-        result.setBorder(BorderFactory.createMatteBorder((upperLine) ? 1 : 0, 0, (lowerLine) ? 1 : 0, 0,
-            Color.LIGHT_GRAY));
+        result
+            .setBorder(
+                BorderFactory.createMatteBorder((upperLine) ? 1 : 0, 0, (lowerLine) ? 1 : 0, 0, Color.LIGHT_GRAY));
         result.add(label, BorderLayout.NORTH);
 
         return new BorderPanel(BorderFactory.createEmptyBorder((upperLine) ? 2 : 0, 0, (lowerLine) ? 2 : 0, 0), result);

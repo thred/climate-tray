@@ -145,9 +145,8 @@ public class DomBuilder
      */
     public DomBuilder setStylesheet(String link)
     {
-        ProcessingInstruction pi =
-            document
-                .createProcessingInstruction("xml-stylesheet", String.format("type=\"text/xml\" href=\"%s\"", link)); //$NON-NLS-1$ //$NON-NLS-2$
+        ProcessingInstruction pi = document
+            .createProcessingInstruction("xml-stylesheet", String.format("type=\"text/xml\" href=\"%s\"", link)); //$NON-NLS-1$ //$NON-NLS-2$
 
         document.insertBefore(pi, document.getFirstChild());
 

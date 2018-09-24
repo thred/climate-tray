@@ -15,6 +15,9 @@
 package io.github.thred.climatetray.mnet.request;
 
 import static io.github.thred.climatetray.ClimateTray.*;
+
+import org.w3c.dom.Node;
+
 import io.github.thred.climatetray.mnet.MNetAir;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetDrive;
@@ -23,8 +26,6 @@ import io.github.thred.climatetray.mnet.MNetFan;
 import io.github.thred.climatetray.mnet.MNetMode;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.util.DomUtils;
-
-import org.w3c.dom.Node;
 
 public class MNetDeviceRequestItem
 {
@@ -253,9 +254,27 @@ public class MNetDeviceRequestItem
     @Override
     public String toString()
     {
-        return "MNetDeviceRequestItem [ec=" + ec + ", address=" + address + ", group=" + group + ", model=" + model
-            + ", drive=" + drive + ", mode=" + mode + ", temperature=" + temperature + ", thermometer=" + thermometer
-            + ", air=" + air + ", fan=" + fan + "]";
+        return "MNetDeviceRequestItem [ec="
+            + ec
+            + ", address="
+            + address
+            + ", group="
+            + group
+            + ", model="
+            + model
+            + ", drive="
+            + drive
+            + ", mode="
+            + mode
+            + ", temperature="
+            + temperature
+            + ", thermometer="
+            + thermometer
+            + ", air="
+            + air
+            + ", fan="
+            + fan
+            + "]";
     }
 
     protected static String valueOfStringKey(String value)

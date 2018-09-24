@@ -15,9 +15,6 @@
 package io.github.thred.climatetray.mnet;
 
 import static io.github.thred.climatetray.ClimateTray.*;
-import io.github.thred.climatetray.ClimateTrayImage;
-import io.github.thred.climatetray.ClimateTrayImageState;
-import io.github.thred.climatetray.util.Utils;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -27,6 +24,10 @@ import java.net.URL;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
+import io.github.thred.climatetray.ClimateTrayImage;
+import io.github.thred.climatetray.ClimateTrayImageState;
+import io.github.thred.climatetray.util.Utils;
 
 public class MNetUtils
 {
@@ -85,7 +86,9 @@ public class MNetUtils
                 break;
 
             case HIGHLIGHT:
-                g.drawImage(ClimateTrayImage.BACKGROUND_SELECTED.getImage(ClimateTrayImageState.NONE, size), 0, 0, null);
+                g
+                    .drawImage(ClimateTrayImage.BACKGROUND_SELECTED.getImage(ClimateTrayImageState.NONE, size), 0, 0,
+                        null);
                 break;
 
             case DEFAULT:

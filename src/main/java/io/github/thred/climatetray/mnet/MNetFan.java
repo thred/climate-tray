@@ -15,6 +15,7 @@
 package io.github.thred.climatetray.mnet;
 
 import static io.github.thred.climatetray.ClimateTray.*;
+
 import io.github.thred.climatetray.ClimateTrayImage;
 
 public enum MNetFan

@@ -14,13 +14,6 @@
  */
 package io.github.thred.climatetray;
 
-import io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button;
-import io.github.thred.climatetray.ui.ClimateTrayMessageDialogController;
-import io.github.thred.climatetray.util.BuildInfo;
-import io.github.thred.climatetray.util.message.Message;
-import io.github.thred.climatetray.util.swing.ButtonPanel;
-import io.github.thred.climatetray.util.swing.SwingUtils;
-
 import java.awt.Window;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,6 +25,13 @@ import javax.swing.SwingUtilities;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
+
+import io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button;
+import io.github.thred.climatetray.ui.ClimateTrayMessageDialogController;
+import io.github.thred.climatetray.util.BuildInfo;
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.SwingUtils;
 
 public class ClimateTrayUtils
 {
@@ -97,10 +97,12 @@ public class ClimateTrayUtils
     protected static void consumeUpdateFailed()
     {
         SwingUtilities.invokeLater(() -> {
-            ClimateTrayUtils.dialogWithCloseAndProxySettings(null, "Request failed", Message
-                .error("The request for version updates failed.\n\n"
-                    + "This usually indicates, that the application cannot contact the website with the "
-                    + "build information on GitHub. You may wish to update your proxy settings, now."));
+            ClimateTrayUtils
+                .dialogWithCloseAndProxySettings(null, "Request failed",
+                    Message
+                        .error("The request for version updates failed.\n\n"
+                            + "This usually indicates, that the application cannot contact the website with the "
+                            + "build information on GitHub. You may wish to update your proxy settings, now."));
         });
     }
 

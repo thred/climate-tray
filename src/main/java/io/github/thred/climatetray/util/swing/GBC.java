@@ -82,9 +82,8 @@ public class GBC extends GridBagConstraints
         {
             int top = (gridy > 1) ? defaultInsets.top : defaultOutsets.top;
             int left = (gridx > 1) ? defaultInsets.left : defaultOutsets.left;
-            int bottom =
-                ((totalHeight <= 0) || ((gridy + gridheight) < totalHeight)) ? defaultInsets.bottom
-                    : defaultOutsets.bottom;
+            int bottom = ((totalHeight <= 0) || ((gridy + gridheight) < totalHeight)) ? defaultInsets.bottom
+                : defaultOutsets.bottom;
             int right = ((gridx + gridwidth) < totalWidth) ? defaultInsets.right : defaultOutsets.right;
 
             insets = new Insets(top, left, bottom, right);
@@ -129,14 +128,14 @@ public class GBC extends GridBagConstraints
 
         if (x2 > totalWidth)
         {
-            throw new IllegalArgumentException(String.format("x (%d) + width (%d) > totalWidth (%d)", x, width,
-                totalWidth));
+            throw new IllegalArgumentException(
+                String.format("x (%d) + width (%d) > totalWidth (%d)", x, width, totalWidth));
         }
 
         if ((height > 0) && (y2 > totalHeight))
         {
-            throw new IllegalArgumentException(String.format("y (%d) + height (%d) > totalHeight (%d)", y, height,
-                totalHeight));
+            throw new IllegalArgumentException(
+                String.format("y (%d) + height (%d) > totalHeight (%d)", y, height, totalHeight));
         }
 
         if (y2 > grid.length)
@@ -191,20 +190,20 @@ public class GBC extends GridBagConstraints
 
         if (((gridx - 1) + gridwidth) > totalWidth)
         {
-            throw new IllegalArgumentException(String.format("gridx (%d) + gridwidth (%d) > width (%d)", gridx - 1,
-                gridwidth, totalWidth));
+            throw new IllegalArgumentException(
+                String.format("gridx (%d) + gridwidth (%d) > width (%d)", gridx - 1, gridwidth, totalWidth));
         }
 
         if ((totalHeight > 0) && (((gridy - 1) + gridheight) > totalHeight))
         {
-            throw new IllegalArgumentException(String.format("gridy (%d) + gridheight (%d) > height (%d)", gridy - 1,
-                gridheight, totalHeight));
+            throw new IllegalArgumentException(
+                String.format("gridy (%d) + gridheight (%d) > height (%d)", gridy - 1, gridheight, totalHeight));
         }
 
         if (isGridUsed())
         {
-            throw new IllegalArgumentException(String.format("Overlapping components: %d, %d, %d, %d", gridx - 1,
-                gridy - 1, gridwidth, gridheight));
+            throw new IllegalArgumentException(
+                String.format("Overlapping components: %d, %d, %d, %d", gridx - 1, gridy - 1, gridwidth, gridheight));
         }
 
         setGridUsed(true);

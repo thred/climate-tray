@@ -1,25 +1,20 @@
 /*
  * Copyright 2015, 2016 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray.ui;
 
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
-import io.github.thred.climatetray.ClimateTrayProxySettings;
-import io.github.thred.climatetray.util.ProxyType;
-import io.github.thred.climatetray.util.Utils;
-import io.github.thred.climatetray.util.message.MessageBuffer;
-import io.github.thred.climatetray.util.swing.GBC;
 
 import java.awt.GridBagLayout;
 
@@ -32,15 +27,21 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
+import io.github.thred.climatetray.ClimateTrayProxySettings;
+import io.github.thred.climatetray.util.ProxyType;
+import io.github.thred.climatetray.util.Utils;
+import io.github.thred.climatetray.util.message.MessageBuffer;
+import io.github.thred.climatetray.util.swing.GBC;
+
 public class ClimateTrayProxyController extends AbstractClimateTrayController<ClimateTrayProxySettings, JPanel>
 {
 
     private final ButtonGroup proxyTypeGroup = new ButtonGroup();
     private final JRadioButton proxyTypeNoneRadio = monitor(createRadioButton("No Proxy", proxyTypeGroup));
-    private final JRadioButton proxyTypeSystemDefaultRadio = monitor(createRadioButton("Use System Default Proxy",
-        proxyTypeGroup));
-    private final JRadioButton proxyTypeUserDefinedRadio = monitor(createRadioButton("User Defined Proxy",
-        proxyTypeGroup));
+    private final JRadioButton proxyTypeSystemDefaultRadio =
+        monitor(createRadioButton("Use System Default Proxy", proxyTypeGroup));
+    private final JRadioButton proxyTypeUserDefinedRadio =
+        monitor(createRadioButton("User Defined Proxy", proxyTypeGroup));
     private final JTextField proxyHostField = monitor(createTextField("", 32));
     private final JSpinner proxyPortSpinner = monitor(createSpinner(new SpinnerNumberModel(80, 0, 65535, 1)));
     private final JCheckBox proxyAuthorizationNeededBox = monitor(createCheckBox("Proxy Authorization Needed"));

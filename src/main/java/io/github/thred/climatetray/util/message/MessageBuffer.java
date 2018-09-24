@@ -14,14 +14,14 @@
  */
 package io.github.thred.climatetray.util.message;
 
-import io.github.thred.climatetray.util.Severity;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.event.EventListenerList;
+
+import io.github.thred.climatetray.util.Severity;
 
 public class MessageBuffer implements Iterable<Message>
 {

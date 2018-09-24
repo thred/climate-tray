@@ -14,16 +14,16 @@
  */
 package io.github.thred.climatetray;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.util.Persistent;
 import io.github.thred.climatetray.util.TemperatureUnit;
 import io.github.thred.climatetray.util.prefs.Prefs;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
 public class ClimateTrayPreferences implements Persistent
 {
@@ -31,8 +31,8 @@ public class ClimateTrayPreferences implements Persistent
     public static final int VERSION = 2;
 
     private final ClimateTrayProxySettings proxySettings = new ClimateTrayProxySettings();
-    private final List<MNetDevice> devices = new ArrayList<MNetDevice>();
-    private final List<MNetPreset> presets = new ArrayList<MNetPreset>();
+    private final List<MNetDevice> devices = new ArrayList<>();
+    private final List<MNetPreset> presets = new ArrayList<>();
 
     private int version = 0;
     private TemperatureUnit temperatureUnit = TemperatureUnit.CELSIUS;
@@ -167,9 +167,19 @@ public class ClimateTrayPreferences implements Persistent
     @Override
     public String toString()
     {
-        return "ClimateTrayPreferences [proxySettings=" + proxySettings + ", devices=" + devices + ", presets="
-            + presets + ", temperatureUnit=" + temperatureUnit + ", updatePeriodInMinutes=" + updatePeriodInMinutes
-            + ", trayIconEnabled=" + trayIconEnabled + "]";
+        return "ClimateTrayPreferences [proxySettings="
+            + proxySettings
+            + ", devices="
+            + devices
+            + ", presets="
+            + presets
+            + ", temperatureUnit="
+            + temperatureUnit
+            + ", updatePeriodInMinutes="
+            + updatePeriodInMinutes
+            + ", trayIconEnabled="
+            + trayIconEnabled
+            + "]";
     }
 
 }

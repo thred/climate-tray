@@ -1,24 +1,18 @@
 /*
  * Copyright 2015, 2016 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray;
-
-import io.github.thred.climatetray.util.Persistent;
-import io.github.thred.climatetray.util.ProxyType;
-import io.github.thred.climatetray.util.Utils;
-import io.github.thred.climatetray.util.WildcardPattern;
-import io.github.thred.climatetray.util.prefs.Prefs;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -38,6 +32,12 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.DefaultProxyRoutePlanner;
 import org.apache.http.protocol.HttpContext;
+
+import io.github.thred.climatetray.util.Persistent;
+import io.github.thred.climatetray.util.ProxyType;
+import io.github.thred.climatetray.util.Utils;
+import io.github.thred.climatetray.util.WildcardPattern;
+import io.github.thred.climatetray.util.prefs.Prefs;
 
 public class ClimateTrayProxySettings implements Persistent
 {
@@ -138,7 +138,7 @@ public class ClimateTrayProxySettings implements Persistent
         {
             return HttpClients.createSystem();
         }
-        
+
         HttpHost proxy = new HttpHost(getProxyHost(), getProxyPort());
         HttpClientBuilder builder = HttpClientBuilder.create().setProxy(proxy);
 
@@ -247,9 +247,19 @@ public class ClimateTrayProxySettings implements Persistent
     @Override
     public String toString()
     {
-        return "ClimateTrayProxy [proxyType=" + proxyType + ", proxyHost=" + proxyHost + ", proxyPort=" + proxyPort
-            + ", proxyAuthorizationNeeded=" + proxyAuthorizationNeeded + ", proxyUser=" + proxyUser
-            + ", proxyExcludes=" + proxyExcludes + "]";
+        return "ClimateTrayProxy [proxyType="
+            + proxyType
+            + ", proxyHost="
+            + proxyHost
+            + ", proxyPort="
+            + proxyPort
+            + ", proxyAuthorizationNeeded="
+            + proxyAuthorizationNeeded
+            + ", proxyUser="
+            + proxyUser
+            + ", proxyExcludes="
+            + proxyExcludes
+            + "]";
     }
 
 }

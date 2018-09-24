@@ -15,12 +15,6 @@
 package io.github.thred.climatetray.mnet.ui;
 
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
-import io.github.thred.climatetray.ClimateTray;
-import io.github.thred.climatetray.ClimateTrayImage;
-import io.github.thred.climatetray.ClimateTrayImageState;
-import io.github.thred.climatetray.mnet.MNetDevice;
-import io.github.thred.climatetray.mnet.MNetState;
-import io.github.thred.climatetray.util.swing.GBC;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -30,6 +24,13 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import io.github.thred.climatetray.ClimateTray;
+import io.github.thred.climatetray.ClimateTrayImage;
+import io.github.thred.climatetray.ClimateTrayImageState;
+import io.github.thred.climatetray.mnet.MNetDevice;
+import io.github.thred.climatetray.mnet.MNetState;
+import io.github.thred.climatetray.util.swing.GBC;
 
 public class MNetStatePanel extends JPanel
 {
@@ -52,8 +53,8 @@ public class MNetStatePanel extends JPanel
         nameLabel.setForeground(new Color(0x191970));
         nameLabel.setBorder(BorderFactory.createEmptyBorder(4, 0, 0, 0));
 
-        therometerLabel.setFont(therometerLabel.getFont().deriveFont(Font.BOLD,
-            therometerLabel.getFont().getSize() * 1.2f));
+        therometerLabel
+            .setFont(therometerLabel.getFont().deriveFont(Font.BOLD, therometerLabel.getFont().getSize() * 1.2f));
         therometerLabel.setForeground(new Color(0x191970));
 
         setBackground(Color.WHITE);

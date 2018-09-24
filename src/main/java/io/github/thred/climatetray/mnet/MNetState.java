@@ -1,28 +1,29 @@
 /*
  * Copyright 2015, 2016 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray.mnet;
 
 import static io.github.thred.climatetray.ClimateTray.*;
-import io.github.thred.climatetray.ClimateTrayImageState;
-import io.github.thred.climatetray.util.Copyable;
-import io.github.thred.climatetray.util.Utils;
 
 import java.awt.Image;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+
+import io.github.thred.climatetray.ClimateTrayImageState;
+import io.github.thred.climatetray.util.Copyable;
+import io.github.thred.climatetray.util.Utils;
 
 public class MNetState implements Copyable<MNetState>
 {
@@ -156,9 +157,11 @@ public class MNetState implements Copyable<MNetState>
     {
         boolean on = drive == MNetDrive.ON;
         String power = ((on) && (mode != null)) ? mode.getDescription() : MNetDrive.labelOf(drive);
-        String temp =
-            (on) ? Utils.combine(" -> ", PREFERENCES.getTemperatureUnit().format(thermometer), PREFERENCES
-                .getTemperatureUnit().format(temperature)) : PREFERENCES.getTemperatureUnit().format(thermometer);
+        String temp = (on)
+            ? Utils
+                .combine(" -> ", PREFERENCES.getTemperatureUnit().format(thermometer),
+                    PREFERENCES.getTemperatureUnit().format(temperature))
+            : PREFERENCES.getTemperatureUnit().format(thermometer);
 
         String result = Utils.combine(" ", power, Utils.surround("(", temp, ")"));
 
@@ -182,7 +185,8 @@ public class MNetState implements Copyable<MNetState>
 
         if ((drive == MNetDrive.ON) && (mode != null))
         {
-            result.append(" (")
+            result
+                .append(" (")
                 .append(String.format(mode.getAction(), PREFERENCES.getTemperatureUnit().format(temperature)))
                 .append(")");
         }
@@ -197,8 +201,21 @@ public class MNetState implements Copyable<MNetState>
     @Override
     public String toString()
     {
-        return "MNetState [drive=" + drive + ", mode=" + mode + ", temperature=" + temperature + ", thermometer="
-            + thermometer + ", fan=" + fan + ", air=" + air + ", fails=" + fails + "]";
+        return "MNetState [drive="
+            + drive
+            + ", mode="
+            + mode
+            + ", temperature="
+            + temperature
+            + ", thermometer="
+            + thermometer
+            + ", fan="
+            + fan
+            + ", air="
+            + air
+            + ", fails="
+            + fails
+            + "]";
     }
 
 }

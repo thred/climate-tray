@@ -14,6 +14,12 @@
  */
 package io.github.thred.climatetray.mnet.ui;
 
+import java.awt.Window;
+
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
+
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.ui.MNetTest.State;
 import io.github.thred.climatetray.ui.DefaultClimateTrayDialogController;
@@ -22,12 +28,6 @@ import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.ButtonPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
-
-import java.awt.Window;
-
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
 
 public class MNetDeviceDialogController extends DefaultClimateTrayDialogController<MNetDevice>
 {

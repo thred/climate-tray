@@ -14,13 +14,13 @@
  */
 package io.github.thred.climatetray;
 
-import io.github.thred.climatetray.util.message.MessageBuffer;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
+import io.github.thred.climatetray.util.message.MessageBuffer;
 
 public class ClimateTray
 {

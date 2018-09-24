@@ -1,14 +1,14 @@
 /*
  * Copyright 2015, 2016 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
@@ -16,16 +16,6 @@ package io.github.thred.climatetray.ui;
 
 import static io.github.thred.climatetray.ClimateTray.*;
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
-import io.github.thred.climatetray.ClimateTrayImage;
-import io.github.thred.climatetray.ClimateTrayImageState;
-import io.github.thred.climatetray.ClimateTrayPreferences;
-import io.github.thred.climatetray.ClimateTrayService;
-import io.github.thred.climatetray.mnet.MNetDevice;
-import io.github.thred.climatetray.mnet.MNetPreset;
-import io.github.thred.climatetray.mnet.ui.MNetStatePanel;
-import io.github.thred.climatetray.util.message.MessageBuffer;
-import io.github.thred.climatetray.util.swing.BorderPanel;
-import io.github.thred.climatetray.util.swing.TitlePanel;
 
 import java.awt.Component;
 import java.awt.Frame;
@@ -46,6 +36,17 @@ import javax.swing.JPopupMenu;
 import javax.swing.WindowConstants;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+
+import io.github.thred.climatetray.ClimateTrayImage;
+import io.github.thred.climatetray.ClimateTrayImageState;
+import io.github.thred.climatetray.ClimateTrayPreferences;
+import io.github.thred.climatetray.ClimateTrayService;
+import io.github.thred.climatetray.mnet.MNetDevice;
+import io.github.thred.climatetray.mnet.MNetPreset;
+import io.github.thred.climatetray.mnet.ui.MNetStatePanel;
+import io.github.thred.climatetray.util.message.MessageBuffer;
+import io.github.thred.climatetray.util.swing.BorderPanel;
+import io.github.thred.climatetray.util.swing.TitlePanel;
 
 public class ClimateTrayPopupController extends AbstractClimateTrayController<ClimateTrayPreferences, JPopupMenu>
     implements PopupMenuListener
@@ -211,15 +212,19 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         refreshPresetsWith(model, model.isAnyDeviceSelected());
         refreshDevicesWith(model);
 
-        MNetDevice activeDevice =
-            model.getDevices().stream().filter(device -> (device.isEnabled()) && (device.isSelectedAndWorking()))
-                .findFirst().orElse(null);
+        MNetDevice activeDevice = model
+            .getDevices()
+            .stream()
+            .filter(device -> (device.isEnabled()) && (device.isSelectedAndWorking()))
+            .findFirst()
+            .orElse(null);
 
         if (activeDevice != null)
         {
             String description = activeDevice.getState().describeAction();
 
-            titlePanel.setDescription(ClimateTrayImage.ICON_THERMOMETER.getIcon(ClimateTrayImageState.NONE, 24), description);
+            titlePanel
+                .setDescription(ClimateTrayImage.ICON_THERMOMETER.getIcon(ClimateTrayImageState.NONE, 24), description);
         }
         else
         {
@@ -374,8 +379,8 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         hiddenDialogForFocusManagement = new JDialog((Frame) null, "Climate Tray");
 
         hiddenDialogForFocusManagement.setUndecorated(true);
-        hiddenDialogForFocusManagement.setIconImages(ClimateTrayImage.ICON.getImages(ClimateTrayImageState.NONE, 64,
-            48, 32, 24, 16));
+        hiddenDialogForFocusManagement
+            .setIconImages(ClimateTrayImage.ICON.getImages(ClimateTrayImageState.NONE, 64, 48, 32, 24, 16));
         hiddenDialogForFocusManagement.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         hiddenDialogForFocusManagement.setVisible(true);
 

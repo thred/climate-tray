@@ -1,26 +1,20 @@
 /*
  * Copyright 2015, 2016 Manfred Hantschel
- * 
+ *
  * This file is part of Climate-Tray.
- * 
+ *
  * Climate-Tray is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
  * License as published by the Free Software Foundation, either version 3 of the License, or any later version.
- * 
+ *
  * Climate-Tray is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License along with Climate-Tray. If not, see
  * <http://www.gnu.org/licenses/>.
  */
 package io.github.thred.climatetray.ui;
 
 import static io.github.thred.climatetray.ClimateTray.*;
-import io.github.thred.climatetray.ClimateTrayImage;
-import io.github.thred.climatetray.ClimateTrayImageState;
-import io.github.thred.climatetray.ClimateTrayPreferences;
-import io.github.thred.climatetray.ClimateTrayService;
-import io.github.thred.climatetray.mnet.MNetDevice;
-import io.github.thred.climatetray.util.message.MessageBuffer;
 
 import java.awt.AWTException;
 import java.awt.Image;
@@ -30,14 +24,21 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Arrays;
 
+import io.github.thred.climatetray.ClimateTrayImage;
+import io.github.thred.climatetray.ClimateTrayImageState;
+import io.github.thred.climatetray.ClimateTrayPreferences;
+import io.github.thred.climatetray.ClimateTrayService;
+import io.github.thred.climatetray.mnet.MNetDevice;
+import io.github.thred.climatetray.util.message.MessageBuffer;
+
 public class ClimateTrayIconController extends AbstractClimateTrayController<ClimateTrayPreferences, TrayIcon>
 {
 
     public static final int TRAY_ICON_SIZE = 16;
 
     private final ClimateTrayPopupController popupController = new ClimateTrayPopupController();
-    private final TrayIcon view = new TrayIcon(ClimateTrayImage.ICON.getImage(ClimateTrayImageState.DEFAULT,
-        TRAY_ICON_SIZE));
+    private final TrayIcon view =
+        new TrayIcon(ClimateTrayImage.ICON.getImage(ClimateTrayImageState.DEFAULT, TRAY_ICON_SIZE));
 
     public ClimateTrayIconController()
     {
@@ -85,9 +86,12 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
 
         if (enabled)
         {
-            MNetDevice activeDevice =
-                model.getDevices().stream().filter(device -> (device.isEnabled()) && (device.isSelectedAndWorking()))
-                    .findFirst().orElse(null);
+            MNetDevice activeDevice = model
+                .getDevices()
+                .stream()
+                .filter(device -> (device.isEnabled()) && (device.isSelectedAndWorking()))
+                .findFirst()
+                .orElse(null);
 
             if (activeDevice != null)
             {
@@ -135,8 +139,9 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
 
     protected void refreshIconWith(Image image, String toolTip)
     {
-        view.setImage((image != null) ? image : ClimateTrayImage.ICON.getImage(ClimateTrayImageState.DEFAULT,
-            TRAY_ICON_SIZE));
+        view
+            .setImage((image != null) ? image
+                : ClimateTrayImage.ICON.getImage(ClimateTrayImageState.DEFAULT, TRAY_ICON_SIZE));
         view.setToolTip((toolTip != null) ? toolTip : "Climate-Tray");
     }
 

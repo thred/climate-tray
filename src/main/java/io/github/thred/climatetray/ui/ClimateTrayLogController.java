@@ -15,9 +15,6 @@
 package io.github.thred.climatetray.ui;
 
 import static io.github.thred.climatetray.ClimateTray.*;
-import io.github.thred.climatetray.util.message.Message;
-import io.github.thred.climatetray.util.message.MessageBuffer;
-import io.github.thred.climatetray.util.message.MessageListener;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -30,8 +27,12 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-public class ClimateTrayLogController extends AbstractClimateTrayController<MessageBuffer, JTextPane> implements
-    MessageListener
+import io.github.thred.climatetray.util.message.Message;
+import io.github.thred.climatetray.util.message.MessageBuffer;
+import io.github.thred.climatetray.util.message.MessageListener;
+
+public class ClimateTrayLogController extends AbstractClimateTrayController<MessageBuffer, JTextPane>
+    implements MessageListener
 {
 
     private final Style errorStyle;
