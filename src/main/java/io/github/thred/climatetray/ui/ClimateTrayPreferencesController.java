@@ -80,7 +80,7 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
     @Override
     public void refreshWith(ClimateTrayPreferences model)
     {
-        updatePeriodInMinutesSpinner.setValue(model.getUpdatePeriodInMinutes());
+        updatePeriodInMinutesSpinner.setValue((int)model.getUpdatePeriodInMinutes());
         temperatureUnitBox.setSelectedItem(model.getTemperatureUnit());
         versionCheckEnabledBox.setSelected(model.isVersionCheckEnabled());
 
