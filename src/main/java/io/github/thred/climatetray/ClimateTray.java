@@ -56,8 +56,8 @@ public class ClimateTray
 
     public static void main(String[] arguments)
     {
+    	ClimateTrayService.load();
         ClimateTrayService.prepare();
-        ClimateTrayService.load();
         ClimateTrayService.scheduleUpdate();
         ClimateTrayService.checkVersion();
         ClimateTrayService.start();

@@ -111,8 +111,6 @@ public class ClimateTrayService
             ClimateTrayUtils
                 .dialogWithOkButton(null, "Preferences", Message.error("Failed to load existing preferences."));
         }
-
-        refresh();
     }
 
     public static void store()

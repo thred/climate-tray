@@ -5,7 +5,7 @@
 	<groupId>io.github.thred.climate-tray</groupId>
 	<artifactId>climate-tray</artifactId>
 
-	<version>1.1.2-SNAPSHOT</version>
+	<version>1.2.0-SNAPSHOT</version>
 
 	<name>Climate-Tray</name>
 
@@ -91,7 +91,7 @@
 									<artifactId>${project.artifactId}</artifactId>
 									<version>${project.version}</version>
 									<type>jar</type>
-									<includes>climate-tray.cmd,COPYING,VERSION</includes>
+									<includes>climate-tray,climate-tray.cmd,COPYING,VERSION</includes>
 									<outputDirectory>bin</outputDirectory>
 								</artifactItem>
 							</artifactItems>

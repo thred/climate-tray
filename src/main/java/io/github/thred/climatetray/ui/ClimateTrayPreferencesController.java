@@ -51,6 +51,8 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
     {
         JPanel view = new JPanel(new GridBagLayout());
 
+        view.setOpaque(false);
+        
         updatePeriodInMinutesSpinner.setEditor(new JSpinner.NumberEditor(updatePeriodInMinutesSpinner, "0.0"));
         temperatureUnitBox.addActionListener((e) -> refresh());
 

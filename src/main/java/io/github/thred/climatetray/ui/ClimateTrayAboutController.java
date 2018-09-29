@@ -47,6 +47,8 @@ public class ClimateTrayAboutController extends AbstractClimateTrayController<Cl
     {
         JPanel view = new JPanel(new BorderLayout());
 
+        view.setOpaque(false);
+                
         textPane.setEditable(false);
 		textPane.setOpaque(false);
         textPane.setPreferredSize(new Dimension(480, 320));

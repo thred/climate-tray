@@ -49,7 +49,6 @@ import javax.swing.SpinnerModel;
 
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.message.MessageComponent;
-import io.github.thred.climatetray.util.prefs.Prefs;
 
 public class SwingUtils
 {
@@ -284,6 +283,8 @@ public class SwingUtils
     {
         JSpinner result = new JSpinner(model);
 
+        result.setOpaque(false);
+
         return result;
     }
 
@@ -306,12 +307,8 @@ public class SwingUtils
     
     public static void fixLocation(Window window) {
     	Rectangle bounds = window.getBounds();
-    	
-    	updateLocation(window, bounds);
-    }
 
-	private static void updateLocation(Window window, Rectangle bounds) {
-		if (isRectangleVisible(bounds)) {
+    	if (!isRectangleVisible(bounds)) {
             Rectangle screenBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().getBounds();
             
             bounds.width = Math.min(bounds.width, screenBounds.width);
@@ -334,7 +331,7 @@ public class SwingUtils
 			if (bounds.contains(rectangle)) {
 				return true;
 			}
-		}
+        }
         
         return false;
     }

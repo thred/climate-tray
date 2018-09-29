@@ -71,6 +71,8 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
     {
         JPanel view = new JPanel(new GridBagLayout());
 
+        view.setOpaque(false);
+
         list.setVisibleRowCount(5);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.addListSelectionListener((e) -> {

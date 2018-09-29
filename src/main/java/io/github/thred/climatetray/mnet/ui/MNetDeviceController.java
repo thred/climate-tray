@@ -63,6 +63,9 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
         JPanel presetListView = presetListController.getView();
 
         JPanel view = new JPanel(new GridBagLayout());
+        
+        view.setOpaque(false);
+
         GBC gbc = new GBC(3, 11);
 
         view.add(createLabel("Custom Name:", nameField), gbc);

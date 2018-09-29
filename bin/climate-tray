@@ -1,0 +1,2 @@
+#!/bin/bash
+java -Xmx64m -Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -jar climate-tray-1.2.0-SNAPSHOT-executable.jar > /dev/null 2>&1 &

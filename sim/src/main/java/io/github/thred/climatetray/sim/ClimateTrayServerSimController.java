@@ -52,11 +52,9 @@ public class ClimateTrayServerSimController {
 
 	public void onApplicationEvent(ContextRefreshedEvent event) 
     {
-//		ClimateTrayServerSimState state = states.get(0);
-//		String.format("IP: 127.0.0.1, Address: %s", state.getAddress());
-//		
-//    	LOG.info("The following devices are available:\n\n{}\n\n", states.stream().map(state -> state.getAddress()).collect(Collectors.joining("\n"));
-//    	LOG.info("The following devices are available:\n\n{}\n\n", states.stream().map(state -> String.format("IP: 127.0.0.1, Address: %s", state.getAddress())).collect(Collectors.joining("\n"));
+		String addresses = states.stream().map(state -> state.getAddress()).collect(Collectors.joining("\n"));
+				
+    	LOG.info("The following devices are available:\n\n{}\n\n", addresses);
     }
 
 	protected ClimateTrayServerSimState getStateByAddress(String address) {

@@ -65,6 +65,8 @@ public class MNetPresetController extends AbstractClimateTrayController<MNetPres
     {
         JPanel view = new JPanel(new GridBagLayout());
 
+        view.setOpaque(false);
+        
         driveBox.setRenderer(new MNetDriveCellRenderer());
         modeBox.setRenderer(new MNetModeCellRenderer());
 

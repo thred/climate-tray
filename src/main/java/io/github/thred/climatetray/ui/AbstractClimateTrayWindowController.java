@@ -15,6 +15,7 @@
 package io.github.thred.climatetray.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Window;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -157,6 +158,8 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
         Set<Button> set = new HashSet<>(Arrays.asList(buttons));
         ButtonPanel buttonPanel = new ButtonPanel();
 
+        buttonPanel.setBackground(Color.WHITE);
+        
         if (set.contains(Button.YES))
         {
             buttonPanel.right(yesButton);

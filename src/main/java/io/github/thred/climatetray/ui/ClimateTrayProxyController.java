@@ -62,6 +62,9 @@ public class ClimateTrayProxyController extends AbstractClimateTrayController<Cl
     protected JPanel createView()
     {
         JPanel view = new JPanel(new GridBagLayout());
+        
+        view.setOpaque(false);
+        
         GBC gbc = new GBC(2, 10);
 
         view.add(proxyTypeNoneRadio, gbc.span(2));
