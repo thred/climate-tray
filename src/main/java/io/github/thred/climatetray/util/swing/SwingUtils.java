@@ -18,7 +18,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+import java.awt.Window;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -42,6 +49,7 @@ import javax.swing.SpinnerModel;
 
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.message.MessageComponent;
+import io.github.thred.climatetray.util.prefs.Prefs;
 
 public class SwingUtils
 {
@@ -139,6 +147,28 @@ public class SwingUtils
         return result;
     }
 
+    public static JLabel createIcon(Icon icon, String text, ActionListener... listeners)
+    {
+        JLabel result = new JLabel(icon);
+        
+        result.setToolTipText(text);
+        
+        if (listeners.length > 0) {
+	        result.addMouseListener(new MouseAdapter() {
+	        	@Override
+	        	public void mouseClicked(MouseEvent event) {
+	        		ActionEvent actionEvent = new ActionEvent(result, 0, null);
+	        		
+	        		for (ActionListener listener : listeners) {
+						listener.actionPerformed(actionEvent);
+					}
+	        	}
+			});
+        }
+
+        return result;
+    }
+
     public static JLabel createLabel(String text)
     {
         return createLabel(text, null);
@@ -148,6 +178,8 @@ public class SwingUtils
     {
         JLabel result = new JLabel(text);
 
+        result.setOpaque(false);
+        
         if (labelFor != null)
         {
             result.setLabelFor(labelFor);
@@ -270,5 +302,40 @@ public class SwingUtils
     public static JSeparator createSeparator()
     {
         return new JSeparator();
+    }
+    
+    public static void fixLocation(Window window) {
+    	Rectangle bounds = window.getBounds();
+    	
+    	updateLocation(window, bounds);
+    }
+
+	private static void updateLocation(Window window, Rectangle bounds) {
+		if (isRectangleVisible(bounds)) {
+            Rectangle screenBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().getBounds();
+            
+            bounds.width = Math.min(bounds.width, screenBounds.width);
+            bounds.height = Math.min(bounds.height, screenBounds.height);
+            bounds.x = (screenBounds.width - bounds.width)/2;
+            bounds.y = (screenBounds.height - bounds.height)/2;
+    	}
+    	
+        window.setLocation(bounds.getLocation());
+        window.setSize(bounds.getSize());
+	}
+    
+    public static boolean isRectangleVisible(Rectangle rectangle) {
+        GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] devices = environment.getScreenDevices();
+        
+        for (GraphicsDevice device : devices) {
+			Rectangle bounds = device.getDefaultConfiguration().getBounds();
+			
+			if (bounds.contains(rectangle)) {
+				return true;
+			}
+		}
+        
+        return false;
     }
 }

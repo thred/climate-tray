@@ -16,8 +16,8 @@
 
 	<scm>
 		<developerConnection>scm:git:https://github.com/thred/climate-tray.git</developerConnection>
-	  <tag>HEAD</tag>
-  </scm>
+	  	<tag>HEAD</tag>
+  	</scm>
 
 	<dependencies>
 		<dependency>

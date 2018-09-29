@@ -24,6 +24,8 @@ public class ClimateTrayServerSimConfiguration
     public static void main(String[] args)
     {
         SpringApplication.run(ClimateTrayServerSimConfiguration.class, args);
+        
+        
     }
 
 }

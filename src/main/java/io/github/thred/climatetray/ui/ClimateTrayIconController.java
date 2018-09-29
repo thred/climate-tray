@@ -142,7 +142,7 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
         view
             .setImage((image != null) ? image
                 : ClimateTrayImage.ICON.getImage(ClimateTrayImageState.DEFAULT, TRAY_ICON_SIZE));
-        view.setToolTip((toolTip != null) ? toolTip : "Climate-Tray");
+        view.setToolTip((toolTip != null) ? toolTip : "Climate Tray");
     }
 
     @Override
@@ -169,7 +169,7 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
     {
         LOG.debug("Opening popup.");
 
-        popupController.consume(x, y);
+        popupController.consume(null, x, y);
     }
 
 }

@@ -14,9 +14,11 @@
  */
 package io.github.thred.climatetray;
 
-import static io.github.thred.climatetray.ClimateTray.*;
+import static io.github.thred.climatetray.ClimateTray.LOG;
+import static io.github.thred.climatetray.ClimateTray.PREFERENCES;
 
 import java.awt.Desktop;
+import java.awt.SystemTray;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -40,11 +42,13 @@ import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.mnet.MNetService;
 import io.github.thred.climatetray.mnet.MNetState;
 import io.github.thred.climatetray.ui.ClimateTrayAboutDialogController;
+import io.github.thred.climatetray.ui.ClimateTrayController;
 import io.github.thred.climatetray.ui.ClimateTrayIconController;
 import io.github.thred.climatetray.ui.ClimateTrayLogFrameController;
 import io.github.thred.climatetray.ui.ClimateTrayMessageDialogController;
 import io.github.thred.climatetray.ui.ClimateTrayPreferencesDialogController;
 import io.github.thred.climatetray.ui.ClimateTrayProxyDialogController;
+import io.github.thred.climatetray.ui.ClimateTrayWindowController;
 import io.github.thred.climatetray.util.BuildInfo;
 import io.github.thred.climatetray.util.ExceptionConsumer;
 import io.github.thred.climatetray.util.VoidCallable;
@@ -58,7 +62,7 @@ public class ClimateTrayService
 
     private static final SystemPrefs PREFS = SystemPrefs.get(ClimateTray.class);
     private static final ScheduledExecutorService EXECUTOR;
-    private static final ClimateTrayIconController ICON_CONTROLLER;
+    private static final ClimateTrayController<ClimateTrayPreferences, ?> MAIN_CONTROLLER;
     private static final ClimateTrayAboutDialogController ABOUT_CONTROLLER;
     private static final ClimateTrayLogFrameController LOG_CONTROLLER;
     private static final ClimateTrayPreferencesDialogController PREFERENCES_CONTROLLER;
@@ -66,14 +70,21 @@ public class ClimateTrayService
     static
     {
         EXECUTOR = Executors.newSingleThreadScheduledExecutor(r -> {
-            Thread thread = new Thread(r, "Climate-Tray Executor Thread");
+            Thread thread = new Thread(r, "Climate Tray Executor Thread");
 
             thread.setUncaughtExceptionHandler((t, e) -> LOG.error("Unhandled exception", e));
 
             return thread;
         });
 
-        ICON_CONTROLLER = new ClimateTrayIconController();
+        if (!SystemTray.isSupported() || System.getProperties().containsKey("window"))
+        {
+        	MAIN_CONTROLLER = new ClimateTrayWindowController();
+        }
+        else {
+        	MAIN_CONTROLLER = new ClimateTrayIconController();
+        }
+
         ABOUT_CONTROLLER = new ClimateTrayAboutDialogController(null);
         LOG_CONTROLLER = new ClimateTrayLogFrameController(null);
         PREFERENCES_CONTROLLER = new ClimateTrayPreferencesDialogController(null);
@@ -83,7 +94,7 @@ public class ClimateTrayService
 
     public static void prepare()
     {
-        SwingUtilities.invokeLater(() -> ICON_CONTROLLER.prepareWith(PREFERENCES));
+    	SwingUtilities.invokeLater(() -> MAIN_CONTROLLER.prepareWith(PREFERENCES));
     }
 
     public static void load()
@@ -145,7 +156,7 @@ public class ClimateTrayService
 
     public static void refresh()
     {
-        SwingUtilities.invokeLater(() -> ICON_CONTROLLER.refreshWith(PREFERENCES));
+        SwingUtilities.invokeLater(() -> MAIN_CONTROLLER.refreshWith(PREFERENCES));
     }
 
     public static void updateDevices()
@@ -486,12 +497,16 @@ public class ClimateTrayService
         submitTask(ClimateTrayUtils::performBuildInfoRequest, onSuccess);
     }
 
+	public static void start() {
+		MAIN_CONTROLLER.getView();
+	}
+
     public static void exit()
     {
         SwingUtilities.invokeLater(() -> {
             LOG.info("Exiting.");
 
-            ICON_CONTROLLER.dismiss(PREFERENCES);
+            MAIN_CONTROLLER.dismiss(PREFERENCES);
             ABOUT_CONTROLLER.dismiss(PREFERENCES);
             LOG_CONTROLLER.dismiss(LOG);
             PREFERENCES_CONTROLLER.dismiss(PREFERENCES);

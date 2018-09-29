@@ -53,7 +53,7 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
     }
 
     protected final Window owner;
-    protected final AbstractClimateTrayController<MODEL_TYPE, ? extends JComponent> controller;
+    protected final ClimateTrayController<MODEL_TYPE, ? extends JComponent> controller;
     protected final Button[] buttons;
 
     protected final TitlePanel titlePanel = new TitlePanel(null, null);

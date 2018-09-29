@@ -14,13 +14,15 @@
  */
 package io.github.thred.climatetray.ui;
 
-import static io.github.thred.climatetray.ClimateTray.*;
-import static io.github.thred.climatetray.util.swing.SwingUtils.*;
+import static io.github.thred.climatetray.ClimateTray.PREFERENCES;
+import static io.github.thred.climatetray.util.swing.SwingUtils.createMenuHeadline;
+import static io.github.thred.climatetray.util.swing.SwingUtils.createMenuItem;
 
 import java.awt.Component;
 import java.awt.Frame;
 import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Window;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +59,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         "Manage the presets, air conditioners and other settings.", (e) -> ClimateTrayService.preferences());
     private final JMenuItem logItem = createMenuItem("Log...", null, null, (e) -> ClimateTrayService.log());
     private final JMenuItem aboutItem = createMenuItem("About...", null, null, (e) -> ClimateTrayService.about());
+    private final JMenuItem closeItem = createMenuItem("Close Options", null, null, (e) -> {});
     private final JMenuItem exitItem = createMenuItem("Exit", null, null, (e) -> ClimateTrayService.exit());
     private final Map<String, Component> dynamicItems = new HashMap<>();
 
@@ -79,6 +82,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         view.add(logItem);
         view.add(aboutItem);
         view.addSeparator();
+        view.add(closeItem);
         view.add(exitItem);
 
         return view;
@@ -349,14 +353,14 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         // intentionally left blank
     }
 
-    public void consume()
+    public void consume(Window owner)
     {
         Point location = MouseInfo.getPointerInfo().getLocation();
 
-        consume(location.x, location.y);
+        consume(owner, location.x, location.y);
     }
 
-    public void consume(int x, int y)
+    public void consume(Window owner, int x, int y)
     {
         JPopupMenu view = getView();
 
@@ -376,16 +380,20 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
             monitor.unblock();
         }
 
-        hiddenDialogForFocusManagement = new JDialog((Frame) null, "Climate Tray");
-
-        hiddenDialogForFocusManagement.setUndecorated(true);
-        hiddenDialogForFocusManagement
-            .setIconImages(ClimateTrayImage.ICON.getImages(ClimateTrayImageState.NONE, 64, 48, 32, 24, 16));
-        hiddenDialogForFocusManagement.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        hiddenDialogForFocusManagement.setVisible(true);
-
+        if (owner == null) {
+	        hiddenDialogForFocusManagement = new JDialog((Frame) null, "Climate Tray");
+	    	
+	        hiddenDialogForFocusManagement.setUndecorated(true);
+	        hiddenDialogForFocusManagement
+	            .setIconImages(ClimateTrayImage.ICON.getImages(ClimateTrayImageState.NONE, 64, 48, 32, 24, 16));
+	        hiddenDialogForFocusManagement.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+	        hiddenDialogForFocusManagement.setVisible(true);
+	        
+	        owner = hiddenDialogForFocusManagement;
+        }
+        
         view.pack();
-        view.show(hiddenDialogForFocusManagement, x, y);
+        view.show(owner, x, y);
     }
 
     public void presetSelect(MNetPreset preset)
@@ -411,7 +419,6 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         {
             hiddenDialogForFocusManagement.setVisible(false);
             hiddenDialogForFocusManagement.dispose();
-
             hiddenDialogForFocusManagement = null;
         }
     }

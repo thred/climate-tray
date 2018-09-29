@@ -78,7 +78,8 @@ public enum ClimateTrayImage
     ICON_ERROR,
     ICON_WARNING,
     ICON_INFO,
-    ICON_DEBUG;
+    ICON_DEBUG,
+    SETTINGS;
 
     private ClimateTrayImage()
     {

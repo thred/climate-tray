@@ -14,6 +14,7 @@
  */
 package io.github.thred.climatetray;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,6 +40,7 @@ public class ClimateTrayPreferences implements Persistent
     private double updatePeriodInMinutes = 1;
     private boolean versionCheckEnabled = true;
     private boolean trayIconEnabled = true;
+    private Point windowLocation = new Point();
 
     public ClimateTrayPreferences()
     {
@@ -130,7 +132,15 @@ public class ClimateTrayPreferences implements Persistent
         this.trayIconEnabled = trayIconEnabled;
     }
 
-    @Override
+    public Point getWindowLocation() {
+		return windowLocation;
+	}
+    
+    public void setWindowLocation(Point windowLocation) {
+		this.windowLocation = windowLocation;
+	}
+
+	@Override
     public void read(Prefs prefs)
     {
         version = prefs.getInteger("version", version);
@@ -144,6 +154,7 @@ public class ClimateTrayPreferences implements Persistent
         updatePeriodInMinutes = prefs.getDouble("updatePeriodInMinutes", updatePeriodInMinutes);
         versionCheckEnabled = prefs.getBoolean("versionCheckEnabled", versionCheckEnabled);
         trayIconEnabled = prefs.getBoolean("trayIconEnabled", trayIconEnabled);
+        windowLocation = new Point(prefs.getInteger("window.x", -1), prefs.getInteger("window.y", -1));
     }
 
     @Override
@@ -162,6 +173,8 @@ public class ClimateTrayPreferences implements Persistent
         prefs.setDouble("updatePeriodInMinutes", updatePeriodInMinutes);
         prefs.setBoolean("versionCheckEnabled", versionCheckEnabled);
         prefs.setBoolean("trayIconEnabled", trayIconEnabled);
+        prefs.setInteger("window.x", windowLocation.x);
+        prefs.setInteger("window.y", windowLocation.y);
     }
 
     @Override

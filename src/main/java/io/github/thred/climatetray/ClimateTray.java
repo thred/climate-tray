@@ -60,6 +60,8 @@ public class ClimateTray
         ClimateTrayService.load();
         ClimateTrayService.scheduleUpdate();
         ClimateTrayService.checkVersion();
+        ClimateTrayService.start();
+        
     }
 
 }
