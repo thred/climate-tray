@@ -1,3 +1,18 @@
+# Climate Tray 1.2.0
+
+## Enhancements
+
+* Added fallback, if tray icons are not available (e.g. Gnome)
+
+# Climate Tray 1.1.1
+
+## Bugfixes
+
+* Fixes an invalid map.get reported by SpotBugs
+* Fixes a CCE in preferences as suggested by StefanTT
+* Fixes types as suggested by uwaseem
+* Fixes reset of group after address change
+
 # Climate Tray 1.1.0
 
 ## Enhancements
