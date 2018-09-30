@@ -30,7 +30,7 @@ import io.github.thred.climatetray.ClimateTrayPreferences;
 import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.util.BuildInfo;
 import io.github.thred.climatetray.util.message.Message;
-import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.FooterPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
 public class ClimateTrayAboutDialogController extends DefaultClimateTrayDialogController<ClimateTrayPreferences>
@@ -49,7 +49,7 @@ public class ClimateTrayAboutDialogController extends DefaultClimateTrayDialogCo
     @Override
     protected JComponent createBottomPanel(Button... buttons)
     {
-        ButtonPanel panel = (ButtonPanel) super.createBottomPanel(buttons);
+        FooterPanel panel = (FooterPanel) super.createBottomPanel(buttons);
 
         panel.left(visitHomepageButton);
 

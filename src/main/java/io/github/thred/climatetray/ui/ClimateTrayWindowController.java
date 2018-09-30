@@ -24,6 +24,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -123,12 +124,14 @@ public class ClimateTrayWindowController extends AbstractClimateTrayController<C
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
         panel.setLayout(new BorderLayout());
+        panel.setBorder(BorderFactory.createLineBorder(new Color(0x202030)));
 
         view.setLayout(new BorderLayout());
         view.add(panel, BorderLayout.CENTER);
 
         icon = SwingUtils
-            .createIcon(ClimateTrayImage.ICON.getIcon(ClimateTrayImageState.DEFAULT, ICON_SIZE), "Climate Tray");
+            .createClickLabelIcon(ClimateTrayImage.ICON.getIcon(ClimateTrayImageState.DEFAULT, ICON_SIZE),
+                "Climate Tray", event -> adjust());
         panel.add(icon, BorderLayout.WEST);
 
         text = SwingUtils.createLabel("Climate Tray");
@@ -137,8 +140,8 @@ public class ClimateTrayWindowController extends AbstractClimateTrayController<C
         panel.add(text, BorderLayout.CENTER);
 
         settings = SwingUtils
-            .createIcon(ClimateTrayImage.SETTINGS.getIcon(ClimateTrayImageState.DEFAULT, ICON_SIZE), "Settings",
-                event -> popup(0, 0));
+            .createClickLabelIcon(ClimateTrayImage.SETTINGS.getIcon(ClimateTrayImageState.DEFAULT, ICON_SIZE),
+                "Settings", event -> popup(0, 0));
         panel.add(settings, BorderLayout.EAST);
     }
 
@@ -212,6 +215,13 @@ public class ClimateTrayWindowController extends AbstractClimateTrayController<C
         view.setVisible(false);
 
         popupController.dismiss(model);
+    }
+
+    public void adjust()
+    {
+        LOG.debug("Opening adjust.");
+
+        ClimateTrayService.adjustAll();
     }
 
     public void popup(int x, int y)

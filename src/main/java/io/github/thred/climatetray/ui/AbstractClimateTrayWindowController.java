@@ -36,7 +36,7 @@ import io.github.thred.climatetray.util.Severity;
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.BorderPanel;
-import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.FooterPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 import io.github.thred.climatetray.util.swing.TitlePanel;
 
@@ -156,7 +156,7 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
     protected JComponent createBottomPanel(Button... buttons)
     {
         Set<Button> set = new HashSet<>(Arrays.asList(buttons));
-        ButtonPanel buttonPanel = new ButtonPanel();
+        FooterPanel buttonPanel = new FooterPanel();
 
         buttonPanel.setBackground(Color.WHITE);
 
@@ -186,6 +186,14 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
         }
 
         return buttonPanel;
+    }
+
+    @Override
+    public void prepareWith(MODEL_TYPE model)
+    {
+        super.prepareWith(model);
+
+        controller.prepareWith(model);
     }
 
     @Override

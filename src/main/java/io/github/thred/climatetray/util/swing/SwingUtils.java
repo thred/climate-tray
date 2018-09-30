@@ -46,7 +46,10 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
+import javax.swing.SwingConstants;
 
+import io.github.thred.climatetray.ClimateTrayImage;
+import io.github.thred.climatetray.ClimateTrayImageState;
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.message.MessageComponent;
 
@@ -136,7 +139,17 @@ public class SwingUtils
 
     public static JButton createButton(String text, ActionListener... listeners)
     {
+        return createButton(null, text, listeners);
+    }
+
+    public static JButton createButton(Icon icon, String text, ActionListener... listeners)
+    {
         JButton result = new JButton(text);
+
+        if (icon != null)
+        {
+            result.setIcon(icon);
+        }
 
         for (ActionListener listener : listeners)
         {
@@ -146,7 +159,56 @@ public class SwingUtils
         return result;
     }
 
-    public static JLabel createIcon(Icon icon, String text, ActionListener... listeners)
+    public static JButton createIcon(Icon icon, String text, ActionListener... listeners)
+    {
+        JButton result = new JButton(text);
+
+        result.setIcon(icon);
+        result.setHorizontalAlignment(SwingConstants.CENTER);
+        result.setHorizontalTextPosition(SwingConstants.CENTER);
+        result.setVerticalAlignment(SwingConstants.CENTER);
+        result.setVerticalTextPosition(SwingConstants.BOTTOM);
+        result.setIconTextGap(0);
+        result.setBorderPainted(false);
+        result.setFocusPainted(false);
+
+        for (ActionListener listener : listeners)
+        {
+            result.addActionListener(listener);
+        }
+
+        return result;
+    }
+
+    public static ToggleIcon createToggleIcon(ClimateTrayImage image, int size, String text,
+        ActionListener... listeners)
+    {
+        return createToggleIcon(image.getIcon(ClimateTrayImageState.HIGHLIGHT, size),
+            image.getIcon(ClimateTrayImageState.NONE, size), text, listeners);
+    }
+
+    public static ToggleIcon createToggleIcon(Icon onIcon, Icon offIcon, String text, ActionListener... listeners)
+    {
+        ToggleIcon result = new ToggleIcon(onIcon, offIcon);
+
+        result.setText(text);
+        result.setHorizontalAlignment(SwingConstants.CENTER);
+        result.setHorizontalTextPosition(SwingConstants.CENTER);
+        result.setVerticalAlignment(SwingConstants.CENTER);
+        result.setVerticalTextPosition(SwingConstants.BOTTOM);
+        result.setIconTextGap(0);
+        result.setBorderPainted(false);
+        result.setFocusPainted(false);
+
+        for (ActionListener listener : listeners)
+        {
+            result.addActionListener(listener);
+        }
+
+        return result;
+    }
+
+    public static JLabel createClickLabelIcon(Icon icon, String text, ActionListener... listeners)
     {
         JLabel result = new JLabel(icon);
 

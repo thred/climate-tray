@@ -36,11 +36,13 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import io.github.thred.climatetray.mnet.MNetAdjust;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.mnet.MNetService;
 import io.github.thred.climatetray.mnet.MNetState;
 import io.github.thred.climatetray.ui.ClimateTrayAboutDialogController;
+import io.github.thred.climatetray.ui.ClimateTrayAdjustAllDialogController;
 import io.github.thred.climatetray.ui.ClimateTrayController;
 import io.github.thred.climatetray.ui.ClimateTrayIconController;
 import io.github.thred.climatetray.ui.ClimateTrayLogFrameController;
@@ -53,7 +55,7 @@ import io.github.thred.climatetray.util.ExceptionConsumer;
 import io.github.thred.climatetray.util.VoidCallable;
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.prefs.SystemPrefs;
-import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.FooterPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
 public class ClimateTrayService
@@ -62,6 +64,7 @@ public class ClimateTrayService
     private static final SystemPrefs PREFS = SystemPrefs.get(ClimateTray.class);
     private static final ScheduledExecutorService EXECUTOR;
     private static final ClimateTrayController<ClimateTrayPreferences, ?> MAIN_CONTROLLER;
+    private static final ClimateTrayAdjustAllDialogController ADJUST_ALL_CONTROLLER;
     private static final ClimateTrayAboutDialogController ABOUT_CONTROLLER;
     private static final ClimateTrayLogFrameController LOG_CONTROLLER;
     private static final ClimateTrayPreferencesDialogController PREFERENCES_CONTROLLER;
@@ -79,12 +82,14 @@ public class ClimateTrayService
         if (!SystemTray.isSupported() || System.getProperties().containsKey("window"))
         {
             MAIN_CONTROLLER = new ClimateTrayWindowController();
+
         }
         else
         {
             MAIN_CONTROLLER = new ClimateTrayIconController();
         }
 
+        ADJUST_ALL_CONTROLLER = new ClimateTrayAdjustAllDialogController(null);
         ABOUT_CONTROLLER = new ClimateTrayAboutDialogController(null);
         LOG_CONTROLLER = new ClimateTrayLogFrameController(null);
         PREFERENCES_CONTROLLER = new ClimateTrayPreferencesDialogController(null);
@@ -341,6 +346,31 @@ public class ClimateTrayService
         submitTask(() -> MNetService.adjustDevice(device, preset), ClimateTrayService::updatePresets);
     }
 
+    public static void toggleAdjust(MNetAdjust adjust)
+    {
+        LOG.debug("Toggling adjust for all selected devices.");
+
+        submitTask(() -> PREFERENCES
+            .getDevices()
+            .stream()
+            .filter(device -> device.isEnabled() && device.isSelected())
+            .forEach(device -> MNetService.adjustDevice(device, adjust)), ClimateTrayService::updatePresets);
+    }
+
+    protected static void toggleAdjust(MNetDevice device, MNetAdjust adjust)
+    {
+        LOG.debug("Toggling adjust for device %s.", device.getId());
+
+        if (!device.isEnabled())
+        {
+            LOG.debug("Device is not enabled");
+
+            return;
+        }
+
+        submitTask(() -> MNetService.adjustDevice(device, adjust), ClimateTrayService::updatePresets);
+    }
+
     public static void toggleDevice(UUID id)
     {
         LOG.debug("Toggling air conditioner with id %s.", id);
@@ -356,6 +386,19 @@ public class ClimateTrayService
 
         store();
         scheduleUpdate();
+    }
+
+    public static void adjustAll()
+    {
+        SwingUtilities.invokeLater(() -> {
+            LOG.debug("Opening adjust all dialog.");
+
+            MNetAdjust adjust = new MNetAdjust();
+
+            adjust.setStateOf(ClimateTray.PREFERENCES.getDefaultDevice());
+
+            ADJUST_ALL_CONTROLLER.consume(adjust);
+        });
     }
 
     public static void preferences()
@@ -427,7 +470,7 @@ public class ClimateTrayService
                     @Override
                     protected JComponent createBottomPanel(Button... buttons)
                     {
-                        ButtonPanel panel = (ButtonPanel) super.createBottomPanel(buttons);
+                        FooterPanel panel = (FooterPanel) super.createBottomPanel(buttons);
 
                         panel.left(visitHomepageButton);
                         panel.right(remindMeLaterButton, disableCheckButton);

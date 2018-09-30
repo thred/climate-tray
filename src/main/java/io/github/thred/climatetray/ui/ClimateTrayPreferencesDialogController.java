@@ -24,7 +24,7 @@ import javax.swing.JDialog;
 
 import io.github.thred.climatetray.ClimateTrayPreferences;
 import io.github.thred.climatetray.ClimateTrayService;
-import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.FooterPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
 public class ClimateTrayPreferencesDialogController extends DefaultClimateTrayDialogController<ClimateTrayPreferences>
@@ -44,7 +44,7 @@ public class ClimateTrayPreferencesDialogController extends DefaultClimateTrayDi
     @Override
     protected JComponent createBottomPanel(Button... buttons)
     {
-        ButtonPanel panel = (ButtonPanel) super.createBottomPanel(buttons);
+        FooterPanel panel = (FooterPanel) super.createBottomPanel(buttons);
 
         panel.left(proxyButton);
 

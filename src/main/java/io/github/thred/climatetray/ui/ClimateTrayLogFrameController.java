@@ -27,7 +27,7 @@ import io.github.thred.climatetray.util.Severity;
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.message.MessageListener;
-import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.FooterPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
 public class ClimateTrayLogFrameController extends DefaultClimateTrayFrameController<MessageBuffer>
@@ -56,7 +56,7 @@ public class ClimateTrayLogFrameController extends DefaultClimateTrayFrameContro
     @Override
     protected JComponent createBottomPanel(Button... buttons)
     {
-        ButtonPanel panel = (ButtonPanel) super.createBottomPanel(buttons);
+        FooterPanel panel = (FooterPanel) super.createBottomPanel(buttons);
 
         panel.left(clearButton);
 

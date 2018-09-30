@@ -17,6 +17,7 @@ package io.github.thred.climatetray.mnet.request;
 import java.util.Locale;
 import java.util.Objects;
 
+import io.github.thred.climatetray.mnet.MNetAdjust;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetDrive;
 import io.github.thred.climatetray.mnet.MNetPreset;
@@ -34,6 +35,11 @@ public class MNetOperateRequest extends AbstractMNetDeviceRequest
     protected String getRequestCommand()
     {
         return "setRequest";
+    }
+
+    public MNetOperateRequest adjustDevice(MNetDevice device, MNetAdjust adjust) throws MNetRequestException
+    {
+        return addOperation(new MNetDeviceRequestItem(device, adjust));
     }
 
     public MNetOperateRequest adjustDevice(MNetDevice device, MNetPreset preset) throws MNetRequestException
@@ -121,4 +127,5 @@ public class MNetOperateRequest extends AbstractMNetDeviceRequest
             builder.attribute("FanSpeed", item.getFan().getKey());
         }
     }
+
 }

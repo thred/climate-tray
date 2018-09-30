@@ -24,8 +24,8 @@ public enum MNetMode
 {
 
     NO_CHANGE(null, "Do not change", null, null, ClimateTrayImage.ICON_JOKER, null, true, 17, 30, true, true),
-    FAN("FAN", "Fan", "blowing", "blowing", ClimateTrayImage.ICON_FAN, ClimateTrayImage.BACKGROUND_FAN1, true, true,
-        true),
+    FAN("FAN", "Fan Only", "blowing", "blowing", ClimateTrayImage.ICON_FAN, ClimateTrayImage.BACKGROUND_FAN1, true,
+        true, true),
     COOL("COOL", "Cool", "cool down", "cooling down to %s", ClimateTrayImage.ICON_COOL,
         ClimateTrayImage.BACKGROUND_COOL, true, 19, 30, true, true),
     HEAT("HEAT", "Heat", "heat up", "heating up to %s", ClimateTrayImage.ICON_HEAT, ClimateTrayImage.BACKGROUND_HEAT,

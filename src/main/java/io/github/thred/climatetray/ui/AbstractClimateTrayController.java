@@ -61,10 +61,4 @@ public abstract class AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
         return view;
     }
 
-    @Override
-    public void prepareWith(MODEL_TYPE model)
-    {
-        refreshWith(model);
-    }
-
 }

@@ -64,6 +64,20 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
                     popup(e.getX(), e.getY());
                 }
             }
+
+            @Override
+            public void mouseClicked(MouseEvent e)
+            {
+                if (e.isPopupTrigger())
+                {
+                    return;
+                }
+
+                if (e.getButton() == MouseEvent.BUTTON1 || e.getClickCount() == 2)
+                {
+                    adjust();
+                }
+            }
         });
     }
 
@@ -163,6 +177,13 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
         SystemTray.getSystemTray().remove(view);
 
         popupController.dismiss(model);
+    }
+
+    public void adjust()
+    {
+        LOG.debug("Opening adjust.");
+
+        ClimateTrayService.adjustAll();
     }
 
     public void popup(int x, int y)

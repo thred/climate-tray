@@ -14,11 +14,17 @@ public interface ClimateTrayController<MODEL_TYPE, VIEW_TYPE>
 
     VIEW_TYPE getView();
 
-    void prepareWith(MODEL_TYPE model);
+    default void prepareWith(MODEL_TYPE model)
+    {
+        refreshWith(model);
+    }
 
     void refreshWith(MODEL_TYPE model);
 
-    void modified(MessageBuffer messageBuffer);
+    default void modified(MessageBuffer messageBuffer)
+    {
+        // intentionally left blank
+    }
 
     void applyTo(MODEL_TYPE model);
 

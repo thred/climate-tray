@@ -20,18 +20,20 @@
 package io.github.thred.climatetray.util.swing;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
 
 public class ButtonPanel extends JPanel
 {
 
     private static final long serialVersionUID = -5243820877340066905L;
+
+    private static final Border DEFAULT_BORDER = BorderFactory.createEmptyBorder(2, 3, 2, 3);
 
     private final JPanel panel;
     private final JPanel leftPanel;
@@ -40,11 +42,16 @@ public class ButtonPanel extends JPanel
 
     public ButtonPanel()
     {
+        this(DEFAULT_BORDER);
+    }
+
+    public ButtonPanel(Border border)
+    {
         super(new BorderLayout());
 
-        setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.GRAY));
+        setOpaque(false);
 
-        panel = new BorderPanel(new GridBagLayout());
+        panel = new BorderPanel(new GridBagLayout(), border);
         panel.setOpaque(false);
 
         leftPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -57,6 +64,7 @@ public class ButtonPanel extends JPanel
         rightPanel.setOpaque(false);
 
         GBC gbc = new GBC(3, 1).defaultOutsets(0, 0, 0, 0).defaultInsets(0, 0, 0, 0);
+
         panel.add(leftPanel, gbc.left().weight(0.5));
         panel.add(centerPanel, gbc.next().center().weight(0.5));
         panel.add(rightPanel, gbc.next().right().weight(0.5));

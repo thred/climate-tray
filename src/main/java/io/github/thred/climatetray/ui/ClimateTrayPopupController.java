@@ -53,11 +53,15 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     implements PopupMenuListener
 {
 
+    private static final int FIRST_DYNAMIC_ITEM = 2;
+
     private final TitlePanel titlePanel = new TitlePanel("Climate Tray", null);
-    private final JMenuItem preferencesItem = createMenuItem("Preferences...", null,
+    private final JMenuItem adjustItem = createMenuItem("Adjust ...",
+        ClimateTrayImage.ICON.getIcon(ClimateTrayImageState.DEFAULT, 16), null, e -> ClimateTrayService.adjustAll());
+    private final JMenuItem preferencesItem = createMenuItem("Preferences ...", null,
         "Manage the presets, air conditioners and other settings.", (e) -> ClimateTrayService.preferences());
-    private final JMenuItem logItem = createMenuItem("Log...", null, null, (e) -> ClimateTrayService.log());
-    private final JMenuItem aboutItem = createMenuItem("About...", null, null, (e) -> ClimateTrayService.about());
+    private final JMenuItem logItem = createMenuItem("Log ...", null, null, (e) -> ClimateTrayService.log());
+    private final JMenuItem aboutItem = createMenuItem("About ...", null, null, (e) -> ClimateTrayService.about());
     private final JMenuItem closeItem = createMenuItem("Close Options", null, null, (e) -> {
     });
     private final JMenuItem exitItem = createMenuItem("Exit", null, null, (e) -> ClimateTrayService.exit());
@@ -78,6 +82,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         view.addPopupMenuListener(this);
 
         view.add(titlePanel);
+        view.add(adjustItem);
         view.add(preferencesItem);
         view.add(logItem);
         view.add(aboutItem);
@@ -92,7 +97,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     public void prepareWith(ClimateTrayPreferences model)
     {
         JPopupMenu view = getView();
-        int index = 1;
+        int index = FIRST_DYNAMIC_ITEM;
 
         dynamicItems.values().stream().forEach(view::remove);
         dynamicItems.clear();

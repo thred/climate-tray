@@ -57,6 +57,11 @@ public class ClimateTrayPreferences implements Persistent
         return devices.stream().filter((device) -> Objects.equals(id, device.getId())).findFirst().orElse(null);
     }
 
+    public MNetDevice getDefaultDevice()
+    {
+        return devices.stream().filter(device -> device.isSelectedAndWorking()).findFirst().orElse(null);
+    }
+
     public List<MNetDevice> getDevices()
     {
         return devices;

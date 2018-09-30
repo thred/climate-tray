@@ -25,8 +25,9 @@ import javax.swing.border.Border;
 public class BorderPanel extends JPanel
 {
 
-    private static final Border DEFAULT_BORDER = BorderFactory.createEmptyBorder(8, 12, 8, 12);
     private static final long serialVersionUID = -3653014923804516104L;
+
+    public static final Border DEFAULT_BORDER = BorderFactory.createEmptyBorder(8, 12, 8, 12);
 
     public BorderPanel(LayoutManager layoutManager)
     {

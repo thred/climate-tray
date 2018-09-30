@@ -30,7 +30,7 @@ import io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button
 import io.github.thred.climatetray.ui.ClimateTrayMessageDialogController;
 import io.github.thred.climatetray.util.BuildInfo;
 import io.github.thred.climatetray.util.message.Message;
-import io.github.thred.climatetray.util.swing.ButtonPanel;
+import io.github.thred.climatetray.util.swing.FooterPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
 public class ClimateTrayUtils
@@ -125,7 +125,7 @@ public class ClimateTrayUtils
             @Override
             protected JComponent createBottomPanel(Button... buttons)
             {
-                ButtonPanel panel = (ButtonPanel) super.createBottomPanel(buttons);
+                FooterPanel panel = (FooterPanel) super.createBottomPanel(buttons);
 
                 panel.left(proxyButton);
 
