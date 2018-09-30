@@ -14,7 +14,7 @@
  */
 package io.github.thred.climatetray.mnet;
 
-import static io.github.thred.climatetray.ClimateTray.PREFERENCES;
+import static io.github.thred.climatetray.ClimateTray.*;
 
 import java.awt.Image;
 import java.util.ArrayList;
@@ -157,13 +157,14 @@ public class MNetState implements Copyable<MNetState>
 
     public List<Image> createImages(ClimateTrayImageState state, int... sizes)
     {
-    	List<Image> result = new ArrayList<>();
-    	
-    	for (int size : sizes) {
-    		result.add(createImage(state, size));
-		}
-    	
-    	return result;
+        List<Image> result = new ArrayList<>();
+
+        for (int size : sizes)
+        {
+            result.add(createImage(state, size));
+        }
+
+        return result;
     }
 
     public String describe()
@@ -217,18 +218,18 @@ public class MNetState implements Copyable<MNetState>
 
         if ((drive == MNetDrive.ON) && (mode != null))
         {
-        	result.append(String.format(mode.getAction(), PREFERENCES.getTemperatureUnit().format(temperature)));
+            result.append(String.format(mode.getAction(), PREFERENCES.getTemperatureUnit().format(temperature)));
         }
         else
         {
-        	result.append("Off");
-        	
+            result.append("Off");
+
             if (thermometer != null)
             {
                 result.append(" (").append(PREFERENCES.getTemperatureUnit().format(thermometer)).append(")");
             }
         }
-        
+
         return result.toString();
     }
 

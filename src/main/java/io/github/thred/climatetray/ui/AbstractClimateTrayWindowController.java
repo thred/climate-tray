@@ -159,7 +159,7 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
         ButtonPanel buttonPanel = new ButtonPanel();
 
         buttonPanel.setBackground(Color.WHITE);
-        
+
         if (set.contains(Button.YES))
         {
             buttonPanel.right(yesButton);

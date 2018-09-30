@@ -17,7 +17,8 @@ package io.github.thred.climatetray.ui;
 import io.github.thred.climatetray.util.swing.Monitor;
 import io.github.thred.climatetray.util.swing.MonitorListener;
 
-public abstract class AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE> implements ClimateTrayController<MODEL_TYPE, VIEW_TYPE>
+public abstract class AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
+    implements ClimateTrayController<MODEL_TYPE, VIEW_TYPE>
 {
 
     protected final Monitor monitor = new Monitor();
@@ -30,19 +31,19 @@ public abstract class AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE> imple
     }
 
     @Override
-	public void addMonitorListener(MonitorListener listener)
+    public void addMonitorListener(MonitorListener listener)
     {
         monitor.addMonitorListener(listener);
     }
 
     @Override
-	public void removeMonitorListener(MonitorListener listener)
+    public void removeMonitorListener(MonitorListener listener)
     {
         monitor.removeMonitorListener(listener);
     }
 
     @Override
-	public <TYPE> TYPE monitor(TYPE object)
+    public <TYPE> TYPE monitor(TYPE object)
     {
         return monitor.monitor(object);
     }
@@ -50,7 +51,7 @@ public abstract class AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE> imple
     protected abstract VIEW_TYPE createView();
 
     @Override
-	public final VIEW_TYPE getView()
+    public final VIEW_TYPE getView()
     {
         if (view == null)
         {
@@ -61,7 +62,7 @@ public abstract class AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE> imple
     }
 
     @Override
-	public void prepareWith(MODEL_TYPE model)
+    public void prepareWith(MODEL_TYPE model)
     {
         refreshWith(model);
     }

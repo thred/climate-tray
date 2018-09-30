@@ -132,15 +132,17 @@ public class ClimateTrayPreferences implements Persistent
         this.trayIconEnabled = trayIconEnabled;
     }
 
-    public Point getWindowLocation() {
-		return windowLocation;
-	}
-    
-    public void setWindowLocation(Point windowLocation) {
-		this.windowLocation = windowLocation;
-	}
+    public Point getWindowLocation()
+    {
+        return windowLocation;
+    }
 
-	@Override
+    public void setWindowLocation(Point windowLocation)
+    {
+        this.windowLocation = windowLocation;
+    }
+
+    @Override
     public void read(Prefs prefs)
     {
         version = prefs.getInteger("version", version);

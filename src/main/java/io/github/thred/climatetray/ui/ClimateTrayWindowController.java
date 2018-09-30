@@ -14,7 +14,7 @@
  */
 package io.github.thred.climatetray.ui;
 
-import static io.github.thred.climatetray.ClimateTray.LOG;
+import static io.github.thred.climatetray.ClimateTray.*;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -51,7 +51,7 @@ public class ClimateTrayWindowController extends AbstractClimateTrayController<C
     private final JLabel icon;
     private final JLabel text;
     private final JLabel settings;
-    
+
     private Point dragging = null;
 
     public ClimateTrayWindowController()
@@ -59,12 +59,12 @@ public class ClimateTrayWindowController extends AbstractClimateTrayController<C
         super();
 
         view = new JFrame("Climate Tray");
-        
+
         view.setIconImages(ClimateTrayImage.ICON.getImages(ClimateTrayImageState.DEFAULT, 64, 48, 32, 24, 16));
         view.setUndecorated(true);
         view.setBackground(Color.WHITE);
         view.setSize(256, ICON_SIZE);
-        
+
         view.addMouseListener(new MouseAdapter()
         {
             @Override
@@ -72,12 +72,13 @@ public class ClimateTrayWindowController extends AbstractClimateTrayController<C
             {
                 if (e.isPopupTrigger())
                 {
-                	Point location = e.getPoint();
-                	
+                    Point location = e.getPoint();
+
                     popup(location.x, location.y);
                 }
-                else {
-                	dragging = e.getLocationOnScreen();
+                else
+                {
+                    dragging = e.getLocationOnScreen();
                 }
             }
 
@@ -86,74 +87,80 @@ public class ClimateTrayWindowController extends AbstractClimateTrayController<C
             {
                 if (e.isPopupTrigger())
                 {
-                	Point location = e.getLocationOnScreen();
-                	
+                    Point location = e.getLocationOnScreen();
+
                     popup(location.x, location.y);
                 }
-                else if (dragging != null) {
-                	ClimateTray.PREFERENCES.setWindowLocation(view.getLocation());
-                	ClimateTrayService.store();
-                	dragging = null;
+                else if (dragging != null)
+                {
+                    ClimateTray.PREFERENCES.setWindowLocation(view.getLocation());
+                    ClimateTrayService.store();
+                    dragging = null;
                 }
             }
         });
-        
-        view.addMouseMotionListener(new MouseMotionAdapter() 
+
+        view.addMouseMotionListener(new MouseMotionAdapter()
         {
-			@Override
-			public void mouseDragged(MouseEvent e) 
-			{
-				if (dragging != null) {
-					Point point = e.getLocationOnScreen();
-					Point location = view.getLocation();
-					
-					location.x -= dragging.x - point.x;
-					location.y -= dragging.y - point.y;
-					
-					dragging = point;
-					
-					view.setLocation(location);
-				}
-			}
-		});
-        
+            @Override
+            public void mouseDragged(MouseEvent e)
+            {
+                if (dragging != null)
+                {
+                    Point point = e.getLocationOnScreen();
+                    Point location = view.getLocation();
+
+                    location.x -= dragging.x - point.x;
+                    location.y -= dragging.y - point.y;
+
+                    dragging = point;
+
+                    view.setLocation(location);
+                }
+            }
+        });
+
         panel = new JPanel();
         panel.setBackground(Color.WHITE);
         panel.setLayout(new BorderLayout());
-        
+
         view.setLayout(new BorderLayout());
         view.add(panel, BorderLayout.CENTER);
 
-        icon = SwingUtils.createIcon(ClimateTrayImage.ICON.getIcon(ClimateTrayImageState.DEFAULT, ICON_SIZE), "Climate Tray");
+        icon = SwingUtils
+            .createIcon(ClimateTrayImage.ICON.getIcon(ClimateTrayImageState.DEFAULT, ICON_SIZE), "Climate Tray");
         panel.add(icon, BorderLayout.WEST);
-        
+
         text = SwingUtils.createLabel("Climate Tray");
         text.setHorizontalAlignment(SwingConstants.CENTER);
         text.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
         panel.add(text, BorderLayout.CENTER);
-        
-        settings = SwingUtils.createIcon(ClimateTrayImage.SETTINGS.getIcon(ClimateTrayImageState.DEFAULT, ICON_SIZE), "Settings", event -> popup(0, 0));
+
+        settings = SwingUtils
+            .createIcon(ClimateTrayImage.SETTINGS.getIcon(ClimateTrayImageState.DEFAULT, ICON_SIZE), "Settings",
+                event -> popup(0, 0));
         panel.add(settings, BorderLayout.EAST);
     }
 
     @Override
     protected JFrame createView()
     {
-    	view.setVisible(true);
-    	
+        view.setVisible(true);
+
         return view;
     }
 
     @Override
-    public void prepareWith(ClimateTrayPreferences model) {
-    	super.prepareWith(model);
-    	
-    	SwingUtilities.invokeLater(() -> {
-			getView().setLocation(model.getWindowLocation());
-    		SwingUtils.fixLocation(view);
-    	});
+    public void prepareWith(ClimateTrayPreferences model)
+    {
+        super.prepareWith(model);
+
+        SwingUtilities.invokeLater(() -> {
+            getView().setLocation(model.getWindowLocation());
+            SwingUtils.fixLocation(view);
+        });
     }
-    
+
     @Override
     public void refreshWith(ClimateTrayPreferences model)
     {
@@ -167,8 +174,8 @@ public class ClimateTrayWindowController extends AbstractClimateTrayController<C
         if (activeDevice != null)
         {
             MNetState state = activeDevice.getState();
-            
-			view.setIconImages(state.createImages(ClimateTrayImageState.DEFAULT, 64, 48, 32, 24, 16));
+
+            view.setIconImages(state.createImages(ClimateTrayImageState.DEFAULT, 64, 48, 32, 24, 16));
             icon.setIcon(state.createIcon(ClimateTrayImageState.DEFAULT, ICON_SIZE));
             text.setText(activeDevice.getState().describeActionShort());
         }
@@ -183,7 +190,7 @@ public class ClimateTrayWindowController extends AbstractClimateTrayController<C
         //{
         popupController.refreshWith(model);
         //}
-        
+
         view.revalidate();
     }
 
@@ -202,9 +209,9 @@ public class ClimateTrayWindowController extends AbstractClimateTrayController<C
     @Override
     public void dismiss(ClimateTrayPreferences model)
     {
-    	view.setVisible(false);
+        view.setVisible(false);
 
-    	popupController.dismiss(model);
+        popupController.dismiss(model);
     }
 
     public void popup(int x, int y)

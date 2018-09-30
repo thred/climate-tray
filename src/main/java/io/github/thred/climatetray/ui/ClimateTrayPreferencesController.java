@@ -52,7 +52,7 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
         JPanel view = new JPanel(new GridBagLayout());
 
         view.setOpaque(false);
-        
+
         updatePeriodInMinutesSpinner.setEditor(new JSpinner.NumberEditor(updatePeriodInMinutesSpinner, "0.0"));
         temperatureUnitBox.addActionListener((e) -> refresh());
 
@@ -82,7 +82,7 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
     @Override
     public void refreshWith(ClimateTrayPreferences model)
     {
-        updatePeriodInMinutesSpinner.setValue((int)model.getUpdatePeriodInMinutes());
+        updatePeriodInMinutesSpinner.setValue((int) model.getUpdatePeriodInMinutes());
         temperatureUnitBox.setSelectedItem(model.getTemperatureUnit());
         versionCheckEnabledBox.setSelected(model.isVersionCheckEnabled());
 

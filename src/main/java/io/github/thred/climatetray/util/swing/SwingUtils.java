@@ -149,20 +149,24 @@ public class SwingUtils
     public static JLabel createIcon(Icon icon, String text, ActionListener... listeners)
     {
         JLabel result = new JLabel(icon);
-        
+
         result.setToolTipText(text);
-        
-        if (listeners.length > 0) {
-	        result.addMouseListener(new MouseAdapter() {
-	        	@Override
-	        	public void mouseClicked(MouseEvent event) {
-	        		ActionEvent actionEvent = new ActionEvent(result, 0, null);
-	        		
-	        		for (ActionListener listener : listeners) {
-						listener.actionPerformed(actionEvent);
-					}
-	        	}
-			});
+
+        if (listeners.length > 0)
+        {
+            result.addMouseListener(new MouseAdapter()
+            {
+                @Override
+                public void mouseClicked(MouseEvent event)
+                {
+                    ActionEvent actionEvent = new ActionEvent(result, 0, null);
+
+                    for (ActionListener listener : listeners)
+                    {
+                        listener.actionPerformed(actionEvent);
+                    }
+                }
+            });
         }
 
         return result;
@@ -178,7 +182,7 @@ public class SwingUtils
         JLabel result = new JLabel(text);
 
         result.setOpaque(false);
-        
+
         if (labelFor != null)
         {
             result.setLabelFor(labelFor);
@@ -304,35 +308,44 @@ public class SwingUtils
     {
         return new JSeparator();
     }
-    
-    public static void fixLocation(Window window) {
-    	Rectangle bounds = window.getBounds();
 
-    	if (!isRectangleVisible(bounds)) {
-            Rectangle screenBounds = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration().getBounds();
-            
+    public static void fixLocation(Window window)
+    {
+        Rectangle bounds = window.getBounds();
+
+        if (!isRectangleVisible(bounds))
+        {
+            Rectangle screenBounds = GraphicsEnvironment
+                .getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice()
+                .getDefaultConfiguration()
+                .getBounds();
+
             bounds.width = Math.min(bounds.width, screenBounds.width);
             bounds.height = Math.min(bounds.height, screenBounds.height);
-            bounds.x = (screenBounds.width - bounds.width)/2;
-            bounds.y = (screenBounds.height - bounds.height)/2;
-    	}
-    	
+            bounds.x = (screenBounds.width - bounds.width) / 2;
+            bounds.y = (screenBounds.height - bounds.height) / 2;
+        }
+
         window.setLocation(bounds.getLocation());
         window.setSize(bounds.getSize());
-	}
-    
-    public static boolean isRectangleVisible(Rectangle rectangle) {
+    }
+
+    public static boolean isRectangleVisible(Rectangle rectangle)
+    {
         GraphicsEnvironment environment = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] devices = environment.getScreenDevices();
-        
-        for (GraphicsDevice device : devices) {
-			Rectangle bounds = device.getDefaultConfiguration().getBounds();
-			
-			if (bounds.contains(rectangle)) {
-				return true;
-			}
+
+        for (GraphicsDevice device : devices)
+        {
+            Rectangle bounds = device.getDefaultConfiguration().getBounds();
+
+            if (bounds.contains(rectangle))
+            {
+                return true;
+            }
         }
-        
+
         return false;
     }
 }

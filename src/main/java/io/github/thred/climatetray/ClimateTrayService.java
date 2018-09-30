@@ -14,8 +14,7 @@
  */
 package io.github.thred.climatetray;
 
-import static io.github.thred.climatetray.ClimateTray.LOG;
-import static io.github.thred.climatetray.ClimateTray.PREFERENCES;
+import static io.github.thred.climatetray.ClimateTray.*;
 
 import java.awt.Desktop;
 import java.awt.SystemTray;
@@ -79,10 +78,11 @@ public class ClimateTrayService
 
         if (!SystemTray.isSupported() || System.getProperties().containsKey("window"))
         {
-        	MAIN_CONTROLLER = new ClimateTrayWindowController();
+            MAIN_CONTROLLER = new ClimateTrayWindowController();
         }
-        else {
-        	MAIN_CONTROLLER = new ClimateTrayIconController();
+        else
+        {
+            MAIN_CONTROLLER = new ClimateTrayIconController();
         }
 
         ABOUT_CONTROLLER = new ClimateTrayAboutDialogController(null);
@@ -94,7 +94,7 @@ public class ClimateTrayService
 
     public static void prepare()
     {
-    	SwingUtilities.invokeLater(() -> MAIN_CONTROLLER.prepareWith(PREFERENCES));
+        SwingUtilities.invokeLater(() -> MAIN_CONTROLLER.prepareWith(PREFERENCES));
     }
 
     public static void load()
@@ -495,9 +495,10 @@ public class ClimateTrayService
         submitTask(ClimateTrayUtils::performBuildInfoRequest, onSuccess);
     }
 
-	public static void start() {
-		MAIN_CONTROLLER.getView();
-	}
+    public static void start()
+    {
+        MAIN_CONTROLLER.getView();
+    }
 
     public static void exit()
     {
