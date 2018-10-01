@@ -18,25 +18,23 @@ import static io.github.thred.climatetray.ClimateTray.*;
 
 import java.awt.Window;
 import java.util.List;
+import java.util.UUID;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.SwingUtilities;
 
 import io.github.thred.climatetray.ClimateTray;
 import io.github.thred.climatetray.ClimateTrayService;
-import io.github.thred.climatetray.mnet.MNetAdjust;
 import io.github.thred.climatetray.mnet.MNetPreset;
-import io.github.thred.climatetray.mnet.ui.MNetPresetDialogController;
 import io.github.thred.climatetray.util.swing.FooterPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
-public class ClimateTrayAdjustAllDialogController extends DefaultClimateTrayDialogController<MNetAdjust>
+public class ClimateTrayAdjustAllDialogController extends DefaultClimateTrayDialogController<MNetPreset>
 {
 
     private final JButton storeButton = SwingUtils.createButton("Save as preset ...", e -> store());
 
-    private final MNetAdjust adjust = new MNetAdjust();
+    private final MNetPreset preset = new MNetPreset();
 
     public ClimateTrayAdjustAllDialogController(Window owner)
     {
@@ -52,8 +50,8 @@ public class ClimateTrayAdjustAllDialogController extends DefaultClimateTrayDial
                 return;
             }
 
-            adjust.setPreset(items.get(0));
-            refreshWith(adjust);
+            preset.set(items.get(0));
+            refreshWith(preset);
         });
     }
 
@@ -69,28 +67,22 @@ public class ClimateTrayAdjustAllDialogController extends DefaultClimateTrayDial
 
     public void store()
     {
-        applyTo(adjust);
+        applyTo(preset);
 
-        MNetPreset preset = new MNetPreset();
-
-        preset.setDrive(adjust.getDrive());
-        preset.setMode(adjust.getMode());
-        preset.setTemperature(adjust.getTemperature());
-        preset.setFan(adjust.getFan());
-        preset.setAir(adjust.getAir());
-
-        Button result = new MNetPresetDialogController(SwingUtilities.windowForComponent(getView())).consume(preset);
-
-        if (result == Button.OK)
+        if (preset.isValid())
         {
+            MNetPreset presetToStore = preset.deepCopy();
+
+            presetToStore.setId(UUID.randomUUID());
+
             List<MNetPreset> presets = ClimateTray.PREFERENCES.getPresets();
 
-            presets.add(preset);
-            adjust.setPreset(preset);
-            refreshWith(adjust);
+            presets.add(presetToStore);
 
             ClimateTrayService.store();
         }
+
+        refreshWith(preset);
     }
 
     @Override
@@ -98,15 +90,15 @@ public class ClimateTrayAdjustAllDialogController extends DefaultClimateTrayDial
     {
         super.ok();
 
-        applyTo(adjust);
+        applyTo(preset);
 
-        ClimateTrayService.toggleAdjust(adjust);
+        ClimateTrayService.togglePreset(preset);
         ClimateTrayService.store();
         ClimateTrayService.scheduleUpdate();
     }
 
     @Override
-    public void dismiss(MNetAdjust model)
+    public void dismiss(MNetPreset model)
     {
         LOG.debug("Closing adjust dialog.");
 

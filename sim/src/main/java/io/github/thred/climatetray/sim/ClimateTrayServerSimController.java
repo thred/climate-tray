@@ -36,193 +36,259 @@ import io.github.thred.climatetray.util.DomUtils;
 
 @Controller
 @RequestMapping(value = "/servlet/MIMEReceiveServlet", consumes = "text/xml", produces = "text/xml")
-public class ClimateTrayServerSimController {
-	private static final Logger LOG = LoggerFactory.getLogger(ClimateTrayServerSimController.class);
+public class ClimateTrayServerSimController
+{
+    private static final Logger LOG = LoggerFactory.getLogger(ClimateTrayServerSimController.class);
 
-	private static final long LAG = 250;
-	private final List<ClimateTrayServerSimState> states = new ArrayList<>();
+    private static final long LAG = 250;
+    private final List<ClimateTrayServerSimState> states = new ArrayList<>();
 
-	public ClimateTrayServerSimController() {
-		super();
-
-		states.add(new ClimateTrayServerSimState("17", "22", "IC"));
-		states.add(new ClimateTrayServerSimState("18", "24", "IC"));
-		states.add(new ClimateTrayServerSimState("19", "26", "IC"));
-	}
-
-	public void onApplicationEvent(ContextRefreshedEvent event) 
+    public ClimateTrayServerSimController()
     {
-		String addresses = states.stream().map(state -> state.getAddress()).collect(Collectors.joining("\n"));
-				
-    	LOG.info("The following devices are available:\n\n{}\n\n", addresses);
+        super();
+
+        states.add(new ClimateTrayServerSimState("17", "22", "IC"));
+        states.add(new ClimateTrayServerSimState("18", "24", "IC"));
+        states.add(new ClimateTrayServerSimState("19", "26", "IC"));
     }
 
-	protected ClimateTrayServerSimState getStateByAddress(String address) {
-		return states.stream().filter(state -> Objects.equals(address, state.getAddress())).findFirst().orElse(null);
-	}
+    public void onApplicationEvent(ContextRefreshedEvent event)
+    {
+        String addresses = states.stream().map(state -> state.getAddress()).collect(Collectors.joining("\n"));
 
-	protected ClimateTrayServerSimState getStateByGroup(String group) {
-		return states.stream().filter(state -> Objects.equals(group, state.getGroup())).findFirst().orElse(null);
-	}
+        LOG.info("The following devices are available:\n\n{}\n\n", addresses);
+    }
 
-	@RequestMapping(method = RequestMethod.POST)
-	public @ResponseBody String mNet(@RequestBody String body) {
-		Document requestDoc = DomUtils.read(body);
-		DomBuilder responseBuilder = new DomBuilder();
+    protected ClimateTrayServerSimState getStateByAddress(String address)
+    {
+        return states.stream().filter(state -> Objects.equals(address, state.getAddress())).findFirst().orElse(null);
+    }
 
-		responseBuilder.begin("Packet");
+    protected ClimateTrayServerSimState getStateByGroup(String group)
+    {
+        return states.stream().filter(state -> Objects.equals(group, state.getGroup())).findFirst().orElse(null);
+    }
 
-		String command = DomUtils.getText(DomUtils.find(requestDoc, "//Command"), null);
+    @RequestMapping(method = RequestMethod.POST)
+    public @ResponseBody String mNet(@RequestBody String body)
+    {
+        Document requestDoc = DomUtils.read(body);
+        DomBuilder responseBuilder = new DomBuilder();
 
-		switch (command) {
-		case "getRequest":
-			getRequest(requestDoc, responseBuilder);
-			break;
+        responseBuilder.begin("Packet");
 
-		case "setRequest":
-			setRequest(requestDoc, responseBuilder);
-			break;
+        String command = DomUtils.getText(DomUtils.find(requestDoc, "//Command"), null);
 
-		default:
-			throw new IllegalArgumentException("Unsupported request: " + body);
-		}
+        switch (command)
+        {
+            case "getRequest":
+                getRequest(requestDoc, responseBuilder);
+                break;
 
-		responseBuilder.end();
+            case "setRequest":
+                setRequest(requestDoc, responseBuilder);
+                break;
 
-		try {
-			Thread.sleep(LAG);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+            default:
+                throw new IllegalArgumentException("Unsupported request: " + body);
+        }
 
-		return responseBuilder.toString();
-	}
+        responseBuilder.end();
 
-	private void getRequest(Document requestDoc, DomBuilder responseBuilder) {
-		responseBuilder.element("Command", "getResponse");
-		responseBuilder.begin("DatabaseManager");
+        try
+        {
+            Thread.sleep(LAG);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
 
-		DomUtils.findAll(requestDoc, "//Mnet").forEach(requestNode -> getRequestElement(requestNode, responseBuilder));
+        return responseBuilder.toString();
+    }
 
-		responseBuilder.end();
-	}
+    private void getRequest(Document requestDoc, DomBuilder responseBuilder)
+    {
+        responseBuilder.element("Command", "getResponse");
+        responseBuilder.begin("DatabaseManager");
 
-	private void getRequestElement(Node requestNode, DomBuilder responseBuilder) {
-		String ec = DomUtils.getAttribute(requestNode, "Ec");
-		String address = DomUtils.getAttribute(requestNode, "Address");
-		String group = DomUtils.getAttribute(requestNode, "Group");
+        DomUtils.findAll(requestDoc, "//Mnet").forEach(requestNode -> getRequestElement(requestNode, responseBuilder));
 
-		if ("0".equals(ec)) {
-			// invalid ec
-			if (address != null) {
-				// info request
-				responseBuilder.begin("Mnet").attribute("Ec", ec).attribute("Address", address)
-						.attribute("Group", group).end();
-			} else {
-				throw new UnsupportedOperationException();
-			}
-		} else if (!"1".equals(ec)) {
-			// wrong ec
-			if (address != null) {
-				// info request
-				unknwonDevice(responseBuilder, ec, address);
-			} else {
-				throw new UnsupportedOperationException();
-			}
-		} else {
-			ClimateTrayServerSimState state = getStateByAddress(address);
+        responseBuilder.end();
+    }
 
-			if (state != null) {
-				// info request
-				responseBuilder.begin("Mnet").attribute("Ec", ec).attribute("Address", address)
-						.attribute("Group", state.getGroup()).attribute("Model", state.getModel()).end();
-			} else if (address != null) {
-				// info request
-				unknwonDevice(responseBuilder, ec, address);
-			}
+    private void getRequestElement(Node requestNode, DomBuilder responseBuilder)
+    {
+        String ec = DomUtils.getAttribute(requestNode, "Ec");
+        String address = DomUtils.getAttribute(requestNode, "Address");
+        String group = DomUtils.getAttribute(requestNode, "Group");
 
-			state = getStateByGroup(group);
+        if ("0".equals(ec))
+        {
+            // invalid ec
+            if (address != null)
+            {
+                // info request
+                responseBuilder
+                    .begin("Mnet")
+                    .attribute("Ec", ec)
+                    .attribute("Address", address)
+                    .attribute("Group", group)
+                    .end();
+            }
+            else
+            {
+                throw new UnsupportedOperationException();
+            }
+        }
+        else if (!"1".equals(ec))
+        {
+            // wrong ec
+            if (address != null)
+            {
+                // info request
+                unknwonDevice(responseBuilder, ec, address);
+            }
+            else
+            {
+                throw new UnsupportedOperationException();
+            }
+        }
+        else
+        {
+            ClimateTrayServerSimState state = getStateByAddress(address);
 
-			if (state != null) {
-				System.err.println("Returning state: " + state);
+            if (state != null)
+            {
+                // info request
+                responseBuilder
+                    .begin("Mnet")
+                    .attribute("Ec", ec)
+                    .attribute("Address", address)
+                    .attribute("Group", state.getGroup())
+                    .attribute("Model", state.getModel())
+                    .end();
+            }
+            else if (address != null)
+            {
+                // info request
+                unknwonDevice(responseBuilder, ec, address);
+            }
 
-				appendState(responseBuilder.begin("Mnet").attribute("Ec", ec).attribute("Address", address)
-						.attribute("Model", state.getModel()), state).end();
-			} else {
-				// info request
-				unknwonDevice(responseBuilder, ec, address);
-			}
-		}
+            state = getStateByGroup(group);
 
-		if ("0".equals(ec)) {
-			responseBuilder.begin("ERROR").attribute("Point", "Ec[0]").attribute("Code", "0201")
-					.attribute("Message", "Invalid Value").end();
-		}
-	}
+            if (state != null)
+            {
+                System.err.println("Returning state: " + state);
 
-	private void setRequest(Document requestDoc, DomBuilder responseBuilder) {
-		responseBuilder.element("Command", "setResponse");
-		responseBuilder.begin("DatabaseManager");
+                appendState(responseBuilder
+                    .begin("Mnet")
+                    .attribute("Ec", ec)
+                    .attribute("Address", address)
+                    .attribute("Model", state.getModel()), state).end();
+            }
+            else
+            {
+                // info request
+                unknwonDevice(responseBuilder, ec, address);
+            }
+        }
 
-		DomUtils.findAll(requestDoc, "//Mnet").forEach(requestNode -> setRequestElement(requestNode, responseBuilder));
+        if ("0".equals(ec))
+        {
+            responseBuilder
+                .begin("ERROR")
+                .attribute("Point", "Ec[0]")
+                .attribute("Code", "0201")
+                .attribute("Message", "Invalid Value")
+                .end();
+        }
+    }
 
-		responseBuilder.end();
-	}
+    private void setRequest(Document requestDoc, DomBuilder responseBuilder)
+    {
+        responseBuilder.element("Command", "setResponse");
+        responseBuilder.begin("DatabaseManager");
 
-	private void setRequestElement(Node requestNode, DomBuilder responseBuilder) {
-		String ec = DomUtils.getAttribute(requestNode, "Ec");
+        DomUtils.findAll(requestDoc, "//Mnet").forEach(requestNode -> setRequestElement(requestNode, responseBuilder));
 
-		if (!"1".equals(ec)) {
-			// unknown EC
-			return;
-		}
+        responseBuilder.end();
+    }
 
-		String group = DomUtils.getAttribute(requestNode, "Group");
-		ClimateTrayServerSimState state = getStateByGroup(group);
+    private void setRequestElement(Node requestNode, DomBuilder responseBuilder)
+    {
+        String ec = DomUtils.getAttribute(requestNode, "Ec");
 
-		if (state == null) {
-			// unknown group
-			return;
-		}
+        if (!"1".equals(ec))
+        {
+            // unknown EC
+            return;
+        }
 
-		state.setDrive(DomUtils.getAttribute(requestNode, "Drive", state.getDrive()));
-		state.setMode(DomUtils.getAttribute(requestNode, "Mode", state.getMode()));
-		state.setTemperature(DomUtils.getDoubleAttribute(requestNode, "SetTemp", state.getTemperature()));
-		state.setAir(DomUtils.getAttribute(requestNode, "AirDirection", state.getAir()));
-		state.setFan(DomUtils.getAttribute(requestNode, "FanSpeed", state.getFan()));
+        String group = DomUtils.getAttribute(requestNode, "Group");
+        ClimateTrayServerSimState state = getStateByGroup(group);
 
-		System.err.println("State set to: " + state);
+        if (state == null)
+        {
+            // unknown group
+            return;
+        }
 
-		appendState(responseBuilder.begin("Mnet").attribute("Ec", ec), state).end();
-	}
+        state.setDrive(DomUtils.getAttribute(requestNode, "Drive", state.getDrive()));
+        state.setMode(DomUtils.getAttribute(requestNode, "Mode", state.getMode()));
+        state.setTemperature(DomUtils.getDoubleAttribute(requestNode, "SetTemp", state.getTemperature()));
+        state.setAir(DomUtils.getAttribute(requestNode, "AirDirection", state.getAir()));
+        state.setFan(DomUtils.getAttribute(requestNode, "FanSpeed", state.getFan()));
 
-	private DomBuilder appendState(DomBuilder responseBuilder, ClimateTrayServerSimState state) {
-		double thermometer = (Math.random() * 20) + 17;
+        System.err.println("State set to: " + state);
 
-		responseBuilder.attribute("Drive", state.getDrive()).attribute("Group", state.getGroup());
+        appendState(responseBuilder.begin("Mnet").attribute("Ec", ec), state).end();
+    }
 
-		if ("AUTO".equals(state.getMode())) {
-			if ((thermometer + 3) < state.getTemperature().doubleValue()) {
-				responseBuilder.attribute("Mode", "AUTOHEAT");
-			} else if ((thermometer - 3) > state.getTemperature().doubleValue()) {
-				responseBuilder.attribute("Mode", "AUTOCOOL");
-			} else {
-				responseBuilder.attribute("Mode", "AUTO");
-			}
-		} else {
-			responseBuilder.attribute("Mode", state.getMode());
-		}
+    private DomBuilder appendState(DomBuilder responseBuilder, ClimateTrayServerSimState state)
+    {
+        double thermometer = (Math.random() * 20) + 17;
 
-		responseBuilder.attribute("SetTemp", String.format(Locale.ENGLISH, "%.1f", state.getTemperature()))
-				.attribute("InletTemp", String.format(Locale.ENGLISH, "%.1f", thermometer))
-				.attribute("AirDirection", state.getAir()).attribute("FanSpeed", state.getFan());
+        responseBuilder.attribute("Drive", state.getDrive()).attribute("Group", state.getGroup());
 
-		return responseBuilder;
-	}
+        if ("AUTO".equals(state.getMode()))
+        {
+            if ((thermometer + 3) < state.getTemperature().doubleValue())
+            {
+                responseBuilder.attribute("Mode", "AUTOHEAT");
+            }
+            else if ((thermometer - 3) > state.getTemperature().doubleValue())
+            {
+                responseBuilder.attribute("Mode", "AUTOCOOL");
+            }
+            else
+            {
+                responseBuilder.attribute("Mode", "AUTO");
+            }
+        }
+        else
+        {
+            responseBuilder.attribute("Mode", state.getMode());
+        }
 
-	public DomBuilder unknwonDevice(DomBuilder responseBuilder, String ec, String address) {
-		return responseBuilder.begin("Mnet").attribute("Ec", ec).attribute("Address", address).attribute("Group", "99")
-				.attribute("Model", "NONE").end();
-	}
+        responseBuilder
+            .attribute("SetTemp", String.format(Locale.ENGLISH, "%.1f", state.getTemperature()))
+            .attribute("InletTemp", String.format(Locale.ENGLISH, "%.1f", thermometer))
+            .attribute("AirDirection", state.getAir())
+            .attribute("FanSpeed", state.getFan());
+
+        return responseBuilder;
+    }
+
+    public DomBuilder unknwonDevice(DomBuilder responseBuilder, String ec, String address)
+    {
+        return responseBuilder
+            .begin("Mnet")
+            .attribute("Ec", ec)
+            .attribute("Address", address)
+            .attribute("Group", "99")
+            .attribute("Model", "NONE")
+            .end();
+    }
 
 }

@@ -18,7 +18,6 @@ import static io.github.thred.climatetray.ClimateTray.*;
 
 import org.w3c.dom.Node;
 
-import io.github.thred.climatetray.mnet.MNetAdjust;
 import io.github.thred.climatetray.mnet.MNetAir;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetDrive;
@@ -103,23 +102,6 @@ public class MNetDeviceRequestItem
         {
             setAir(device.getInstallation().translate(air));
         }
-    }
-
-    public MNetDeviceRequestItem(MNetDevice device, MNetAdjust adjust)
-    {
-        this(device);
-
-        MNetDrive drive = adjust.getDrive();
-        MNetMode mode = adjust.getMode();
-        Double temperature = adjust.getTemperature();
-        MNetFan fan = adjust.getFan();
-        MNetAir air = adjust.getAir();
-
-        setDrive(drive);
-        setMode(mode);
-        setTemperature(temperature);
-        setFan(fan);
-        setAir(device.getInstallation().translate(air));
     }
 
     public MNetDeviceRequestItem(MNetEc ec, Integer address, Integer group)

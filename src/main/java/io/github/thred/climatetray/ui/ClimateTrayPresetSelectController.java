@@ -14,11 +14,8 @@
  */
 package io.github.thred.climatetray.ui;
 
-import java.util.List;
-
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.mnet.ui.MNetPresetCellRenderer;
-import io.github.thred.climatetray.util.message.MessageBuffer;
 
 public class ClimateTrayPresetSelectController extends AbstractClimateTraySelectController<MNetPreset>
 {
@@ -28,25 +25,33 @@ public class ClimateTrayPresetSelectController extends AbstractClimateTraySelect
         super();
 
         list.setCellRenderer(new MNetPresetCellRenderer());
-    }
 
-    @Override
-    public void prepareWith(List<MNetPreset> model)
-    {
-        super.prepareWith(model);
-
-        clearSelection();
-    }
-
-    @Override
-    public void modified(MessageBuffer messageBuffer)
-    {
-        super.modified(messageBuffer);
-
-        if (listModel.getSize() == 0)
-        {
-            messageBuffer.info("You can add global presets for managing all air conditioners at once.");
-        }
+        //        list.addMouseListener(new MouseAdapter()
+        //        {
+        //            @Override
+        //            public void mousePressed(MouseEvent e)
+        //            {
+        //                if (SwingUtilities.isRightMouseButton(e))
+        //                {
+        //                    Point point = e.getPoint();
+        //
+        //                    list.setSelectedIndex(list.locationToIndex(point));
+        //
+        //                    JPopupMenu menu = new JPopupMenu();
+        //
+        //                    menu.add(SwingUtils.createMenuItem("Delete", null, null, event -> {
+        //                        int index = list.getSelectedIndex();
+        //
+        //                        if (index >= 0)
+        //                        {
+        //                            listModel.removeElementAt(index);
+        //                        }
+        //                    }));
+        //
+        //                    menu.show(list, point.x, point.y);
+        //                }
+        //            }
+        //        });
     }
 
     @Override

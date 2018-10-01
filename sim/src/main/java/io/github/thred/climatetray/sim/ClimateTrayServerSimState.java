@@ -102,8 +102,23 @@ public class ClimateTrayServerSimState
     @Override
     public String toString()
     {
-        return "ClimateTrayServerSimState [address=" + address + ", group=" + group + ", model=" + model + ", drive="
-            + drive + ", mode=" + mode + ", temperature=" + temperature + ", air=" + air + ", fan=" + fan + "]";
+        return "ClimateTrayServerSimState [address="
+            + address
+            + ", group="
+            + group
+            + ", model="
+            + model
+            + ", drive="
+            + drive
+            + ", mode="
+            + mode
+            + ", temperature="
+            + temperature
+            + ", air="
+            + air
+            + ", fan="
+            + fan
+            + "]";
     }
 
 }

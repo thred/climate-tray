@@ -103,43 +103,6 @@ public class MNetService
         }
     }
 
-    public static void adjustDevice(MNetDevice device, MNetAdjust adjust)
-    {
-        MNetOperateRequest request = new MNetOperateRequest();
-
-        try
-        {
-            request.adjustDevice(device, adjust).execute(device.getURL());
-
-            MNetDeviceRequestItem item = request.getItemByDeviceGroup(device);
-
-            if (item == null)
-            {
-                LOG.error("The centralized controller did not return a state for the air conditioner \"%s\".");
-
-                incrementFails(device);
-            }
-            else
-            {
-                resetFails(device);
-
-                updateDeviceState(device, item);
-            }
-        }
-        catch (MalformedURLException e)
-        {
-            LOG.error("Invalid url for air conditioner \"%s\".", e, device.getName());
-
-            incrementFails(device);
-        }
-        catch (MNetRequestException e)
-        {
-            LOG.error("Failed to request info of air conditioner \"%s\".", e, device.getName());
-
-            incrementFails(device);
-        }
-    }
-
     public static void adjustDevice(MNetDevice device, MNetPreset preset)
     {
         MNetOperateRequest request = new MNetOperateRequest();

@@ -10,13 +10,12 @@ import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
 import io.github.thred.climatetray.ClimateTray;
-import io.github.thred.climatetray.mnet.MNetAdjust;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.mnet.ui.MNetAdjustController;
 import io.github.thred.climatetray.util.swing.GBC;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
-public class ClimateTrayAdjustAllController extends AbstractClimateTrayController<MNetAdjust, JComponent>
+public class ClimateTrayAdjustAllController extends AbstractClimateTrayController<MNetPreset, JComponent>
 {
 
     private final MNetAdjustController adjustController = new MNetAdjustController();
@@ -99,7 +98,7 @@ public class ClimateTrayAdjustAllController extends AbstractClimateTrayControlle
     }
 
     @Override
-    public void prepareWith(MNetAdjust model)
+    public void prepareWith(MNetPreset model)
     {
         deviceController.prepareWith(ClimateTray.PREFERENCES.getDevices());
         presetController.prepareWith(ClimateTray.PREFERENCES.getPresets());
@@ -109,7 +108,7 @@ public class ClimateTrayAdjustAllController extends AbstractClimateTrayControlle
     }
 
     @Override
-    public void refreshWith(MNetAdjust model)
+    public void refreshWith(MNetPreset model)
     {
         deviceController.refreshWith(ClimateTray.PREFERENCES.getDevices());
         presetController.refreshWith(ClimateTray.PREFERENCES.getPresets());
@@ -117,7 +116,7 @@ public class ClimateTrayAdjustAllController extends AbstractClimateTrayControlle
     }
 
     @Override
-    public void applyTo(MNetAdjust model)
+    public void applyTo(MNetPreset model)
     {
         deviceController.applyTo(ClimateTray.PREFERENCES.getDevices());
         presetController.applyTo(ClimateTray.PREFERENCES.getPresets());
@@ -125,7 +124,7 @@ public class ClimateTrayAdjustAllController extends AbstractClimateTrayControlle
     }
 
     @Override
-    public void dismiss(MNetAdjust model)
+    public void dismiss(MNetPreset model)
     {
         deviceController.dismiss(ClimateTray.PREFERENCES.getDevices());
         presetController.dismiss(ClimateTray.PREFERENCES.getPresets());

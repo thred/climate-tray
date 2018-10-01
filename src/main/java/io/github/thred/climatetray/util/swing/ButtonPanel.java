@@ -45,7 +45,17 @@ public class ButtonPanel extends JPanel
         this(DEFAULT_BORDER);
     }
 
+    public ButtonPanel(int minimumGap)
+    {
+        this(DEFAULT_BORDER, minimumGap);
+    }
+
     public ButtonPanel(Border border)
+    {
+        this(border, 8);
+    }
+
+    public ButtonPanel(Border border, int minimumGap)
     {
         super(new BorderLayout());
 
@@ -65,9 +75,9 @@ public class ButtonPanel extends JPanel
 
         GBC gbc = new GBC(3, 1).defaultOutsets(0, 0, 0, 0).defaultInsets(0, 0, 0, 0);
 
-        panel.add(leftPanel, gbc.left().weight(0.5));
-        panel.add(centerPanel, gbc.next().center().weight(0.5));
-        panel.add(rightPanel, gbc.next().right().weight(0.5));
+        panel.add(leftPanel, gbc.left().insetRight(minimumGap / 2).weight(0.5));
+        panel.add(centerPanel, gbc.next().center().insets(0, minimumGap / 2, 0, minimumGap / 2).weight(0.5));
+        panel.add(rightPanel, gbc.next().right().insetLeft(minimumGap / 2).weight(0.5));
 
         add(panel, BorderLayout.CENTER);
     }

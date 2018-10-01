@@ -36,7 +36,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
-import io.github.thred.climatetray.mnet.MNetAdjust;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.mnet.MNetService;
@@ -321,7 +320,7 @@ public class ClimateTrayService
         }
     }
 
-    protected static void togglePreset(MNetPreset preset)
+    public static void togglePreset(MNetPreset preset)
     {
         LOG.debug("Toggling preset with id %s for all selected devices.", preset.getId());
 
@@ -346,31 +345,6 @@ public class ClimateTrayService
         submitTask(() -> MNetService.adjustDevice(device, preset), ClimateTrayService::updatePresets);
     }
 
-    public static void toggleAdjust(MNetAdjust adjust)
-    {
-        LOG.debug("Toggling adjust for all selected devices.");
-
-        submitTask(() -> PREFERENCES
-            .getDevices()
-            .stream()
-            .filter(device -> device.isEnabled() && device.isSelected())
-            .forEach(device -> MNetService.adjustDevice(device, adjust)), ClimateTrayService::updatePresets);
-    }
-
-    protected static void toggleAdjust(MNetDevice device, MNetAdjust adjust)
-    {
-        LOG.debug("Toggling adjust for device %s.", device.getId());
-
-        if (!device.isEnabled())
-        {
-            LOG.debug("Device is not enabled");
-
-            return;
-        }
-
-        submitTask(() -> MNetService.adjustDevice(device, adjust), ClimateTrayService::updatePresets);
-    }
-
     public static void toggleDevice(UUID id)
     {
         LOG.debug("Toggling air conditioner with id %s.", id);
@@ -393,11 +367,11 @@ public class ClimateTrayService
         SwingUtilities.invokeLater(() -> {
             LOG.debug("Opening adjust all dialog.");
 
-            MNetAdjust adjust = new MNetAdjust();
+            MNetPreset preset = new MNetPreset();
 
-            adjust.setStateOf(ClimateTray.PREFERENCES.getDefaultDevice());
+            preset.set(ClimateTray.PREFERENCES.getDefaultDevice());
 
-            ADJUST_ALL_CONTROLLER.consume(adjust);
+            ADJUST_ALL_CONTROLLER.consume(preset);
         });
     }
 

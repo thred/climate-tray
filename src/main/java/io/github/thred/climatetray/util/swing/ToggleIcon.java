@@ -42,4 +42,9 @@ public class ToggleIcon extends JButton
             setIcon(selected ? onIcon : offIcon);
         }
     }
+
+    public void toggleSelected()
+    {
+        setSelected(!selected);
+    }
 }

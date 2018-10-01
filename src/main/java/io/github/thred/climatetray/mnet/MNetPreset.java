@@ -62,6 +62,58 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
         return new MNetPreset(id, drive, mode, temperature, fan, air, selected);
     }
 
+    public void set(MNetPreset preset)
+    {
+        if (preset == null)
+        {
+            return;
+        }
+
+        drive = preset.drive;
+        mode = preset.mode;
+        temperature = preset.temperature;
+        fan = preset.fan;
+        air = preset.air;
+        selected = preset.selected;
+    }
+
+    public void set(MNetDevice device)
+    {
+        if (device == null)
+        {
+            return;
+        }
+
+        set(device.getState());
+    }
+
+    public void set(MNetState state)
+    {
+        if (state == null)
+        {
+            return;
+        }
+
+        drive = state.getDrive();
+
+        switch (state.getMode())
+        {
+            case AUTO:
+            case AUTO_COOL:
+            case AUTO_HEAT:
+                mode = MNetMode.AUTO;
+                break;
+
+            default:
+                mode = state.getMode();
+                break;
+        }
+
+        temperature = state.getTemperature();
+        fan = state.getFan();
+        air = state.getAir();
+    }
+
     public UUID getId()
     {
         return id;
@@ -130,6 +182,15 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
     public void setSelected(boolean selected)
     {
         this.selected = selected;
+    }
+
+    public boolean isValid()
+    {
+        return drive != MNetDrive.NO_CHANGE
+            || mode != MNetMode.NO_CHANGE
+            || temperature != null
+            || air != MNetAir.NO_CHANGE
+            || fan != MNetFan.NO_CHANGE;
     }
 
     public Icon createIcon(ClimateTrayImageState state, int size)
@@ -221,21 +282,9 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
     @Override
     public String toString()
     {
-        return "MNetPreset [id="
-            + id
-            + ", drive="
-            + drive
-            + ", mode="
-            + mode
-            + ", temperature="
-            + temperature
-            + ", fan="
-            + fan
-            + ", air="
-            + air
-            + ", selected="
-            + selected
-            + "]";
+        return String
+            .format("MNetPreset [id=%s, drive=%s, mode=%s, temperature=%s, fan=%s, air=%s, selected=%s]", id, drive,
+                mode, temperature, fan, air, selected);
     }
 
 }

@@ -21,11 +21,12 @@ import io.github.thred.climatetray.ClimateTrayImage;
 public enum MNetFan
 {
 
-    NO_CHANGE(null, "Do not change", null, ClimateTrayImage.ICON_JOKER, null),
-    LOW("LOW", "Very Low", "very low fan speed", ClimateTrayImage.ICON_FAN1, ClimateTrayImage.BACKGROUND_FAN1),
-    MID1("MID1", "Low", "low fan speed", ClimateTrayImage.ICON_FAN2, ClimateTrayImage.BACKGROUND_FAN2),
-    MID2("MID2", "High", "high fan speed", ClimateTrayImage.ICON_FAN3, ClimateTrayImage.BACKGROUND_FAN3),
-    HIGH("HIGH", "Very High", "very high fan speed", ClimateTrayImage.ICON_FAN4, ClimateTrayImage.BACKGROUND_FAN4);
+    NO_CHANGE(null, "Do not change", "Do not change", null, ClimateTrayImage.ICON_JOKER, null),
+    LOW("LOW", "Very Low", "Min.", "very low fan speed", ClimateTrayImage.ICON_FAN1, ClimateTrayImage.BACKGROUND_FAN1),
+    MID1("MID1", "Low", "Low", "low fan speed", ClimateTrayImage.ICON_FAN2, ClimateTrayImage.BACKGROUND_FAN2),
+    MID2("MID2", "High", "High", "high fan speed", ClimateTrayImage.ICON_FAN3, ClimateTrayImage.BACKGROUND_FAN3),
+    HIGH("HIGH", "Very High", "Max.", "very high fan speed", ClimateTrayImage.ICON_FAN4,
+        ClimateTrayImage.BACKGROUND_FAN4);
 
     public static MNetFan valueOfKey(String key)
     {
@@ -49,15 +50,17 @@ public enum MNetFan
 
     private final String key;
     private final String label;
+    private final String shortLabel;
     private final String description;
     private final ClimateTrayImage image;
     private final ClimateTrayImage backgroundImage;
 
-    private MNetFan(String key, String label, String description, ClimateTrayImage image,
+    private MNetFan(String key, String label, String shortLabel, String description, ClimateTrayImage image,
         ClimateTrayImage backgroundImage)
     {
         this.key = key;
         this.label = label;
+        this.shortLabel = shortLabel;
         this.description = description;
         this.image = image;
         this.backgroundImage = backgroundImage;
@@ -71,6 +74,11 @@ public enum MNetFan
     public String getLabel()
     {
         return label;
+    }
+
+    public String getShortLabel()
+    {
+        return shortLabel;
     }
 
     public String getDescription()

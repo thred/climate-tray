@@ -21,12 +21,12 @@ import io.github.thred.climatetray.ClimateTrayImage;
 public enum MNetAir
 {
 
-    NO_CHANGE(null, "Do not change", null, ClimateTrayImage.ICON_JOKER),
-    HORIZONTAL("HORIZONTAL", "Horizontal", "fins horizontal", ClimateTrayImage.ICON_DIR1),
-    MID1("MID1", "Slightly Inclined", "fins slightly inclined", ClimateTrayImage.ICON_DIR2),
-    MID2("MID2", "Strongly Inclined", "fins strongly inclined", ClimateTrayImage.ICON_DIR3),
-    VERTICAL("VERTICAL", "Vertical", "fins vertical", ClimateTrayImage.ICON_DIR4),
-    SWING("SWING", "Swing", "fins swinging", ClimateTrayImage.ICON_SWING);
+    NO_CHANGE(null, "Do not change", "Do not change", null, ClimateTrayImage.ICON_JOKER),
+    HORIZONTAL("HORIZONTAL", "Horizontal", "Horiz.", "fins horizontal", ClimateTrayImage.ICON_DIR1),
+    MID1("MID1", "Slightly Inclined", "Incl. A", "fins slightly inclined", ClimateTrayImage.ICON_DIR2),
+    MID2("MID2", "Strongly Inclined", "Incl. B", "fins strongly inclined", ClimateTrayImage.ICON_DIR3),
+    VERTICAL("VERTICAL", "Vertical", "Vert.", "fins vertical", ClimateTrayImage.ICON_DIR4),
+    SWING("SWING", "Swing", "Swing", "fins swinging", ClimateTrayImage.ICON_SWING);
 
     public static MNetAir valueOfKey(String key)
     {
@@ -50,13 +50,15 @@ public enum MNetAir
 
     private final String key;
     private final String label;
+    private final String shortLabel;
     private final String description;
     private final ClimateTrayImage image;
 
-    private MNetAir(String key, String label, String description, ClimateTrayImage image)
+    private MNetAir(String key, String label, String shortLabel, String description, ClimateTrayImage image)
     {
         this.key = key;
         this.label = label;
+        this.shortLabel = shortLabel;
         this.description = description;
         this.image = image;
     }
@@ -69,6 +71,11 @@ public enum MNetAir
     public String getLabel()
     {
         return label;
+    }
+
+    public String getShortLabel()
+    {
+        return shortLabel;
     }
 
     public String getDescription()

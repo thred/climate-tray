@@ -28,36 +28,41 @@ import javax.swing.SwingConstants;
 
 import io.github.thred.climatetray.ClimateTrayImage;
 import io.github.thred.climatetray.ClimateTrayImageState;
-import io.github.thred.climatetray.mnet.MNetAdjust;
 import io.github.thred.climatetray.mnet.MNetAir;
 import io.github.thred.climatetray.mnet.MNetDrive;
 import io.github.thred.climatetray.mnet.MNetFan;
 import io.github.thred.climatetray.mnet.MNetMode;
+import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.ui.AbstractClimateTrayController;
 import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.ButtonPanel;
 import io.github.thred.climatetray.util.swing.GBC;
 import io.github.thred.climatetray.util.swing.SwingUtils;
+import io.github.thred.climatetray.util.swing.ToggleIcon;
 import io.github.thred.climatetray.util.swing.ToggleIconGroup;
 
-public class MNetAdjustController extends AbstractClimateTrayController<MNetAdjust, JComponent>
+public class MNetAdjustController extends AbstractClimateTrayController<MNetPreset, JComponent>
 {
 
+    private static final double DEFAULT = 22;
     private static final double MINIMUM = 17;
     private static final double MAXIMUM = 30;
     private static final int ICON_SIZE = 48;
+    private static final int NO_CHANGE_ICON_SIZE = 24;
 
     private final ToggleIconGroup<MNetDrive> driveButtons = monitor(new ToggleIconGroup<>());
     private final ToggleIconGroup<MNetMode> modeButtons = monitor(new ToggleIconGroup<>());
     private final ToggleIconGroup<MNetFan> fanButtons = monitor(new ToggleIconGroup<>());
     private final ToggleIconGroup<MNetAir> airButtons = monitor(new ToggleIconGroup<>());
 
-    private double temperature;
+    private Double temperature;
 
     private final JButton coolerButton = SwingUtils
         .createIcon(ClimateTrayImage.ICON_LESS.getIcon(ClimateTrayImageState.NONE, ICON_SIZE), "Cooler", e -> cooler());
     private final JButton warmerButton = SwingUtils
         .createIcon(ClimateTrayImage.ICON_MORE.getIcon(ClimateTrayImageState.NONE, ICON_SIZE), "Warmer", e -> warmer());
+    private final ToggleIcon temperatureNoChangeIcon = monitor(createToggleIcon(ClimateTrayImage.ICON_JOKER,
+        NO_CHANGE_ICON_SIZE, "Do not change", e -> ((ToggleIcon) e.getSource()).toggleSelected()));
     private final JLabel temperatureLabel = new JLabel("");
 
     public MNetAdjustController()
@@ -76,7 +81,7 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetAdju
 
         GBC gbc = new GBC(1, 5);
 
-        ButtonPanel drivePanel = new ButtonPanel();
+        ButtonPanel drivePanel = new ButtonPanel(128);
 
         for (MNetDrive drive : MNetDrive.values())
         {
@@ -87,9 +92,14 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetAdju
 
             drivePanel
                 .center(driveButtons
-                    .put(drive, createToggleIcon(drive.getImage(), ICON_SIZE, drive.getLabel(),
+                    .put(drive, createToggleIcon(drive.getImage(), ICON_SIZE, drive.getShortLabel(),
                         e -> driveButtons.setValue(drive))));
         }
+
+        drivePanel
+            .right(driveButtons
+                .put(MNetDrive.NO_CHANGE, createToggleIcon(MNetDrive.NO_CHANGE.getImage(), NO_CHANGE_ICON_SIZE,
+                    MNetDrive.NO_CHANGE.getShortLabel(), e -> driveButtons.setValue(MNetDrive.NO_CHANGE))));
 
         view.add(drivePanel, gbc.fill());
 
@@ -104,9 +114,14 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetAdju
 
             modePanel
                 .center(modeButtons
-                    .put(mode, createToggleIcon(mode.getImage(), ICON_SIZE, mode.getLabel(),
+                    .put(mode, createToggleIcon(mode.getImage(), ICON_SIZE, mode.getShortLabel(),
                         e -> modeButtons.setValue(mode))));
         }
+
+        modePanel
+            .right(modeButtons
+                .put(MNetMode.NO_CHANGE, createToggleIcon(MNetMode.NO_CHANGE.getImage(), NO_CHANGE_ICON_SIZE,
+                    MNetMode.NO_CHANGE.getShortLabel(), e -> modeButtons.setValue(MNetMode.NO_CHANGE))));
 
         view.add(modePanel, gbc.next().fill());
 
@@ -120,6 +135,7 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetAdju
         temperaturePanel.center(coolerButton);
         temperaturePanel.center(temperatureLabel);
         temperaturePanel.center(warmerButton);
+        temperaturePanel.right(temperatureNoChangeIcon);
 
         view.add(temperaturePanel, gbc.next().fill());
 
@@ -134,9 +150,14 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetAdju
 
             fanPanel
                 .center(fanButtons
-                    .put(fan,
-                        createToggleIcon(fan.getImage(), ICON_SIZE, fan.getLabel(), e -> fanButtons.setValue(fan))));
+                    .put(fan, createToggleIcon(fan.getImage(), ICON_SIZE, fan.getShortLabel(),
+                        e -> fanButtons.setValue(fan))));
         }
+
+        fanPanel
+            .right(fanButtons
+                .put(MNetFan.NO_CHANGE, createToggleIcon(MNetFan.NO_CHANGE.getImage(), NO_CHANGE_ICON_SIZE,
+                    MNetFan.NO_CHANGE.getShortLabel(), e -> fanButtons.setValue(MNetFan.NO_CHANGE))));
 
         view.add(fanPanel, gbc.next().fill());
 
@@ -151,9 +172,14 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetAdju
 
             airPanel
                 .center(airButtons
-                    .put(air,
-                        createToggleIcon(air.getImage(), ICON_SIZE, air.getLabel(), e -> airButtons.setValue(air))));
+                    .put(air, createToggleIcon(air.getImage(), ICON_SIZE, air.getShortLabel(),
+                        e -> airButtons.setValue(air))));
         }
+
+        airPanel
+            .right(airButtons
+                .put(MNetAir.NO_CHANGE, createToggleIcon(MNetAir.NO_CHANGE.getImage(), NO_CHANGE_ICON_SIZE,
+                    MNetAir.NO_CHANGE.getShortLabel(), e -> airButtons.setValue(MNetAir.NO_CHANGE))));
 
         view.add(airPanel, gbc.next().fill());
 
@@ -161,11 +187,12 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetAdju
     }
 
     @Override
-    public void refreshWith(MNetAdjust model)
+    public void refreshWith(MNetPreset model)
     {
         driveButtons.setValue(model.getDrive());
         modeButtons.setValue(model.getMode());
         temperature = model.getTemperature();
+        temperatureNoChangeIcon.setSelected(model.getTemperature() == null);
         fanButtons.setValue(model.getFan());
         airButtons.setValue(model.getAir());
 
@@ -174,27 +201,41 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetAdju
 
     private void cooler()
     {
+        if (temperature == null)
+        {
+            temperature = DEFAULT;
+        }
+
         temperature = Math.max(temperature - 0.5, MINIMUM);
+        temperatureNoChangeIcon.setSelected(false);
         update();
     }
 
     private void warmer()
     {
+        if (temperature == null)
+        {
+            temperature = DEFAULT;
+        }
+
         temperature = Math.min(temperature + 0.5, MAXIMUM);
+        temperatureNoChangeIcon.setSelected(false);
         update();
     }
 
     private void update()
     {
-        temperatureLabel.setText(PREFERENCES.getTemperatureUnit().format(temperature));
+        temperatureLabel.setText(PREFERENCES.getTemperatureUnit().format(temperature != null ? temperature : DEFAULT));
+        temperatureLabel.setEnabled(!temperatureNoChangeIcon.isSelected());
 
         boolean enabled = driveButtons.getValue() != MNetDrive.OFF;
 
         modeButtons.setEnabled(enabled);
         fanButtons.setEnabled(enabled);
         airButtons.setEnabled(enabled);
-        warmerButton.setEnabled(enabled && temperature < MAXIMUM);
-        coolerButton.setEnabled(enabled && temperature > MINIMUM);
+        warmerButton.setEnabled(enabled && (temperature == null || temperature < MAXIMUM));
+        coolerButton.setEnabled(enabled && (temperature == null || temperature > MINIMUM));
+        temperatureNoChangeIcon.setEnabled(enabled);
     }
 
     @Override
@@ -204,17 +245,17 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetAdju
     }
 
     @Override
-    public void applyTo(MNetAdjust model)
+    public void applyTo(MNetPreset model)
     {
         model.setDrive(driveButtons.getValue());
         model.setMode(modeButtons.getValue());
-        model.setTemperature(temperature);
+        model.setTemperature(temperatureNoChangeIcon.isSelected() ? null : temperature);
         model.setFan(fanButtons.getValue());
         model.setAir(airButtons.getValue());
     }
 
     @Override
-    public void dismiss(MNetAdjust model)
+    public void dismiss(MNetPreset model)
     {
         //        presetListController.dismiss(model.getPresets());
         //        deviceListController.dismiss(model.getDevices());
