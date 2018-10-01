@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -16,8 +18,8 @@
 
 	<scm>
 		<developerConnection>scm:git:https://github.com/thred/climate-tray.git</developerConnection>
-	  	<tag>HEAD</tag>
-  	</scm>
+		<tag>HEAD</tag>
+	</scm>
 
 	<dependencies>
 		<dependency>
@@ -61,69 +63,47 @@
 			</plugin>
 
 			<plugin>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.10</version>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>prepare-package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${project.build.directory}/lib</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
-							<overWriteIfNewer>true</overWriteIfNewer>
-						</configuration>
-					</execution>
-
-					<execution>
-						<id>unpack-version</id>
-						<phase>package</phase>
-						<goals>
-							<goal>unpack</goal>
-						</goals>
-						<configuration>
-							<artifactItems>
-								<artifactItem>
-									<groupId>${project.groupId}</groupId>
-									<artifactId>${project.artifactId}</artifactId>
-									<version>${project.version}</version>
-									<type>jar</type>
-									<includes>climate-tray,climate-tray.cmd,COPYING,VERSION</includes>
-									<outputDirectory>bin</outputDirectory>
-								</artifactItem>
-							</artifactItems>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.5.4</version>
+
 				<executions>
 					<execution>
-						<id>make-assembly</id>
+						<id>jar-with-dependencies</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>
+										io.github.thred.climatetray.ClimateTray
+									</mainClass>
+								</manifest>
+							</archive>
+							
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+							
+							<finalName>climate-tray-${project.version}-executable</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+						</configuration>
+					</execution>
+
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/dist</outputDirectory>
+							<descriptors>
+								<descriptor>src/main/config/assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
 					</execution>
 				</executions>
-				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-							<mainClass>io.github.thred.climatetray.ClimateTray</mainClass>
-						</manifest>
-					</archive>
-					<outputDirectory>bin</outputDirectory>
-					<descriptors>
-						<descriptor>src/main/config/assembly.xml</descriptor>
-					</descriptors>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

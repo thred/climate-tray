@@ -2,9 +2,9 @@
 
 ## Enhancements
 
-* Added fallback, if tray icons are not available (e.g. Gnome)
+* Adjust dialog to better handle the device without presets.
+* Added fallback, if tray icons are not available (e.g. Gnome).
 * Cosmetics for Gnome
-
 
 # Climate Tray 1.1.1
 
