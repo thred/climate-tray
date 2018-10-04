@@ -81,6 +81,11 @@ public enum ClimateTrayImage
     ICON_WARNING,
     ICON_INFO,
     ICON_DEBUG,
+    ICON_UP,
+    ICON_DOWN,
+    ICON_REMOVE,
+    ICON_ADD,
+    ICON_EDIT,
     SETTINGS;
 
     private ClimateTrayImage()

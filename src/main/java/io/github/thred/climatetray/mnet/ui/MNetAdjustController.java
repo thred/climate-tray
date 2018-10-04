@@ -17,8 +17,10 @@ package io.github.thred.climatetray.mnet.ui;
 import static io.github.thred.climatetray.ClimateTray.*;
 import static io.github.thred.climatetray.util.swing.SwingUtils.*;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -37,6 +39,7 @@ import io.github.thred.climatetray.ui.AbstractClimateTrayController;
 import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.ButtonPanel;
 import io.github.thred.climatetray.util.swing.GBC;
+import io.github.thred.climatetray.util.swing.MonitorEvent;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 import io.github.thred.climatetray.util.swing.ToggleIcon;
 import io.github.thred.climatetray.util.swing.ToggleIconGroup;
@@ -128,7 +131,16 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetPres
         temperatureLabel.setFont(temperatureLabel.getFont().deriveFont(32f));
         temperatureLabel.setHorizontalAlignment(SwingConstants.CENTER);
         temperatureLabel.setVerticalAlignment(SwingConstants.TOP);
-        temperatureLabel.setPreferredSize(new Dimension(160, 64));
+        temperatureLabel.setPreferredSize(new Dimension(160, 48));
+        temperatureLabel.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e)
+            {
+                temperatureNoChangeIcon.setSelected(false);
+                update();
+            }
+        });
 
         ButtonPanel temperaturePanel = new ButtonPanel();
 
@@ -208,6 +220,8 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetPres
 
         temperature = Math.max(temperature - 0.5, MINIMUM);
         temperatureNoChangeIcon.setSelected(false);
+
+        monitor.fireMonitorEvent(new MonitorEvent(monitor, temperatureLabel));
         update();
     }
 
@@ -220,15 +234,20 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetPres
 
         temperature = Math.min(temperature + 0.5, MAXIMUM);
         temperatureNoChangeIcon.setSelected(false);
+
+        monitor.fireMonitorEvent(new MonitorEvent(monitor, temperatureLabel));
         update();
     }
 
     private void update()
     {
-        temperatureLabel.setText(PREFERENCES.getTemperatureUnit().format(temperature != null ? temperature : DEFAULT));
-        temperatureLabel.setEnabled(!temperatureNoChangeIcon.isSelected());
-
         boolean enabled = driveButtons.getValue() != MNetDrive.OFF;
+        boolean temperatureEnabled = enabled && !temperatureNoChangeIcon.isSelected();
+
+        temperatureLabel.setText(PREFERENCES.getTemperatureUnit().format(temperature != null ? temperature : DEFAULT));
+        temperatureLabel.setEnabled(temperatureEnabled);
+        temperatureLabel.setBackground(temperatureEnabled ? new Color(0xffdd55) : null);
+        temperatureLabel.setOpaque(temperatureEnabled);
 
         modeButtons.setEnabled(enabled);
         fanButtons.setEnabled(enabled);

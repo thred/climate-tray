@@ -16,6 +16,7 @@ package io.github.thred.climatetray.mnet;
 
 import static io.github.thred.climatetray.ClimateTray.*;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import javax.swing.Icon;
@@ -77,21 +78,21 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
         selected = preset.selected;
     }
 
-    public void set(MNetDevice device)
+    public MNetPreset set(MNetDevice device)
     {
         if (device == null)
         {
-            return;
+            return this;
         }
 
-        set(device.getState());
+        return set(device.getState());
     }
 
-    public void set(MNetState state)
+    public MNetPreset set(MNetState state)
     {
         if (state == null)
         {
-            return;
+            return this;
         }
 
         drive = state.getDrive();
@@ -112,6 +113,8 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
         temperature = state.getTemperature();
         fan = state.getFan();
         air = state.getAir();
+
+        return this;
     }
 
     public UUID getId()
@@ -279,12 +282,32 @@ public class MNetPreset implements Copyable<MNetPreset>, Persistent
         prefs.setEnum("air", air);
     }
 
+    public boolean isSame(MNetPreset preset)
+    {
+        return Objects.equals(drive, preset.drive)
+            && Objects.equals(mode, preset.mode)
+            && Objects.equals(temperature, preset.temperature)
+            && Objects.equals(fan, preset.fan)
+            && Objects.equals(air, preset.air);
+    }
+
     @Override
     public String toString()
     {
         return String
             .format("MNetPreset [id=%s, drive=%s, mode=%s, temperature=%s, fan=%s, air=%s, selected=%s]", id, drive,
                 mode, temperature, fan, air, selected);
+    }
+
+    public void simplify()
+    {
+        if (drive == MNetDrive.OFF)
+        {
+            mode = MNetMode.NO_CHANGE;
+            temperature = null;
+            air = MNetAir.NO_CHANGE;
+            fan = MNetFan.NO_CHANGE;
+        }
     }
 
 }

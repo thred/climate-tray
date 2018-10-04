@@ -40,12 +40,13 @@ import io.github.thred.climatetray.util.swing.FooterPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 import io.github.thred.climatetray.util.swing.TitlePanel;
 
-public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE extends Window>
+public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE extends Window, CONTROLLER_TYPE extends AbstractClimateTrayController<MODEL_TYPE, ? extends JComponent>>
     extends AbstractClimateTrayController<MODEL_TYPE, VIEW_TYPE>
 {
 
     public enum Button
     {
+        RETRY,
         YES,
         NO,
         OK,
@@ -54,10 +55,11 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
     }
 
     protected final Window owner;
-    protected final ClimateTrayController<MODEL_TYPE, ? extends JComponent> controller;
+    protected final CONTROLLER_TYPE controller;
     protected final Button[] buttons;
 
     protected final TitlePanel titlePanel = new TitlePanel(null, null);
+    protected final JButton retryButton = SwingUtils.createButton("Retry", (e) -> retry());
     protected final JButton yesButton = SwingUtils.createButton("Yes", (e) -> yes());
     protected final JButton noButton = SwingUtils.createButton("No", (e) -> no());
     protected final JButton okButton = SwingUtils.createButton("Ok", (e) -> ok());
@@ -67,8 +69,7 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
     private MODEL_TYPE model;
     private Button result;
 
-    public AbstractClimateTrayWindowController(Window owner,
-        AbstractClimateTrayController<MODEL_TYPE, ? extends JComponent> controller, Button... buttons)
+    public AbstractClimateTrayWindowController(Window owner, CONTROLLER_TYPE controller, Button... buttons)
     {
         super();
 
@@ -159,6 +160,11 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
         FooterPanel buttonPanel = new FooterPanel();
 
         buttonPanel.setBackground(Color.WHITE);
+
+        if (set.contains(Button.RETRY))
+        {
+            buttonPanel.right(retryButton);
+        }
 
         if (set.contains(Button.YES))
         {
@@ -271,6 +277,15 @@ public abstract class AbstractClimateTrayWindowController<MODEL_TYPE, VIEW_TYPE 
     public MODEL_TYPE getModel()
     {
         return model;
+    }
+
+    public void retry()
+    {
+        applyTo(model);
+
+        result = Button.RETRY;
+
+        dismiss(model);
     }
 
     public void yes()

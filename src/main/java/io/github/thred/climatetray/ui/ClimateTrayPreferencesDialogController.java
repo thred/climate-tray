@@ -27,7 +27,8 @@ import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.util.swing.FooterPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
-public class ClimateTrayPreferencesDialogController extends DefaultClimateTrayDialogController<ClimateTrayPreferences>
+public class ClimateTrayPreferencesDialogController
+    extends DefaultClimateTrayDialogController<ClimateTrayPreferences, ClimateTrayPreferencesController>
 {
 
     private final JButton proxyButton = SwingUtils.createButton("Proxy Settings", e -> proxySettings());
@@ -53,7 +54,7 @@ public class ClimateTrayPreferencesDialogController extends DefaultClimateTrayDi
 
     public void setVersionCheckEnabled(boolean enabled)
     {
-        ((ClimateTrayPreferencesController) controller).setVersionCheckEnabled(enabled);
+        controller.setVersionCheckEnabled(enabled);
     }
 
     public void proxySettings()

@@ -14,28 +14,19 @@
  */
 package io.github.thred.climatetray.ui;
 
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
+import javax.swing.event.EventListenerList;
 
-import io.github.thred.climatetray.ClimateTrayUtils;
 import io.github.thred.climatetray.util.Copyable;
-import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.AdvancedListModel;
-import io.github.thred.climatetray.util.swing.GBC;
-import io.github.thred.climatetray.util.swing.SwingUtils;
 
 public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TYPE>>
     extends AbstractClimateTrayController<List<TYPE>, JPanel>
@@ -43,11 +34,7 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
 
     protected final AdvancedListModel<TYPE> listModel = new AdvancedListModel<>();
     protected final JList<TYPE> list = monitor(new JList<>(listModel));
-    protected final JButton addButton = SwingUtils.createButton("Add...", (e) -> add());
-    protected final JButton editButton = SwingUtils.createButton("Edit...", (e) -> edit());
-    protected final JButton removeButton = SwingUtils.createButton("Remove", (e) -> remove());
-    protected final JButton upButton = SwingUtils.createButton("Up", (e) -> up());
-    protected final JButton downButton = SwingUtils.createButton("Down", (e) -> down());
+    protected final EventListenerList listenerList = new EventListenerList();
 
     private final MouseListener mouseListener = new MouseAdapter()
     {
@@ -56,7 +43,7 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
         {
             if (e.getClickCount() == 2)
             {
-                edit();
+                doubleClicked();
             }
         }
     };
@@ -64,41 +51,57 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
     public AbstractClimateTrayListController()
     {
         super();
-    }
-
-    @Override
-    protected JPanel createView()
-    {
-        JPanel view = new JPanel(new GridBagLayout());
-
-        view.setOpaque(false);
 
         list.setVisibleRowCount(5);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         list.addListSelectionListener((e) -> {
             if (!e.getValueIsAdjusting())
             {
-                update();
+                selected();
             }
         });
         list.addMouseListener(mouseListener);
+    }
 
-        GBC gbc = new GBC(2, 6).defaultOutsets(0, 0, 0, 0);
+    public void addSelectListener(SelectListener<TYPE> listener)
+    {
+        listenerList.add(SelectListener.class, listener);
+    }
 
-        JScrollPane scrollPane = new JScrollPane(list);
+    public void removeSelectListener(SelectListener<TYPE> listener)
+    {
+        listenerList.remove(SelectListener.class, listener);
+    }
 
-        scrollPane.setPreferredSize(new Dimension(480, 64));
+    @SuppressWarnings("unchecked")
+    protected void fireSelectEvent(SelectEvent<TYPE> event)
+    {
+        for (SelectListener<TYPE> listener : listenerList.getListeners(SelectListener.class))
+        {
+            listener.itemSelected(event);
+        }
+    }
 
-        view.add(scrollPane, gbc.span(1, 6).weight(1, 1).fill());
+    public void clearSelection()
+    {
+        list.clearSelection();
+    }
 
-        view.add(addButton, gbc.next().hFill().insetRight(0));
-        view.add(editButton, gbc.next().hFill().insetRight(0));
-        view.add(removeButton, gbc.next().hFill().insetRight(0));
-        view.add(new JLabel(), gbc.next().weight(0, 1).insetRight(0));
-        view.add(upButton, gbc.next().hFill().insetRight(0));
-        view.add(downButton, gbc.next().hFill().insetRight(0));
+    public TYPE getSelectedValue()
+    {
+        return list.getSelectedValue();
+    }
 
-        return view;
+    public void setSelectedValue(TYPE value)
+    {
+        if (value == null)
+        {
+            list.clearSelection();
+        }
+        else
+        {
+            list.setSelectedValue(value, true);
+        }
     }
 
     @Override
@@ -138,83 +141,20 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
 
     protected abstract String describe(TYPE element);
 
-    public void update()
-    {
-        int selectedIndex = (list != null) ? list.getSelectedIndex() : -1;
-        boolean anySelected = selectedIndex >= 0;
+    public abstract void update();
 
-        addButton.setEnabled(true);
-        editButton.setEnabled(anySelected);
-        removeButton.setEnabled(anySelected);
-        upButton.setEnabled(anySelected);
-        downButton.setEnabled(anySelected);
+    public void doubleClicked()
+    {
+        fireSelectEvent(new SelectEvent<>(this, list.getSelectedValuesList(), true));
+
+        update();
     }
 
-    public void add()
+    public void selected()
     {
-        int selectedIndex = (list != null) ? list.getSelectedIndex() : -1;
-        TYPE element = createElement();
+        fireSelectEvent(new SelectEvent<>(this, list.getSelectedValuesList(), false));
 
-        if (consumeElement(element))
-        {
-            if (selectedIndex >= 0)
-            {
-                selectedIndex += 1;
-            }
-
-            listModel.addElementAt(selectedIndex, element);
-
-            list.setSelectedValue(element, true);
-        }
-    }
-
-    protected abstract TYPE createElement();
-
-    public void edit()
-    {
-        TYPE element = list.getSelectedValue();
-
-        if (element == null)
-        {
-            return;
-        }
-
-        if (consumeElement(element))
-        {
-            listModel.refreshElement(element);
-        }
-    }
-
-    protected abstract boolean consumeElement(TYPE element);
-
-    public void remove()
-    {
-        int selectedIndex = list.getSelectedIndex();
-
-        if (selectedIndex < 0)
-        {
-            return;
-        }
-
-        TYPE element = listModel.getElementAt(selectedIndex);
-
-        if (ClimateTrayUtils
-            .dialogWithYesAndNoButtons(SwingUtilities.getWindowAncestor(getView()), "Remove",
-                Message.warn("Are you sure, that you want to remove the item \"%s\"?", describe(element))))
-        {
-
-            listModel.removeElementAt(selectedIndex);
-
-            if (selectedIndex >= listModel.getSize())
-            {
-                selectedIndex = listModel.getSize() - 1;
-            }
-
-            if (selectedIndex >= 0)
-            {
-                list.setSelectedIndex(selectedIndex);
-            }
-        }
+        update();
     }
 
     public void up()
@@ -245,4 +185,25 @@ public abstract class AbstractClimateTrayListController<TYPE extends Copyable<TY
         list.ensureIndexIsVisible(selectedIndex + 1);
     }
 
+    public void remove()
+    {
+        int selectedIndex = list.getSelectedIndex();
+
+        if (selectedIndex < 0)
+        {
+            return;
+        }
+
+        listModel.removeElementAt(selectedIndex);
+
+        if (selectedIndex >= listModel.getSize())
+        {
+            selectedIndex = listModel.getSize() - 1;
+        }
+
+        if (selectedIndex >= 0)
+        {
+            list.setSelectedIndex(selectedIndex);
+        }
+    }
 }

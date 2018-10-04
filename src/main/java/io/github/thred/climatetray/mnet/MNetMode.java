@@ -29,7 +29,7 @@ public enum MNetMode
         true, true, true),
     COOL("COOL", "Cool", "Cool", "cool down", "cooling down to %s", ClimateTrayImage.ICON_COOL,
         ClimateTrayImage.BACKGROUND_COOL, true, 19, 30, true, true),
-    HEAT("HEAT", "Heat", "Head", "heat up", "heating up to %s", ClimateTrayImage.ICON_HEAT,
+    HEAT("HEAT", "Heat", "Heat", "heat up", "heating up to %s", ClimateTrayImage.ICON_HEAT,
         ClimateTrayImage.BACKGROUND_HEAT, true, 17, 28, true, true),
     AUTO("AUTO", "Automatic", "Auto", "auto", "keeping %s", ClimateTrayImage.ICON_AUTO,
         ClimateTrayImage.BACKGROUND_AUTO, true, 19, 28, true, true),

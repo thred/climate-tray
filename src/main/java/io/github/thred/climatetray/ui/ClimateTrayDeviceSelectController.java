@@ -15,13 +15,12 @@
 package io.github.thred.climatetray.ui;
 
 import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
 
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.ui.MNetDeviceCheckBoxCellRenderer;
 import io.github.thred.climatetray.util.message.MessageBuffer;
 
-public class ClimateTrayDeviceSelectController extends AbstractClimateTraySelectController<MNetDevice>
+public class ClimateTrayDeviceSelectController extends AbstractClimateTrayListSelectController<MNetDevice>
 {
 
     public ClimateTrayDeviceSelectController()
@@ -30,29 +29,17 @@ public class ClimateTrayDeviceSelectController extends AbstractClimateTraySelect
     }
 
     @Override
+    protected String getTitle()
+    {
+        return "Devices:";
+    }
+
+    @Override
     protected JPanel createView()
     {
         JPanel view = super.createView();
 
         list.setCellRenderer(new MNetDeviceCheckBoxCellRenderer());
-        list.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        //        list.setSelectionModel(new DefaultListSelectionModel()
-        //        {
-        //            private static final long serialVersionUID = 8964770425645736705L;
-        //
-        //            @Override
-        //            public void addSelectionInterval(int index0, int index1)
-        //            {
-        //                if (super.isSelectedIndex(index0))
-        //                {
-        //                    super.removeSelectionInterval(index0, index1);
-        //                }
-        //                else
-        //                {
-        //                    super.addSelectionInterval(index0, index1);
-        //                }
-        //            }
-        //        });
 
         return view;
     }
@@ -67,8 +54,30 @@ public class ClimateTrayDeviceSelectController extends AbstractClimateTraySelect
             return;
         }
 
-        device.setSelected(!device.isSelected());
+        if (device.isSelected())
+        {
+            if (listModel.getList().stream().allMatch(MNetDevice::isSelected))
+            {
+                listModel.getList().forEach($ -> $.setSelected(false));
+                device.setSelected(true);
+            }
+            else
+            {
+                device.setSelected(false);
+
+                if (!listModel.getList().stream().anyMatch(MNetDevice::isSelected))
+                {
+                    listModel.getList().forEach($ -> $.setSelected(true));
+                }
+            }
+        }
+        else
+        {
+            device.setSelected(true);
+        }
+
         list.clearSelection();
+        list.repaint();
     }
 
     @Override

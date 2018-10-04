@@ -57,7 +57,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
     private final TitlePanel titlePanel = new TitlePanel("Climate Tray", null);
     private final JMenuItem adjustItem = createMenuItem("Adjust ...",
-        ClimateTrayImage.ICON.getIcon(ClimateTrayImageState.DEFAULT, 16), null, e -> ClimateTrayService.adjustAll());
+        ClimateTrayImage.ICON.getIcon(ClimateTrayImageState.DEFAULT, 16), null, e -> ClimateTrayService.adjust());
     private final JMenuItem refreshItem =
         createMenuItem("Refresh", null, "Update the state of all devices.", (e) -> ClimateTrayService.update());
     private final JMenuItem preferencesItem = createMenuItem("Preferences ...", null,

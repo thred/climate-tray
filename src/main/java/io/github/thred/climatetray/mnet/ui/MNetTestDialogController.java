@@ -6,7 +6,7 @@ import io.github.thred.climatetray.mnet.ui.MNetTest.State;
 import io.github.thred.climatetray.mnet.ui.MNetTest.Step;
 import io.github.thred.climatetray.ui.DefaultClimateTrayDialogController;
 
-public class MNetTestDialogController extends DefaultClimateTrayDialogController<MNetTest>
+public class MNetTestDialogController extends DefaultClimateTrayDialogController<MNetTest, MNetTestController>
     implements MNetTestStepListener
 {
 

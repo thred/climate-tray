@@ -171,7 +171,12 @@ public class MNetDevice implements Copyable<MNetDevice>, Persistent
 
     public boolean isSelectedAndWorking()
     {
-        return isSelected() && (getState() != null) && (getState().getFails() == 0);
+        return isSelected() && isWorking();
+    }
+
+    public boolean isWorking()
+    {
+        return getState() != null && getState().getFails() == 0;
     }
 
     public boolean isSelected()

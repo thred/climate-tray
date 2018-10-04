@@ -19,7 +19,7 @@ import java.awt.Window;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.ui.DefaultClimateTrayDialogController;
 
-public class MNetPresetDialogController extends DefaultClimateTrayDialogController<MNetPreset>
+public class MNetPresetDialogController extends DefaultClimateTrayDialogController<MNetPreset, MNetPresetController>
 {
 
     public MNetPresetDialogController(Window owner)

@@ -18,12 +18,23 @@ import java.awt.Window;
 
 import io.github.thred.climatetray.util.message.Message;
 
-public class ClimateTrayMessageDialogController extends DefaultClimateTrayDialogController<Message>
+public class ClimateTrayMessageDialogController
+    extends DefaultClimateTrayDialogController<Message, ClimateTrayMessageController>
 {
 
     public static Button consumeOkDialog(Window owner, String title, Message message)
     {
         ClimateTrayMessageDialogController controller = new ClimateTrayMessageDialogController(owner, Button.OK);
+
+        controller.setTitle(title);
+
+        return controller.consume(message);
+    }
+
+    public static Button consumeRetryOkCancelDialog(Window owner, String title, Message message)
+    {
+        ClimateTrayMessageDialogController controller =
+            new ClimateTrayMessageDialogController(owner, Button.RETRY, Button.OK, Button.CANCEL);
 
         controller.setTitle(title);
 

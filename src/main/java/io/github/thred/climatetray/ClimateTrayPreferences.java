@@ -17,16 +17,17 @@ package io.github.thred.climatetray;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
 
+import io.github.thred.climatetray.mnet.MNetAdjust;
 import io.github.thred.climatetray.mnet.MNetDevice;
+import io.github.thred.climatetray.mnet.MNetDeviceList;
 import io.github.thred.climatetray.mnet.MNetPreset;
+import io.github.thred.climatetray.mnet.MNetPresetList;
 import io.github.thred.climatetray.util.Persistent;
 import io.github.thred.climatetray.util.TemperatureUnit;
 import io.github.thred.climatetray.util.prefs.Prefs;
 
-public class ClimateTrayPreferences implements Persistent
+public class ClimateTrayPreferences implements MNetDeviceList, MNetPresetList, Persistent
 {
 
     public static final int VERSION = 2;
@@ -47,41 +48,33 @@ public class ClimateTrayPreferences implements Persistent
         super();
     }
 
+    public void set(MNetAdjust adjust)
+    {
+        adjust.getDevices().forEach(adjustDevice -> {
+            MNetDevice device = getDevice(adjustDevice.getId());
+
+            if (device != null)
+            {
+                device.setSelected(adjustDevice.isSelected());
+            }
+        });
+
+        this.presets.clear();
+        this.presets.addAll(adjust.getPresets());
+    }
+
     public ClimateTrayProxySettings getProxySettings()
     {
         return proxySettings;
     }
 
-    public MNetDevice getDevice(UUID id)
-    {
-        return devices.stream().filter((device) -> Objects.equals(id, device.getId())).findFirst().orElse(null);
-    }
-
-    public MNetDevice getDefaultDevice()
-    {
-        return devices.stream().filter(device -> device.isSelectedAndWorking()).findFirst().orElse(null);
-    }
-
+    @Override
     public List<MNetDevice> getDevices()
     {
         return devices;
     }
 
-    public boolean isAnyDeviceSelected()
-    {
-        return devices.stream().filter(device -> device.isEnabled() && device.isSelected()).count() > 0;
-    }
-
-    public boolean isAnyDeviceSelectedAndWorking()
-    {
-        return devices.stream().filter(device -> device.isEnabled() && device.isSelectedAndWorking()).count() > 0;
-    }
-
-    public MNetPreset getPreset(UUID id)
-    {
-        return presets.stream().filter((device) -> Objects.equals(id, device.getId())).findFirst().orElse(null);
-    }
-
+    @Override
     public List<MNetPreset> getPresets()
     {
         return presets;

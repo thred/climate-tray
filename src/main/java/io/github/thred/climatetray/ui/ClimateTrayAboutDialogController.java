@@ -33,7 +33,8 @@ import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.swing.FooterPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
-public class ClimateTrayAboutDialogController extends DefaultClimateTrayDialogController<ClimateTrayPreferences>
+public class ClimateTrayAboutDialogController
+    extends DefaultClimateTrayDialogController<ClimateTrayPreferences, ClimateTrayAboutController>
 {
 
     private final JButton visitHomepageButton = SwingUtils.createButton("Visit Homepage", e -> visitHomepage());

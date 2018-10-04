@@ -30,8 +30,8 @@ import io.github.thred.climatetray.util.message.MessageListener;
 import io.github.thred.climatetray.util.swing.FooterPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
-public class ClimateTrayLogFrameController extends DefaultClimateTrayFrameController<MessageBuffer>
-    implements MessageListener
+public class ClimateTrayLogFrameController
+    extends DefaultClimateTrayFrameController<MessageBuffer, ClimateTrayLogController> implements MessageListener
 {
 
     protected final JButton clearButton = SwingUtils.createButton("Clear", (e) -> clear());

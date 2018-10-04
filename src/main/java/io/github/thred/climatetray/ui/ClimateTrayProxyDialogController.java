@@ -21,7 +21,8 @@ import java.awt.Window;
 import io.github.thred.climatetray.ClimateTrayProxySettings;
 import io.github.thred.climatetray.ClimateTrayService;
 
-public class ClimateTrayProxyDialogController extends DefaultClimateTrayDialogController<ClimateTrayProxySettings>
+public class ClimateTrayProxyDialogController
+    extends DefaultClimateTrayDialogController<ClimateTrayProxySettings, ClimateTrayProxyController>
 {
 
     private final boolean store;

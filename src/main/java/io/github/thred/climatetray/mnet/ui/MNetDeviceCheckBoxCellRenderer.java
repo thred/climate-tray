@@ -14,6 +14,7 @@
  */
 package io.github.thred.climatetray.mnet.ui;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -52,6 +53,7 @@ public class MNetDeviceCheckBoxCellRenderer implements ListCellRenderer<MNetDevi
         checkBox.setSelected(device.isSelected());
         checkBox.setEnabled(device.isEnabled());
 
+        checkBox.setBackground(selected ? Color.BLUE : Color.WHITE);
         return checkBox;
     }
 }

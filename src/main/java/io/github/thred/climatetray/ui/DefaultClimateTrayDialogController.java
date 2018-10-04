@@ -22,12 +22,11 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 
-public class DefaultClimateTrayDialogController<MODEL_TYPE>
-    extends AbstractClimateTrayWindowController<MODEL_TYPE, JDialog>
+public class DefaultClimateTrayDialogController<MODEL_TYPE, CONTROLLER_TYPE extends AbstractClimateTrayController<MODEL_TYPE, ? extends JComponent>>
+    extends AbstractClimateTrayWindowController<MODEL_TYPE, JDialog, CONTROLLER_TYPE>
 {
 
-    public DefaultClimateTrayDialogController(Window owner,
-        AbstractClimateTrayController<MODEL_TYPE, ? extends JComponent> controller, Button... buttons)
+    public DefaultClimateTrayDialogController(Window owner, CONTROLLER_TYPE controller, Button... buttons)
     {
         super(owner, controller, buttons);
     }

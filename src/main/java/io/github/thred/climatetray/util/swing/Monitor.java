@@ -55,7 +55,7 @@ public class Monitor implements MonitorListener, DocumentListener, ActionListene
         listenerList.remove(MonitorListener.class, listener);
     }
 
-    protected void fireMonitorEvent(MonitorEvent event)
+    public void fireMonitorEvent(MonitorEvent event)
     {
         for (MonitorListener listener : listenerList.getListeners(MonitorListener.class))
         {

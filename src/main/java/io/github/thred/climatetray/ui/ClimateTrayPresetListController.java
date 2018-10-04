@@ -23,7 +23,7 @@ import io.github.thred.climatetray.mnet.ui.MNetPresetDialogController;
 import io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button;
 import io.github.thred.climatetray.util.message.MessageBuffer;
 
-public class ClimateTrayPresetListController extends AbstractClimateTrayListController<MNetPreset>
+public class ClimateTrayPresetListController extends AbstractClimateTrayListEditController<MNetPreset>
 {
 
     public ClimateTrayPresetListController()

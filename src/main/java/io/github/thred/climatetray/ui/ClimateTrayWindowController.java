@@ -221,7 +221,7 @@ public class ClimateTrayWindowController extends AbstractClimateTrayController<C
     {
         LOG.debug("Opening adjust.");
 
-        ClimateTrayService.adjustAll();
+        ClimateTrayService.adjust();
     }
 
     public void popup(int x, int y)

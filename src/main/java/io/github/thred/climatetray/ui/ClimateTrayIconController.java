@@ -183,7 +183,7 @@ public class ClimateTrayIconController extends AbstractClimateTrayController<Cli
     {
         LOG.debug("Opening adjust.");
 
-        ClimateTrayService.adjustAll();
+        ClimateTrayService.adjust();
     }
 
     public void popup(int x, int y)

@@ -21,12 +21,11 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-public abstract class DefaultClimateTrayFrameController<MODEL_TYPE>
-    extends AbstractClimateTrayWindowController<MODEL_TYPE, JFrame>
+public abstract class DefaultClimateTrayFrameController<MODEL_TYPE, CONTROLLER_TYPE extends AbstractClimateTrayController<MODEL_TYPE, ? extends JComponent>>
+    extends AbstractClimateTrayWindowController<MODEL_TYPE, JFrame, CONTROLLER_TYPE>
 {
 
-    public DefaultClimateTrayFrameController(Window owner,
-        AbstractClimateTrayController<MODEL_TYPE, ? extends JComponent> controller, Button... buttons)
+    public DefaultClimateTrayFrameController(Window owner, CONTROLLER_TYPE controller, Button... buttons)
     {
         super(owner, controller, buttons);
     }

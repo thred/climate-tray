@@ -20,6 +20,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.LayoutManager2;
 import java.awt.Rectangle;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -55,6 +56,15 @@ import io.github.thred.climatetray.util.message.MessageComponent;
 
 public class SwingUtils
 {
+
+    public static JPanel createPanel(LayoutManager2 layout)
+    {
+        JPanel panel = new JPanel(layout);
+
+        panel.setOpaque(false);
+
+        return panel;
+    }
 
     public static JComponent createMenuHeadline(String text, boolean upperLine, boolean lowerLine)
     {

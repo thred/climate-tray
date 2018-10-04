@@ -36,12 +36,14 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
+import io.github.thred.climatetray.mnet.MNetAdjust;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.mnet.MNetService;
 import io.github.thred.climatetray.mnet.MNetState;
+import io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button;
 import io.github.thred.climatetray.ui.ClimateTrayAboutDialogController;
-import io.github.thred.climatetray.ui.ClimateTrayAdjustAllDialogController;
+import io.github.thred.climatetray.ui.ClimateTrayAdjustDialogController;
 import io.github.thred.climatetray.ui.ClimateTrayController;
 import io.github.thred.climatetray.ui.ClimateTrayIconController;
 import io.github.thred.climatetray.ui.ClimateTrayLogFrameController;
@@ -63,7 +65,7 @@ public class ClimateTrayService
     private static final SystemPrefs PREFS = SystemPrefs.get(ClimateTray.class);
     private static final ScheduledExecutorService EXECUTOR;
     private static final ClimateTrayController<ClimateTrayPreferences, ?> MAIN_CONTROLLER;
-    private static final ClimateTrayAdjustAllDialogController ADJUST_ALL_CONTROLLER;
+    private static final ClimateTrayAdjustDialogController ADJUST_ALL_CONTROLLER;
     private static final ClimateTrayAboutDialogController ABOUT_CONTROLLER;
     private static final ClimateTrayLogFrameController LOG_CONTROLLER;
     private static final ClimateTrayPreferencesDialogController PREFERENCES_CONTROLLER;
@@ -88,7 +90,7 @@ public class ClimateTrayService
             MAIN_CONTROLLER = new ClimateTrayIconController();
         }
 
-        ADJUST_ALL_CONTROLLER = new ClimateTrayAdjustAllDialogController(null);
+        ADJUST_ALL_CONTROLLER = new ClimateTrayAdjustDialogController(null);
         ABOUT_CONTROLLER = new ClimateTrayAboutDialogController(null);
         LOG_CONTROLLER = new ClimateTrayLogFrameController(null);
         PREFERENCES_CONTROLLER = new ClimateTrayPreferencesDialogController(null);
@@ -362,16 +364,69 @@ public class ClimateTrayService
         scheduleUpdate();
     }
 
-    public static void adjustAll()
+    public static void adjust()
     {
+        while (!PREFERENCES.isAnyDeviceEnabledAndWorking())
+        {
+            Button button;
+
+            if (PREFERENCES.getDevices().isEmpty())
+            {
+                button = ClimateTrayMessageDialogController
+                    .consumeRetryOkCancelDialog(null, "No Devices",
+                        Message
+                            .warn("There is not a single device in the device list.\n\n"
+                                + "In order to control a device, it's necessary, that you specify it's address.\n\n"
+                                + "Please head forward to the preferences, hit \"Add ...\" next to the empty "
+                                + "device list and enter the name and address of at least one device."));
+            }
+            else
+            {
+                button = ClimateTrayMessageDialogController
+                    .consumeRetryOkCancelDialog(null, "No Working Devices",
+                        Message
+                            .warn("Unfortunately, no device in the device ist list working.\n\n"
+                                + "Please head forward to the preferences, select a device and hit \"Edit ...\". "
+                                + "Make sure, that the address of the device is correct. Ist the device enabled? "
+                                + "Is the device reacting when you hit the \"Test\" button?"));
+            }
+
+            if (button == Button.OK)
+            {
+                PREFERENCES_CONTROLLER.consume(PREFERENCES);
+            }
+
+            if (button == Button.CANCEL)
+            {
+                return;
+            }
+
+            try
+            {
+                Thread.sleep(1000);
+            }
+            catch (InterruptedException e)
+            {
+                // ignore
+            }
+        }
+
         SwingUtilities.invokeLater(() -> {
             LOG.debug("Opening adjust all dialog.");
 
-            MNetPreset preset = new MNetPreset();
+            MNetAdjust model = MNetAdjust.of(PREFERENCES);
+            Button button = ADJUST_ALL_CONTROLLER.consume(model);
 
-            preset.set(ClimateTray.PREFERENCES.getDefaultDevice());
+            if (button == Button.OK)
+            {
+                PREFERENCES.set(model);
 
-            ADJUST_ALL_CONTROLLER.consume(preset);
+                MNetPreset preset = model.getPreset();
+
+                ClimateTrayService.togglePreset(preset);
+                ClimateTrayService.store();
+                ClimateTrayService.scheduleUpdate();
+            }
         });
     }
 

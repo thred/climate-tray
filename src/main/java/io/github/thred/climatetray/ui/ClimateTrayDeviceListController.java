@@ -23,7 +23,7 @@ import io.github.thred.climatetray.mnet.ui.MNetDeviceDialogController;
 import io.github.thred.climatetray.ui.AbstractClimateTrayWindowController.Button;
 import io.github.thred.climatetray.util.message.MessageBuffer;
 
-public class ClimateTrayDeviceListController extends AbstractClimateTrayListController<MNetDevice>
+public class ClimateTrayDeviceListController extends AbstractClimateTrayListEditController<MNetDevice>
 {
 
     public ClimateTrayDeviceListController()

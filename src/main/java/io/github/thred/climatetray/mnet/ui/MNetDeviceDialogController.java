@@ -29,7 +29,7 @@ import io.github.thred.climatetray.util.message.MessageBuffer;
 import io.github.thred.climatetray.util.swing.FooterPanel;
 import io.github.thred.climatetray.util.swing.SwingUtils;
 
-public class MNetDeviceDialogController extends DefaultClimateTrayDialogController<MNetDevice>
+public class MNetDeviceDialogController extends DefaultClimateTrayDialogController<MNetDevice, MNetDeviceController>
 {
 
     protected JButton testButton;

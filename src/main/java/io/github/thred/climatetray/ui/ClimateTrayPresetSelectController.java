@@ -14,10 +14,13 @@
  */
 package io.github.thred.climatetray.ui;
 
+import javax.swing.JPanel;
+import javax.swing.ListSelectionModel;
+
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.mnet.ui.MNetPresetCellRenderer;
 
-public class ClimateTrayPresetSelectController extends AbstractClimateTraySelectController<MNetPreset>
+public class ClimateTrayPresetSelectController extends AbstractClimateTrayListSelectController<MNetPreset>
 {
 
     public ClimateTrayPresetSelectController()
@@ -25,33 +28,25 @@ public class ClimateTrayPresetSelectController extends AbstractClimateTraySelect
         super();
 
         list.setCellRenderer(new MNetPresetCellRenderer());
+        list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
 
-        //        list.addMouseListener(new MouseAdapter()
-        //        {
-        //            @Override
-        //            public void mousePressed(MouseEvent e)
-        //            {
-        //                if (SwingUtilities.isRightMouseButton(e))
-        //                {
-        //                    Point point = e.getPoint();
-        //
-        //                    list.setSelectedIndex(list.locationToIndex(point));
-        //
-        //                    JPopupMenu menu = new JPopupMenu();
-        //
-        //                    menu.add(SwingUtils.createMenuItem("Delete", null, null, event -> {
-        //                        int index = list.getSelectedIndex();
-        //
-        //                        if (index >= 0)
-        //                        {
-        //                            listModel.removeElementAt(index);
-        //                        }
-        //                    }));
-        //
-        //                    menu.show(list, point.x, point.y);
-        //                }
-        //            }
-        //        });
+    @Override
+    protected String getTitle()
+    {
+        return "Presets:";
+    }
+
+    @Override
+    protected JPanel createView()
+    {
+        JPanel view = super.createView();
+
+        upButton.setVisible(true);
+        downButton.setVisible(true);
+        removeButton.setVisible(true);
+
+        return view;
     }
 
     @Override
