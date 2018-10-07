@@ -38,7 +38,7 @@ public class ClimateTrayPreferences implements MNetDeviceList, MNetPresetList, P
 
     private int version = 0;
     private TemperatureUnit temperatureUnit = TemperatureUnit.CELSIUS;
-    private double updatePeriodInMinutes = 1;
+    private int updatePeriodInSeconds = 60;
     private boolean versionCheckEnabled = true;
     private boolean trayIconEnabled = true;
     private Point windowLocation = new Point();
@@ -103,14 +103,14 @@ public class ClimateTrayPreferences implements MNetDeviceList, MNetPresetList, P
         this.temperatureUnit = temperatureUnit;
     }
 
-    public double getUpdatePeriodInMinutes()
+    public int getUpdatePeriodInSeconds()
     {
-        return updatePeriodInMinutes;
+        return updatePeriodInSeconds;
     }
 
-    public void setUpdatePeriodInMinutes(double updatePeriodInMinutes)
+    public void setUpdatePeriodInSeconds(int updatePeriodInSeconds)
     {
-        this.updatePeriodInMinutes = updatePeriodInMinutes;
+        this.updatePeriodInSeconds = updatePeriodInSeconds;
     }
 
     public boolean isVersionCheckEnabled()
@@ -154,7 +154,7 @@ public class ClimateTrayPreferences implements MNetDeviceList, MNetPresetList, P
         Persistent.readList(prefs, "preset", presets, MNetPreset::new);
 
         temperatureUnit = prefs.getEnum(TemperatureUnit.class, "temperatureUnit", temperatureUnit);
-        updatePeriodInMinutes = prefs.getDouble("updatePeriodInMinutes", updatePeriodInMinutes);
+        updatePeriodInSeconds = prefs.getInteger("updatePeriodInSeconds", updatePeriodInSeconds);
         versionCheckEnabled = prefs.getBoolean("versionCheckEnabled", versionCheckEnabled);
         trayIconEnabled = prefs.getBoolean("trayIconEnabled", trayIconEnabled);
         windowLocation = new Point(prefs.getInteger("window.x", -1), prefs.getInteger("window.y", -1));
@@ -173,7 +173,7 @@ public class ClimateTrayPreferences implements MNetDeviceList, MNetPresetList, P
         Persistent.writeList(prefs, "preset", presets);
 
         prefs.setEnum("temperatureUnit", temperatureUnit);
-        prefs.setDouble("updatePeriodInMinutes", updatePeriodInMinutes);
+        prefs.setInteger("updatePeriodInSeconds", updatePeriodInSeconds);
         prefs.setBoolean("versionCheckEnabled", versionCheckEnabled);
         prefs.setBoolean("trayIconEnabled", trayIconEnabled);
         prefs.setInteger("window.x", windowLocation.x);
@@ -183,19 +183,12 @@ public class ClimateTrayPreferences implements MNetDeviceList, MNetPresetList, P
     @Override
     public String toString()
     {
-        return "ClimateTrayPreferences [proxySettings="
-            + proxySettings
-            + ", devices="
-            + devices
-            + ", presets="
-            + presets
-            + ", temperatureUnit="
-            + temperatureUnit
-            + ", updatePeriodInMinutes="
-            + updatePeriodInMinutes
-            + ", trayIconEnabled="
-            + trayIconEnabled
-            + "]";
+        return String
+            .format(
+                "ClimateTrayPreferences [proxySettings=%s, devices=%s, presets=%s, version=%s, temperatureUnit=%s, "
+                    + "updatePeriodInSeconds=%s, versionCheckEnabled=%s, trayIconEnabled=%s, windowLocation=%s]",
+                proxySettings, devices, presets, version, temperatureUnit, updatePeriodInSeconds, versionCheckEnabled,
+                trayIconEnabled, windowLocation);
     }
 
 }

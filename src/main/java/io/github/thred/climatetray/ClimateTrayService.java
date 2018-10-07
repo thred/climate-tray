@@ -113,8 +113,8 @@ public class ClimateTrayService
         catch (Exception e)
         {
             LOG.error("Failed to load preferences", e);
-            ClimateTrayUtils.dialogWithOkButton(null, "Preferences",
-                Message.error("Failed to load existing preferences."));
+            ClimateTrayUtils
+                .dialogWithOkButton(null, "Preferences", Message.error("Failed to load existing preferences."));
         }
     }
 
@@ -127,7 +127,7 @@ public class ClimateTrayService
 
     public static void scheduleUpdate()
     {
-        double updatePeriodInMinutes = PREFERENCES.getUpdatePeriodInMinutes();
+        int updatePeriodInSeconds = Math.max(PREFERENCES.getUpdatePeriodInSeconds(), 30);
 
         if (updateFuture != null)
         {
@@ -136,7 +136,7 @@ public class ClimateTrayService
             updateFuture.cancel(false);
         }
 
-        LOG.info("Scheduling update every %.1f minutes.", updatePeriodInMinutes);
+        LOG.info("Scheduling update every %d seconds.", updatePeriodInSeconds);
 
         updateFuture = EXECUTOR.scheduleWithFixedDelay(() -> {
             try
@@ -147,7 +147,7 @@ public class ClimateTrayService
             {
                 LOG.error("Unhandled error while update", e);
             }
-        }, 0, (long) (updatePeriodInMinutes * 60), TimeUnit.SECONDS);
+        }, 0, updatePeriodInSeconds, TimeUnit.SECONDS);
     }
 
     public static void update()
@@ -297,10 +297,11 @@ public class ClimateTrayService
     {
         LOG.debug("Toggling preset with id %s for all selected devices.", preset.getId());
 
-        submitTask(
-            () -> PREFERENCES.getDevices().stream().filter(device -> device.isEnabled() && device.isSelected()).forEach(
-                device -> MNetService.adjustDevice(device, preset)),
-            ClimateTrayService::updatePresets);
+        submitTask(() -> PREFERENCES
+            .getDevices()
+            .stream()
+            .filter(device -> device.isEnabled() && device.isSelected())
+            .forEach(device -> MNetService.adjustDevice(device, preset)), ClimateTrayService::updatePresets);
     }
 
     protected static void togglePreset(MNetDevice device, MNetPreset preset)
@@ -342,19 +343,23 @@ public class ClimateTrayService
 
             if (PREFERENCES.getDevices().isEmpty())
             {
-                button = ClimateTrayMessageDialogController.consumeRetryOkCancelDialog(null, "No Devices",
-                    Message.warn("There is not a single device in the device list.\n\n"
-                        + "In order to control a device, it's necessary, that you specify it's address.\n\n"
-                        + "Please head forward to the preferences, hit \"Add ...\" next to the empty "
-                        + "device list and enter the name and address of at least one device."));
+                button = ClimateTrayMessageDialogController
+                    .consumeRetryOkCancelDialog(null, "No Devices",
+                        Message
+                            .warn("There is not a single device in the device list.\n\n"
+                                + "In order to control a device, it's necessary, that you specify it's address.\n\n"
+                                + "Please head forward to the preferences, hit \"Add ...\" next to the empty "
+                                + "device list and enter the name and address of at least one device."));
             }
             else
             {
-                button = ClimateTrayMessageDialogController.consumeRetryOkCancelDialog(null, "No Working Devices",
-                    Message.warn("Unfortunately, no device in the device ist list working.\n\n"
-                        + "Please head forward to the preferences, select a device and hit \"Edit ...\". "
-                        + "Make sure, that the address of the device is correct. Ist the device enabled? "
-                        + "Is the device reacting when you hit the \"Test\" button?"));
+                button = ClimateTrayMessageDialogController
+                    .consumeRetryOkCancelDialog(null, "No Working Devices",
+                        Message
+                            .warn("Unfortunately, no device in the device ist list working.\n\n"
+                                + "Please head forward to the preferences, select a device and hit \"Edit ...\". "
+                                + "Make sure, that the address of the device is correct. Ist the device enabled? "
+                                + "Is the device reacting when you hit the \"Test\" button?"));
             }
 
             if (button == Button.OK)
@@ -407,16 +412,18 @@ public class ClimateTrayService
 
         if (!device.isEnabled())
         {
-            ClimateTrayMessageDialogController.consumeOkDialog(null, "Device not enabled",
-                Message.warn("The device is not enabled. Please enable the device in the preferences!"));
+            ClimateTrayMessageDialogController
+                .consumeOkDialog(null, "Device not enabled",
+                    Message.warn("The device is not enabled. Please enable the device in the preferences!"));
 
             return;
         }
 
         if (!device.isWorking())
         {
-            ClimateTrayMessageDialogController.consumeOkDialog(null, "Device not enabled",
-                Message.warn("The device is not working. Please check the connection settings in the preferences!"));
+            ClimateTrayMessageDialogController
+                .consumeOkDialog(null, "Device not enabled", Message
+                    .warn("The device is not working. Please check the connection settings in the preferences!"));
 
             return;
         }
@@ -535,9 +542,11 @@ public class ClimateTrayService
 
                     public void disableVersionCheck()
                     {
-                        if (ClimateTrayUtils.dialogWithYesAndNoButtons(getView(), "Disable Version Check",
-                            Message.warn("Are you sure, that you want to disable the version check?\n\n"
-                                + "You can enable the check later in the preferences.")))
+                        if (ClimateTrayUtils
+                            .dialogWithYesAndNoButtons(getView(), "Disable Version Check",
+                                Message
+                                    .warn("Are you sure, that you want to disable the version check?\n\n"
+                                        + "You can enable the check later in the preferences.")))
                         {
                             close();
 
@@ -557,9 +566,10 @@ public class ClimateTrayService
 
                 controller.setTitle("Version Update Check");
 
-                controller.consume(Message.info(
-                    "There is a new version available for download: %s.\n\n" + "You are currently using version %s.",
-                    remoteBuildInfo, localBuildInfo));
+                controller
+                    .consume(Message
+                        .info("There is a new version available for download: %s.\n\n"
+                            + "You are currently using version %s.", remoteBuildInfo, localBuildInfo));
             }
         });
     }

@@ -36,7 +36,8 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
 
     private final ClimateTrayDeviceListController deviceListController = monitor(new ClimateTrayDeviceListController());
 
-    private final JSpinner updatePeriodInMinutesSpinner = monitor(createSpinner(new SpinnerNumberModel(1, 1, 360, 1)));
+    private final JSpinner updatePeriodInSecondsSpinner =
+        monitor(createSpinner(new SpinnerNumberModel(60, 30, 60 * 60, 30)));
     private final JComboBox<TemperatureUnit> temperatureUnitBox = monitor(createComboBox(TemperatureUnit.values()));
     private final JCheckBox versionCheckEnabledBox = monitor(createCheckBox("Check for version updates after startup"));
 
@@ -52,15 +53,15 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
 
         view.setOpaque(false);
 
-        updatePeriodInMinutesSpinner.setEditor(new JSpinner.NumberEditor(updatePeriodInMinutesSpinner, "0.0"));
+        updatePeriodInSecondsSpinner.setEditor(new JSpinner.NumberEditor(updatePeriodInSecondsSpinner, "0"));
         temperatureUnitBox.addActionListener((e) -> refresh());
 
         JPanel deviceListView = deviceListController.getView();
 
         GBC gbc = new GBC(2, 5);
 
-        view.add(createLabel("Update Period in Minutes:", updatePeriodInMinutesSpinner), gbc);
-        view.add(updatePeriodInMinutesSpinner, gbc.next());
+        view.add(createLabel("Update Period in Seconds:", updatePeriodInSecondsSpinner), gbc);
+        view.add(updatePeriodInSecondsSpinner, gbc.next());
 
         view.add(createLabel("Unit of Temperature:", temperatureUnitBox), gbc.next());
         view.add(temperatureUnitBox, gbc.next());
@@ -70,14 +71,14 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
 
         view.add(createLabel("Air Conditioners:", deviceListView), gbc.next().top().insetTop(8));
         view.add(deviceListView, gbc.next().weight(1, 1).fill());
-        
+
         return view;
     }
 
     @Override
     public void refreshWith(ClimateTrayPreferences model)
     {
-        updatePeriodInMinutesSpinner.setValue((int) model.getUpdatePeriodInMinutes());
+        updatePeriodInSecondsSpinner.setValue(model.getUpdatePeriodInSeconds());
         temperatureUnitBox.setSelectedItem(model.getTemperatureUnit());
         versionCheckEnabledBox.setSelected(model.isVersionCheckEnabled());
 
@@ -93,7 +94,7 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
     @Override
     public void applyTo(ClimateTrayPreferences model)
     {
-        model.setUpdatePeriodInMinutes(((Number) updatePeriodInMinutesSpinner.getValue()).doubleValue());
+        model.setUpdatePeriodInSeconds(((Number) updatePeriodInSecondsSpinner.getValue()).intValue());
         model.setTemperatureUnit((TemperatureUnit) temperatureUnitBox.getSelectedItem());
         model.setVersionCheckEnabled(versionCheckEnabledBox.isSelected());
 
