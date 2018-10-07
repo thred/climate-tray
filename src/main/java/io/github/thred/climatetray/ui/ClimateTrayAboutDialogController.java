@@ -20,7 +20,6 @@ import java.awt.Desktop;
 import java.awt.Window;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Objects;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -69,13 +68,13 @@ public class ClimateTrayAboutDialogController
 
             BuildInfo localBuildInfo = BuildInfo.createDefault();
 
-            if (Objects.equals(localBuildInfo, remoteBuildInfo))
+            if (localBuildInfo.isOlder(remoteBuildInfo))
             {
-                setDescription(Message.info("Your version of Climate-Tray is up-to-date."));
+                setDescription(Message.warn("A new version of Climate-Tray is available."));
             }
             else
             {
-                setDescription(Message.warn("A new version of Climate-Tray is available."));
+                setDescription(Message.info("Your version of Climate-Tray is up-to-date."));
             }
 
         });

@@ -90,7 +90,22 @@ public class BuildInfo
 
     public Object getTimestampString()
     {
-        return (timestamp != null) ? FORMATTER.format(timestamp) : null;
+        return timestamp != null ? FORMATTER.format(timestamp) : null;
+    }
+
+    public boolean isOlder(BuildInfo other)
+    {
+        if (other == null)
+        {
+            return false;
+        }
+
+        if (other.getTimestamp() == null)
+        {
+            return false;
+        }
+
+        return timestamp.isBefore(other.getTimestamp());
     }
 
     @Override
@@ -99,8 +114,8 @@ public class BuildInfo
         final int prime = 31;
         int result = 1;
 
-        result = (prime * result) + ((timestamp == null) ? 0 : timestamp.hashCode());
-        result = (prime * result) + ((version == null) ? 0 : version.hashCode());
+        result = prime * result + (timestamp == null ? 0 : timestamp.hashCode());
+        result = prime * result + (version == null ? 0 : version.hashCode());
 
         return result;
     }
