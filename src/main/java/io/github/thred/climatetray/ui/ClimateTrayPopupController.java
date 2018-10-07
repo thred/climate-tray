@@ -233,11 +233,11 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
     {
         model.getDevices().forEach(device -> {
             String id = device.getId().toString();
-            JMenu menu = (JMenu) dynamicItems.get(id);
+            JMenuItem item = (JMenuItem) dynamicItems.get(id);
 
-            if (menu != null)
+            if (item != null)
             {
-                refreshDeviceWith(menu, device);
+                refreshDeviceWith(item, device);
             }
         });
     }

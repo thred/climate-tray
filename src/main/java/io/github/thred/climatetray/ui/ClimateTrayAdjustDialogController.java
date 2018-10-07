@@ -115,17 +115,6 @@ public class ClimateTrayAdjustDialogController
     }
 
     @Override
-    public void ok()
-    {
-        super.ok();
-
-        MNetAdjust model = getModel();
-
-        applyTo(model);
-        dismiss(model);
-    }
-
-    @Override
     public void dismiss(MNetAdjust model)
     {
         LOG.debug("Closing adjust dialog.");
