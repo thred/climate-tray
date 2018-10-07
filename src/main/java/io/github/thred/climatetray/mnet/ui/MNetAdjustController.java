@@ -93,16 +93,13 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetPres
                 continue;
             }
 
-            drivePanel
-                .center(driveButtons
-                    .put(drive, createToggleIcon(drive.getImage(), ICON_SIZE, drive.getShortLabel(),
-                        e -> driveButtons.setValue(drive))));
+            drivePanel.center(driveButtons.put(drive, createToggleIcon(drive.getImage(), ICON_SIZE,
+                drive.getShortLabel(), e -> driveButtons.setValue(drive))));
         }
 
-        drivePanel
-            .right(driveButtons
-                .put(MNetDrive.NO_CHANGE, createToggleIcon(MNetDrive.NO_CHANGE.getImage(), NO_CHANGE_ICON_SIZE,
-                    MNetDrive.NO_CHANGE.getShortLabel(), e -> driveButtons.setValue(MNetDrive.NO_CHANGE))));
+        drivePanel.right(
+            driveButtons.put(MNetDrive.NO_CHANGE, createToggleIcon(MNetDrive.NO_CHANGE.getImage(), NO_CHANGE_ICON_SIZE,
+                MNetDrive.NO_CHANGE.getShortLabel(), e -> driveButtons.setValue(MNetDrive.NO_CHANGE))));
 
         view.add(drivePanel, gbc.fill());
 
@@ -115,16 +112,12 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetPres
                 continue;
             }
 
-            modePanel
-                .center(modeButtons
-                    .put(mode, createToggleIcon(mode.getImage(), ICON_SIZE, mode.getShortLabel(),
-                        e -> modeButtons.setValue(mode))));
+            modePanel.center(modeButtons.put(mode,
+                createToggleIcon(mode.getImage(), ICON_SIZE, mode.getShortLabel(), e -> modeButtons.setValue(mode))));
         }
 
-        modePanel
-            .right(modeButtons
-                .put(MNetMode.NO_CHANGE, createToggleIcon(MNetMode.NO_CHANGE.getImage(), NO_CHANGE_ICON_SIZE,
-                    MNetMode.NO_CHANGE.getShortLabel(), e -> modeButtons.setValue(MNetMode.NO_CHANGE))));
+        modePanel.right(modeButtons.put(MNetMode.NO_CHANGE, createToggleIcon(MNetMode.NO_CHANGE.getImage(),
+            NO_CHANGE_ICON_SIZE, MNetMode.NO_CHANGE.getShortLabel(), e -> modeButtons.setValue(MNetMode.NO_CHANGE))));
 
         view.add(modePanel, gbc.next().fill());
 
@@ -137,7 +130,14 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetPres
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e)
             {
+                if (temperature == null)
+                {
+                    temperature = DEFAULT;
+                }
+
                 temperatureNoChangeIcon.setSelected(false);
+
+                monitor.fireMonitorEvent(new MonitorEvent(monitor, this));
                 update();
             }
         });
@@ -160,16 +160,12 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetPres
                 continue;
             }
 
-            fanPanel
-                .center(fanButtons
-                    .put(fan, createToggleIcon(fan.getImage(), ICON_SIZE, fan.getShortLabel(),
-                        e -> fanButtons.setValue(fan))));
+            fanPanel.center(fanButtons.put(fan,
+                createToggleIcon(fan.getImage(), ICON_SIZE, fan.getShortLabel(), e -> fanButtons.setValue(fan))));
         }
 
-        fanPanel
-            .right(fanButtons
-                .put(MNetFan.NO_CHANGE, createToggleIcon(MNetFan.NO_CHANGE.getImage(), NO_CHANGE_ICON_SIZE,
-                    MNetFan.NO_CHANGE.getShortLabel(), e -> fanButtons.setValue(MNetFan.NO_CHANGE))));
+        fanPanel.right(fanButtons.put(MNetFan.NO_CHANGE, createToggleIcon(MNetFan.NO_CHANGE.getImage(),
+            NO_CHANGE_ICON_SIZE, MNetFan.NO_CHANGE.getShortLabel(), e -> fanButtons.setValue(MNetFan.NO_CHANGE))));
 
         view.add(fanPanel, gbc.next().fill());
 
@@ -182,16 +178,12 @@ public class MNetAdjustController extends AbstractClimateTrayController<MNetPres
                 continue;
             }
 
-            airPanel
-                .center(airButtons
-                    .put(air, createToggleIcon(air.getImage(), ICON_SIZE, air.getShortLabel(),
-                        e -> airButtons.setValue(air))));
+            airPanel.center(airButtons.put(air,
+                createToggleIcon(air.getImage(), ICON_SIZE, air.getShortLabel(), e -> airButtons.setValue(air))));
         }
 
-        airPanel
-            .right(airButtons
-                .put(MNetAir.NO_CHANGE, createToggleIcon(MNetAir.NO_CHANGE.getImage(), NO_CHANGE_ICON_SIZE,
-                    MNetAir.NO_CHANGE.getShortLabel(), e -> airButtons.setValue(MNetAir.NO_CHANGE))));
+        airPanel.right(airButtons.put(MNetAir.NO_CHANGE, createToggleIcon(MNetAir.NO_CHANGE.getImage(),
+            NO_CHANGE_ICON_SIZE, MNetAir.NO_CHANGE.getShortLabel(), e -> airButtons.setValue(MNetAir.NO_CHANGE))));
 
         view.add(airPanel, gbc.next().fill());
 
