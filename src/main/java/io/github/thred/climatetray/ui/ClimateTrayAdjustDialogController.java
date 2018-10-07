@@ -45,7 +45,10 @@ public class ClimateTrayAdjustDialogController
 
         setTitle("Adjust");
 
-        controller.getPresetController().addSelectListener(e -> presetSelected());
+        controller.getPresetController().addSelectListener(e -> presetSelected(e));
+
+        okButton.setText("Apply");
+        cancelButton.setText("Discard");
     }
 
     @Override
@@ -59,7 +62,7 @@ public class ClimateTrayAdjustDialogController
         return panel;
     }
 
-    protected void presetSelected()
+    protected void presetSelected(SelectEvent<MNetPreset> event)
     {
         MNetPreset preset = controller.getPresetController().getSelectedValue();
 
@@ -75,6 +78,11 @@ public class ClimateTrayAdjustDialogController
         model.getPreset().set(preset);
 
         refreshWith(model);
+
+        if (event.isDoubleClick())
+        {
+            ok();
+        }
     }
 
     public void preferences()
