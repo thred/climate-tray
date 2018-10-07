@@ -34,7 +34,6 @@ import io.github.thred.climatetray.util.swing.GBC;
 public class ClimateTrayPreferencesController extends AbstractClimateTrayController<ClimateTrayPreferences, JComponent>
 {
 
-    private final ClimateTrayPresetListController presetListController = monitor(new ClimateTrayPresetListController());
     private final ClimateTrayDeviceListController deviceListController = monitor(new ClimateTrayDeviceListController());
 
     private final JSpinner updatePeriodInMinutesSpinner = monitor(createSpinner(new SpinnerNumberModel(1, 1, 360, 1)));
@@ -56,10 +55,9 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
         updatePeriodInMinutesSpinner.setEditor(new JSpinner.NumberEditor(updatePeriodInMinutesSpinner, "0.0"));
         temperatureUnitBox.addActionListener((e) -> refresh());
 
-        JPanel presetListView = presetListController.getView();
         JPanel deviceListView = deviceListController.getView();
 
-        GBC gbc = new GBC(2, 6);
+        GBC gbc = new GBC(2, 5);
 
         view.add(createLabel("Update Period in Minutes:", updatePeriodInMinutesSpinner), gbc);
         view.add(updatePeriodInMinutesSpinner, gbc.next());
@@ -72,9 +70,6 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
 
         view.add(createLabel("Air Conditioners:", deviceListView), gbc.next().top().insetTop(8));
         view.add(deviceListView, gbc.next().weight(1, 1).fill());
-
-        view.add(createLabel("Global Presets:", presetListView), gbc.next().top().insetTop(8));
-        view.add(presetListView, gbc.next().weight(1, 1).fill());
         
         return view;
     }
@@ -86,14 +81,12 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
         temperatureUnitBox.setSelectedItem(model.getTemperatureUnit());
         versionCheckEnabledBox.setSelected(model.isVersionCheckEnabled());
 
-        presetListController.refreshWith(model.getPresets());
         deviceListController.refreshWith(model.getDevices());
     }
 
     @Override
     public void modified(MessageBuffer messageBuffer)
     {
-        presetListController.modified(messageBuffer);
         deviceListController.modified(messageBuffer);
     }
 
@@ -104,7 +97,6 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
         model.setTemperatureUnit((TemperatureUnit) temperatureUnitBox.getSelectedItem());
         model.setVersionCheckEnabled(versionCheckEnabledBox.isSelected());
 
-        presetListController.applyTo(model.getPresets());
         deviceListController.applyTo(model.getDevices());
     }
 
@@ -112,14 +104,12 @@ public class ClimateTrayPreferencesController extends AbstractClimateTrayControl
     {
         PREFERENCES.setTemperatureUnit((TemperatureUnit) temperatureUnitBox.getSelectedItem());
 
-        presetListController.refresh();
         deviceListController.refresh();
     }
 
     @Override
     public void dismiss(ClimateTrayPreferences model)
     {
-        presetListController.dismiss(model.getPresets());
         deviceListController.dismiss(model.getDevices());
     }
 

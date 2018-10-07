@@ -78,8 +78,8 @@ public abstract class AbstractClimateTrayListEditController<TYPE extends Copyabl
         addButton.setEnabled(true);
         editButton.setEnabled(anySelected);
         removeButton.setEnabled(anySelected);
-        upButton.setEnabled(anySelected);
-        downButton.setEnabled(anySelected);
+        upButton.setEnabled(anySelected && selectedIndex > 0);
+        downButton.setEnabled(anySelected && selectedIndex < listModel.getSize() - 1);
     }
 
     @Override

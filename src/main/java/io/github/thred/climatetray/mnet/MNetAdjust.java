@@ -1,5 +1,7 @@
 package io.github.thred.climatetray.mnet;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.github.thred.climatetray.ClimateTrayPreferences;
@@ -12,6 +14,12 @@ public class MNetAdjust implements MNetDeviceList, MNetPresetList
     {
         return new MNetAdjust(Copyable.deepCopy(preferences.getDevices()), Copyable.deepCopy(preferences.getPresets()),
             new MNetPreset().set(preferences.getDefaultDevice()));
+    }
+
+    public static MNetAdjust of(ClimateTrayPreferences preferences, MNetDevice device)
+    {
+        return new MNetAdjust(new ArrayList<>(Arrays.asList(device.deepCopy())),
+            Copyable.deepCopy(preferences.getPresets()), new MNetPreset().set(device));
     }
 
     private final List<MNetDevice> devices;

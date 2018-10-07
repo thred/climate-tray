@@ -32,7 +32,6 @@ import io.github.thred.climatetray.mnet.MNetEc;
 import io.github.thred.climatetray.mnet.MNetInstallation;
 import io.github.thred.climatetray.mnet.MNetUtils;
 import io.github.thred.climatetray.ui.AbstractClimateTrayController;
-import io.github.thred.climatetray.ui.ClimateTrayPresetListController;
 import io.github.thred.climatetray.util.Utils;
 import io.github.thred.climatetray.util.message.Message;
 import io.github.thred.climatetray.util.message.MessageBuffer;
@@ -48,8 +47,6 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     private final JComboBox<MNetEc> ecField = monitor(createComboBox(MNetEc.values()));
     private final JSpinner addressField = monitor(createSpinner(new SpinnerNumberModel(0, 0, 250, 1)));
 
-    private final ClimateTrayPresetListController presetListController = monitor(new ClimateTrayPresetListController());
-
     public MNetDeviceController()
     {
         super();
@@ -60,8 +57,6 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
     @Override
     protected JPanel createView()
     {
-        JPanel presetListView = presetListController.getView();
-
         JPanel view = new JPanel(new GridBagLayout());
 
         view.setOpaque(false);
@@ -85,23 +80,16 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
         view.add(createLabel("Controller Address (IP):", hostField), gbc.next());
         view.add(hostField, gbc.next().span(2).hFill());
 
-        view.add(createLabel("EC:", ecField), gbc.next());
-        view.add(ecField, gbc.next().span(2));
-
         view.add(createLabel("Air Conditioner Address:", addressField), gbc.next());
         view.add(addressField, gbc.next().hFill());
 
-        view.add(createSeparator(), gbc.next().next().hFill().span(3));
-
         view
             .add(createHint(Message
-                .info(
-                    "The following presets control this air conditioner only, without modifying the state of other devices. "
-                        + "The defined presets can be found in the air conditioner's sub-menu of the popup menu.")),
-                gbc.next().center().hFill().span(3));
+                .info("In order to determine the EC value automatically, please click on the \"Test\" button now!")),
+                gbc.next().next().center().hFill().span(3));
 
-        view.add(createLabel("Local Presets:", presetListView), gbc.next().top().insetTop(8));
-        view.add(presetListView, gbc.next().span(2).weight(1, 1).fill());
+        view.add(createLabel("EC:", ecField), gbc.next());
+        view.add(ecField, gbc.next().span(2));
 
         return view;
     }
@@ -115,8 +103,6 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
         hostField.setText(Utils.ensure(model.getHost(), ""));
         ecField.setSelectedItem(Utils.ensure(model.getEc(), MNetEc.NONE));
         addressField.setValue(Utils.ensure(model.getAddress(), 0));
-
-        presetListController.refreshWith(model.getPresets());
     }
 
     @Override
@@ -167,8 +153,6 @@ public class MNetDeviceController extends AbstractClimateTrayController<MNetDevi
         model.setHost(hostField.getText().trim());
         model.setEc((MNetEc) ecField.getSelectedItem());
         model.setAddress((Integer) addressField.getValue());
-
-        presetListController.applyTo(model.getPresets());
     }
 
     @Override

@@ -48,19 +48,22 @@ public class ClimateTrayPreferences implements MNetDeviceList, MNetPresetList, P
         super();
     }
 
-    public void set(MNetAdjust adjust)
+    public void set(MNetAdjust adjust, boolean includeDevices)
     {
-        adjust.getDevices().forEach(adjustDevice -> {
-            MNetDevice device = getDevice(adjustDevice.getId());
+        if (includeDevices)
+        {
+            adjust.getDevices().forEach(adjustDevice -> {
+                MNetDevice device = getDevice(adjustDevice.getId());
 
-            if (device != null)
-            {
-                device.setSelected(adjustDevice.isSelected());
-            }
-        });
+                if (device != null)
+                {
+                    device.setSelected(adjustDevice.isSelected());
+                }
+            });
+        }
 
-        this.presets.clear();
-        this.presets.addAll(adjust.getPresets());
+        presets.clear();
+        presets.addAll(adjust.getPresets());
     }
 
     public ClimateTrayProxySettings getProxySettings()

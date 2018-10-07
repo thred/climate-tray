@@ -65,7 +65,7 @@ public class ClimateTrayService
     private static final SystemPrefs PREFS = SystemPrefs.get(ClimateTray.class);
     private static final ScheduledExecutorService EXECUTOR;
     private static final ClimateTrayController<ClimateTrayPreferences, ?> MAIN_CONTROLLER;
-    private static final ClimateTrayAdjustDialogController ADJUST_ALL_CONTROLLER;
+    private static final ClimateTrayAdjustDialogController ADJUST_CONTROLLER;
     private static final ClimateTrayAboutDialogController ABOUT_CONTROLLER;
     private static final ClimateTrayLogFrameController LOG_CONTROLLER;
     private static final ClimateTrayPreferencesDialogController PREFERENCES_CONTROLLER;
@@ -90,7 +90,7 @@ public class ClimateTrayService
             MAIN_CONTROLLER = new ClimateTrayIconController();
         }
 
-        ADJUST_ALL_CONTROLLER = new ClimateTrayAdjustDialogController(null);
+        ADJUST_CONTROLLER = new ClimateTrayAdjustDialogController(null);
         ABOUT_CONTROLLER = new ClimateTrayAboutDialogController(null);
         LOG_CONTROLLER = new ClimateTrayLogFrameController(null);
         PREFERENCES_CONTROLLER = new ClimateTrayPreferencesDialogController(null);
@@ -177,12 +177,6 @@ public class ClimateTrayService
     {
         List<MNetDevice> devices = PREFERENCES.getDevices();
         List<MNetPreset> presets = PREFERENCES.getPresets();
-
-        devices
-            .forEach(device -> device
-                .getPresets()
-                .forEach(preset -> preset.setSelected(MNetService.isMatching(preset, device.getState()))));
-
         List<MNetState> states = devices
             .stream()
             .filter(device -> device.isEnabled() && device.isSelectedAndWorking())
@@ -290,36 +284,14 @@ public class ClimateTrayService
 
     public static void togglePreset(UUID presetId)
     {
-        MNetDevice device = null;
         MNetPreset preset = PREFERENCES.getPreset(presetId);
-
-        if (preset == null)
-        {
-            for (MNetDevice currentDevice : PREFERENCES.getDevices())
-            {
-                preset = currentDevice.getPreset(presetId);
-
-                if (preset != null)
-                {
-                    device = currentDevice;
-                    break;
-                }
-            }
-        }
 
         if (preset == null)
         {
             return;
         }
 
-        if (device == null)
-        {
-            togglePreset(preset);
-        }
-        else
-        {
-            togglePreset(device, preset);
-        }
+        togglePreset(preset);
     }
 
     public static void togglePreset(MNetPreset preset)
@@ -415,15 +387,61 @@ public class ClimateTrayService
             LOG.debug("Opening adjust all dialog.");
 
             MNetAdjust model = MNetAdjust.of(PREFERENCES);
-            Button button = ADJUST_ALL_CONTROLLER.consume(model);
+            Button button = ADJUST_CONTROLLER.consume(model);
 
             if (button == Button.OK)
             {
-                PREFERENCES.set(model);
+                PREFERENCES.set(model, true);
 
                 MNetPreset preset = model.getPreset();
 
                 ClimateTrayService.togglePreset(preset);
+                ClimateTrayService.store();
+                ClimateTrayService.scheduleUpdate();
+            }
+        });
+    }
+
+    public static void adjust(UUID deviceId)
+    {
+        MNetDevice device = PREFERENCES.getDevice(deviceId);
+
+        if (device == null)
+        {
+            return;
+        }
+
+        if (!device.isEnabled())
+        {
+            ClimateTrayMessageDialogController
+                .consumeOkDialog(null, "Device not enabled",
+                    Message.warn("The device is not enabled. Please enable the device in the preferences!"));
+
+            return;
+        }
+
+        if (!device.isWorking())
+        {
+            ClimateTrayMessageDialogController
+                .consumeOkDialog(null, "Device not enabled", Message
+                    .warn("The device is not working. Please check the connection settings in the preferences!"));
+
+            return;
+        }
+
+        SwingUtilities.invokeLater(() -> {
+            LOG.debug("Opening adjust device dialog.");
+
+            MNetAdjust model = MNetAdjust.of(PREFERENCES, device);
+            Button button = ADJUST_CONTROLLER.consume(model);
+
+            if (button == Button.OK)
+            {
+                PREFERENCES.set(model, false);
+
+                MNetPreset preset = model.getPreset();
+
+                ClimateTrayService.togglePreset(device, preset);
                 ClimateTrayService.store();
                 ClimateTrayService.scheduleUpdate();
             }

@@ -60,7 +60,7 @@ public abstract class AbstractClimateTrayListSelectController<TYPE extends Copya
         ButtonPanel headerPanel = new ButtonPanel();
 
         headerPanel.left(title);
-        headerPanel.right(upButton, downButton, removeButton);
+        headerPanel.right(removeButton, upButton, downButton);
 
         upButton.setVisible(false);
         downButton.setVisible(false);

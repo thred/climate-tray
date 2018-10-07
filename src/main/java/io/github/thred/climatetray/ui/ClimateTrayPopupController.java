@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
@@ -44,9 +43,7 @@ import io.github.thred.climatetray.ClimateTrayPreferences;
 import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.mnet.MNetDevice;
 import io.github.thred.climatetray.mnet.MNetPreset;
-import io.github.thred.climatetray.mnet.ui.MNetStatePanel;
 import io.github.thred.climatetray.util.message.MessageBuffer;
-import io.github.thred.climatetray.util.swing.BorderPanel;
 import io.github.thred.climatetray.util.swing.TitlePanel;
 
 public class ClimateTrayPopupController extends AbstractClimateTrayController<ClimateTrayPreferences, JPopupMenu>
@@ -166,9 +163,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
             for (MNetDevice device : devices)
             {
-                JMenu menu = prepareWithDevice(device);
-
-                view.add(menu, index++);
+                view.add(prepareWithDevice(device), index++);
             }
 
             // dynamicItems.put("#deviceSeparator", view.add(new JPopupMenu.Separator(), index++));
@@ -177,45 +172,19 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         return index;
     }
 
-    protected JMenu prepareWithDevice(MNetDevice device)
+    protected JMenuItem prepareWithDevice(MNetDevice device)
     {
         String id = device.getId().toString();
-        JMenu menu = new JMenu();
+        JMenuItem item = new JMenuItem();
 
-        menu.setName(id);
+        item.setName(id);
+        item.addActionListener((e) -> deviceSelect(device));
 
-        dynamicItems.put(id, menu);
+        refreshDeviceWith(item, device);
 
-        MNetStatePanel titlePanel = new MNetStatePanel(device);
-        BorderPanel titleBorder = new BorderPanel(BorderFactory.createEmptyBorder(0, 0, 2, 0), titlePanel);
+        dynamicItems.put(id, item);
 
-        dynamicItems.put(id + "#deviceTitle", titlePanel);
-        dynamicItems.put(id + "#deviceTitleBorder", menu.add(titleBorder));
-
-        JCheckBoxMenuItem selectItem = new JCheckBoxMenuItem();
-
-        selectItem.addActionListener(e -> deviceSelect(device));
-        refreshDeviceSelectWith(selectItem, device);
-
-        dynamicItems.put(id + "#deviceSelect", menu.add(selectItem));
-
-        List<MNetPreset> presets = device.getPresets();
-
-        if (!presets.isEmpty())
-        {
-            menu.addSeparator();
-
-            int subIndex = 3;
-
-            for (MNetPreset defaultPreset : presets)
-            {
-                menu.add(prepareWithPreset(defaultPreset, true), subIndex++);
-            }
-        }
-
-        refreshDeviceWith(menu, device);
-
-        return menu;
+        return item;
     }
 
     @Override
@@ -281,36 +250,12 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
         item.setEnabled(enabled);
     }
 
-    protected void refreshDeviceWith(JMenu menu, MNetDevice device)
+    protected void refreshDeviceWith(JMenuItem item, MNetDevice device)
     {
-        menu.setText(device.describeStateAction());
-        menu.setToolTipText(device.describeSettings());
-        menu.setIcon(createIcon(device));
-        //        menu.setSelected(device.isSelected());
-        menu.setEnabled(device.isEnabled());
-
-        MNetStatePanel titlePanel = (MNetStatePanel) dynamicItems.get(device.getId() + "#deviceTitle");
-
-        if (titlePanel != null)
-        {
-            titlePanel.setDevice(device);
-        }
-
-        JCheckBoxMenuItem selectItem = (JCheckBoxMenuItem) dynamicItems.get(device.getId() + "#deviceSelect");
-
-        if (selectItem != null)
-        {
-            refreshDeviceSelectWith(selectItem, device);
-        }
-
-        device.getPresets().forEach(preset -> {
-            JCheckBoxMenuItem item = (JCheckBoxMenuItem) dynamicItems.get(String.valueOf(preset.getId()));
-
-            if (item != null)
-            {
-                refreshDevicePresetWith(item, device, preset);
-            }
-        });
+        item.setText(device.describeStateAction());
+        item.setToolTipText(device.describeSettings());
+        item.setIcon(createIcon(device));
+        item.setEnabled(device.isEnabled());
     }
 
     protected void refreshDeviceSelectWith(JCheckBoxMenuItem item, MNetDevice device)
@@ -412,7 +357,7 @@ public class ClimateTrayPopupController extends AbstractClimateTrayController<Cl
 
     public void deviceSelect(MNetDevice device)
     {
-        ClimateTrayService.toggleDevice(device.getId());
+        ClimateTrayService.adjust(device.getId());
     }
 
     @Override
