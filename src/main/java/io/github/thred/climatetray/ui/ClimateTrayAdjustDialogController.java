@@ -26,6 +26,7 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 
+import io.github.thred.climatetray.ClimateTrayService;
 import io.github.thred.climatetray.mnet.MNetAdjust;
 import io.github.thred.climatetray.mnet.MNetPreset;
 import io.github.thred.climatetray.util.swing.FooterPanel;
@@ -36,6 +37,7 @@ public class ClimateTrayAdjustDialogController
 {
 
     private final JButton storeButton = SwingUtils.createButton("Save as preset ...", e -> store());
+    private final JButton preferencesButton = SwingUtils.createButton("Preferences ...", e -> preferences());
 
     public ClimateTrayAdjustDialogController(Window owner)
     {
@@ -51,6 +53,7 @@ public class ClimateTrayAdjustDialogController
     {
         FooterPanel panel = (FooterPanel) super.createBottomPanel(buttons);
 
+        panel.left(preferencesButton);
         panel.left(storeButton);
 
         return panel;
@@ -72,6 +75,12 @@ public class ClimateTrayAdjustDialogController
         model.getPreset().set(preset);
 
         refreshWith(model);
+    }
+
+    public void preferences()
+    {
+        cancel();
+        ClimateTrayService.preferences();
     }
 
     public void store()
