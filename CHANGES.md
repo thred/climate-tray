@@ -3,8 +3,15 @@
 ## Enhancements
 
 * Adjust dialog to better handle the device without presets.
+* Removed presets from the preferences (use the adjust dialog instead).
 * Added fallback, if tray icons are not available (e.g. Gnome).
 * Cosmetics for Gnome
+* Refresh option
+
+## Bugfixes
+
+* Fix for update period spinner.
+* Fix for version check.
 
 # Climate Tray 1.1.1
 
